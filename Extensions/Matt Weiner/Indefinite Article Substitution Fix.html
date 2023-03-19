@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Indefinite Article Substitution Fix<font color="#404040"> by </font>Matt Weiner</b><p><small></small><p><p><hr><p>
+<p>
+ Indefinite Article Substitution Fix (for Glulx only, at present) is intended to fix a bug in the interaction of indefinite articles with text substitutions.
+<p>
+ When an improper-named object does not have a defined indefinite article, Inform by default supplies the article &quot;a&quot; or &quot;an.&quot; In order to figure out whether &quot;a&quot; or &quot;an&quot; is needed, Inform carries out the printing the name of activity for the object, redirecting the output to the buffer StorageForShortName rather than the screen. It then checks whether the first character in StorageForShortName is a vowel, prints the appropriate article; and carries out the printing the name of activity for the object again, this time with the output directed to the screen.
+<p>
+ The problem is that this runs the printing the name of activity twice, which can have undesirable side effects. For instance, if any of the rules before/for/after printing the name of the object involve a cycling or random subsitution, the substitution will be evaluated once when deciding what article to print and again when printing the name of the object. This will cause cycling substitutions to cycle twice rather than once, and can cause mismatches between the article chosen and the text that winds up getting printed.
+<p>
+ Indefinite Article Substitution Fix addresses this problem by caching the text that is printed to StorageForShortName to the cached_name buffer when the I6 routine PrefaceByArticle carries out the printing the name of activity in order to determine which article to use. PSN__, the routine that prints the name of the object, then checks to see whether the name has been cached. If so, PSN__ prints the contents of the cached_name buffer rather than carrying out the printing the name of activity again.
+<p>
+ You don't need to worry about any of those internals, though; Indefinite Article Substitution Fix is a plug-and-play extension. Simply including it should repair the interaction of indefinite articles with substitutions.
+<p>
+ Known limitations (as of Nov. 26, 2016):
+<p>
+ This extension is incompatible with Print Stage Detection by Taryn Michelle, and any other extension that directly modifies Object Names II or Object Names I in &quot;Printing.i6t&quot;.
+<p>
+ This extension is currently Glulx only. It may be possible to do the work to make it work with the z-machine as well, although working with StorageForShortName seems to be trickier in the z-machine than in Glulx.
+<p>
+ Since the name that is printed first gets shuffled through StorageForShortName, and StorageForShortName is a byte array rather than a word array, this extension will not be able to print any characters that cannot be used outside quoted text in the source code, per Writing with Inform 5.10. Those who want to have a book with printed name &quot;[unicode 339]nology text&quot; will have to look elsewhere.
+<p>
+ As with the standard Inform template, the algorithm for checking which form of the indefinite article should be used is simply &quot;Does it start with a vowel?&quot; So if we do not directly specify articles, we will get &quot;a hourglass&quot; and &quot;an one-hour photo booth.&quot; If you are interested in my code for trying to address this, or in anything else about the extension, contact me at myfirstname@myfirstnamemylastname.net.
+<p>
+ Thanks to Taryn Michelle, whose Print Stage Detection extension was a very helpful gude; Hugo Labrande, for reminding me of Print Stage Detection; and Daniel Fremont, for invaluable I6 assistance.
+<p>
+ Example A demonstrates that the traffic signal's name properly cycles through &quot;a green traffic signal&quot; /&quot;an amber traffic signal&quot;/&quot;a red traffic signal&quot;. Without the extension it would be &quot;a amber traffic signal&quot; /&quot;an red traffic signal&quot;/&quot;a green traffic signal&quot;. Various other things are included to demonstrate that nested indefinite articles, proper-named things, plural-named things, and things with custom indefinite articles still appear to print properly.
+<p>
+ Example: * Although My Name's Not Bamber - Demonstrating use of an indefinite article with a cycling substitution.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Include Indefinite Article Substitution Fix by Matt Weiner.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Crossroads is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A traffic signal is in the Crossroads.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before printing the name of the traffic signal, say &quot;[one of]green[or]amber[or]red[cycling] &quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An Opel is a vehicle in Crossroads. A dashboard is in the Opel. A book is on the dashboard.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The book can be open. The book is open. Before printing the name of the open book: say &quot;open &quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Some sand is in Crossroads. A lollipop lady is a woman in the crossroads. The indefinite article of the lollipop lady is &quot;that old reliable&quot;. Mr Gascoigne is a man in the crossroads.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;l/l/l/l/l&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

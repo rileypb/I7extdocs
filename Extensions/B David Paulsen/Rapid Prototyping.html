@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Rapid Prototyping<font color="#404040"> by </font>B David Paulsen</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter 1 - Acknowledgements and notes
+<p>
+ The extension relies on the &quot;Object Kinds&quot; extension by Brady Garvin. A useful and versatile extension, Object Kinds can unfortunately not be found in the Public Library. Instead, you need to download it from its GitHub page, via the address
+<p>
+<blockquote><font color="#000080"> https://github.com/i7/extensions/blob/master/Brady%20Garvin/Object%20Kinds.i7x</font></blockquote>
+<p>
+ Thanks to Alice Grove and Matt Wighdahl, who provided sanity check, invaluable feedback and much-needed encouragement.
+<p>
+ Chapter 2 - The reason for this extension
+<p>
+ While Inform 7 is a very good system for creating IF, it's still a compiled language. A natural consequence of that is its lengthy iteration cycle: coding is followed by compilation (often aborted by the discovery of a bug), then testing by reaching a game state, only to discover something is lacking, at which point we go back and do it all over again. This, mind you, is in the ideal bug-free case. Every step of this sequence carries the attendant risk of getting side-tracked, losing steam, or tiring an author by constantly switching between tasks. Rapid Prototyping is an attempt to shorten the loop by giving feedback in a manner reminiscent of REPL type languages like Python.
+<p>
+ The extension only provides basic building functionality. Nontrivial behavior such as rules and activities are well beyond its scope.
+<p>
+ Using Rapid Prototyping follows a basic workflow. First, you keep the dynamically generated source code under its separate header. Next, you compile a minimal game. While walking through the game, you add and modify the world as needed, until you hit a point where the extension's facilities are inadequate (see above for examples). At that point, you &quot;view source&quot;, copy the generated code, and paste it under the prepared header. After having added any complex functionality under its own header, you recompile, and the cycle starts again.
+<p>
+ Chapter 3 - How to use this extension
+<p>
+ Instead of creating the game and then testing it, Rapid Prototyping aims for a more natural process of designing an IF world: you compile an empty game, then add rooms, things and various other bits and pieces as you see fit. These changes to the game world appear at run-time, and can be interacted with seamlessly. Once you are satisfied with how the world behaves, the &quot;view source&quot; command produces source code that you can then use for refining the next iteration. Finally, by adding the flag &quot;finally&quot; to &quot;view source&quot;, you can output source code without the metainformation used internally by the extension.
+<p>
+ Note that all examples here use testing correction, which is only needed when using the TEST command to demonstrate functionality.
+<p>
+ Example: * Simple test case -- Creating a small room and filling it with items.<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Simple test case&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Rapid Prototyping by B David Paulsen.<br> Use testing correction.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> There is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test me with &quot;test surroundings/test sofa/look/view code&quot;.<br> test surroundings with &quot;name location Your Home/describe location/Your home is as it ever was: neat, cozy, and in dire need of cleaning./Well, all right, some would say it's a filthy hovel. But they'd be wrong./&quot;.<br> test sofa with &quot;add container/enterable container/fix container/describe container/You've always had a soft spot for this leather sofa, patches and all.//appearance container Your sofa stands here invitingly./name container sofa that's seen better days|sofa/add thing/name thing patch/fuse patch to sofa&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

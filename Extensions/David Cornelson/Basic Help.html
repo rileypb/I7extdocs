@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Basic Help<font color="#404040"> by </font>David Cornelson</b><p><small></small><p><p><hr><p>
+<p>
+ This extension allows you to add basic Interactive Fiction help to your game.
+<p>
+ When play begins, that the help system will display a message telling of its existence.
+<p>
+ After a parser error, the hint system will remind the player it's available.
+<p>
+ For the first 4 turns in the game, the hint system will show a notice.
+<p>
+ The author can add common commands by using the list 'add' feature and this will display them within the 'help commands' description.
+<p>
+<blockquote><font color="#000080"> when play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; add &quot;xyzzy&quot; to Help Common Commands.</font></blockquote>
+<p>
+ After the help has stopped reminding the player, the author can set the Help Switch to true and for another 4 turns, the help reminder will be displayed.
+<p>
+ If the author simply wants to remind the player directly, they can 'Print the Help Notice' at any time.
+<p>
+ Section: 6L02 Compatibility Update
+<p>
+ This extension differs from the author's original version: it has been modified for compatibility with version 6L02 of Inform. The latest version of this extension can be found at &lt;https://github.com/i7/extensions&gt;.
+<p>
+ This extension is released under the Creative Commons Attribution licence. Bug reports, feature requests or questions should be made at &lt;https://github.com/i7/extensions/issues&gt;.
+<p>
+
+<p>
+<p></body></html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Scheduled Activities<font color="#404040"> by </font>John Clemens</b><p><small></small><p><p><hr><p>
+<p>
+ This extension allows activities to be scheduled at absolute and relative times. These activities may later be checked or cancelled. The advantage of this over the standard events is that activities may take a variable, and the same activity may be scheduled multiple times. Rudimentary support is also provided for grouping output of multiple activities scheduled for the same turn. The extension only allows for activities which are applied to objects or to nothing (i.e., it does not allow activities applied to other kinds of value).
+<p>
+ Scheduled activities are stored in a table called the Table of Scheduled Events. This table initially holds 50 future activities; if more storage is needed, you can add a table continuation as follows:<blockquote><font color="#000080"> Table of Scheduled Events (continued)<br> SA_Moment SA_Turn SA_Event SA_Object_Event SA_Target SA_Similar<br> a time a number an activity on nothing an activity on objects an object a number<br> with 100 blank rows</font></blockquote>
+<p>
+ A new rule (the scheduled events rule) is inserted before the timed events rule (the rule which handles the usual timed events). So scheduled activities will occur immediately before events invoked with phrases like &quot;the egg-timer clucks in four turns from now&quot;.
+<p>
+ SCHEDULING: The extension provides the following phrases to schedule activities:<blockquote><font color="#000080"> schedule (an activity) for (an object) at (a time)<br> schedule (an activity) at (a time)<br> schedule (an activity) for (an object) in (a number) minutes<br> schedule (an activity) in (a number) minutes<br> schedule (an activity) for (an object) now<br> schedule (an activity) now<br> schedule (an activity) for (an object) in (a number) turns<br> schedule (an activity) in (a number) turns</font></blockquote>
+<p>
+ Here, &quot;now&quot; means at the end of the current turn.
+<p>
+ CANCELING: Activities can also be canceled:<blockquote><font color="#000080"> cancel all scheduled events for (an object)<br> cancel all scheduled events<br> cancel next timed event for (an object)<br> cancel next timed event<br> cancel all scheduled (an activity)<br> cancel all scheduled (an activity) for (an object)<br> cancel all scheduled events at (a time)<br> cancel all scheduled events for (an object) at (a time)</font></blockquote>
+<p>
+ Note that &quot;next timed event&quot; considers only events scheduled in times, not those scheduled in turns. Also note that only activities scheduled with the phrases above can be canceled or checked in this way.
+<p>
+ CHECKING: The following conditions are supplied:<blockquote><font color="#000080"> if there is an event scheduled<br> if there is an event scheduled for (an object)<br> if there is (an activity) scheduled for (an object)<br> if there is (an activity) scheduled<br> if there is an event scheduled at (a time)<br> if there is an event scheduled for (an object) at (a time)<br> if there is (an activity) scheduled at (a time)<br> if there is (an activity) scheduled for (an object) at (a time)<br> if there is an event scheduled now<br> if there is (an activity) scheduled now<br> if there is an event scheduled for (an object) now<br> if there is (an activity) scheduled for (an object) now</font></blockquote>
+<p>
+ REPORTING: Several conditions allow better reporting of multiple activities happening in the same turn.<blockquote><font color="#000080"> if first current activity</font></blockquote>
+<p>
+ This condition is true when carrying out the first scheduled activity during a given turn.<blockquote><font color="#000080"> if first similar activity</font></blockquote>
+<p>
+ This condition is true when carrying out a particular activity for the first time during a given turn (even if other activities have been carried out). This can be used to combine reports for carrying out the same activity with multiple objects in the same turn; see the example &quot;Bunnies&quot;.
+<p>
+ Note that these two conditions do not apply to skipped events caused by changing the time directly.
+<p>
+ A new relation, the pending relation, is defined between objects and activities when the given activity is scheduled for the object during the current turn. So, for instance, the condition<blockquote><font color="#000080"> if a rabbit is pending waking</font></blockquote>
+<p>
+ will be true if the waking activity is scheduled for some rabbit during the current turn.
+<p>
+ DESCRIPTIONS: Several phrases are included allowing object descriptions, so it is possible to say, for instance, &quot;schedule dispersing in 5 turns for everything enclosed by the location.&quot; The included phrases are:<blockquote><font color="#000080"> schedule (an activity) at (a time) for (a description)<br> schedule (an activity) in (a number) minutes for (a description)<br> schedule (an activity) now for (a description)<br> schedule (an activity) in (a number) turns for (a description)<br> cancel all scheduled events for (a description)<br> cancel all scheduled (an activity) for (a description)<br> if there is an event scheduled for (a description)<br> if there is (an activity) scheduled for (a description)<br> if there is an event scheduled now for (a description)<br> if there is (an activity) scheduled now for (a description)</font></blockquote>
+<p>
+ Example: * Tinitinitis - Scheduling, testing, and canceling activities.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Tinitinitis&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Scheduled Activities by John Clemens.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Concert Hall is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A percussive instrument is a kind of thing. A percussive instrument can be ringing. A percussive instrument has a number called duration. The duration of a percussive instrument is usually 5.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The cymbal is a percussive instrument in the concert hall.<br> The triangle is a percussive instrument in the concert hall. The duration of the triangle is 1.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Striking is an action applying to one thing. Understand &quot;strike [something]&quot; as striking.<br> Report striking: say &quot;You strike [the noun].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of striking a percussive instrument:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the noun is ringing, say &quot;You strike [the noun] again[if the noun is pending silencing], just in time[end if].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise say &quot;You strike [the noun] and it starts ringing.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the noun is ringing;<br>&nbsp;&nbsp;&nbsp;&nbsp; cancel all scheduled silencing for the noun;<br>&nbsp;&nbsp;&nbsp;&nbsp; schedule silencing for the noun in duration of noun minutes.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Silencing something is an activity.<br> Rule for silencing something (called bell):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the bell is ringing, say &quot;[The bell] stops ringing.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the bell is not ringing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;strike cymbal / strike cymbal / strike triangle / strike triangle / z / z / z&quot;.</font></blockquote>
+<p>
+ Example: * Perfume - Using descriptions and rooms.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Perfume&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Scheduled Activities by John Clemens.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A room is either smelly or unscented. A room is usually unscented.<br> A thing is either smelly or unscented. A thing is usually unscented.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of smelling a smelly room: say &quot;A horrible perfume odor assaults your nostrils.&quot;<br> Instead of smelling a smelly thing, say &quot;You can still smell the perfume on [the noun].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Living room is a room. Study is west of the living room. Kitchen is east of the living room.<br> A rare book, a newspaper, and a sweater are in the study.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The perfume bottle is in the living room. The description is &quot;A perfume spray bottle.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Dispersing something is an activity.<br> Rule for dispersing a room (called place):<br>&nbsp;&nbsp;&nbsp;&nbsp; if place is smelly and place is the location, say &quot;The perfume haze finally clears.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now place is unscented.<br> Rule for dispersing a thing (called item): now item is unscented.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;spray [something]&quot; as spraying. Spraying is an action applying to one carried thing.<br> Check spraying: if the noun is not the perfume, instead say &quot;You can't spray that.&quot;<br> Carry out spraying:<br>&nbsp;&nbsp;&nbsp;&nbsp; cancel all scheduled dispersing for the location;<br>&nbsp;&nbsp;&nbsp;&nbsp; cancel all scheduled dispersing for everything enclosed by the location;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the location is smelly;<br>&nbsp;&nbsp;&nbsp;&nbsp; now everything enclosed by the location is smelly;<br>&nbsp;&nbsp;&nbsp;&nbsp; schedule dispersing for the location in 2 turns;<br>&nbsp;&nbsp;&nbsp;&nbsp; schedule dispersing in 5 turns for everything enclosed by the location.<br> Report spraying: say &quot;You spray the perfume into the air, leaving a noxious haze.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;smell / spray perfume / smell /  w /smell book / spray perfume / smell / smell book / smell / smell book / e / smell / w / smell book&quot;.</font></blockquote>
+<p>
+ Example: ** Bunnies - Grouping activity reports.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Bunnies&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Scheduled Activities by John Clemens.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins, say &quot;You have snuck into the castle to steal the King's scepter. You have heard tales of the fierce rabbits guarding the palace, but are armed with a supply of holy hand grenades.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A mood is a kind of value. The moods are asleep, suspicious, vicious, and mutilated.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Definition: a rabbit is living if it is not mutilated.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say long mood of (bugs - a rabbit):<br>&nbsp;&nbsp;&nbsp;&nbsp; if bugs is asleep, say &quot;sleeping peacefully&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if bugs is suspicious, say &quot;eyeing you suspiciously&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if bugs is vicious, say &quot;snarling viciously&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if bugs is mutilated, say &quot;splattered on the walls&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A rabbit is a kind of animal. A rabbit has a mood. A rabbit is usually asleep. Understand the mood property as describing a rabbit. The printed name of a rabbit is usually &quot;[mood] rabbit&quot;. The printed plural name of a rabbit is usually &quot;[mood] rabbits&quot;.<br> Rule for printing the name of a rabbit (called bugs) while listing contents of a room: say &quot;rabbit [long mood of item described]&quot;. Rule for printing the plural name of a rabbit while listing contents of a room: say &quot;rabbits [long mood of item described]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of doing something to a mutilated rabbit, say &quot;There's really not much left of it.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After going to somewhere:<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with bugs running through rabbits in location begin;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if bugs is asleep, schedule rousing for bugs now;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if bugs is suspicious, schedule angering for bugs now;<br>&nbsp;&nbsp;&nbsp;&nbsp; end repeat;<br>&nbsp;&nbsp;&nbsp;&nbsp; continue the action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn when a vicious rabbit is in location:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You are suddenly beset by sharp pointy teeth as [if the number of vicious rabbits in location &gt; 1][the number of vicious rabbits in location in words] vicious rabbits lunge[otherwise]a vicious rabbit lunges[end if] for your throat.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; end the game in death.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rousing something is an activity.<br> Rule for rousing an asleep rabbit (called bugs):<br>&nbsp;&nbsp;&nbsp;&nbsp; now bugs is suspicious;<br>&nbsp;&nbsp;&nbsp;&nbsp; schedule angering for bugs in 1 turn;<br>&nbsp;&nbsp;&nbsp;&nbsp; if first similar activity and a visible rabbit is pending rousing, say &quot;Hearing you, the sleeping rabbit[if the number of visible rabbits pending rousing is 1] begins[otherwise]s begin[end if] to stir.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Angering something is an activity.<br> Rule for angering a suspicious rabbit (called bugs):<br>&nbsp;&nbsp;&nbsp;&nbsp; now bugs is vicious;<br>&nbsp;&nbsp;&nbsp;&nbsp; if first similar activity and a visible rabbit is pending angering, say &quot;The suspicious rabbit[if the number of visible rabbits pending angering is 1] bares its[otherwise]s bare their[end if] teeth at you.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A holy hand grenade is a kind of thing. The player carries five holy hand grenades.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;throw [holy hand grenade] [direction]&quot; as lobbing it toward. Understand the commands &quot;lob&quot; and &quot;lobbeth&quot; as &quot;throw&quot;. Instead of dropping a holy hand grenade, try lobbing the noun toward down.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Lobbing it toward is an action applying to one carried thing and one visible thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check lobbing it toward: abide by the can't drop what's not held rule.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The target room is a room that varies.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out lobbing it toward:<br>&nbsp;&nbsp;&nbsp;&nbsp; if there is exploding scheduled for the noun begin;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You throw the grenade&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You pull the pin and throw the grenade&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; schedule exploding for the noun in 2 turns;<br>&nbsp;&nbsp;&nbsp;&nbsp; end if;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the target room is the room second noun from location;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the second noun is down, now the target room is location;<br>&nbsp;&nbsp;&nbsp;&nbsp; if target room is not a room begin;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot; [second noun], where it bounces off [if second noun is up]the ceiling[otherwise]the wall[end if] and lands at your feet.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; move noun to location;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if target room is location, say &quot; on the ground.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise say &quot; into [the target room].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; move noun to target room;<br>&nbsp;&nbsp;&nbsp;&nbsp; end if.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Exploding something is an activity.<br> Rule for exploding a holy hand grenade (called bomb):<br>&nbsp;&nbsp;&nbsp;&nbsp; if bomb is in the location begin;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[bold type]Boom! [roman type]The grenade explodes, killing you instantly.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cancel all scheduled events;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end the game in death;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let destroyed be the location of bomb;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if destroyed is a room begin;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You hear an explosion from [the best route from location to destroyed][if a living rabbit is in destroyed], followed by the unmistakable sound of rabbit screams[end if].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now every rabbit in destroyed is mutilated;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; repeat with item running through holy hand grenades in destroyed begin;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cancel all scheduled events for item;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; remove item from play;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end repeat;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end if;<br>&nbsp;&nbsp;&nbsp;&nbsp; end if.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Entrance is a room. &quot;A Hall stretches to the east, and the exit is back west.&quot;<br> The Hall is east of the entrance. &quot;The entrance is west, and the banquet room is south.&quot; In the Hall are five rabbits.<br> The Banquet Room is south of the hall. &quot;The hall is north, and the throne room is west.&quot; In the Banquet Room are 3 rabbits and 1 suspicious rabbit.<br> The Throne room is west of the banquet room. &quot;The treasure is stored here.&quot; In the throne room are two vicious rabbits.<br> The scepter is in the throne room. The description of the scepter is &quot;Covered with jewels, and worth the risk.&quot;<br> Instead of going west in the Entrance: say &quot;Not without the scepter.&quot;<br> Instead of going west in the Entrance when the player carries the scepter: say &quot;You escape with the scepter, ensuring your fortune.&quot;; end the game in victory.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;e / lobbeth holy hand grenade / w / z / e / throw grenade s / z / z / s / throw grenade w / z / z / w / take scepter / e / n / w / w&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test death with &quot;e / s / n&quot;.</font></blockquote>
+<p>
+ Section Changelog
+<p>
+ version 10 January 10, 2022<blockquote><font color="#000080"> updated for 6M62 by Zed Lopez</font></blockquote>
+<p>
+ version 9 September 10, 2010<blockquote><font color="#000080"> updated activity types for compatibility with 6E59/6E72 type checking<br> minor code cleanup</font></blockquote>
+<p>
+ version 8 (May 11, 2009)<blockquote><font color="#000080"> code cleanup<br> more explicit table column names to preclude conflicts<br> pending relation now behaves properly again</font></blockquote>
+<p>
+ version 7 (May 8, 2008)<blockquote><font color="#000080"> updated for compatibility with 5T18<br> updated documentation<br> minor code improvement</font></blockquote>
+<p>
+ version 6 (date forgotten)<blockquote><font color="#000080"> minor compatibility update</font></blockquote>
+<p>
+ version 5 (August 11, 2007)<blockquote><font color="#000080"> Updated for compatibility with 4W37<br> changed the Target column to SA_Target to avoid name-space conflict</font></blockquote>
+<p>
+ version 4 (March 26, 2007)<blockquote><font color="#000080"> Updated for compatibility with 4S08<br> Pending relation replaced with several phrase for compatibility with 4S08<br> Removed use of procedural rule<br> Changed skipped events checking to agree with Inform behavior for timed events (processes events less than 30 minutes before time of day)<br> Fixed bug to do with checking preceding similar activities</font></blockquote>
+<p>
+ version 3 (October 1, 2006)<blockquote><font color="#000080"> Note: This version requires at least compiler version 3Z95; if you are using an earlier compiler version you should use version 2.<br> &quot;Thing&quot; has been changed to &quot;object&quot;, so activities can now be scheduled for rooms<br> Added phrases utilizing descriptions<br> Added example &quot;Perfume&quot;<br> Added syntax for &quot;turn&quot;, &quot;minute&quot;, and &quot;turns from now&quot;<br> Updated documentation<br> Updated example &quot;Bunnies&quot; for 3Z95<br> Minor tidying of code</font></blockquote>
+<p>
+ version 2 (July 19, 2006):<blockquote><font color="#000080"> Improved paragraph breaks between activities<br> Added the new syntax: schedule now<br> Added reporting conditions: if first current activity and if first similar activity<br> Added the pending relation<br> Added example &quot;Bunnies&quot;</font></blockquote>
+<p>
+ version 1 (July 15, 2006): Initial version
+<p>
+
+<p>
+<p></body></html>

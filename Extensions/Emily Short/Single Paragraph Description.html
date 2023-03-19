@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Single Paragraph Description<font color="#404040"> by </font>Emily Short</b><p><small></small><p><p><hr><p>
+<p>
+ Single Paragraph Description is an extension built on Room Description Control. It produces single paragraphs of output, like this:
+<p>
+<blockquote><font color="#000080"> The amphitheater is currently empty of spectators, though you can see a magnificent view of the valley beyond the orchestra. On the ground is a mask. You can also see a play script and a ball of wax here.</font></blockquote>
+<p>
+ and when the mask is taken
+<p>
+<blockquote><font color="#000080"> The amphitheater is currently empty of spectators, though you can see a magnificent view of the valley beyond the orchestra. You can also see a mask, a play script and a ball of wax here.</font></blockquote>
+<p>
+ In order to accomplish the smooth production of paragraphs, we must end all of our room descriptions and initial appearances with a space, so:
+<p>
+<blockquote><font color="#000080"> Amphitheater is a room. &quot;The amphitheater is currently empty of spectators, though you can see a magnificent view of the valley beyond the orchestra. &quot;.</font></blockquote>
+<p>
+ Note that because of the space before the quotation mark, an extra. may be needed at the ends of these modified descriptions.
+<p>
+ Because these single-paragraph descriptions can grow quite long and hard to read, it is likely that this technique will work best in small games or those with few portable objects.
+<p>
+ If the game in question is set to BRIEF or SUPERBRIEF mode, Single Paragraph Description will omit the initial room description either when visiting the room for the second time (for brief) or always (for superbrief). Items in the room will still be mentioned.
+<p>
+ Version 3 removes a bug in which rooms with no description could crash the game.
+<p>
+ Example: * Scene Setting - The Amphitheater in full
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Scene Setting&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Single Paragraph Description by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Amphitheater is a room. &quot;The amphitheater [regarding nothing][are] currently empty of spectators, though [we] [can] see a magnificent view of the valley beyond the orchestra. &quot;. A play script and a ball of wax are here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A mask is here. &quot;On the floor [regarding the mask][are] a mask. &quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;look / get all / look / drop all / look&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

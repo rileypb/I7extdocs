@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Inquiry<font color="#404040"> by </font>Zed Lopez</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter Warnings
+<p>
+ If you include this module, you won't be able to compile without defining at least one inquiry. That could be a dummy, if for whatever reason you'd rather do that than comment out the Include.
+<p>
+<blockquote><font color="#000080"> dummy-inquiry is an answered inquiry.</font></blockquote>
+<p>
+ Chapter Inquiries
+<p>
+ Use of this extension is driven by creating inquiries. (I didn't use &quot;question&quot; just because I figure &quot;inquiry&quot; had somewhat less chance of name collision.) The actual text of the inquiry is defined by its description field, so it can be assigned with a plain text following the initial inquiry assertion:
+<p>
+<blockquote><font color="#000080"> Name-q is an inquiry. &quot;What is your name?&quot;</font></blockquote>
+<p>
+ (It's not an error condition to leave the description blank, but it's also not useful.)
+<p>
+ One of inquiries' properties is answered vs. unanswered. If there are any unanswered inquiries, they're asked in a loop that doesn't end until there are no unanswered inquiries. The rule triggering this loop comes between the action rulebooks and the (first) scene changing rules in the turn sequence, and before the start in the correct scenes rule in the startup rulebook.
+<p>
+ If you want inquiries to be asked later in the game, create them as initially answered and change them to unanswered (or change a previously asked and answered inquiry back to unanswered) during play. You could carry out the Inquiry handling activity manually if you want, but otherwise it'll be asked immediately after the end of the next action.
+<p>
+ Inquiries can be key-input or line-input. Key-input inquiries are answered with a single keystroke.
+<p>
+ Section Ask Y/N Inquiry
+<p>
+ An ask y/n inquiry is a subkind of inquiry that is always key-input (well, technically it's *usually* key-input but don't change that). It's answered when the users hits Y or N (case-insensitive). There's a specific pair of adjectives to test whether an ask y/n inquiry has been answered in the positive: confirmed vs. unconfirmed. Unonfirmed is false if the inquiry is either unanswered or was answered in the negative.
+<p>
+ Section Multiple-choice Inquiry
+<p>
+ Another subkind of inquiry is the multiple-choice inquiry. It can be key-input or line-input. Choices are specified in a multiple-choice-list list of texts.
+<p>
+<blockquote><font color="#000080"> Survey is a line-input multiple-choice inquiry. &quot;What's your favorite beverage?&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The multiple-choice-list of survey is<br> { &quot;Tea&quot;, &quot;Coffee&quot;, &quot;OJ&quot;, &quot;water&quot;, &quot;zima&quot;, &quot;Dr. Pepper&quot;,<br> &quot;root beer&quot;, &quot;vanilla cream soda&quot;, &quot;beer&quot;, &quot;wine&quot; }.</font></blockquote>
+<p>
+ It can be numbered or lettered, depending on whether you want the choices' labels to begin with numerals or the alphabet, but either way it will continue with the other if a numbered multiple-choice inquiry has more than 9 choices or a lettered one has more than 26. There's thus a limit of 36 choices. It's not an error condition to exceed that, but choices in excess of that won't be offered. An answer must be supplied, so include a &quot;Skip&quot; or &quot;n/a&quot; choice as desired.
+<p>
+ The big difference between line-input and key-input is that with line-input, the user will have to hit enter after their selection, and they'll get an error message if they entered something that isn't a choice; whereas with key-input it'll just sit there if they enter wrong choices.
+<p>
+ There is an Inquiry handling activity that controls the whole loop, and a separate Inquiring activity, which is an activity on inquiries.
+<p>
+ Displaying the inquiry text goes in Before inquiring rules; For inquiring rules cover receiving the input and validation; After inquiring rules cover either error messages or actually storing the result and marking the inquiry answered.
+<p>
+ Y/n inquiries don't output &quot;Y/N&quot; by default, but the activity makes this easy to set up:
+<p>
+<blockquote><font color="#000080"> Last before inquiring a y/n inquiry: say &quot;Y/N &quot;.</font></blockquote>
+<p>
+ The Inquiring activity itself doesn't take any steps to ask again if an inquiry is unanswered at the end. When the activity is over, we're still in the Inquiry handling loop and since there's still at least an unanswered inquiry, the Inquiring activity is carried out again.
+<p>
+ An optional inquiry is the final sub-kind of inquiry. It's always line-input and thus gets a free-form text answer, but the game will accept a blank answer for an optional inquiry; in every other case, an answer is required. You may wish to add a response for the case of a user entering a blank response for an optional question or it looks a lot like nothing happened.
+<p>
+ When there are multiple unanswered inquiries to be made, they are always made in the inquiries' order of definition in the source.
+<p>
+ Chapter restart y/n
+<p>
+ Just to cater to my own personal preference, there's a provided use option that will convert the restart command's question to a Y/N inquiry.
+<p>
+<blockquote><font color="#000080"> Use restart y/n.</font></blockquote>
+<p>
+ Chapter Changelog
+<p>
+ v4: Having abandoned the turn sequence hijacking, there was no point left to having a scene control question asking, so introduced the inquiry handling activity. Also added the restart y/n use option.
+<p>
+ v3: substantial rewrite to use KeyboardPrimitive for line-input, which turns out to be far less intrusive than hijacking the turn sequence. Who knew?
+<p>
+ Chapter Examples
+<p>
+ Section Screenreader
+<p>
+ Example: * Screenreader Question
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Screenreader Question&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Flexible Windows by Jon Ingold.<br> Include Inquiry by Zed Lopez.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Lab is a room. &quot;Experiment still not alive.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Screenreader-question is a y/n inquiry. &quot;Are you using a screenreader?&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Interface-value is a kind of value.<br> Some interface-values are default-interface, screenreader.<br> The interface is an interface-value that varies.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After inquiring an answered inquiry (called q) when q is the screenreader-question:<br> if screenreader-question is confirmed, now interface is screenreader.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The open status window after inquiring rule does nothing when interface is screenreader.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section Don't ask unless release (not for release)</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Screenreader-question is answered.</font></blockquote>
+<p>
+ Section Miscellaneous
+<p>
+ Example: * Miscellaneous Inquiries
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Miscellaneous Inquiries&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Inquiry by Zed Lopez.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Lab is a room. &quot;Experiment still not alive.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Name-question is an inquiry. &quot;What is your name?&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> survey is a line-input multiple-choice inquiry. &quot;What's your favorite beverage?&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The multiple-choice-list of survey is { &quot;Tea&quot;, &quot;Coffee&quot;, &quot;OJ&quot;, &quot;water&quot;, &quot;zima&quot;, &quot;Dr. Pepper&quot;, &quot;root beer&quot;, &quot;vanilla cream soda&quot;, &quot;beer&quot;, &quot;wine&quot; }.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Self-reported-luck is a y/n inquiry. &quot;Are you feeling lucky?&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> jump-passion is an answered y/n inquiry. &quot;Do you love jumping?&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> blank-q is an answered optional inquiry. &quot;Do you have an answer?&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> instead of jumping:<br> now blank-q is unanswered;<br> now jump-passion is unanswered;<br> now survey is unanswered;<br> now survey is key-input;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test me with &quot;inquiries / jump&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

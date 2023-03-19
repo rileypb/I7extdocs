@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Benchmarking<font color="#404040"> by </font>Dannii Willis</b><p><small></small><p><p><hr><p>
+<p>
+ Section: Introduction
+<p>
+ Benchmarking provides a general purpose benchmarking test framework which produces statistically significant results. Benchmarking refers to carefully timing how long some task takes to run. This extension has two types of users in mind:
+<p>
+ 1. Story and extension authors can use Benchmarking to compare alternatives for some slow programming task. The examples below shows how you might use Benchmarking to compare alternative ways to test for a container's emptiness.
+<p>
+ 2. Interpreter authors can use Benchmarking to compare their interpreter with others, as well as to compare interpreter updates to see whether they have a performance benefit or deficit.
+<p>
+ The most accurate results will be obtained with a release build, as Inform's debug code will slow down some algorithms considerably, so be aware that simply using the Go! button will give different results than a release build would. (And if you want to run the tests with Inform's built-in interpreter on Windows you will need to install the 2012 6G60 re-release, as the original 6G60 release did not have all the necessarily functionality.)
+<p>
+ Benchmarking is based on the Javascript library Benchmark.js. http://benchmarkjs.com
+<p>
+ Benchmarking depends on Real-Time Delays by Erik Temple and Flexible Windows by Jon Ingold.
+<p>
+ The latest version of this extension can be found at &lt;https://github.com/i7/extensions&gt;. This extension is released under the Creative Commons Attribution licence. Bug reports, feature requests or questions should be made at &lt;https://github.com/i7/extensions/issues&gt;.
+<p>
+ Section: Writing test cases
+<p>
+ A test case should be added for each task or algorithm you wish to test. Each test case must be provided with a run phrase, which is what will be benchmarked. Unfortunately the Inform 7 syntax for attaching the run phrase is a little clunky. You must first give the phrase a name, and then attach it to the test case.
+<p>
+<blockquote><font color="#000080"> My test case is a test case.<br> To run my test case (this is running my test case):<br>&nbsp;&nbsp;&nbsp;&nbsp;...<br> The run phrase of my test case is running my test case.</font></blockquote>
+<p>
+ If you are comparing algorithms for the same task it is important that they all do actually do the same thing. This extension does not and cannot compare whether test case algorithms are equivalent, so you should first test your algorithms thoroughly. If you are not comparing equivalent algorithms, use this option to prevent the final test comparisons:
+<p>
+<blockquote><font color="#000080"> Use nonequivalent tests.</font></blockquote>
+<p>
+ It is also important that test cases run the same each time through, so if your test case changes the world state in some way you must reset what it changes as part of your run phrase.
+<p>
+ Test cases are a kind of thing, so like all things they can have descriptions. They can also be given an author, as shown in the example.
+<p>
+ Some test cases might require recent or optional interpreter features. If so then you can add an initialisation rule, in which you can check if that interpreter feature is supported, and disable the test case if not.
+<p>
+<blockquote><font color="#000080"> To decide whether unicode is supported: (-  (unicode_gestalt_ok)  -).<br> Rule for initialising my test case:<br>&nbsp;&nbsp;&nbsp;&nbsp; unless unicode is supported:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now my test case is deactivated.</font></blockquote>
+<p>
+ Benchmarking is currently only designed for testing Glulx functionality, and it may not work well for testing Glk functionality. If you have potential Glk test cases please contact the author.
+<p>
+ Section: Change log
+<p>
+ Version 2/210914:<blockquote><font color="#000080"> Updated for 6M62 by Zed Lopez:<br> - ripped out the homebrew real number implementation, replacing with I7 native reals<br> - updated appropriately for Flexible Windows 10.<br> - the previous example no longer compiles; replaced it with When One Stares into the Void</font></blockquote>
+<p>
+ Version 1/120610:<blockquote><font color="#000080"> Added a version action<br> Added a nonequivalent tests use option<br> The final results are now scaled</font></blockquote>
+<p>
+ Version 1/120218:<blockquote><font color="#000080"> Initial (non-beta) release</font></blockquote>
+<p>
+ Section: Example
+<p>
+ Example: * When one stares into the void -- testing for emptiness
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;When one stares into the void&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Benchmarking by Dannii Willis.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The table is a supporter. The box is a container on the table. The action figure is in the box. There are 5 toy soldiers. There are 7 coins. There are 99 luftballoons.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> There-is-nothing is a test case.<br> The author is &quot;Zed Lopez&quot;.<br> The description is &quot;Testing container emptiness with ``there is nothing``&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To run there-is-nothing (this is running there-is-nothing):<br> let x be 0;<br> if there is nothing in the box, increment x.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The run phrase is running there-is-nothing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Looking for first thing held nothing is a test case.<br> The author is &quot;Zed Lopez&quot;.<br> The description is &quot;Testing container emptiness with ``the first thing held by the box is nothing``&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To run looking for first thing held nothing (this is running Looking for first thing held nothing):<br> let x be 0;<br> if the first thing held by the box is nothing, increment x.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The run phrase is running Looking for first thing held nothing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include (- 
+	[ CountHoldingsExceptParts obj;
+	  return children(obj);
+	];
+	 -)</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To decide what number is the/a/-- count of the/-- contents of the/a/an/-- (C - a container):<br> (-  CountHoldingsExceptParts({C})  -)</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Looking for count of things contained is a test case.<br> The author is &quot;Zed Lopez&quot;.<br> The description is &quot;Testing container emptiness with ``I6 child -&gt; sibling for loop``&quot;.<br> To run looking for count of contents (this is running Looking for count of contents):<br> let x be 0;<br> if the count of the contents of the box is zero, increment x.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The run phrase is running Looking for count of contents.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include (- 
+	[ HoldsNothing obj;
+	  if (child(obj)) rfalse;
+	  rtrue;
+	];
+	 -);</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Definition: a container is xempty rather than non-xempty if the first thing held by it is nothing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Empty-by-definition is a test case.<br> To run Empty-by-definition (this is running Empty-by-definition):<br> let x be 0;<br> if the box is xempty, increment x.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The run phrase is running Empty-by-definition.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Definition: a container is devoid-of-content rather than non-devoid-of-content if I6 routine &quot;HoldsNothing&quot; says so (it has nothing in it).</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HoldsNothing-by-definition is a test case.<br> To run HoldsNothing-by-definition (this is running HoldsNothing-by-definition):<br> let x be 0;<br> if the box is devoid-of-content, increment x.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The run phrase is running HoldsNothing-by-definition.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To decide whether (C - a container) is void-like:<br> (-  HoldsNothing({C})  -)</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HoldsNothing is a test case.<br> To run HoldsNothing (this is running HoldsNothing):<br> let x be 0;<br> if the box is void-like, increment x.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The run phrase is running HoldsNothing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Nothing-in is a test case.<br> To run Nothing-in (this is running Nothing-in):<br> let x be 0;<br> if nothing is in the box, increment x.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The run phrase is running Nothing-in.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> unless-something is a test case.<br> The author is &quot;Zed Lopez&quot;.<br> The description is &quot;Testing container emptiness with ``there is not something in it``&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To run unless-something (this is running unless-something):<br> let x be 0;<br> unless there is something in the box, increment x.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The run phrase is running unless-something.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

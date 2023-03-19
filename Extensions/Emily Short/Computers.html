@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Computers<font color="#404040"> by </font>Emily Short</b><p><small></small><p><p><hr><p>
+<p>
+ &quot;Computers&quot; implements a basic computer set-up. Implemented computers have peripherals: such as a screen and keyboard by default, and others optionally. They may run software; several types of default software are provided. They may also have data ports of various sorts, though the behavior of these ports is minimally elaborated here.
+<p>
+ By itself, &quot;Computers&quot; does not implement cords or batteries and does not worry about computer power supplies. However, if we include Power Supplies by Emily Short (which also requires Plugs and Sockets by Sean Turner), we will get power cords for our desktop computers and a combination of cords and batteries for laptops.
+<p>
+ Chapter: Hardware
+<p>
+ Section: The computer kind; screens and keyboards
+<p>
+ A computer is implemented as a device that may be switched on and off. &quot;Computers&quot; supplies every computer with a screen (which can also be called &quot;monitor&quot; by the player) and a keyboard. The keyboard is required for the computer to understand typing; if one is absent, the player will not be able to enter typed commands.
+<p>
+ When switched on, a computer plays a startup noise and displays the contents of its screen. We may change the startup noise so:
+<p>
+<blockquote><font color="#000080"> The startup noise of the PC is &quot;[The item described] [chime] cheerfully.&quot;</font></blockquote>
+<p>
+ The contents of the computer's screen will depend on what software the computer is currently running. (See below.)
+<p>
+ Section: Laptops and desktops; mice and trackpads
+<p>
+ &quot;Computer&quot; has two subordinate kinds, &quot;laptop&quot; and &quot;desktop computer&quot;. A laptop may be opened or closed (synonymous with switching it on and off, for simplicity) and has a trackpad. A desktop computer is by default fixed in place and has a mouse.
+<p>
+ For non-standard configurations of computer, such as an ATM with a modified keyboard and no mouse/trackpad, we would fall back on the base &quot;computer&quot; kind and add the desired components by hand.
+<p>
+ Trackpads and mice are both of the kind &quot;selection device&quot;. If a computer does not incorporate any selection device, the player will not be able to click on things to select them on that computer. If we wished to implement a different type of console, we might alternatively make joysticks, touchpads, or trackballs as selection devices.
+<p>
+ Section: Extension ports
+<p>
+ &quot;Computers&quot; also has the concept of an &quot;extension port&quot;, which is a generic kind suitable for implementing DVD or CD drive slots, USB ports, and any other realistic or futuristic reader for a data storage device; and the kind &quot;data storage device&quot;, which is the only sort of item that may be placed into an extension port. An extension port may contain exactly one thing at a time.
+<p>
+ So for instance we might write
+<p>
+<blockquote><font color="#000080"> The CD slot is an extension port. It is part of the old PC.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The CD-ROM is a data storage device.</font></blockquote>
+<p>
+... whereupon the CD-ROM may be placed in the CD slot, but nothing else will be permitted.
+<p>
+ The extension assumes that the player who types
+<p>
+<blockquote><font color="#000080"> INSERT STORAGE DEVICE INTO COMPUTER</font></blockquote>
+<p>
+ really means to insert the storage device into the extension port that is part of the computer. Input will be redirected automatically if a given computer has only one extension port and the situation is unambiguous.
+<p>
+ If we have a game in which multiple types of data storage devices exist and are to be placed in multiple types of extension ports, we may need to add subkinds of these two kinds, and restrict more thoroughly which storage devices may be put into which ports.
+<p>
+ Furthermore, there is no default treatment of data storage devices or their effect on computers or computer software, as the possibilities are too diverse. We should decide on a per-game basis what happens when a given storage device is hooked up.
+<p>
+ The examples show a very simple way to a storage device to extend the range of a search engine program.
+<p>
+ Chapter: Software
+<p>
+ Section: Software in general
+<p>
+ A given computer may be running one or more pieces of software; whichever software is currently dominant receives the input sent by the keyboard, and is also visible when the player looks at the screen or the computer as a whole.
+<p>
+ The appearance of the software on the screen is given by the software's description. Thus we might have
+<p>
+<blockquote><font color="#000080"> The PC runs a password-lock program called rudimentary passcode. The description of rudimentary passcode is &quot;[regarding the noun]A box on the screen [invite] [us] to type a password to proceed.&quot;</font></blockquote>
+<p>
+ A computer can run several programs at once, in which case the program with the lowest &quot;software priority&quot; is the one that is considered to be working and receiving input at the moment. By default, most software has a software priority of five, while password-lock programs have software priority 1 (meaning they must be dealt with before other software becomes available). If it is intended that the user can change programs manually, we might handle this by changing software priorities during play to make the one in use uppermost; as in
+<p>
+<blockquote><font color="#000080"> now the software priority of the email program is 1.</font></blockquote>
+<p>
+ When the player uses a TYPE or CLICK ON command, the topic understood is passed on to the input handling rules. The input handling rules are an object-based rulebook and are keyed to the specific program currently dominant on the computer. One of the several input handling rules looks like this:
+<p>
+<blockquote><font color="#000080"> An input handling rule for a multiple-choice program (called chosen software) (this is the pick a choice rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the topic understood is a topic listed in the options table of the chosen software:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; follow the effect entry;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[out-of-bounds response of the chosen software][paragraph 	break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule fails.</font></blockquote>
+<p>
+... and consequently we can make new input handling rules for any new software we write, or to customize the behavior of the default software kinds.
+<p>
+ Section: Default software kinds
+<p>
+ Five types of software are provided by default:
+<p>
+ (1) a password-lock program that renders the computer inoperable until the password is typed
+<p>
+ (2) a search program that returns results on typed searches, as well as to standard syntax such as LOOK UP &quot;whatever&quot; IN SEARCH PROGRAM
+<p>
+ (3) a multiple-choice program that allows the user to select options, and runs rules accordingly
+<p>
+ (4) an enumerated multiple-choice program (the same kind of thing, but assigning a number to each choice instead of matching them with topic keywords)
+<p>
+ (5) an email program capable of organizing incoming and outgoing messages, marking which messages are read, and reporting new arrivals.
+<p>
+ Section: password-lock programs
+<p>
+ To define a password-lock program, we may write something like:
+<p>
+<blockquote><font color="#000080"> The PC runs a password-lock program called rudimentary passcode. The password of rudimentary passcode is &quot;xyzzy&quot;.</font></blockquote>
+<p>
+ Note that because of the way the z-machine handles typed input, the player's input will always be flattened to lower case before it is interpreted. Therefore passwords should always be in lower case.
+<p>
+ We may also optionally define two other aspects of a password-lock program, namely the text displayed when the player's attempt fails, and that displayed when it succeeds. Thus:
+<p>
+<blockquote><font color="#000080"> The rejection of rudimentary passcode is &quot;'Password incorrect.'&quot;<br> The success of rudimentary passcode is &quot;The password field vanishes.&quot;</font></blockquote>
+<p>
+ Section: Multiple-Choice Programs
+<p>
+ A multiple-choice program is one that presents the player with a series of choices to type or click on, and executes a rule whenever one is selected. This is suitable for setting up operating systems, dedicated special-purpose computers such as ATMs, or other interfaces that involve negotiating a series of menus. Items from a multiple-choice list may be selected by typing or by mouse or trackpad if one of these is available.
+<p>
+ To set up a multiple-choice program, we must establish an options table like so:
+<p>
+<blockquote><font color="#000080"> The operating system is a multiple-choice program. The options table of the operating system is the Table of GUI Options.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of GUI Options</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> effect</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;microsoft/word&quot; or &quot;microsoft word&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Microsoft Word&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> open-Word rule</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;adobe illustrator&quot; or &quot;adobe/illustrator&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Adobe Illustrator&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> open-Illustrator rule</font></font></td></tr></table></blockquote>
+<p>
+ If we wish a multiple-choice program to function as an operating system allowing access to various other programs on the computer, we might use these effect rules to change the software priority of other programs.
+<p>
+ A subkind of multiple-choice program is the enumerated multiple-choice program, for when we wish the player to make a selection by number. Here instead of providing a topic list, we provide an index column, which will contain numbers (but, as these will be chosen at runtime, we do not need to specify them ourselves). We may add lines to the table or remove them again if we wish to change the player's available options.
+<p>
+<blockquote><font color="#000080"> The ATM operation program is an enumerated multiple-choice program. The options table of the ATM operation program is the Table of Transactions.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Transactions</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> index</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> effect</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Check balance&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> balance-check rule</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Quick cash&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> quick-cash rule</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Buy stamps&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> stamp-purchase rule</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Cancel&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> cancellation rule</font></font></td></tr></table></blockquote>
+<p>
+ Both enumerated and regular multiple-choice programs have a response to print if the player attempts to type or select something that is not understood as an option. We may change this by altering the out of bounds response, like so:
+<p>
+<blockquote><font color="#000080"> The out-of-bounds response of the ATM operation program is &quot;Your selection, '[topic understood]', is not one of the available choices.&quot;</font></blockquote>
+<p>
+ Section: Search engines
+<p>
+ To define a search engine, we must provide a table of data, such as
+<p>
+<blockquote><font color="#000080"> The PC runs a search engine called Goggle. The data table of Goggle is the Table of Goggle Data.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Goggle Data</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> data</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;food/cake/yellow&quot; or &quot;yellow cake&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;OnlineRecipes.org&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;A delicious recipe for yellow cake.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;yellow balloon&quot; or &quot;yellow/balloon&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;PartyPlanning.com&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;How to order yellow balloons online.&quot;</font></font></td></tr></table></blockquote>
+<p>
+ By default, in keeping with the behavior of real search engines, this search engine will go through and match every possible topic on the list, reporting all hits, rather than matching only the first instance. This means that output can be very long if the individual descriptions are themselves long, so use with discretion.
+<p>
+ If we wish, we can define a search engine that does not rely on the topic table but actually searches the data text for whatever string the player has typed in. This is more powerful, but slower. To turn this functionality on, we should include
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now slow searching is true.</font></blockquote>
+<p>
+ When slow searching is true, the search engine will ignore the topic column and instead look for the searched text in the data itself. There is an example using this behavior below.
+<p>
+ Search engines have two pieces of text, the &quot;no-records response&quot; and &quot;results-found response&quot;, as defined here:
+<p>
+<blockquote><font color="#000080"> The no-records response of a search engine is usually &quot;No records found.&quot;.<br> The results-found response of a search engine is usually &quot;Your search turns up the following results:&quot;.</font></blockquote>
+<p>
+... and as usual we may modify these to change the way search results are described.
+<p>
+ Section: Email
+<p>
+ Email is a program that allows the player to receive and read email from a list. To establish the email in an email program, we would write
+<p>
+<blockquote><font color="#000080"> The message table of laptop email is Table of Laptop Messages.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Laptop Messages</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> message</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> arrival time</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> read</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> answered</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> description</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;memo&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Memo&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 9:00 AM</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Your boss would like to see you in his office right away.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;SPAM&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;SPAM&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Money for you from Nigeria!&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> with 10 blank rows.</font></font></td></tr></table></blockquote>
+<p>
+ Note that an arrival time is provided for &quot;memo&quot; but not for &quot;SPAM&quot;. That is because memo is understood to have been delivered already, while SPAM has not. To deliver new email, we would write
+<p>
+<blockquote><font color="#000080"> deliver &quot;SPAM&quot; to laptop email.</font></blockquote>
+<p>
+ This would mark the spam message, which already exists in the Table of Laptop Messages, as available for the player to read. It would also set the arrival time.
+<p>
+ If the player is in view of a switched on computer that is running this program, the arrival of the message will be reported at the moment when it happens. The text of this report is handled by the &quot;new mail message&quot; of the email program, like so:
+<p>
+<blockquote><font color="#000080"> The new mail message of an email program is usually &quot;You have new mail on [the random computer which is running the item described].&quot;.</font></blockquote>
+<p>
+ To change this output, we would create a different new mail message for the email program in question.
+<p>
+ Typing or clicking on one of the topic words will bring up what ever text we have put in the description field, which might be a brief summary or might be the full text of the email in question. READ email will also work.
+<p>
+ REPLY TO email is implemented, but generally blocked by the &quot;block replying to email&quot; rule. This is because the behavior of replying to email is likely to vary quite a bit from game to game, depending on whether we want to allow the player some control over the email he composes and what other game-state changes result from sending that email.
+<p>
+ If we wish to allow replies to email, we should first unlist the block replying to email rule, like so:
+<p>
+<blockquote><font color="#000080"> The block replying to email rule is not listed in any rulebook.</font></blockquote>
+<p>
+ At that point, default behavior of the action is to mark the email replied and to report simply &quot;You reply.&quot; It is up to us to elaborate on this in some more interesting way.
+<p>
+ Example: * Reading Email - A laptop set up with a password-lock program that gives way to email we can read, and a new message that is delivered while we wait.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Reading Email&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Computers by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Conference room is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The conference table is a thing in the Conference Room. The small laptop is a laptop on the conference table.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The small laptop runs a password-lock program called laptop security. Laptop security is privately-named. The password of laptop security is &quot;mulderxox&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The small laptop runs an email program called laptop email. Laptop email is privately-named.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The message table of laptop email is Table of Laptop Messages.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Laptop Messages</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> message</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> arrival time</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> read</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> answered</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> description</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;memo&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Memo&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 9:00 AM</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Your boss would like to see you in his office right away.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;SPAM&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;SPAM&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Money for you from Nigeria!&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> with 10 blank rows.</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> At 9:10 AM:<br>&nbsp;&nbsp;&nbsp;&nbsp; deliver &quot;SPAM&quot; to laptop email.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;turn on laptop / read memo / x laptop / x screen / read memo / type wrongpassword / type mulderxox / read memo / read spam / z / z / z / z / z / x screen / read spam / reply to spam&quot;.</font></blockquote>
+<p>
+ Example: * Powered Email Machine - The same as above, except that we add Power Sources to create a laptop with a battery that can be drained of power and shut down.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Powered Email Machine&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Power Sources by Emily Short. Include Computers by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Conference room is a room. It contains a wall socket.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The conference table is a thing in the Conference Room. The small laptop is a laptop on the conference table.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The small laptop runs a password-lock program called laptop security. Laptop security is privately-named. The password of laptop security is &quot;mulderxox&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The small laptop runs an email program called laptop email. Laptop email is privately-named.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The message table of laptop email is Table of Laptop Messages.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Laptop Messages</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> message</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> arrival time</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> read</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> answered</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> description</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;memo&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Memo&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 9:00 AM</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Your boss would like to see you in his office right away.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;SPAM&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;SPAM&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Money for you from Nigeria!&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> with 10 blank rows.</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> At 9:10 AM:<br>&nbsp;&nbsp;&nbsp;&nbsp; deliver &quot;SPAM&quot; to laptop email.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;turn on laptop / x laptop / x screen / type mulderxox / read memo / read spam / z / z / z / z / z / x screen / read spam / reply to spam / z / z / plug in laptop / look / turn on laptop / read spam / z / z / z / z / z / z / z / z / z / z / z / z / z / z / z / z / unplug laptop&quot;.</font></blockquote>
+<p>
+ Example: * USB Drive - A very simple implementation of a laptop that can search for and find new data when a USB stick is inserted into its extension port.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;USB Drive&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Computers by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Ventilation Duct is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The quickbook is a laptop. It is carried by the player.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The USB port is an extension port. It is part of the quickbook. The player carries a USB stick. The USB stick is a data storage device.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Generic search is a search engine. The quickbook runs generic search. The data table of generic search is the Table of Dull Data.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Dull Data</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> data</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;myself/me/yourself/you/user/profile&quot; or &quot;user profile&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;your user profile&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;None of your user information has been filled in. For security reasons.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out inserting the usb stick into the USB port:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the data table of generic search is the table of secret data.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report inserting the usb stick into the USB port:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You plug in the USB stick, making its valuable data available to the quickbook's search engine.&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out taking the usb stick when the usb stick is in the USB port:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the data table of generic search is the table of dull data.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report taking the USB stick when the USB stick was in the USB port:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You deftly pull out the USB stick again.&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Secret Data</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> data</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;myself/me/yourself/you/user/profile&quot; or &quot;user profile&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;your user profile&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;None of your user information has been filled in. For security reasons.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Coca-Cola&quot; or &quot;recipe&quot; or &quot;coke/coca/cola&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;secret Coca-Cola recipe&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Scrolling across your screen is the detailed secret recipe for Coca-Cola, including all the elements of the 7X 	formula.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;x quickbook / open it / type recipe / insert usb stick in port / look up recipe in computer / take stick / search for recipe / take stick / drop stick / take stick&quot;.</font></blockquote>
+<p>
+ Example: * True Search - A desktop computer running a search engine that has slow search activated so that it will match any string against the searched data.
+<p>
+ Here we're activating the &quot;slow search&quot; feature. The results run reasonably smoothly if there is little data, but will likely become sluggish if there is a great deal.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;True Search&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Computers by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Conference room is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The conference table is a thing in the Conference Room. The old PC is a desktop computer on the conference table.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The PC runs a search engine called Goggle. The data table of Goggle is the Table of Goggle Data.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Goggle Data</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> data</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;OnlineRecipes.org&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;A delicious recipe for yellow cake.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;PartyPlanning.com&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;How to order yellow and blue balloons online.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Repainting.com&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Suggested blue, cerise, and purple shades to use in repainting your living room.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Livingwithsciatica.com&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;An assortment of resources for living with sciatica.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now slow searching is true.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;turn on PC / type living / type sciatica / type blue / type yellow / type cake&quot;.</font></blockquote>
+<p>
+ Example: ** Operations - A desktop computer running an operating system that in turn allows the player to select and run either the browser or the email program.
+<p>
+ We're going to use a multiple-choice program to implement our operating system, and also implement &quot;type quit&quot; and &quot;select quit&quot; to let the player quit out of other programs when he wishes to return to the OS. (By default, the player is not allowed to quit running programs; this makes it easier to implement single-use computers that are good for only one function, which is quite a common arrangement in IF if not in life.)
+<p>
+ We also want the computer to revert back to the operating system if switched off while running some other program.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Operations&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Computers by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Conference room is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The conference table is a thing in the Conference Room. The old PC is a desktop computer on the conference table.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The old PC runs a multiple-choice program called PCOS. PCOS is privately-named. The options table of PCOS is the Table of GUI Options.<br>&nbsp;&nbsp;&nbsp;&nbsp; The software priority of PCOS is 1.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of GUI Options</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> effect</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;mail/email&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Mail&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> open-Mail rule</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;browser/internet&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Browser&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> open-browser rule</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the open-Mail rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with item running through software run by the old PC:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the software priority of item is 5;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the software priority of PC email is 1;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You select the mail.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; try examining PC email.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the open-Browser rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with item running through software run by the old PC:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the software priority of item is 5;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the software priority of Goggle is 1;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You select the browser.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; try examining Goggle.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The old PC runs an email program called PC email. PC email is privately-named.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The message table of PC email is Table of PC Messages.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of PC Messages</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> message</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> arrival time</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> read</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> answered</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> description</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;memo&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Memo&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 9:00 AM</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Your boss would like to see you in his office right away.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;SPAM&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;SPAM&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Money for you from Nigeria!&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> with 10 blank rows.</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> At 9:10 AM:<br>&nbsp;&nbsp;&nbsp;&nbsp; deliver &quot;SPAM&quot; to PC email.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The PC runs a search engine called Goggle. The data table of Goggle is the Table of Goggle Data.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Goggle Data</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> data</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;food/cake/yellow&quot; or &quot;yellow cake&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;OnlineRecipes.org&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;A delicious recipe for yellow cake.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;yellow balloon&quot; or &quot;yellow/balloon&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;PartyPlanning.com&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;How to order yellow balloons online.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Software can be quittable. A software is usually not quittable. PC email and Goggle are quittable.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A first input handling rule for quittable software (called chosen software):<br>&nbsp;&nbsp;&nbsp;&nbsp; let N be indexed text;<br>&nbsp;&nbsp;&nbsp;&nbsp; let N be the topic understood;<br>&nbsp;&nbsp;&nbsp;&nbsp; if N is &quot;quit&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reset to operating system;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You return to the operating system.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try examining PCOS;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out switching off the old PC:<br>&nbsp;&nbsp;&nbsp;&nbsp; reset to operating system.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To reset to operating system:<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with item running through software run by the old PC:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the software priority of item is 5;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the software priority of PCOS is 1;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After examining a quittable software (called chosen software):<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You can also select QUIT to return to the operating system.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;turn on PC / click browser / look up food on computer / type cake / type quit / type mail on keyboard / select memo / reply to memo / type quit / click browser / turn off PC / turn on PC / click browser / reboot&quot;.</font></blockquote>
+<p>
+ Example: *** Balance Checking - An ATM, or automatic teller machine, that requires a debit card and pin before allowing the player access to the main menu screen. Demonstrates the use of extension ports, enumerated multiple-choice programs, and a new software kind from scratch for the welcome screen.
+<p>
+ We make the ATM a generic computer that can't be turned on or off. We create the debit card as a &quot;data storage device&quot; (even though, in practice, it's not being accessed for anything important -- but this does mean that we can make the card slot automatically accept it and reject all other kinds of contents).
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Balance Checking&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Computers by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Bank Forecourt is a room. The High Street is north of Bank Forecourt.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The ATM is a computer in the Bank Forecourt. The ATM is switched on. The ATM runs welcome screen. The description is &quot;The ATM is the sort with a small, roughly square screen; a keypad for numeric input; and a slot in which to insert a debit card.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out examining the ATM:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[description of the ATM][paragraph break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of switching off the ATM:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Resetting the ATM is only possible for bank employees.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player carries a wallet. The wallet contains a debit card. The debit card is a data storage device. The description of the debit card is &quot;It is a red card stamped with numbers and embossed with a hologram of a flying eagle. With a sharp needle, you scratched the PIN 2953 into the upper left corner. You're always forgetting it.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The slot is an extension port. It is part of the ATM.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Does the player mean inserting the debit card into the slot: it is very likely.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The welcome screen is privately-named software. The description of the welcome screen is &quot;WELCOME, reads the screen. PLEASE INSERT CARD TO PROCEED.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An input handling rule for the welcome screen:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;INSERT CARD TO PROCEED, insists the screen.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; rule fails.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out inserting the debit card into the slot:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the ATM does not run welcome screen;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the ATM runs PIN request screen;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the ATM runs ATM operation program.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report inserting the debit card into the slot:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You slide your card into the slot.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; let target screen be a random screen that is part of the ATM;<br>&nbsp;&nbsp;&nbsp;&nbsp; try examining the target screen instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of taking the debit card when the debit card is in the slot:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You reclaim your card.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the player carries the debit card;<br>&nbsp;&nbsp;&nbsp;&nbsp; clear the ATM screen;<br>&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;insert [something]&quot; as inserting it into.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for supplying a missing second noun when inserting something into:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the slot is visible:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the second noun is the slot;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;There is no obvious place to insert [the noun].&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The PIN request screen is a privately-named password-lock program. The password of PIN request screen is &quot;2953&quot;. The description is &quot;The screen now reads, PLEASE INPUT YOUR PERSONAL IDENTIFICATION NUMBER.&quot; The rejection of PIN request screen is &quot;INCORRECT IDENTIFICATION NUMBER. TRY AGAIN.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The ATM operation program is an enumerated multiple-choice program. The options table of the ATM operation program is the Table of Transactions.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Transactions</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> index</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> effect</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;CHECK BALANCE&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> balance-check rule</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;QUICK CASH&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> quick-cash rule</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;BUY STAMPS&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> stamp-purchase rule</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;END TRANSACTION&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> cancellation rule</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Price is a kind of value. $99.99 specifies a price.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Checking account balance is a price that varies. Checking account balance is $2894.82.<br> Cash in hand is a price that varies. Cash in hand is $15.97.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After taking inventory:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You are carrying [cash in hand] in cash.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the balance-check rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Your balance is [checking account balance].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the quick-cash rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; if checking account balance is less than $20.00:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Insufficient funds!&quot; instead;<br>&nbsp;&nbsp;&nbsp;&nbsp; decrease checking account balance by $20.00;<br>&nbsp;&nbsp;&nbsp;&nbsp; increase cash in hand by $20.00;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The machine spits out a $20 bill.&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the stamp-purchase rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The machine is temporarily out of stamps.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the cancellation rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The ATM ejects your debit card, which you instinctively take.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the player carries the debit card;<br>&nbsp;&nbsp;&nbsp;&nbsp; clear the ATM screen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To clear the ATM screen:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the ATM runs the welcome screen;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the ATM does not run PIN request screen;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the ATM does not run ATM operation program;<br>&nbsp;&nbsp;&nbsp;&nbsp; let target screen be a random screen that is part of the ATM;<br>&nbsp;&nbsp;&nbsp;&nbsp; try examining the target screen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;x atm / x keyboard / turn off atm / reboot atm / i / put wallet in slot / put card in slot / x card / get card / put card in slot / input 3311 / type 2953 / type 1 / input 3 on keyboard / i / input 2 / i / type 1 / type 4 / put card in atm / take card / insert card / type 2953 / take card / type 1 / n / insert card&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

@@ -1,0 +1,1255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Adventure Book<font color="#404040"> by </font>Edward Griffiths</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter: How to Write an Adventure Book
+<p>
+ Section: Introduction
+<p>
+ Adventure Book for Inform 7 is a recreation of the behavior of Jon Ingold's Adventure Book programming system. It offers a reasonably simple syntax for people who would like to create Choose Your Own Adventure style programs without a lot of hassle, but it also allows for some advanced features to make your program feel more like a real game -- changing conditions, inventory items, and magic words.
+<p>
+ This documentation assumes some familiarity with Inform 7, but it's written with beginners and non-programmers in mind.
+<p>
+ Special thanks to Jon Ingold for his feedback in the development of this extension. Comments are welcome at cpface@execpc.com.
+<p>
+ Section: Version History
+<p>
+ Version 1/140513
+<p>
+ This extension differs from the author's original version: it has been modified for compatibility with version 6L02 of Inform. The latest version of this extension can be found at &lt;https://github.com/i7/extensions&gt;.
+<p>
+ This extension is released under the Creative Commons Attribution licence. Bug reports, feature requests or questions should be made at &lt;https://github.com/i7/extensions/issues&gt;.
+<p>
+ Version 1/091203
+<p>
+ Original release.
+<p>
+ Version 1/110101
+<p>
+ Giving and Removing relations renamed to Adding and Clearing, respectively, to avoid a conflict with newer versions of Inform 7. Code structure described in earlier documentation (&quot;It gives [flagname].&quot; and &quot;It removes [flagname].&quot;) should be unaffected, but any user-written code that refers directly to the relations will need to be modified.
+<p>
+ &quot;Use memory economy.&quot; has been added to the extension to give authors a slightly larger buffer to work with.
+<p>
+ Section: Setting Up a Page
+<p>
+ A good start to any programming language is creating a program to write &quot;Hello World!&quot;. So let's start with that and see how a page is set up.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;The Hello World Story&quot; by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Adventure Book by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The First Page is a page.<br> &quot;Hello World!&quot;</font></blockquote>
+<p>
+ This is sufficient to create a running program. If you click Inform 7's Go! button, you'll be presented with the Adventure Book opening screen and prompted to continue. When you do, you'll be shown the text &quot;Hello World!&quot; and given a prompt. Of course, since we haven't created any options for the player to try, the program can't continue in any useful way.
+<p>
+ Notice how the page is written. The first line, &quot;The First Page is a page.&quot;, tells Inform that we're creating a new page and we're calling it The First Page. On the next line, we write what it says on that page, surrounded by quotes. And that's really all there is to it.
+<p>
+ Pages can have just about any name you can think of. If it makes sense to you to call them &quot;Page 1&quot;, &quot;Page 2&quot;, and so on, that's fine. You can also name them after what happens on that page, such as &quot;Exploring the Cave&quot; or &quot;Arguing with Robert&quot;. The only really important rule is that the first page of your story must be called The First Page.
+<p>
+ Notes for beginners: Whenever quoted text is used to describe a page or a choice, either the text must end with a sentence-ending punctuation mark (.!?) or there must be a period after the second quotation mark. All other sentences must end with a period. Within quoted text, replace all quotation marks with ' marks; the game will automatically replace them with the appropriate marks when the game is run. For example:
+<p>
+<blockquote><font color="#000080"> &quot;Margaret storms up to you.  'Do you really need the radio that loud?' she huffs.&quot;</font></blockquote>
+<p>
+ will be printed as:
+<p>
+<blockquote><font color="#000080"> Margaret storms up to you. &quot;Do you really need the radio that loud?&quot; she huffs.</font></blockquote>
+<p>
+ Section: Choices
+<p>
+ The most important function of an Adventure Book is to offer the player choices. Choices are listed after the quoted text that describes a page. Here is a page with three choices:
+<p>
+<blockquote><font color="#000080"> The First Page is a page.<br> &quot;You are at the beach.  What would you like to do?&quot;<br> A choice called TheFirstPageA is for The First Page. &quot;Go for a walk.&quot; It triggers Go Walking.<br> A choice called TheFirstPageB is for The First Page. &quot;Build a sand castle.&quot; It triggers Building a Sandcastle.<br> A choice called TheFirstPageC is for The First Page. &quot;Go for a swim.&quot; It triggers Go Swimming.</font></blockquote>
+<p>
+ Creating a choice has at least three parts. First, &quot;A choice called [something] is for [a page].&quot; tells Inform that we are creating a new choice for the page we've named. What we decide to call the choice isn't important because we'll never have to refer to it, but we can't have two choices with the same name. It's a good idea, then, to give a choice a name that refers in some way to the page that it's on to avoid making duplicates.
+<p>
+ The second part is quoted text that's displayed when the page is read. You don't need to include the number that the player types to select the option; the system does that automatically. When the program is run, the page above will be printed like this:
+<p>
+<blockquote><font color="#000080"> You are at the beach. What would you like to do?</font></blockquote>
+<p>
+<blockquote><font color="#000080"> 1) Go for a walk.<br> 2) Build a sand castle.<br> 3) Go for a swim.</font></blockquote>
+<p>
+ The third part tells where the story will go if the player selects this choice. &quot;It triggers Go Walking.&quot; means that, if the player selects &quot;Go for a walk.&quot;, the program will &quot;turn to&quot; the page with the name Go Walking, and play will continue from there.
+<p>
+ Section: Pages Without Choices
+<p>
+ Sometimes we'll want to direct the story to a particular place without requiring (or allowing) the player to make a decision. If this is the case, we'll follow the description of a page with the sentence &quot;It is followed by [the name of a page].&quot; instead of a list of choices. For example:
+<p>
+<blockquote><font color="#000080"> The First Page is a page.<br> &quot;The directions have taken you through miles of back roads to an angry-looking house with chipped blue paint and foggy windows.  Is this really Melissa's house?&quot;<br> It is followed by The Driveway.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Driveway is a page.<br> &quot;You are standing in the driveway of what may or may not be Melissa's house.  What is your next move?&quot;<br> A choice called...</font></blockquote>
+<p>
+ After the game prints the text for The First Page to the player, it will automatically continue on to The Driveway without any input from the player and continue reading from there. The chain can be as long as you'd like, with any number of &quot;It is followed by...&quot; statements.
+<p>
+ One practical use for dividing up the action like this is that it allows us to return to the page called The Driveway and take further action there without reprinting the description of the player's initial arrival; if the player has been exploring the grounds for a while, the directions that brought him there aren't likely to be on his mind anymore. In more traditional Adventure Books, it may simply be a convenient way to join convergent plot lines together -- forcing paths through the plot to meet at a particular place.
+<p>
+ Another useful behavior is for a page to return to the page that called it after it is read to allow the player to make a different choice. This is done by replacing the list of choices with the sentence &quot;It is a dead end.&quot; For example:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Stranger at a Party&quot; by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Adventure Book by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The First Page is a page.<br> &quot;You find yourself lost in a throng of revelling strangers.&quot;<br> A choice called TheFirstPageA is for The First Page. &quot;Talk to the gentleman by the drinks.&quot; It triggers NoReply.<br> A choice called TheFirstPageB is for The First Page. &quot;Talk to the guy by the stereo.&quot; It triggers NoReply.<br> A choice called TheFirstPageC is for The First Page. &quot;Talk to the man sitting on the couch.&quot; It triggers NoReply.<br> A choice called TheFirstPageD is for The First Page. &quot;Talk to one of the guys sharing stories in the corner.&quot; It triggers Your Friend Jake.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> NoReply is a page.<br> &quot;He casts you a withering stare.&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Your Friend Jake is a page.<br> &quot;When you approach the guys in the corner, you're surprised to find your good friend Jake.  Did he say he was coming to this party?&quot;</font></blockquote>
+<p>
+ When the player selects an option that triggers the page NoReply, he'll be given a discouraging message and prompted to pick a different option from The First Page.
+<p>
+ There are a number of uses for this sort of behavior. In a traditional Choose Your Own Adventure book, it was sometimes necessary to tell the player that there was something wrong with a choice he made and to force him to go back and try it again; this would allow us to send the player back without needing to know which page he came from. This is also useful for creating choices for smaller actions that don't drastically change the plot; &quot;Take a closer look at the old oak tree&quot;, for example, may trigger a page that describes the tree in detail, but, since it doesn't open up any new choices for the player, it sends him back to try something else.
+<p>
+ It's worth mentioning that the author is allowed to string together a long chain of pages with &quot;It is followed by...&quot; statements and then to declare the last one to be a dead end. In this case, the program will flip back to the last page it read that offered the player a choice.
+<p>
+ Finally, sooner or later, every story reaches its conclusion. To end a story, simply replace the list of choices with the sentence &quot;It is followed by The Last Page.&quot; The Last Page is a special page defined by the Adventure Book extension which does nothing except to offer the player choices to restart the game, restore a saved game, or quit. For example, here is a page that ends a story:
+<p>
+<blockquote><font color="#000080"> Drinking the Poison is a page.<br> &quot;You bring the bubbling brew to your lips and take a long drink.  It burns your throat and suffocates you.  You feel faint...<br><br>*** You have died ***&quot;<br> It is followed by The Last Page.</font></blockquote>
+<p>
+ When Drinking the Poison is read, the following text is displayed:
+<p>
+<blockquote><font color="#000080"> You bring the bubbling brew to your lips and take a long drink. It burns your throat and suffocates you. You feel faint...</font></blockquote>
+<p>
+<blockquote><font color="#000080"> *** You have died ***</font></blockquote>
+<p>
+<blockquote><font color="#000080"> X) Restart<br> R) Restore<br> Q) Quit</font></blockquote>
+<p>
+<blockquote><font color="#000080"> &gt;</font></blockquote>
+<p>
+ Using The Last Page to end a story is recommended, but optional. There is no reason why you can't create your own game-ending pages.
+<p>
+ This is all you need to know to create a functioning Adventure Book game. The next chapter will demonstrate some advanced features.
+<p>
+ Chapter: Advanced Features
+<p>
+ Section: Setting Conditions
+<p>
+ The advantage of a computer program over a traditional Choose Your Own Adventure story is that the computer can remember what has already happened and adapt what happens next based on that history. Adventure Book lets you use on or off markers called flags to keep track of what has happened and what the player can do.
+<p>
+ Flags don't need to be declared in any special way. If you create a page that turns a flag on or off, Inform will automatically create that flag for you. However, a flag can be created with a sentence like &quot;[The flag's name] is a flag.&quot; For example:
+<p>
+<blockquote><font color="#000080"> TheReadingLampIsOn is a flag.</font></blockquote>
+<p>
+ Most flags begin the game in the off position. To set a flag to the &quot;on&quot; position, add the line &quot;It gives [the flag's name].&quot; just after the page's description and before the list of choices:
+<p>
+<blockquote><font color="#000080"> Turning on the Reading Lamp is a page.<br> &quot;You turn the reading lamp on.&quot;<br> It gives TheReadingLampIsOn.</font></blockquote>
+<p>
+ Now, whenever Turning on the Reading Lamp is read, the flag called TheReadingLampIsOn will be turned on.
+<p>
+ To return a flag to the off position, add the line &quot;It removes [the flag's name].&quot; just after the page's description:
+<p>
+<blockquote><font color="#000080"> Turning off the Reading Lamp is a page:<br> &quot;You turn the reading lamp off.&quot;<br> It removes TheReadingLampIsOn.</font></blockquote>
+<p>
+ Any number of &quot;It gives ...&quot; and &quot;It removes...&quot; lines can be added to a page, just as long as they're all listed before defining the choices (or &quot;It is a dead end.&quot; or &quot;It is followed by...&quot; statements) for that page. For example:
+<p>
+<blockquote><font color="#000080"> Confusing Mess is a page:<br> &quot;Goodness!  A lot has happened on this page!&quot;<br> It gives TheDuckHasBeenSeen. It removes TheShirtIsWhite. It gives LoudMusicIsPlaying. It is a dead end.</font></blockquote>
+<p>
+ Flags affect the game by changing which options are allowed on a given page. Here is a choice to look at a bookshelf, but only if the reading lamp is turned on.
+<p>
+<blockquote><font color="#000080"> In the Library is a page.<br> &quot;You are in your cozy library, surrounded by your favorite books.&quot;<br> A choice called IntheLibraryA is for In the Library. &quot;Look at the bookshelf.&quot; It triggers Examine Bookshelf. It requires TheReadingLampIsOn.</font></blockquote>
+<p>
+ Adding &quot;It requires [flag name].&quot; to the description of a choice prevents it from being printed if the flag is turned off. In this case, the player will never be able to select an option to look at the bookshelf unless the flag TheReadingLampIsOn has been turned on.
+<p>
+ Adding &quot;It is cancelled by [flag name].&quot; to the description of a choice prevents it from being printed if the flag is turned on. This can be used to create choices like this:
+<p>
+<blockquote><font color="#000080"> In the Library is a page.<br> &quot;You are in your cozy library, surrounded by your favorite books.&quot;<br> A choice called IntheLibraryA is for In the Library. &quot;Look at the bookshelf.&quot; It triggers Examine Bookshelf. It requires TheReadingLampIsOn.<br> A choice called IntheLibraryB is for In the Library. &quot;Look at the bookshelf.&quot; It triggers Too Dark. It is cancelled by TheReadingLampIsOn.</font></blockquote>
+<p>
+ This would give the player a choice called &quot;Look at the bookshelf.&quot; no matter whether the lamp is on or not, but where the player goes when he selects it depends on the state of the lamp.
+<p>
+ Any number of &quot;It requires...&quot; or &quot;It is cancelled by...&quot; statements can be added to the end of a choice's description. If any one of them would prevent a choice from being displayed, the choice is not printed.
+<p>
+<blockquote><font color="#000080"> A choice called ByThePondA is for By The Pond. &quot;Look at the ducks.&quot; It triggers Examine Ducks. It requires TheDucksAreByThePond. It is cancelled by TheStreetLightIsBroken.</font></blockquote>
+<p>
+ In this case, &quot;Look at the ducks.&quot; would only be printed if TheDucksAreByThePond is on and TheStreetLightIsBroken is off.
+<p>
+ Note for advanced Inform users: You can alter the text printed in a page using the techniques described in Chapter 5.5 of Writing with Inform. The syntax for the conditions is simply &quot;[if (the name of the flag) is (on or off)]&quot;.
+<p>
+ Section: Inventory Items
+<p>
+ One thing we might like to do in a game is give the player an inventory of items that he can use in different situations. Inventory items offer a bit more flexibility than flags alone, but they need to be declared first.
+<p>
+ For example, suppose I want to make a game, and the items I want to add are a sword, a shield, and a flask. This is how I'd declare them:
+<p>
+<blockquote><font color="#000080"> The sword is an inventory item. The shield is an inventory item. The flask is an inventory item.</font></blockquote>
+<p>
+ &quot;[Name] is an inventory item.&quot; tells Inform that you're creating a new inventory item and gives it a name. It's a good idea to have one-word item names to keep things from getting confusing. When you have a lot of items in a game, listing them out individually can be cumbersome. The line above can be shortened to:
+<p>
+<blockquote><font color="#000080"> The sword, the shield, and the flask are inventory items.</font></blockquote>
+<p>
+ Inventory items can be declared anywhere in your code, but it's easier to keep track of them if you group them near the top.
+<p>
+ Once your item is declared, it can be used exactly the same way as a flag. Pages can give or remove an inventory item, and choices can require or be cancelled by items:
+<p>
+<blockquote><font color="#000080"> A choice called InTheArenaA is for In the Arena. &quot;Attack the monster.&quot; It triggers Attack Monster. It requires the sword.</font></blockquote>
+<p>
+ But inventory items have a more subtle use. At any time, the player can type the name of an item he's holding to try and use that item instead of selecting one of the choices offered to him. Most of the time, this will simply tell the player &quot;You can't use that here.&quot;, but we can change that by adding a special kind of choice to our page called a use. The choice above could be written as a use like this:
+<p>
+<blockquote><font color="#000080"> A use called InTheArenaA is for In the Arena. It triggers Attack Monster. It uses the sword.</font></blockquote>
+<p>
+ There's no descriptive text because this option is never explicitly printed for the player; he will have to take the initiative to try and use his sword without prompting from the system. Notice &quot;It uses the sword.&quot; instead of &quot;It requires the sword.&quot; That means that the player will actually have to type in the sword's name in order to use this option.
+<p>
+ One problem with Choose Your Own Adventure style stories is how explicitly the player's options are spelled out for him. Having &quot;hidden&quot; choices available for the player makes the game seem a little less confined.
+<p>
+ Section: Magic Words
+<p>
+ Magic words are another way to allow the player to make a choice that hasn't been explicitly offered to him. For example, you could set up a computer terminal that requires a password or create a magic word that can be used to defeat an ogre or set up a puzzle that requires the player to deduce the correct sequence of keys to press. For a situation like this, we can create a special command called a magic word.
+<p>
+ To create a magic word, you simply declare it like so:
+<p>
+<blockquote><font color="#000080"> Xyzzy is a magic word.</font></blockquote>
+<p>
+ Now we can make uses for xyzzy.
+<p>
+<blockquote><font color="#000080"> A use called IntheHouseA is for In the House. It triggers Teleport to Caves. It uses xyzzy.</font></blockquote>
+<p>
+ A magic word never needs to be given or removed. (In fact, trying to give or remove a magic word will have no effect.)
+<p>
+ Suppose we want to make a number for the player to enter, like &quot;413&quot;. Inform won't allow us to use a purely numeric name for a magic word; &quot;413 is a magic word.&quot; will cause an error. In this case, it's probably better to use a sequence that has other characters in it, like &quot;4-1-3&quot; or &quot;4/13&quot;. But if it's absolutely necessary, then there is a work-around if you define your magic word like this:
+<p>
+<blockquote><font color="#000080"> 413 x is a magic word.</font></blockquote>
+<p>
+ The name &quot;413 x&quot; is a tricky way to declare a magic word that can be referred to as &quot;413&quot;. (Technically, &quot;x&quot; will also refer to it, but the system will override it in favor of the restart command.)
+<p>
+ Now we can make a use like this:
+<p>
+<blockquote><font color="#000080"> A use called IntheVault is for In the Vault. It triggers Open the Vault. It uses 413 x.</font></blockquote>
+<p>
+ A word of caution: when using purely numeric sequences for magic words, they will always override the choices that the player types in, even on pages that don't use that magic word. For example, if we decide that the number 1 is going to be a magic word, like so:
+<p>
+<blockquote><font color="#000080"> 1 x is a magic word.</font></blockquote>
+<p>
+ then the player will never be allowed to select option number 1 on any page. (And, as a consequence, will never be able to leave the Introduction Screen.) In general, it's best to look for alternatives to purely numeric sequences.
+<p>
+ Section: Debugging
+<p>
+ As your story grows in size and complexity, it can get difficult to keep track of everything. The Adventure Book extension provides a number of debugging commands that are only available when you're testing your game in Inform 7. There are reports about the game state as well as cheats that allow you to skip to any page, modify any flag, and acquire any inventory item.
+<p>
+ On the most basic level, the game attempts to detect when a page has been left unwritten as you are playing it. How does the system decide if a page is unwritten? Well, whenever you refer to a new page -- when declaring a choice or a use or using &quot;It is followed by...&quot; to describe a page -- Inform 7 creates a blank page with that name. Unless a formal definition is provided for that page, the page will have no description, no choices, and no way to continue; if the game leads the player to that page, it will end abruptly and mysteriously. Since it's perfectly valid to create a page that doesn't have a text description (see the example &quot;Conversation Trees&quot; for a useful application), the system defines an unwritten page to be a page that has no way to continue -- no choices, no &quot;It is followed by...&quot; statement, no &quot;It is a dead end.&quot; statement.
+<p>
+ As you're playing the game, any choice that would lead to an unwritten page is preceded by three asterisks (***). Here is an example of an unfinished story to show you how it works:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Unfinished&quot; by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Adventure Book by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The sword is an inventory item. Xyzzy is a magic word.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The First Page is a page.<br> &quot;An excellent start to your adventure!  What are you going to do first?&quot;<br> A choice called tfpa is for The First Page. &quot;Set off for adventure!&quot; It triggers The Next Page.<br> A choice called tfpb is for The First Page. &quot;Set BOLDLY off for adventure!&quot; It triggers The Third Page.<br> A use called tfpc is for The First Page. It uses the sword. It triggers The Swordplay Page.<br> A use called tfpd is for The First Page. It uses xyzzy. It triggers The Xyzzy Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Third Page is a page.<br> &quot;You take an appropriately BOLD stance as you set off for adventure!&quot;<br> It is followed by The Next Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Fourth Page is a page.<br> &quot;You find yourself high up in the mountains!  What next?&quot;</font></blockquote>
+<p>
+ Since we never defined The Next Page in this story, the choice &quot;Set off for adventure!&quot; is listed as:
+<p>
+<blockquote><font color="#000080"> *** 1) Set off for adventure!</font></blockquote>
+<p>
+ This is a visual cue to the author, as he's testing, that that part of the game isn't working yet. It's a useful hint, but it has a limitation -- it doesn't check to the end of a chain of &quot;It is followed by...&quot; statements to make sure that it ultimately leads to a written page. And so the second choice isn't marked in any way, and if the player selects that choice, he is taken to The Third Page, which is followed by The Next Page, where the game comes to an abrupt halt. Moreover, there are no indications at all for the use commands, since they're never printed in the page descriptions.
+<p>
+ The &quot;report&quot; command is provided to help the author catch all of the missed connections in his story. At any time, you can type &quot;report&quot; instead of a normal game command to bring up a list of all unwritten pages and a summary of the paths that lead to that page as well as a list of pages that don't have any connection to them whatsoever. Print a report for the story above, and you'll see all sorts of problems with it:
+<p>
+<blockquote><font color="#000080"> Searching for pages that don't have any option to continue...</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Next Page has no options to continue.<br> * The choice &quot;Set off for adventure!&quot; for The First Page triggers The Next Page.<br> * The Third Page is followed by The Next Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Swordplay Page has no options to continue.<br> * A use for the sword for The First Page triggers The Swordplay Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Xyzzy Page has no options to continue.<br> * A use for Xyzzy for The First Page triggers The Xyzzy Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Fourth Page has no options to continue.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Searching for pages that can't be reached:<br> Fourth Page</font></blockquote>
+<p>
+ It's a good idea to print a report for any game before you release it; short of exhaustively attempting every single choice of your game, it can be easy to miss one little connection along the way.
+<p>
+ Suppose, however, that you have intentionally written a page without any means to continue. For example, you're writing a page to replace The Last Page. In that case, it can be annoying or misleading to see choices that lead to those pages marked with asterisks or to see them show up in reports. If this is the case, you can indicate that a page is &quot;a special page&quot; when you declare it:
+<p>
+<blockquote><font color="#000080"> The Really Last Page is a special page.<br> &quot;GAME OVER.&quot;</font></blockquote>
+<p>
+ Now The Really Last Page will never show up in any reports, and any choices that lead to this page will be unmarked. It's important that you only use this option if you really mean it. The whole point of the report command is to remind you of parts of the story that you still need to continue; declaring a page to be &quot;special&quot; to keep it from being included in reports as you work on other parts of the story defeats the purpose.
+<p>
+ As you're testing a large game, it can be a chore to have to exhaustively test every option, especially the parts of your game that depend on the states of flags and inventory items, and especially when you have to start from the beginning every time. To facilitate testing, a number of commands are provided to help you jump around to different parts of the story.
+<p>
+ First, there's the &quot;skip to&quot; command. Type &quot;skip to [the name of a page]&quot;, and the game will behave exactly as if you'd selected a choice that led to that page; flags and inventory items will be given or removed, the chain of &quot;It is followed by...&quot; commands will be followed, and, if the final page is a dead end, it will return to the page you were just reading.
+<p>
+ To make navigation between pages a little easier, you can type &quot;page names on&quot; to display the name of each page as it's read. (And, of course, typing &quot;page names off&quot; turns them off again.) As a last resort, you can type &quot;list pages&quot; to get the complete list of all pages in the story, but this can get very, very long.
+<p>
+ Finally, there are commands for manipulating the flags. At any time, you can type &quot;list flags&quot; to get a list of all flags in the game, and whether they're on or off. (Similarly, you can get lists of all inventory items or magic words by typing &quot;list items&quot; or &quot;list magic words&quot;, respectively.) You can set any flag or obtain any inventory item by typing &quot;give [name of flag or item]&quot;, and you can turn any flag off or dispose of any inventory item by typing &quot;remove [name of flag or item]&quot;. If you're in a hurry, &quot;give all&quot; will set all flags and give you all of the inventory items, and &quot;remove all&quot; will clear all flags and trash all items.
+<p>
+ Chapter: Integrating Inform 7 Code
+<p>
+ Section: Relationships
+<p>
+ The purpose of the Adventure Book extension is to provide beginners and non-programmers a relatively simple and flexible way to write interactive fiction. However, experienced Inform 7 users may want to take full advantage of the language to produce more advanced effects. This chapter will detail how the Adventure Book system works behind the scenes and give authors some basic guidelines for using Inform 7 code to change or extend Adventure Book's behavior.
+<p>
+ The Adventure Book system is built on three core kinds of things: pages, choices, and flags. A use is a kind of choice, an inventory item is a kind of flag, and a magic word is a kind of inventory item. The meat of an adventure book program is describing the properties of these objects and their relationships with each other.
+<p>
+ Here is a comprehensive list of all of the relationships defined by Adventure Book:
+<p>
+<blockquote><font color="#000080"> Offering relates one page (called the parent) to various choices. The verb to offer (it offers, they offer, it offered, it is offered, it is offering) implies the offering relation. The verb to be for implies the reversed offering relation.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Triggering relates various choices to one page (called the destination). The verb to trigger (it triggers, they trigger, it triggered, it is triggered, it is triggering) implies the triggering relation.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Following relates one page (called the destination) to various pages. The verb to follow (it follows, they follow, it followed, it is followed, it is following) implies the following relation.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Adding relates various pages to various flags. The verb to give (it gives, they give, it gave, it is given, it is giving) implies the adding relation.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Clearing relates various pages to various flags. The verb to remove (it removes, they remove, it removed, it is removed, it is removing) implies the clearing relation.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Requiring relates various choices to various flags. The verb to require (it requires, they require, it required, it is required, it is requiring) implies the requiring relation.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Cancelling relates various flags to various choices. The verb to cancel (it cancels, they cancel, it cancelled, it is cancelled, it is cancelling) implies the cancelling relation.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Using relates various uses to one inventory item (called the tool). The verb to use (it uses, they use, it used, it is used, it is using) implies the using relation.</font></blockquote>
+<p>
+ You could, if you wished, rewrite the syntax for the game system by defining new verbs for the relationships. For example, if you don't like the expression &quot;It triggers...&quot; and you'd prefer to write &quot;It turnsto...&quot; instead, simply include this line in your program:
+<p>
+<blockquote><font color="#000080"> The verb to turnto (it turnsto, they turnto, it turnedto, it is turnedto, it is turningto) implies the triggering relation.</font></blockquote>
+<p>
+ Now you can write a (grammatically incorrect) sentence like:
+<p>
+<blockquote><font color="#000080"> A choice called thefirstpagea is for The First Page. &quot;Go on a hike.&quot; It turnsto GoHiking.</font></blockquote>
+<p>
+ Section: The Adventure Book Phrasebook
+<p>
+ The following is a list of all phrases defined by Adventure Book and what they do.
+<p>
+<blockquote><font color="#000080"> turn to (destination - a page)</font></blockquote>
+<p>
+ The Adventure Book system uses variables called &quot;current page&quot; and &quot;previous page&quot; to mark the player's place. The phrase &quot;turn to [page name]&quot; is used when we must conclude an author-written command by turning to a new page. It is responsible for updating the current and previous pages, flipping through the book until it reaches a page with a choice, rebuilding the list of choices based on where we ended up and how the game flags look, and giving the player the result. This should NOT be used in a &quot;to run inform code for...&quot; block; use &quot;change pages to...&quot; instead. (See the section on Running Inform Code.)
+<p>
+<blockquote><font color="#000080"> set (x - a flag)</font></blockquote>
+<p>
+ Sets x to the on position. If x is an inventory item, it moves x into the player's possession.
+<p>
+<blockquote><font color="#000080"> clear (x - a flag)</font></blockquote>
+<p>
+ Sets x to the off position. If x is an inventory item, it removes x from the player's possession.
+<p>
+<blockquote><font color="#000080"> rebuild the list of choices</font></blockquote>
+<p>
+ Throws out the old list of choices and creates a new one based on the current state of flag variables and the current page. This should always be done in a command that alters the game's flags without turning to a new page; otherwise, the player may be allowed to select choices that are no longer valid. Also, it's a good idea to end such commands with &quot;try looking&quot; to show the player his new list of choices.
+<p>
+<blockquote><font color="#000080"> read (x - a flag)</font></blockquote>
+<p>
+ Prints the description of the given page and does nothing else.
+<p>
+<blockquote><font color="#000080"> read through to the next decision</font></blockquote>
+<p>
+ This phrase is primarily used by the &quot;turn to...&quot; phrase, and it's responsible for a lot of the messy work of moving from page to page correctly. First, it runs any special inform code that may be defined for the current page. Then, it sets and clears any flags associated with that page. If the current page is followed by another page, it prints the description of the page and moves to the next page, running inform code and manipulating flags until it reaches the end of the chain of &quot;It is followed by...&quot; statements. If the current page is a dead end, it skips back to the page where the player made his last decision WITHOUT running inform code or manipulating flags.
+<p>
+ It won't be necessary to invoke this phrase in most cases; it's usually much more useful to just use &quot;turn to...&quot; instead. However, it is available if necessary -- if, for example, you'd like to write a new &quot;turn to...&quot; phrase.
+<p>
+<blockquote><font color="#000080"> decide if (possibility - a choice) is valid</font></blockquote>
+<p>
+ This is true if the choice is not cancelled by any &quot;on&quot; flags and it does not require any &quot;off&quot; flags, and false otherwise.
+<p>
+<blockquote><font color="#000080"> decide if (possibility - a page) is unwritten</font></blockquote>
+<p>
+ This is false if the page has no means to continue (no choices, no &quot;It is a dead end.&quot; statement, no &quot;It is followed by...&quot; statement) and true otherwise.
+<p>
+<blockquote><font color="#000080"> change pages to (x - a page)</font></blockquote>
+<p>
+ This phrase changes the current page to the given page and then runs inform code for it. (See the section on Running Inform Code.)
+<p>
+<blockquote><font color="#000080"> run inform code for (x - a page)</font></blockquote>
+<p>
+ This phrase does nothing unless it has been redefined by the author. (See the section on Running Inform Code.)
+<p>
+ Section: New Commands
+<p>
+ One way to modify the behavior of the Adventure Book system is to create a new game command. The extension normally overrides most of the player commands that are built into Inform 7, but it doesn't have to. A table called the Table of Commands holds all of the extra commands that Adventure Book recognizes beyond the numbers for selecting choices and the names of inventory items and magic words. You can add new commands to this list by continuing the table like so:
+<p>
+<blockquote><font color="#000080"> Table of Commands (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;jump&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;examine [an inventory item]&quot;</font></font></td></tr></table></blockquote>
+<p>
+ This will allow the player to use the commands &quot;jump&quot; and &quot;examine [something]&quot; in exactly the same way that they're used in Inform 7.
+<p>
+ For example, let's say that we want to allow the &quot;examine&quot; command so that the player can look at his inventory items without having to provide him an explicit choice to do so. We would add &quot;examine&quot; to our Table of Items, and provide descriptions for all of the things the player might carry:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;A Closer Look&quot; by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Adventure Book by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Commands (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;examine [an inventory item]&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> The ball is an inventory item. The description is &quot;Round and colorful.&quot;<br> The pail is an inventory item. The description is &quot;A small sand toy.&quot;<br> The ruby is an inventory item. The description is &quot;Red and beautiful.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The First Page is a page.<br> &quot;You've got a handful of knickknacks.  Type 'examine (item)' to take a closer look.&quot;<br> It gives the ball, the pail, and the ruby.</font></blockquote>
+<p>
+ Note that only the word &quot;examine&quot; will be accepted; synonyms like &quot;look at&quot; will have to be rejected unless we specifically list them.
+<p>
+ Most Inform 7 commands aren't designed to function with Adventure Book's world model, so this is more useful for authors who want to add their own custom commands to a game. When a command is carried out, it can print information, adjust flags, and even move the player to a different page, if necessary. See The Adventure Book Phrasebook for the list of phrases that you can use in your commands to change the game state.
+<p>
+ Section: Running Inform Code
+<p>
+ Whenever a page is triggered (except when it's returned to as a result of a dead end statement), the system invokes a phrase called &quot;run inform code for [page name]&quot;. This is the default behavior:
+<p>
+<blockquote><font color="#000080"> To run inform code for (x - a page):<br>&nbsp;&nbsp;&nbsp;&nbsp; do nothing;</font></blockquote>
+<p>
+ This doesn't do anything interesting on its own. Rather, it's an entry point that allows the author to sneak in a snippet of Inform code that's performed in special circumstances.
+<p>
+ For example, let's say that we want to have a choice that could lead to one of two pages, chosen at random. We could define a special case for &quot;run inform code for...&quot; that randomizes the player's destination when that choice is invoked:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Opening Kickoff&quot; by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Adventure Book by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The First Page is a page.<br> &quot;You toss the coin up in the air...&quot;.<br> A choice called tfpa is for The First Page. &quot;Which way did it land?&quot; It triggers Landing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Landing is a special page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To run inform code for (x - Landing):<br>&nbsp;&nbsp;&nbsp;&nbsp; if a random chance of 1 in 2 succeeds:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; change pages to Heads;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; change pages to Tails;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Heads is a page.<br> &quot;Heads!&quot;<br> It is followed by Reflip.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Tails is a page.<br> &quot;Tails!&quot;<br> It is followed by Reflip.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Reflip is a page.<br> &quot;Care to try it again?&quot;<br> A choice called reflipa is for Reflip. &quot;Sure!&quot; It triggers Landing.</font></blockquote>
+<p>
+ The phrase &quot;change pages to [page name]&quot; is used in &quot;run inform code for...&quot; definitions when we want to trigger a different page as a result of what happened in our program. It ensures that any inform code for the new page will be run as the game continues forward. It is bad practice to use &quot;turn to...&quot; statements in your &quot;run inform code for...&quot; definitions because it can lead to recursion and unexpected effects.
+<p>
+ Inform code extensions can give an Adventure Book a whole new flavor. See the example &quot;Combat System&quot; for a demonstration.
+<p>
+ Chapter: Changes From the Original Adventure Book
+<p>
+ Section: Feature Changes
+<p>
+ Authors who are already familiar with Jon Ingold's Adventure Book should hardly notice any changes in the look and feel of programs created with Adventure Book for Inform 7. However, there are a few subtle differences.
+<p>
+ First, there are no longer &quot;win&quot; or &quot;lose&quot; commands. The program doesn't end unless the player explicitly quits. This is to allow the player a chance to restart or restore when a game is over without having to restart the entire program. The command &quot;It is followed by The Last Page.&quot; is provided to give authors a sort of standardized &quot;end game&quot; menu, but it doesn't differentiate between winning, losing, or other game-ending conditions. The author is welcome to create his own game-ending pages, and a few suggestions are offered in the Examples chapter.
+<p>
+ Second, there are fewer practical limits on how many choices each page can support. A practically unlimited number of choices and uses can be attached to each page. However, only 30 choices can be printed at once. This means that, if there are more than 30 choices on a page, you will have to make sure that some of them are blocked by &quot;It requires ...&quot; or &quot;It is cancelled by ...&quot; commands to keep them under the limit. (Ideally, any page which needs so many choices should probably be broken down into sub-pages just to make things less confusing for the player.)
+<p>
+ Third, you can now set conditions on an option to use an inventory item. You can use this to ensure that certain conditions are met before the player can use an item in his inventory; a key can't be used if the door is already unlocked, a gun can't be fired unless the player has loaded it with bullets, and so on.
+<p>
+ Section: Porting Original Adventure Book Programs
+<p>
+ It's relatively simple to import code from the original Adventure Book into Adventure Book for Inform 7. ADV files are human-readable, plain text files that can be opened with any text editor. This section details how to convert existing Adventure Book games into new projects that can be compiled in Inform 7.
+<p>
+ First, let's look at an example of how a page is described in an ADV file:
+<p>
+<blockquote><font color="#000080"> * YourHouse<br> Your house is a rather modest little shack near the edge of town. It keeps<br> the wind and the rain out on sunny days.<br> +Venture forth+Road<br> +Consider the loaf of bread on the table+Considerbread~@-BREADGONE</font></blockquote>
+<p>
+ An ADV file declares the name of a page with a line that begins with an asterisk (*). The line &quot;* YourHouse&quot; translates to:
+<p>
+<blockquote><font color="#000080"> YourHouse is a page.</font></blockquote>
+<p>
+ Text that doesn't begin with a special symbol is the description of the page. This can stay more or less as it is, but it should be enclosed in quotation marks, and any internal quotation marks should be replaced with ' marks.
+<p>
+ A + sign indicates a choice. The text after the first + sign is the description of the choice. The text after the second + sign is the name of the page that it opens to. &quot;+Venture forth+Road&quot; translates to:
+<p>
+<blockquote><font color="#000080"> A choice called yourhousea is for YourHouse. &quot;Venture Forth&quot;. It triggers Road.</font></blockquote>
+<p>
+ A tilde (~) indicates a condition. The text immediately after the tilde is the name of the flag or inventory item that the condition is checking for. If the name begins with an @ sign, it is an &quot;It is cancelled by ...&quot; condition. Otherwise, the condition would be an &quot;It requires ...&quot; condition. If there is a - sign before the name, it is checking for a flag. Otherwise, it is checking for an inventory item. So &quot;~@-BREADGONE&quot; is an &quot;It is cancelled by ...&quot; condition that is checking for a flag. The last line of the example translates into this:
+<p>
+<blockquote><font color="#000080"> A choice called yourhouseb is for YourHouse. &quot;Consider the loaf of bread on the table&quot;. It triggers Considerbread. It is cancelled by BREADGONE.</font></blockquote>
+<p>
+ There may be multiple conditions on the same line, all separated by tildes. A line like &quot;~-DUCKGONE~@-MUSICON~RADIO~@SANDWICH&quot; can be broken down into four sentences:
+<p>
+<blockquote><font color="#000080"> It requires DUCKGONE. It is cancelled by MUSICON. It requires the radio. It is cancelled by the sandwich.</font></blockquote>
+<p>
+ where the radio and the sandwich are inventory items that are declared at the beginning of the text.
+<p>
+ Put it all together, and the example page looks like this:
+<p>
+<blockquote><font color="#000080"> YourHouse is a page.<br> &quot;Your house is a rather modest little shack near the edge of town.  It keeps
+the wind and the rain out on sunny days.&quot;<br> A choice called yourhousea is for YourHouse. &quot;Venture Forth&quot;. It triggers Road.<br> A choice called yourhouseb is for YourHouse. &quot;Consider the loaf of bread on the table&quot;. It triggers Considerbread. It is cancelled by BREADGONE.</font></blockquote>
+<p>
+ A line that starts with a # indicates a special command for the ADV file reader. &quot;#div&quot; is a diversion to the page named immediately following &quot;#div&quot;. For example, &quot;#divForest5&quot; would translate to:
+<p>
+<blockquote><font color="#000080"> It is followed by Forest5.</font></blockquote>
+<p>
+ &quot;#ret&quot; is a &quot;return&quot;, called a dead end in the Inform 7 version. &quot;#ret&quot; translates directly into:
+<p>
+<blockquote><font color="#000080"> It is a dead end.</font></blockquote>
+<p>
+ &quot;#win&quot; and &quot;#die&quot; are commands for ending the game. The closest thing to this in Inform 7 is diverting to The Last Page:
+<p>
+<blockquote><font color="#000080"> It is followed by The Last Page.</font></blockquote>
+<p>
+ Lines that begin with &quot;&gt;&quot; and &quot;&lt;&quot; signs are &quot;It gives ...&quot; and &quot;It removes ...&quot; commands, respectively. So &quot;&gt;SWORD&quot; becomes:
+<p>
+<blockquote><font color="#000080"> It gives the sword.</font></blockquote>
+<p>
+ where the sword is an inventory item, and &quot;&lt;-BRIDGEBARRED&quot; becomes:
+<p>
+<blockquote><font color="#000080"> It removes BRIDGEBARRED.</font></blockquote>
+<p>
+ where BRIDGEBARRED is a flag.
+<p>
+ A line that begins with a colon (:) is a use. The text after the first colon is the item that's being used, and the text after the second colon is the page to turn to if that item is used. So a line like &quot;:LICENSE:TakeBridge&quot; becomes:
+<p>
+<blockquote><font color="#000080"> A use called crossbridgea is for CrossBridge. It triggers TakeBridge. It uses the license.</font></blockquote>
+<p>
+ Chapter: Examples
+<p>
+ Section: Special Effects
+<p>
+ Adventure Book boils interactive fiction down to its most basic elements -- accepting choices from the player, and changing the game state to match those choices. There are a lot of limitations to writing a game in this format, but with a little cleverness, it's fairly simple to create some very interesting effects. We'll conclude with some examples of some simple effects that may help fire up your imagination as well as a complete game written with the original Adventure Book and translated into Inform 7.
+<p>
+ Example: * Simple Choices - The basics of setting up a story with choices.
+<p>
+ This is a simple example of how to set up branching text - no flags or inventory items required. If you can understand how this works, then you're ready to start writing your own stories.
+<p>
+ Notice that there is a lot of repetition between pages in this story when the events of the previous pages don't have much influence on the current state of the story, but it does influence later events. If we used flags - say, a flag to tell whether or not the grandmother has been eaten - we could save a lot of typing by leading both outcomes of the grandmother scene to a single page, then checking later to see if the grandmother was eaten when it makes a difference to the narrative.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Little Red Riding Hood Interactive&quot; by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Adventure Book by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The First Page is a page.<br> &quot;Once upon a time, there was a little girl who lived in a cottage on the edge of the woods.  Everywhere she went, she wore a bright red riding hood, and everyone who knew her called her Little Red Riding Hood.&quot;<br> It is followed by Page 2.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 2 is a page.<br> &quot;One day, Little Red Riding Hood's grandmother fell ill, and so her mother gave her a basket of goodies to take to her grandmother's house.<br><br>'But be careful on the road through the forest,' her mother said.  'Stay on the path, and don't talk to any strangers.'&quot;<br> It is followed by Page 3.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 3 is a page.<br> &quot;But as Little Red Riding Hood made her way to her grandmother's, she came upon a wicked wolf.  But he was so kind and so sweet that she quite forgot her mother's instructions.<br><br>'Where are you going, Little Red Riding Hood?' he asked.<br><br>'I'm going to visit my grandmother,' Little Red Riding Hood explained.  'She lives in the cottage on the other edge of the forest.  She's very sick, and I'm bringing this basket of goodies to cheer her up.'<br><br>The wolf heard this, and he licked his chops, scheming to himself.  'Perhaps you should stop a moment to pick some flowers for her,' the wolf suggested.  'That would be sure to cheer her up.'&quot;<br> It is followed by Page 4.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 4 is a page.<br> &quot;As Little Red Riding Hood stopped to pick a bouquet of flowers for her grandmother, the wolf ran on ahead.  What did he do when he reached the grandmother's cottage?&quot;<br> A choice called p4a is for Page 4. &quot;He tied her up and threw her in the closet.&quot; It triggers Page 5.<br> A choice called p4b is for Page 4. &quot;He ate her up in one bite.&quot; It triggers Page 6.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 5 is a page.<br> &quot;When the wolf reached the grandmother's cottage, he knocked on the door.  'Who is it?' asked the grandmother.  'It's your granddaughter, Little Red Riding Hood,' the wolf replied, disguising his voice.<br><br>But when the grandmother opened the door and found a ferocious wolf, she screamed and fainted dead away.  And so the wolf tied her up with her own bedsheets and locked her up tight in the closet.<br><br>With the grandmother safely locked up, the wolf dressed himself in her bedclothes, climbed into her bed, and pulled the sheets up over his head.&quot;<br> It is followed by Page 7.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 6 is a page.<br> &quot;The wolf broke open the door to the grandmother's cottage, snarling ferociously.  The grandmother screamed in fright as the wolf attacked and ate her up in one bite.<br><br>He licked his chops, chuckling wickedly to himself as he dressed himself in the grandmother's bedclothes and hid himself under the covers of her bed.&quot;<br> It is followed by Page 8.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 7 is a page.<br> &quot;When Little Red Riding Hood arrived at her grandmother's house, she found her grandmother looking very peculiar.<br><br>'Grandmother!' she cried.  'What big eyes you have!'<br><br>'All the better to see you with, my dear,' the wolf said.<br><br>'And what big ears you have!'  Red Riding Hood said.<br><br>'All the better to hear you with, my dear,' the wolf grinned.<br><br>Red Riding Hood gasped.  'Grandmother!  What big teeth you have!'<br><br>At last, the wolf threw off his bedclothes.  'All the better to eat you with, my dear!'<br><br>What happens next?&quot;<br> A choice called p7a is for Page 7. &quot;The wolf ate Little Red Riding Hood.&quot; It triggers Page 9.<br> A choice called p7b is for Page 7. &quot;The hunter burst into the room.&quot; It triggers Page 10.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 8 is a page.<br> &quot;When Little Red Riding Hood arrived at her grandmother's house, she found her grandmother looking very peculiar.<br><br>'Grandmother!' she cried.  'What big eyes you have!'<br><br>'All the better to see you with, my dear,' the wolf said.<br><br>'And what big ears you have!'  Red Riding Hood said.<br><br>'All the better to hear you with, my dear,' the wolf grinned.<br><br>Red Riding Hood gasped.  'Grandmother!  What big teeth you have!'<br><br>At last, the wolf threw off his bedclothes.  'All the better to eat you with, my dear!'<br><br>What happens next?&quot;<br> A choice called p8a is for Page 8. &quot;The wolf ate Little Red Riding Hood.&quot; It triggers Page 11.<br> A choice called p8b is for Page 8. &quot;Red Riding Hood escaped.&quot; It triggers Page 12.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 9 is a page.<br> &quot;The wolf pounced upon Little Red Riding Hood, and before she could even call for help, he ate her up in a single bite.  Chuckling happily to himself, he crawled back into the grandmother's bed and soon fell soundly asleep.<br><br>Just then, a hunter arrived at the grandmother's cottage and found a wicked wolf in the grandmother's bed, no doubt up to mischief.  What did he do?&quot;<br> A choice called p9a is for Page 9. &quot;The hunter shot the wolf dead.&quot; It triggers Page 13.<br> A choice called p9b is for Page 9. &quot;The hunter cut the wolf open and filled him with rocks.&quot; It triggers Page 14.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 10 is a page.<br> &quot;The wolf sprang from the bed and chased Little Red Riding Hood around and around the room.  It looked like he was about to catch up with her, when suddenly a hunter burst into the room.  He'd heard the screaming and came to investigate, only to find a wicked wolf chasing a poor little girl around the grandmother's bedroom.  What did he do?&quot;<br> A choice called p10a is for Page 10. &quot;The hunter shot the wolf dead.&quot; It triggers Page 15.<br> A choice called p10b is for Page 10. &quot;The hunter scared the wolf off.&quot; It triggers Page 16.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 11 is a page.<br> &quot;The wolf sprang from the bed, pounced Little Red Riding Hood, and gobbled her up in one big bite.  After such a large meal, he began to feel very sleepy, and so he crawled back into the grandmother's bed and fell fast asleep.<br><br>Just then, a hunter happened past the grandmother's cottage.  Thinking it odd that the door should be ajar with no sounds coming from inside, he stepped in and found the wolf sound asleep.  What did he do?&quot;<br> A choice called p11a is for Page 11. &quot;The hunter shot the wolf dead.&quot; It triggers Page 17.<br> A choice called p11b is for Page 11. &quot;The hunter cut the wolf open and filled him with rocks.&quot; It triggers Page 18.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 12 is a page.<br> &quot;The wolf sprange from the bed and chased Little Red Riding Hood around and around the room, but she was too quick, and she hopped out the window to safety.<br><br>She ran and ran as fast as she could until she found a hunter in the forest.  She told him everything that happened, and together they returned to the grandmother's cottage.  The hunter shot the wolf dead and cut open his stomach to free the grandmother.&quot;<br> It is followed by Page 19.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 13 is a page.<br> &quot;The hunter heard a sound from the closet and opened it to find the poor grandmother, tied up.  When he cut her bindings and she told him what happened, he loaded his rifle and shot the wicked wolf dead.  Then he took his hunting knife from his pocket and cut open the wolf's stomach to rescue Little Red Riding Hood.&quot;<br> It is followed by Page 19.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 14 is a page.<br> &quot;The hunter heard a sound from the closet and opened it to find the poor grandmother, tied up.  When he cut her bindings and she told him what happened, he took his hunting knife from his pocket and cut the wolf's belly open to rescue Little Red Riding Hood.  While the wolf slept, they all filled his empty stomach with stones and sewed his stomach shut again.<br><br>When the wolf woke up, he was very thirsty, and so he drug himself out the door and to the well to get a drink.  But when he bent over to get some water, the weight in his stomach pulled him to the bottom of the well, where he was drowned.&quot;<br> It is followed by Page 19.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 15 is a page.<br> &quot;Taking careful aim, the hunter shot the wolf dead.  Just then, they heard a sound coming from the closet.  They opened the door to find the grandmother, all tied up.  The hunter quickly cut the bedsheets and freed her.&quot;<br> It is followed by Page 19.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 16 is a page.<br> &quot;The wolf took one look at the hunter's gun and he leapt out the window and back into the forest, never to be seen again.  Just then, they heard a noise coming from the closet.  Opening the door, the found the grandmother all tied up.  The hunter quickly cut the bedsheets and freed her.&quot;<br> It is followed by Page 19.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 17 is a page.<br> &quot;The hunter loaded his rifle and shot the wolf dead where he slept.  Then he took the hunting knife from his belt and cut open the wolf's stomach, freeing Little Red Riding Hood and her grandmother.&quot;<br> It is followed by Page 19.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 18 is a page.<br> &quot;The hunter took the hunting knife from his belt and cut open the wolf's stomach, freeing Little Red Riding Hood and her grandmother.  Then they gathered up a large pile of heavy stones to fill the wolf's stomach and sewed it shut again.<br><br>When the wolf awoke, he was very thirsty, and so he drug himself out the door and to the well to get a drink.  But when he bent over to get some water, the weight in his stomach pulled him to the bottom of the well, where he was drowned.&quot;<br> It is followed by Page 19.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Page 19 is a page.<br> &quot;From that day forward, Little Red Riding Hood never strayed from the path through the forest, and she never ever talked to strangers.  And they all lived happily ever after.<br><br>The End.&quot;<br> It is followed by The Last Page.</font></blockquote>
+<p>
+ Example: ** Conversation Trees - How to create dialogue menus with story characters.
+<p>
+ The menu-based interface makes it very easy to set up a multi-tiered conversation tree where the player can select a subject to talk about, which leads to more available topics, resulting in a more or less natural conversational exchange. This sample game shows how to set up a very simple conversation tree where some choices will simply print a response and return to the same general subject, while others may lead to new subjects altogether.
+<p>
+ Notice, in particular, the use of pages with no description to hold the choices for the player's end of the conversation. This is so we can return to the same set of choices without interrupting the flow of the conversation by reprinting the statement that initiated them. In this case, we don't want to reprint the introductory text about sitting next to Keith every time we want to change the subject.
+<p>
+ Notice also how flags can be used to expand the options available on a subject based on what's already been discussed - the question about kissing a sting ray only appears when Keith has mentioned it in the conversation.
+<p>
+ Finally, we use the flag CARTELDISMISSED to keep track of whether or not Keith has admitted to the player that the story about his drug cartel is a lie. If he's already admitted to deception, it's not likely that he's going to try the same line again or that the player will fall for it, so we provide a different option in the list of subject that takes us right to the part of the conversation about sting rays.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;A Chat With Keith&quot; by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Adventure Book by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The First Page is a page.<br> &quot;The dinner seating on the cruise ship has placed you next to a rather charming young man in his late 20s who introduces himself as Keith Owens.  As you wait for dinner to be served, you find yourself curious about him.&quot;<br> It is followed by KeithTopics.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> KeithSubjects is a page.<br> &quot;What would you like to ask about?&quot;<br> It is followed by KeithTopics.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> KeithTopics is a page.<br> A choice called keithtopa is for KeithTopics. &quot;'What do you do for a living?'&quot;. It triggers SubjectChocolate.<br> A choice called keithtopb is for KeithTopics. &quot;'Do you have any hobbies?'&quot;. It triggers SubjectHobbies.<br> A choice called keithtopc is for KeithTopics. &quot;'What brings you to the Caribbean?'&quot;. It triggers SubjectCaribbean. It is cancelled by CARTELDISMISSED.<br> A choice called keithtopd is for KeithTopics. &quot;'When are you going to be swimming with the sting rays?'&quot;. It triggers SubjectStingRay. It requires CARTELDISMISSED.<br> A choice called keithtope is for KeithTopics. &quot;That's enough conversation for now.&quot; It triggers EndConversation.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> SubjectChocolate is a page.<br> &quot;'I run a chocolate shop, actually,' he notes.  'We specialize in hand-made confections.  Just about everything is made on-site.'&quot;<br> It is followed by ChocolateTopics.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> ChocolateTopics is a page.<br> A choice called choctopa is for ChocolateTopics. &quot;'Is that difficult?'&quot;. It triggers SubjectDifficulty.<br> A choice called choctopb is for ChocolateTopics. &quot;'How did you get into the chocolate business?'&quot;. It triggers SubjectBusiness.<br> A choice called choctopc is for ChocolateTopics. &quot;Ask about something else.&quot; It triggers KeithSubjects.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> SubjectDifficulty is a page.<br> &quot;'Not when you've been doing it for as long as I have,' he notes.&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> SubjectBusiness is a page.<br> &quot;'Chocolate has been the family business going back almost a hundred and thirty years,' he notes.  'My father taught me everything I know about it.  He still works there, keeping the books and everything.'&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> SubjectHobbies is a page.<br> &quot;'Well, I like to go hiking whenever I can,' he says.  'I try to find some time every summer to go up to Wisconsin and explore the Kettle Moraine.'&quot;<br> It is followed by HobbyTopics.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HobbyTopics is a page.<br> A choice called hobtopa is for HobbyTopics. &quot;'Are you an outdoorsman?'&quot;. It triggers SubjectOutdoors.<br> A choice called hobtopb is for HobbyTopics. &quot;'What's the Kettle Moraine?'&quot;. It triggers SubjectKettle.<br> A choice called hobtopc is for HobbyTopics. &quot;Ask about something else.&quot; It triggers KeithSubjects.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> SubjectOutdoors is a page.<br> &quot;'As much as possible,' he grins.  'Ever since I was a kid.  They couldn't keep me indoors for anything.'&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> SubjectKettle is a page.<br> &quot;'It's a region in Wisconsin that marks the furthest progress of the glaciers into North America during the last Ice Age,' he explains.  'There's a long trail that stretches for miles and miles through woods and fields.  I like to put aside a few days and hike from one end of it to the other.'&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> SubjectCaribbean is a page.<br> &quot;'I'm running heroin for my cartel,' he remarks casually, taking a sip of his wine.&quot;<br> It is followed by CaribbeanTopics.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> CaribbeanTopics is a page.<br> A choice called caribtopa is for CaribbeanTopics. &quot;'... Really?'&quot;. It triggers SubjectReally.<br> A choice called caribtopb is for CaribbeanTopics. &quot;Politely change the subject.&quot; It triggers KeithSubjects.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> SubjectReally is a page.<br> &quot;Keith laughs.  'No, I've just always wanted to see the sting rays.  I'm signed up for the shore excursion to Sting Ray City.  They take you out to a sand bar in the middle of the ocean and let you swim with the sting rays.'&quot;<br> It gives CARTELDISMISSED. It is followed by StingRayTopics.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> SubjectStingRay is a page.<br> &quot;'That's scheduled for the third day, I believe,' he says.&quot;<br> It is followed by StingRayTopics.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> StingRayTopics is a page.<br> A choice called stingrtopa is for StingRayTopics. &quot;'That sounds awfully dangerous.'&quot;. It triggers SubjectDangerous.<br> A choice called stingrtopb is for StingRayTopics. &quot;'Why sting rays?'&quot;. It triggers SubjectWhy.<br> A choice called stingrtopc is for StingRayTopics. &quot;'A kiss?'&quot;. It triggers SubjectKiss. It requires STINGRAYKISS.<br> A choice called stingrtopd is for StingRayTopics. &quot;Ask about something else.&quot; It triggers KeithSubjects.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> SubjectDangerous is a page.<br> &quot;He grins.  'Well, you only live once.  Actually, sting rays tend to be very gentle animals; they hardly attack unless provoked.'&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> SubjectWhy is a page.<br> &quot;He grins.  'I'm hoping to get a kiss.'&quot;<br> It gives STINGRAYKISS. It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> SubjectKiss is a page.<br> &quot;Keith nods.  'It's supposed to bring good luck.'&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> EndConversation is a page.<br> &quot;Just as well, it looks like the waiter is coming.&quot;<br> It is followed by The Last Page.</font></blockquote>
+<p>
+ Example: ** Lockable Door - How to create a door that can be locked or unlocked from the inside or outside by using an inventory item.
+<p>
+ If we think of an Adventure Book like a traditional piece of interactive fiction, we can imagine certain pages representing the player's current location and his choices taking him from one location to another. We might want an effect where a door is locked and requires a key to open. We may even want to allow him to lock it again with the same key.
+<p>
+ Here's an example implementation of a door that can be locked and unlocked from both the inside and the outside by using the key. Notice how the uses for the key have conditions to sort between when the player is locking or unlocking the door. Notice also how LockedDoor, LockDoor, and UnlockDoor are reused by the pages on either side of the door.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Locked Out&quot; by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Adventure Book by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The key is an inventory item.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The First Page is a page.<br> &quot;It's seven o'clock in the evening.  The dim yellow street lights cast a dismal glow on the slush-covered sidewalk.  You stand on your front stoop.&quot;<br> A choice called tfpa is for The First Page. &quot;Go inside&quot;. It triggers GoInside. It requires DoorUnlocked.<br> A choice called tfpb is for The First Page. &quot;Go inside&quot;. It triggers LockedDoor. It is cancelled by DoorUnlocked.<br> A choice called tfpc is for The First Page. &quot;Look under the mat.&quot; It triggers FindKey. It is cancelled by the key.<br> A use called tfpd is for The First Page. It triggers LockDoor. It uses the key. It requires DoorUnlocked.<br> A use called tfpe is for The First Page. It triggers UnlockDoor. It uses the key. It is cancelled by DoorUnlocked.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> LockedDoor is a page.<br> &quot;You take the doorknob and give it a jiggle.  It barely budges, locked tight.&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> FindKey is a page.<br> &quot;You lift the mat and find a small key.  Good job no burglars ever think to check.&quot;<br> It gives the key. It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> LockDoor is a page.<br> &quot;You turn the key in the lock, locking it tight.&quot;<br> It removes DoorUnlocked. It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> UnlockDoor is a page.<br> &quot;You turn the key in the lock, freeing the knob.&quot;<br> It gives DoorUnlocked. It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> GoInside is a page.<br> &quot;At last...&quot;<br> It is followed by YourHome.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> YourHome is a page.<br> &quot;Snug and comfortable, the perfect retreat at the end of the day.&quot;<br> A choice called yha is for YourHome. &quot;Go outside.&quot; It triggers GoOutside. It requires DoorUnlocked.<br> A choice called yhb is for YourHome. &quot;Go outside.&quot; It triggers LockedDoor. It is cancelled by DoorUnlocked.<br> A use called yhc is for YourHome. It triggers LockDoor. It uses the key. It requires DoorUnlocked.<br> A use called yhd is for YourHome. It triggers UnlockDoor. It uses the key. It is cancelled by DoorUnlocked.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> GoOutside is a page.<br> &quot;If you must...&quot;<br> It is followed by The First Page.</font></blockquote>
+<p>
+ Example: ** Adaptive Text - How to change what's written on a page based on the game state.
+<p>
+ In the original Adventure Book system, every page had a single, static description. One major advantage of using Inform 7 is that you can vary the way a page is written based on how flags are set and whether inventory items are carried. This can be very useful if you have a story where the player visits the same page many times, but it looks slightly different or slightly different things happen based on what has happened previously.
+<p>
+ In this very simple example, the description of the cat varies depending on whether the player is holding the cat treats.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Cat Feeder&quot; by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Adventure Book by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The treats is an inventory item.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The First Page is a page.<br> &quot;You're standing in your kitchen.  [if the treats is off]Your cat paces the room, bored and inattentive.[otherwise]Your cat has crossed the room to meet you, stroking itself against your ankles lovingly.[end if]&quot;.<br> A choice called tfpa is for The First Page. &quot;Get out a box of cat treats.&quot; It triggers GetTheTreats. It is cancelled by the treats.<br> A use called tfpb is for The First Page. It triggers FeedYourCat. It uses the treats.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> GetTheTreats is a page.<br> &quot;You open the drawer and pull out one of the boxes of cat treats.&quot;<br> It gives the treats. It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> FeedYourCat is a page.<br> &quot;Your cat happily devours every last treat from your hands, one by one.  Your usefulness spent, it returns its attention to personal matters.&quot;<br> It removes the treats. It is a dead end.</font></blockquote>
+<p>
+ Example: *** Winning and Dying - How to add traditional &quot;win&quot; and &quot;die&quot; messages to your games.
+<p>
+ The Adventure Book extension provides The Last Page as a tidy little &quot;end game&quot; menu that you can use in your stories, but the burden of printing out a message to the player to indicate success or failure falls on the author.
+<p>
+ Suppose you'd like ending pages that look more like traditional Inform games. This game shows you an example of how you can do just that. Failure and Success are pages that tell the player that he has died or won, respectively. Both choices divert to GameEnd, which displays the usual restart/restore/quit option that Inform provides automatically. We even define an AMUSING choice as a magic word that only works at GameEnd and only if the player has gone through Success.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;The Lady or the Tiger?&quot; by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Adventure Book by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Amusing is a magic word.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The First Page is a page.<br> &quot;You stand in the arena, a door to your left and a door to your right.  Which one will you choose?&quot;<br> A choice called tfpa is for The First Page. &quot;Left&quot;. It triggers LeftDoor.<br> A choice called tfpb is for The First Page. &quot;Right&quot;. It triggers RightDoor.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> LeftDoor is a page.<br> &quot;You open the left door just a crack, and suddenly a monstrous tiger leaps out at you!  It gobbles you up in no time at all.&quot;<br> It is followed by Failure.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> RightDoor is a page.<br> &quot;You open the right door to discover a beautiful woman waiting inside!  You are wed immediately.&quot;<br> It is followed by Success.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Failure is a page.<br> &quot;*** You have died ***&quot;.<br> It is followed by GameEnd.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Success is a page.<br> &quot;*** You have won ***&quot;.<br> It gives AmusingChoice. It is followed by GameEnd.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> GameEnd is a page.<br> &quot;Would you like to RESTART, RESTORE a saved game[if AmusingChoice is on], see some suggestions for AMUSING things to do[end if] or QUIT?&quot;<br> A use called genda is for GameEnd. It triggers Amusement. It uses amusing. It requires AmusingChoice.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Amusement is a page.<br> &quot;Read the original story by Frank Stockton.&quot;<br> It is a dead end.</font></blockquote>
+<p>
+ Example: **** Combat System - Using the &quot;run inform code for...&quot; phrase to add functionality.
+<p>
+ Experienced Inform 7 programmers can add a lot of extra behavior to the Adventure Book system by creating custom game commands and overriding the &quot;run inform code for...&quot; phrase.
+<p>
+ Some traditional adventure books, such as the Fighting Fantasy series, added a combat system and encounters with monsters to make the story feel more like an RPG. This is a very simple example of how we can make special pages that know how to begin a monster encounter and a combat menu that can do more than just turn the player to a different page.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Dungeon Deep&quot; by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Adventure Book by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Chapter 1 - A Simple Combat System</font></blockquote>
+<p>
+ Because this is just an example, we keep the system simple. Attack increased your chances of hitting, hit points represent your life force.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Section 1 - Character Stats</font></blockquote>
+<p>
+<blockquote><font color="#000080"> People have a number called hit points. People have a number called attack.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The hit points of the player is 10. The attack of the player is 5.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A monster is a kind of person.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 2 - Combat</font></blockquote>
+<p>
+ Here, we create a special kind of page called a combat setting. It keeps track of a lot of information that will be useful when we run combat. The monsterless page is where we turn if there are no monsters currently occupying this page. The victory page is where we turn at the end of a successful combat, where we may grant the player treasures or other boons. The defeat page is where we turn if the player fails in this combat. It is usually The Last Page, but it doesn't have to be; we can create special encounters where combat isn't fatal if the player fails by making it turn to a different page. Finally, the escape page allows us to give a page where the player can turn if he tries to escape. Notice that, if no such page is defined, the player simply bounces back into combat.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> A combat setting is a kind of page. A combat setting has a page called the monsterless page. A combat setting has a page called the victory page. A combat setting has a page called the defeat page. A combat setting usually has defeat page The Last Page. A combat setting has a page called the escape page. A combat setting usually has escape page NoEscape. A combat setting is usually special.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> NoEscape is a page.<br> &quot;You can't escape!&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Current Battle is a combat setting that varies. Current Opponent is a monster that varies.</font></blockquote>
+<p>
+ We define monsters separately from the combat setting where they are found. This would allow us to dynamically change where monsters appear throughout the game.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Inhabiting relates various monsters to one combat setting (called the home). The verb to inhabit (it inhabits, they inhabit, it inhabited, it is inhabited, it is inhabiting) implies the inhabiting relation. The verb to house (it houses, they house, it housed, it is housed, it is housing) implies the reversed inhabiting relation.</font></blockquote>
+<p>
+ Whenever we turn to a combat setting, we first check to see if monsters are about. If not, we go to the monsterless page. If so, we set up our combat variables and go to the combat menu.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> To run inform code for (x - a combat setting):<br>&nbsp;&nbsp;&nbsp;&nbsp; if x is not inhabited by something:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; change pages to the monsterless page of x;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now Current Battle is x;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now Current Opponent is a random monster that inhabits x;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; read x;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; change pages to CombatMenu;</font></blockquote>
+<p>
+ CombatMenu is a pretty normal page. CombatAttack is where the real fun happens. Whenever we turn to that page, we roll dice for the player and the monster, add attack bonuses, and compare the results. The winner does 2 points of damage to the loser, and nothing happens in the event of a tie. If either side was defeated, we tell the game to branch to the appropriate page. Otherwise, we jump back to the CombatMenu to try again.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> CombatMenu is a page.<br> &quot;Your hit points: [hit points of the player][line break]	[Current Opponent]'s hit points: [hit points of the Current Opponent][paragraph break]	What will you do?&quot;<br> A choice called combatmenua is for CombatMenu. &quot;Attack&quot;. It triggers CombatAttack.<br> A choice called combatmenub is for CombatMenu. &quot;Retreat&quot;. It triggers CombatRetreat.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> CombatAttack and CombatRetreat are special pages.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To run inform code for (x - CombatAttack):<br>&nbsp;&nbsp;&nbsp;&nbsp; let playerroll be a random number from 1 to 6;<br>&nbsp;&nbsp;&nbsp;&nbsp; let playerroll be playerroll plus a random number from 1 to 6;<br>&nbsp;&nbsp;&nbsp;&nbsp; let playerroll be playerroll plus the attack of the player;<br>&nbsp;&nbsp;&nbsp;&nbsp; let monsterroll be a random number from 1 to 6;<br>&nbsp;&nbsp;&nbsp;&nbsp; let monsterroll be monsterroll plus a random number from 1 to 6;<br>&nbsp;&nbsp;&nbsp;&nbsp; let monsterroll be monsterroll plus the attack of the Current Opponent;<br>&nbsp;&nbsp;&nbsp;&nbsp; if playerroll is greater than monsterroll:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You hit for 2 points.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the hit points of the Current Opponent is the hit points of the current opponent minus 2;<br>&nbsp;&nbsp;&nbsp;&nbsp; if playerroll is less than monsterroll:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You were hit for 2 points.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the hit points of the player is the hit points of the player minus 2;<br>&nbsp;&nbsp;&nbsp;&nbsp; if playerroll is monsterroll:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You parry each other's attacks.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the hit points of the player is less than 1:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You were defeated.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; change pages to the defeat page of the Current Battle;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the hit points of the Current Opponent is less than 1:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You have defeated [the Current Opponent].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the Current Opponent inhabits nothing;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the Current Battle is inhabited by something:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; change pages to the Current Battle;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; change pages to the victory page of the Current Battle;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds;<br>&nbsp;&nbsp;&nbsp;&nbsp; change pages to CombatMenu;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To run inform code for (x - CombatRetreat):<br>&nbsp;&nbsp;&nbsp;&nbsp; change pages to the escape page of the Current Battle.</font></blockquote>
+<p>
+ We may want to make the player gain or lose stamina as a result of events in the story beyond combat. So we create properties to keep track of what the page can do to the player's stamina and &quot;run inform code for...&quot; definitions that can carry them out.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Section 3 - Traps</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Pages have a number called hit points. A page usually has hit points 0. A page can be trapped. A page is usually not trapped. A page can be healing. A page is usually not healing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To run inform code for (x - a trapped page):<br>&nbsp;&nbsp;&nbsp;&nbsp; now the hit points of the player is the hit points of the player minus the hit points of the current page;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the hit points of the player is less than 1:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the hit points of the player is 0;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; read the current page;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; change pages to The Last Page;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To run inform code for (x - a healing page):<br>&nbsp;&nbsp;&nbsp;&nbsp; now the hit points of the player is the hit points of the player plus the hit points of the current page;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the hit points of the player is greater than 10:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the hit points of the player is 10;</font></blockquote>
+<p>
+ Finally, we define a new command, &quot;status&quot;, that allows the player to view his hit points at any time.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Section 4 - Status</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Commands (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;status&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Checking status is an action applying to nothing. Understand &quot;status&quot; as checking status.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out checking status:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[status][paragraph break]&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say status:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Current hit points: [the hit points of the player]&quot;;</font></blockquote>
+<p>
+ And now, an example of how it all comes together. We have one combat setting with two monsters, one room that does damage, and one room that heals.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Chapter 2 - A sample game</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The key is an inventory item.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The First Page is a page.<br> &quot;You're deep in a gloomy dungeon.  A nasty smell comes from the passage to your left.  The passage to the right smells like fresh air.  There's a sound of running water behind you.  Where will you go?&quot;<br> A choice called tfpa is for The First Page. &quot;Go left.&quot; It triggers OrcBattle.<br> A choice called tfpb is for The First Page. &quot;Go right.&quot; It triggers TrapRoom.<br> A choice called tfpc is for The First Page. &quot;Explore the darkness in the back of the room.&quot; It triggers FountainRoom.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> OrcBattle is a combat setting.<br> &quot;Suddenly, you're attacked by an ugly monster!&quot;<br> It has victory page FindKey. It has monsterless page MonsterKilled. It has escape page The First Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Orc is a monster. It has hit points 5. It has attack 5. It inhabits OrcBattle.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Kobold is a monster. It has hit points 3. It has attack 3. It inhabits OrcBattle.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> FindKey is a page.<br> &quot;Exploring the room, you find a small brass key.&quot;<br> It gives the key. It is followed by MonsterKilled.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> MonsterKilled is a page.<br> &quot;You're in an empty room.  It looks like the scene of a recent melee.&quot;<br> A choice called monsterkilleda is for MonsterKilled. &quot;Go back.&quot; It triggers The First Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> TrapRoom is a page.<br> &quot;FWIP!  A poison dart shoots from a hidden spot in the wall.  You take one point of damage.[paragraph break][status]&quot;.<br> It is trapped. It has hit points 1. It is followed by NearExit.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> NearExit is a page.<br> &quot;The way out is just up ahead!&quot;<br> A choice called nearexita is for NearExit. &quot;Escape&quot;. It triggers Victory. It requires the key.<br> A choice called nearexitb is for NearExit. &quot;Escape&quot;. It triggers NoKey. It is cancelled by the key.<br> A choice called nearexitc is for NearExit. &quot;Go Back&quot;. It triggers The First Page.<br> A use called nearexitd is for NearExit. It uses the key. It triggers Victory.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> NoKey is a page.<br> &quot;You try the door, but it won't open!&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Victory is a page.<br> &quot;You use the brass key to open the door.  At last, you've escaped from the dungeon!&quot;<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> FountainRoom is a page.<br> &quot;You find a fountain of healing and drink your fill.[paragraph break][status]&quot;.<br> It is healing. It has hit points 10. It is a dead end.</font></blockquote>
+<p>
+ Example: **** Placebo! - A complete adventure game in Adventure Book format.
+<p>
+ Placebo! is an example of how to make a game that behaves more or less like a traditional piece of interactive fiction using the Adventure Book interface. There are commands that allow the player to move between different locations, interact with his surroundings, and acquire and use inventory items. Play through it to see the sorts of effects that are possible with Adventure Book, and read through the code at your own pace to see how it's done. Feel free to adopt or adapt any of the techniques in this story to your own projects.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Placebo!&quot; by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Adventure Book by Edward Griffiths</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The bread, the sack, the amusing, the sword, the stone, the goldenpear, the wand, and the license are inventory items.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The First Page is a page.<br> &quot;   An evil magician known only as The Mad Hermit is causing terror throughout
+the land of Placebo, and you're as good a person as any to put a stop to him.
+So, laying aside your afternoon plans, you decide to head off on an adventure.&quot;<br> A choice called tfpa is for The First Page. &quot;Journey forth!&quot; It triggers YourHouse.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> YourHouse is a page.<br> &quot;Your house is a rather modest little shack near the edge of town.  It keeps
+the wind and the rain out on sunny days.&quot;<br> A choice called yha is for YourHouse. &quot;Venture forth&quot;. It triggers Road.<br> A choice called yhb is for YourHouse. &quot;Consider the loaf of bread on the table&quot;. It triggers Considerbread. It is cancelled by BREADGONE.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Road is a page.<br> &quot;A dusty road winds its way through the countryside.  Which way would you like
+to follow it?&quot;<br> A choice called roada is for Road. &quot;Back to your house&quot;. It triggers YourHouse.<br> A choice called roadb is for Road. &quot;Into town&quot;. It triggers Town.<br> A choice called roadc is for Road. &quot;Into the forbidden forest&quot;. It triggers Forest1.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Forest1 is a page.<br> &quot;You are in a maze of twisty little trees, all alike.&quot;<br> A choice called Forest1a is for Forest1. &quot;Go North&quot;. It triggers Road.<br> A choice called Forest1b is for Forest1. &quot;Go South&quot;. It triggers Forest2.<br> A choice called Forest1c is for Forest1. &quot;Search through the grass for no reason&quot;. It triggers FindNothing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Forest2 is a page.<br> &quot;You are in a maze of twisty little trees, all alike.&quot;<br> A choice called Forest2a is for Forest2. &quot;Go North&quot;. It triggers Forest1.<br> A choice called Forest2b is for Forest2. &quot;Go East&quot;. It triggers Forest3.<br> A choice called Forest2c is for Forest2. &quot;Search through the grass for no reason&quot;. It triggers FindNothing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Forest3 is a page.<br> &quot;You are in a maze of twisty little trees, all alike.&quot;<br> A choice called Forest3a is for Forest3. &quot;Go North&quot;. It triggers Forest1.<br> A choice called Forest3b is for Forest3. &quot;Go West&quot;. It triggers Forest2.<br> A choice called Forest3c is for Forest3. &quot;Go East&quot;. It triggers Forest4.<br> A choice called Forest3d is for Forest3. &quot;Search through the grass for no reason&quot;. It triggers FindNothing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Forest4 is a page.<br> &quot;You are in a maze of twisty little trees, all alike.&quot;<br> A choice called Forest4a is for Forest4. &quot;Go North&quot;. It triggers Forest5.<br> A choice called Forest4b is for Forest4. &quot;Go West&quot;. It triggers Forest3.<br> A choice called Forest4c is for Forest4. &quot;Search through the grass for no reason&quot;. It triggers FindNothing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> LeaveSack is a page.<br> &quot;Yeah, no way is that going to turn out to be useful.&quot;<br> It is followed by Forest5.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> KnightSpeak is a page.<br> &quot;The knight seems a bit anxious, as though he wishes you were somebody else's
+problem right now.  What would you like to try and talk to him about?&quot;<br> It is followed by KnightTopics.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> KnightGoing is a page.<br> &quot;The knight takes no pains to be courteous.  'I'm guarding a bridge.  How do
+you think I'm doing?'&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> KnightHermit is a page.<br> &quot;'We've got the situation well in hand, thank you very much,' the knight
+explains in that cool sort of tone that completely fails to mask the speaker's
+annoyance.&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> KnightLicense is a page.<br> &quot;'Yes, new law that's just been passed,' the knight says brightly, eager to
+pass on any bit of bad news he can.  'Can't have just anyone galavanting off to
+the Mystic Mountains after all.  Only licensed adventurers are allowed across
+the bridge.  Take it up with the king, if you like.'&quot;.<br> It gives LICENSEFROMKING. It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> King is a page.<br> &quot;The king of Placebo likes to have an open-door policy with his subjects, so
+it's no trouble whatsoever to have an audience with him.  You're guided through
+the halls of the castle and taken directly to the throne room, well ahead of the
+hundreds of others who had been waiting all day to speak with the king.  You
+make no friends this day.<br><br>What would you like to speak with the king about?&quot;<br> It is followed by KingTopics.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> KingGoing is a page.<br> &quot;The king chortles.  'Nabad.'&quot;.<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> KingHermit is a page.<br> &quot;The king laughs.  'I dunno.'&quot;.<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> NoMoney is a page.<br> &quot;The king chuckles.  'Sucks to be you!'&quot;.<br> It is followed by KingTopics.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> CrossBridge is a page.<br> &quot;As you approach the bridge, the knight holds out his sword, barring your
+progress.  'License, please,' he demands in a bored tone.&quot;<br> It gives BRIDGEBARRED.<br> A choice called cba is for CrossBridge. &quot;Talk to the knight&quot;. It triggers KnightSpeak.<br> A choice called cbb is for CrossBridge. &quot;Find a different way across&quot;. It triggers ClimbDown.<br> A choice called cbc is for CrossBridge. &quot;Return to town&quot;. It triggers Town.<br> A use called cbd is for CrossBridge. It triggers TakeBridge. It uses the license.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> TakeBridge is a page.<br> &quot;The knight scowls, takes the license from you, scowls harder, examines it,
+grits his teeth, and returns it to you.  'Fine, cross,' he says.<br><br>The bridge swings a bit, but it's sound.  You make it safely to the other
+side.&quot;<br> It is followed by Valley.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> FindNothing is a page.<br> &quot;Not sure what you expected to find, just searching through the grass at
+random, but it's not here.&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> FindStone is a page.<br> &quot;Not sure what -- oh wait, there's a small, smooth blue stone sitting here.
+Want to take it with you?&quot;<br> A choice called fsa is for FindStone. &quot;Take the stone&quot;. It triggers TakeStone.<br> A choice called fsb is for FindStone. &quot;Leave it where it is&quot;. It triggers LeaveStone.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> LeaveStone is a page.<br> &quot;Yeah, what are the odds of finding something essential to your quest just by
+digging around in the grass twice in one day?&quot;<br> It is followed by Valley.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> EatPudding is a page.<br> &quot;It's some good pudding all right.  You eat your fill, but the puddle never
+grows smaller.&quot;<br> It is followed by Valley.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Wizard is a page.<br> &quot;You find the local wizard in the study of his tower, sitting behind a table
+that's covered in dusty tomes.  He looks up from his reading and blinks at you
+with bleary eyes.  'Oh hi.'  And with that, he returns to his reading.<br><br>Did you have anything you wanted to talk to him about?&quot;<br> It is followed by WizardTopics.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> WizardHello is a page.<br> &quot;The wizard doesn't even look up.  'Hey,' he mumbles, distracted.&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> WizardGoing is a page.<br> &quot;The wizard shrugs noncommittally.&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> WizardHermit is a page.<br> &quot;'Yeah, that guy really pisses me off,' the wizard mumbles flatly.  'Gives
+wizards a bad name, y'know?'&quot;.<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> WizardRobbery is a page.<br> &quot;You browse the shelves of the wizard's study.  He doesn't care.  Your eyes
+fall on a rather beautiful gold ring.  Wanna take it?&quot;<br> A choice called wra is for WizardRobbery. &quot;Take the ring&quot;. It triggers TakeRing.<br> A choice called wrb is for WizardRobbery. &quot;Leave the ring&quot;. It triggers WizardTopics.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> TakeRing is a page.<br> &quot;As you touch the ring, you suddenly feel your fingertips go numb.  The
+feeling spreads down your arm and envelops your body.  As you turn to stone, the
+wizard glances up from his reading, blinks once, and looks down again.  'Yeah,
+don't touch anything,' he warns you.<br><br>*** You are STONED ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> WizardPear is a page.<br> &quot;The wizard frowns slightly.  'The dragon guards those,' he mutters.  'Give
+him some bread or something and he'll give you one.'&quot;<br> It gives DRAGONDISCUSSED. It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> WizardDragon is a page.<br> &quot;The wizard bobs his head distractedly.  'Up in the Mystic Mountains.'&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> WrongChoice is a page.<br> &quot;NO.&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> DestroyBoulder is a page.<br> &quot;You wave the magic wand at the boulder, and presto!  No more boulder.  You
+continue up the mountain path until you reach a deep, dark cave.&quot;<br> It gives BOULDERREMOVED. It is followed by DragonLair.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> DragonResponse is a page.<br> &quot;The dragon considers you for a thoughtful moment and comes to the conclusion
+that you're probably pretty nutritious.  He pops you in his mouth and swallows
+you whole.  His stomach isn't much of a conversationalist either.<br><br>*** You are DIED ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> DragonAttack is a page.<br> &quot;With what, your bare hands?&quot;<br> A choice called daa is for DragonAttack. &quot;Yes&quot;. It triggers DragonFight.<br> A choice called dab is for DragonAttack. &quot;No&quot;. It triggers DragonLair.<br> A use called dac is for DragonAttack. It triggers DragonTransform. It uses the wand.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> DragonTransform is a page.<br> &quot;With a wave of your magic wand, the dragon is transformed into cheese.&quot;<br> It gives DRAGONCHEESE. It is followed by CheeseLair.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> DragonLair is a page.<br> &quot;You're in an especially dark and spooky cave, most of which is taken up by a
+very large red dragon, who's lounging about as dragons tend to do.&quot;<br> A choice called dla is for DragonLair. &quot;Speak with the dragon&quot;. It triggers DragonSpeak.<br> A choice called dlb is for DragonLair. &quot;Attack the dragon&quot;. It triggers DragonAttack.<br> A choice called dlc is for DragonLair. &quot;Retreat back down the mountain path&quot;. It triggers Valley.<br> A use called dld is for DragonLair. It triggers DragonFeed. It uses the bread.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> EatCheese is a page.<br> &quot;You break off a chunk to munch on.  It's some good cheese.  A deep
+orange-yellow, creamy and mild.&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Town is a page.<br> &quot;The streets of Placebo bustle chaotically as people go about their daily
+business.  Someone around here must know something about the whereabouts of the
+Mad Hermit.  Where would you like to go?&quot;<br> A choice called towna is for Town. &quot;See if anyone at the local bar knows anything&quot;. It triggers Bar.<br> A choice called townb is for Town. &quot;Consult with the king&quot;. It triggers King.<br> A choice called townc is for Town. &quot;Pay a visit on the wizard&quot;. It triggers Wizard.<br> A choice called townd is for Town. &quot;Press on to the mystic mountains&quot;. It triggers Bridge.<br> A choice called towne is for Town. &quot;Take the road into the forest&quot;. It triggers Road.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> PatronTalk is a page.<br> &quot;You sit yourself down next to a particularly inebriated fellow at the bar.
+He looks up at you blankly.&quot;<br> It is followed by PatronTopics.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> PatronResponse is a page.<br> &quot;The patron stares at you blankly.&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> PatronPhilosophy is a page.<br> &quot;What follows is a lengthy and enlightening discussion of philosophical
+theories and musings, including a comparison and contrast of Eastern and Western
+religious movements, the strengths and weaknesses of socialism and capitalism,
+and a lively argument about the impact that Aristotle had on modern
+philosophical thought.  The hours pass, and round after round of beer is brought
+forth.  You find a soulmate in this bar patron, but alas, he has to be moving
+on.  As he takes his leave, you muse over the whims of fate that connect two
+people for an afternoon, and the way one life can touch so many others.&quot;<br> It gives PATRONGONE. It is followed by Bar.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> KnightPear is a page.<br> &quot;The knight gives you a steady look.  'I'm sorry, I seem to have left my fruit
+cart at home today.'&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> KingPear is a page.<br> &quot;The king guffaws.  'Pfff, I don't do any of that magic crap.'&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> KingTopics is a page.<br> A choice called KingTopA is for KingTopics. &quot;'So, how's it going?'&quot;. It triggers KingGoing.<br> A choice called KingTopB is for KingTopics. &quot;'Where is the Mad Hermit?'&quot;. It triggers KingHermit.<br> A choice called KingTopC is for KingTopics. &quot;'I understand I need a license to go to the Mystic Mountains.'&quot;. It triggers KingLicense. It requires LICENSEFROMKING. It is cancelled by the license.<br> A choice called KingTopD is for KingTopics. &quot;'Do you know where I could find a golden pear?'&quot; It triggers KingPear. It requires PEARNEEDED. It is cancelled by the goldenpear.<br> A choice called KingTopE is for KingTopics. &quot;Leave the castle&quot;. It triggers Town.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> PatronTopics is a page.<br> A choice called PatronTopA is for PatronTopics. &quot;'So, how's it going?'&quot;. It triggers PatronResponse.<br> A choice called PatronTopB is for PatronTopics. &quot;'Know where I could find the Mad Hermit?'&quot;. It triggers PatronResponse.<br> A choice called PatronTopC is for PatronTopics. &quot;'Have you ever heard of the golden pear?'&quot;. It triggers PatronResponse. It requires PEARNEEDED. It is cancelled by the goldenpear.<br> A choice called PatronTopD is for PatronTopics. &quot;'Care to discuss your philosophical views?'&quot;. It triggers PatronPhilosophy.<br> A choice called PatronTopE is for PatronTopics. &quot;'I'll just be on my way then.'&quot; It triggers Bar.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> WizardTopics is a page.<br> A choice called WizardTopA is for WizardTopics. &quot;'Umm... hello?'&quot;. It triggers WizardHello.<br> A choice called WizardTopB is for WizardTopics. &quot;'How's it going?'&quot;. It triggers WizardGoing.<br> A choice called WizardTopC is for WizardTopics. &quot;'How about that Mad Hermit then?'&quot;. It triggers WizardHermit.<br> A choice called WizardTopD is for WizardTopics. &quot;'Do you know where I could find a golden pear?'&quot;. It triggers WizardPear. It requires PEARNEEDED. It is cancelled by the goldenpear.<br> A choice called WizardTopE is for WizardTopics. &quot;'... A dragon, eh?'&quot;. It triggers WizardDragon. It requires DRAGONDISCUSSED. It is cancelled by the goldenpear.<br> A choice called WizardTopF is for WizardTopics. &quot;Go through his stuff while he's not looking&quot;. It triggers WizardRobbery.<br> A choice called WizardTopG is for WizardTopics. &quot;Just turn around and walk away&quot;. It triggers Town.<br> A use called WizardTopH is for WizardTopics. It triggers WizardStone. It uses the stone.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> DragonSpeak is a page.<br> &quot;What would you like to talk with the dragon about?&quot;<br> A choice called dragspa is for DragonSpeak. &quot;'How's it going?'&quot;. It triggers DragonResponse.<br> A choice called dragspb is for DragonSpeak. &quot;'Do you know where the Mad Hermit is?'&quot;. It triggers DragonResponse.<br> A choice called dragspc is for DragonSpeak. &quot;'So tell me a little bit about your political views.'&quot;. It triggers DragonResponse.<br> A choice called dragspd is for DragonSpeak. &quot;'I don't suppose you know where I could get a golden pear?'&quot; It triggers DragonResponse. It requires PEARNEEDED.<br> A choice called dragspe is for DragonSpeak. &quot;'Well, see ya.'&quot;. It triggers DragonLair.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> SolveMaze is a page.<br> &quot;Surprised at how simple the maze was, you continue to the next room of the
+Mad Hermit's dungeon.&quot;<br> It is followed by Dungeon2.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Dungeon1 is a page.<br> &quot;You find yourself in a dungeon corridor that stretches off in all directions,
+with passages winding around like a cow's intestines, with no path leading back
+the way it came from in a perverted orgy of nonlinearity.&quot;<br> A choice called dun1a is for Dungeon1. &quot;Easily stumble upon the correct way through the maze&quot;. It triggers SolveMaze.<br> A choice called dun1b is for Dungeon1. &quot;Mess about with the thing for hours and never really get anywhere&quot;. It triggers Dungeon1.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Dungeon2 is a page.<br> &quot;You find yourself in a room that looks like it was drawn on graph paper, its
+stone walls made in a perfectly straight square.  Nine square tiles, each
+exactly five feet long on each side, line the floor.  Either end of the room has
+a door, each exactly five feet wide.&quot;<br> A choice called dun2a is for Dungeon2. &quot;Press on to the next room&quot;. It triggers Dungeon3.<br> A choice called dun2b is for Dungeon2. &quot;Return to the maze&quot;. It triggers Dungeon1.<br> A choice called dun2c is for Dungeon2. &quot;Take a closer look at that sword sticking out of the stone in the middle of the room&quot;. It triggers ExamineSword. It is cancelled by the sword.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> SwordOptions is a page.<br> A choice called swoopa is for SwordOptions. &quot;Take the sword&quot;. It triggers TakeSword.<br> A choice called swoopb is for SwordOptions. &quot;Leave it alone&quot;. It triggers Dungeon2.<br> A use called swoopc is for SwordOptions. It triggers WandSword. It uses the wand.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> ExamineSword is a page.<br> &quot;Sure enough, you discover a sword stuck in a rock sitting in the exact center
+of the room.  An inscription is carved into the rock:<br><br>'Let he who has shown his courage and valour come forward and take this sword
+from the rock, for it will vanquish evil.'&quot;.<br> It is followed by SwordOptions.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> KnightTopics is a page.<br> A choice called knigtopa is for KnightTopics. &quot;'So, how's it going?'&quot; It triggers KnightGoing.<br> A choice called knigtopb is for KnightTopics. &quot;'So, how about that Mad Hermit guy?'&quot; It triggers KnightHermit.<br> A choice called knigtopc is for KnightTopics. &quot;'Wait, what's this about a license?'&quot; It triggers KnightLicense. It requires BRIDGEBARRED. It is cancelled by the license.<br> A choice called knigtopd is for KnightTopics. &quot;'I don't suppose you know where I could find a golden pear.'&quot; It triggers KnightPear. It requires PEARNEEDED. It is cancelled by the goldenpear.<br> A choice called knigtope is for KnightTopics. &quot;'See you around.'&quot; It triggers Bridge.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Bar is a page.<br> &quot;This is a shady little establishment near the edge of town.  If anyone knows
+the whereabouts of a rogue wizard, it'd be the people who frequent this place.&quot;<br> A choice called bara is for Bar. &quot;Speak to the bartender&quot;. It triggers BartenderTalk.<br> A choice called barb is for Bar. &quot;Speak to a random patron&quot;. It triggers PatronTalk. It is cancelled by PATRONGONE.<br> A choice called barc is for Bar. &quot;Make good your escape&quot;. It triggers Town.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> BartenderBeer is a page.<br> &quot;The bartender shakes his head.  'No you won't.  We don't take kindly to your
+type here.'&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> BartenderGoing is a page.<br> &quot;The bartender nods solemnly.  'It's been better.'&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> BartenderHermit is a page.<br> &quot;The bartender grins as well as anyone who's missing half of his teeth can.
+'Well now.  That sort of information will cost you.'  He lowers his voice.  'You
+want to deal with dark wizards?  You bring me some magic power.  I want the
+legendary golden pear.'&quot;<br> It gives PEARNEEDED. It is followed by BartenderBribe.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> BartenderInfo is a page.<br> &quot;The bartender grins an especially wicked and nasty grin, pocketing the golden
+pear.  'So, you'd like to meet the Mad Hermit, would you?'  You notice for the
+first time that you're standing between two burly-looking humanoids with green,
+warty skin and yellow, crooked teeth.  'Well, allow me to provide an escort for
+you.'<br><br>Something strikes you in the back of the head.  Everything goes black.
+There's no way to tell how long it's been before you regain consciousness...&quot;<br> It removes the goldenpear. It is followed by Dungeon1.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> BartenderPear is a page.<br> &quot;The bartender smirks.  'Not my problem, is it?'&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> BartenderStone is a page.<br> &quot;The bartender palms the small blue stone, showing genuine interest.  At
+length, he drops it back in your hand.  'Might make a nice magic wand, but it's
+not what I'm looking for.  I want something bigger.'&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> BartenderTalk is a page.<br> &quot;The bartender is a crooked and misshapen man.  He looks like he was put
+together from mismatched body parts and they did a rush job on all the joints.
+He eyes you with the sort of look that occurs in the natural world when one
+animal wants another animal to piss the hell off.  'What can I get for you?' he
+asks, the words slithering from his throat.&quot;<br> It is followed by BartenderTopics.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> BartenderTopics is a page.<br> A choice called barttopa is for BartenderTopics. &quot;'How's it going?'&quot;. It triggers BartenderGoing.<br> A choice called barttopb is for BartenderTopics. &quot;'I'll have a beer.'&quot;. It triggers BartenderBeer.<br> A choice called barttopc is for BartenderTopics. &quot;'Know where I could find the Mad Hermit?'&quot;. It triggers BartenderHermit.<br> A choice called barttopd is for BartenderTopics. &quot;'Know where I could find a golden pear?'&quot; It triggers BartenderPear. It requires PEARNEEDED. It is cancelled by the goldenpear.<br> A choice called barttope is for BartenderTopics. &quot;'I'll be on my way then.'&quot;. It triggers Bar.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> BartenderWand is a page.<br> &quot;The bartender picks up the magic wand you offer him, his face somehow
+managing to contort even further than it already was.  He tosses it back at you
+in disgust.  'Don't bribe me with toys,' he spits.&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> BlockedPath is a page.<br> &quot;The trail winds its way up the side of a mountain.  About halfway up, the
+path is suddenly blocked by an enormous boulder.&quot;<br> It is followed by BoulderOptions.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> BoulderOptions is a page.<br> A choice called boulopa is for BoulderOptions. &quot;Move the boulder&quot;. It triggers WrongChoice.<br> A choice called boulopb is for BoulderOptions. &quot;Go around the boulder&quot;. It triggers WrongChoice.<br> A choice called boulopc is for BoulderOptions. &quot;Eat the boulder&quot;. It triggers WrongChoice.<br> A choice called boulopd is for BoulderOptions. &quot;Take the boulder&quot;. It triggers WrongChoice.<br> A choice called boulope is for BoulderOptions. &quot;Jump over the boulder&quot;. It triggers WrongChoice.<br> A choice called boulopf is for BoulderOptions. &quot;Talk to the boulder&quot;. It triggers WrongChoice.<br> A choice called boulopg is for BoulderOptions. &quot;Burn the boulder&quot;. It triggers WrongChoice.<br> A choice called bouloph is for BoulderOptions. &quot;Meekly retreat to the valley&quot;. It triggers Valley.<br> A use called boulopi is for BoulderOptions. It triggers DestroyBoulder. It uses the wand.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Bridge is a page.<br> &quot;The town of Placebo ends abruptly at the edge of a cliff.  A long suspension
+bridge made of rope and planks leads across a deep, wide chasm.  On the other
+side are the mystic mountains.  A knight is standing guard by the bridge.&quot;<br> A choice called bridgea is for Bridge. &quot;Speak with the guard&quot;. It triggers KnightSpeak.<br> A choice called bridgeb is for Bridge. &quot;Cross the bridge&quot;. It triggers CrossBridge.<br> A choice called bridgec is for Bridge. &quot;Climb down into the chasm&quot;. It triggers ClimbDown.<br> A choice called bridged is for Bridge. &quot;Return to town&quot;. It triggers Town.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> CheeseLair is a page.<br> &quot;You're in an especially dark and spooky cave, most of which is taken up by a
+very large yellow cheese, which is lounging around the way a dragon might.&quot;<br> A choice called chelaa is for CheeseLair. &quot;Eat some of the cheese&quot;. It triggers EatCheese.<br> A choice called chelab is for CheeseLair. &quot;Go back down to the valley&quot;. It triggers Valley.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> CheesePath is a page.<br> &quot;You climb the mountain path to the dragon's lair.&quot;<br> It is followed by CheeseLair.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> ClearPath is a page.<br> &quot;You climb the mountain path to the dragon's lair.&quot;<br> It is followed by DragonLair.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> ClimbDown is a page.<br> &quot;You start to lower yourself over the edge of the cliff, feeling with your
+feet for a place to rest your weight.  Your arms start to get sore from
+supporting your weight, and you're suddenly terrifyingly aware of the deadly
+drop below you.<br><br>'That's not very safe,' the knight calls over helpfully.<br><br>But finally, you feel a foothold.  You give it a strong kick.  It doesn't
+budge.  You rest your weight on it.  Solid.  You take a deep breath.<br><br>And then you're suddenly swarmed by thousands of carnivorous centipedes,
+which eat you alive.<br><br>*** YOU ARE DIED***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Considerbread is a page.<br> &quot;It's really a lovely loaf of bread, baked to a golden brown on the outside,
+with the texture of the grain still visible.  You could eat it if you like, or
+take it with you.&quot;<br> A choice called conbreada is for ConsiderBread. &quot;Eat the bread&quot;. It triggers EatBread.<br> A choice called conbreadb is for ConsiderBread. &quot;Take it with you&quot;. It triggers TakeBread.<br> A choice called conbreadc is for ConsiderBread. &quot;Leave it here for now&quot;. It triggers YourHouse.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> EatBread is a page.<br> &quot;You devour the bread, every single crumb.  It takes you no closer to
+defeating the Mad Hermit, and naturally the game is unwinnable now, but it's
+worth it.  It's just that good.&quot;<br> It gives BREADGONE. It is followed by YourHouse.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> TakeBread is a page.<br> &quot;Smart thinking.  Sooner or later you're bound to run into some sort of
+monster that needs to be fed.  You tuck it away until you need it.<br><br>(Type BREAD instead of an option when you want to use it.)&quot;.<br> It gives the bread. It gives BREADGONE. It is followed by YourHouse.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> TakeSword is a page.<br> &quot;You grab the handle of the sword and gently lift...<br><br>... Then you lift a little harder...<br><br>... Then you pull as hard as you can with both hands...<br><br>... Then you stop trying before you give yourself a hernia.&quot;<br> It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> TakeStone is a page.<br> &quot;Hey, they wouldn't give you the option to pick it up if it wasn't important,
+eh?  As you touch the stone, you feel a gentle vibration in your fingertips.
+When you stand again, a bolt of electricity suddenly leaps from the stone,
+turning a nearby patch of grass into tapioca pudding.  Oh, so it's a magic
+stone.  Well that's neat.<br><br>(Type STONE instead of an option when you want to use it.)&quot;<br> It gives STONEMOVED. It gives the stone. It is followed by Valley.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> WizardStone is a page.<br> &quot;You pull the blue stone out of your pocket and hold it out for the wizard to
+see.  It's the first thing to get his attention since you walked in.  He looks
+up, dazed, and takes it from your hand, studying it like a cat would study a
+mouse.<br><br>'Huh.  Not bad.'  He opens a drawer in his desk and pulls out a stick.  He
+fastens the stone to the end with a bit of twine and sets the creation in your
+hand.  'There you go.'  He's returned to his book before he even finishes
+addressing you.  'Magic wand.  That should clear out some obstacles for you.'
+He sniffs loudly to celebrate the end of the conversation.<br><br>(Type WAND instead of an option when you want to use it.)&quot;.<br> It gives the wand. It removes the stone. It is a dead end.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> DragonFeed is a page.<br> &quot;The dragon perks.  Nothing gets a dragon's appetite going like the sweet,
+sweet taste of fresh homemade bread.  He snatches it away from you, nearly
+taking your hands with it, gulps it down, and licks his snout clean.  So
+grateful is he that he produces from nowhere a single golden pear, which he
+offers to you in a gesture of thanks.  And since it's a good idea to accept
+anything a dragon might offer you, you slip it into your pocket.<br><br>(Type GOLDENPEAR instead of an option when you want to use it.)&quot;.<br> It gives the goldenpear. It removes the bread. It is followed by DragonLair.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> WandSword is a page.<br> &quot;With a wave of your magic wand, the stone turns into a very surprised beaver.
+It screams out in pain and expires one and a half seconds later, unable to
+survive with a sword wedged in its back.  The blade comes out easily -- you wipe
+it off on a clean patch of beaver fur and carry it along with you.<br><br>(Type SWORD instead of an option when you want to use it.)&quot;.<br> It gives the sword. It is followed by Dungeon2.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Valley is a page.<br> &quot;You're standing in a particularly pleasant valley in the Mystic Mountains.
+It's the sort of place where talking rabbits might sit on giant toadstools and
+have tea parties with little magic fairies.  A path leads up into the mountains,
+and the suspension bridge leads back across the chasm to Placebo town.&quot;<br> A choice called valleya is for Valley. &quot;Follow the path into the mountains&quot;. It triggers BlockedPath. It is cancelled by BOULDERREMOVED.<br> A choice called valleyb is for Valley. &quot;Follow the path into the mountains&quot;. It triggers ClearPath. It requires BOULDERREMOVED. It is cancelled by DRAGONCHEESE.<br> A choice called valleyc is for Valley. &quot;Follow the path into the mountains&quot;. It triggers CheesePath. It requires BOULDERREMOVED. It requires DRAGONCHEESE.<br> A choice called valleyd is for Valley. &quot;Go back across the bridge&quot;. It triggers Town.<br> A choice called valleye is for Valley. &quot;Search through the grass for no reason&quot;. It triggers FindStone. It is cancelled by STONEMOVED.<br> A choice called valleyf is for Valley. &quot;Search through the grass for no reason&quot;. It triggers FindNothing. It requires STONEMOVED.<br> A choice called valleyg is for Valley. &quot;Try some of the tapioca pudding&quot;. It triggers EatPudding. It requires STONEMOVED.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitZap is a page.<br> &quot;You get too close to the Hermit's staff and an arc of electricity leaps into
+your body, frying you to death.  The Mad Hermit eats your ears off and fashions
+your arms into hockey sticks.<br><br>*** YOU ARE DIED ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitWand is a page.<br> &quot;You wave the magic wand at the Mad Hermit, but as the wave of magical energy
+hits him, the wand starts to vibrate like it's electrified.  The wand kicks back
+and transforms you into a mouse.<br><br>'BLINKY!!!  Y'AVE COME HOME!!!' the Mad Hermit shrieks.  He picks you up by
+the tail and swallows you whole.  Then he dances around the room like a chicken
+and makes farting noises.<br><br>*** YOU ARE DIED ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitKill is a page.<br> &quot;Seeing your opportunity, you lunge forward and slice the Mad Hermit's head
+off.  His body does a stupid little dance and falls over.&quot;<br> It is followed by Endgame.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Dungeon3 is a page.<br> &quot;You enter a wide, ominous chamber.  There are no walls and no ceiling to be
+seen, nothing but the door you entered from.  Smoke spills across the floor in
+deep whisps.  The darkness is complete, except for a single ray of moonlight
+that shines on a figure in the center of the room.  His body is hidden by purple
+robes.  Spidery fingers clutch the end of a long wooden staff.  His face is thin
+and hairy, and his eyes are wild.<br><br>You've found him at last.  The Mad Hermit.<br><br>'PANCAKES!!!' the wizard screams, waving his staff around wildly.  'IT'S TOO
+LATE!!!  YOU'RE THANKSGIVING!!!'&quot;<br> A choice called dun3a is for Dungeon3. &quot;Talk to him&quot;. It triggers HermitTalk.<br> A choice called dun3b is for Dungeon3. &quot;Attack him&quot;. It triggers HermitAttack.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitTalk is a page.<br> &quot;What would you like to say to him?&quot;<br> A choice called hermtalka is for HermitTalk. &quot;'So, how's it going?'&quot;. It triggers HermitGoing.<br> A choice called hermtalkb is for HermitTalk. &quot;'Hey, think you could end your reign of terror?'&quot;. It triggers HermitEndreign.<br> A choice called hermtalkc is for HermitTalk. &quot;'Get ready to die!'&quot;. It triggers HermitGetready.<br> A choice called hermtalkd is for HermitTalk. &quot;Never mind.&quot; It triggers HermitDontattack.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitGoing is a page.<br> &quot;'I'M GOING FOR A WHOLE NEW STYLE!!!'  He swings his staff like a baseball bat
+and knocks your head clean off your body.<br><br>*** YOU ARE DIED***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitGetready is a page.<br> &quot;'AUNTIE WANTS A KISS!!!'  The Mad Hermit bends over and points his rear end
+at you, which shoots out a huge burst of flame.  As your body smoulders, the Mad
+Hermit beats it with his staff, screaming, 'CHRISTMAS BELLS, CHRISTMAS BELLS,
+CHRISTMAS ALL THE WAY!!!'&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitEndreign is a page.<br> &quot;'MAKE ROOM FOR GRANDMA!!!' the Mad Hermit shrieks, exploding with the force
+of a nuclear warhead.  You're vaporized instantly, along with the entire city of
+Placebo.<br><br>*** YOU ARE DIED ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitAttack is a page.<br> &quot;With what, your bare hands?&quot;<br> A choice called hermattacka is for HermitAttack. &quot;Yes&quot;. It triggers HermitBarehands.<br> A choice called hermattackb is for HermitAttack. &quot;No&quot;. It triggers HermitDontattack.<br> A use called hermattackc is for HermitAttack. It triggers HermitWand. It uses the wand.<br> A use called hermattackd is for HermitAttack. It triggers HermitSword. It uses the sword.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitFallingRocks is a page.<br> &quot;As you head for cover, the Mad Hermit raises his staff over his head and
+screams, 'I CAN ALREADY SMELL YOUR JUICY MEATS!!!'  And then he launches into
+the air, through the hole in the ceiling high above, into the sky, and far, far
+out of sight until he hurls screaming into the very center of the sun, which
+causes it to explode and take the rest of the solar system with it.<br><br>*** YOU ARE DIED ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitSword is a page.<br> &quot;You draw your sword and attack.  The wizard parries your first blow with his
+staff, then the second.  With a wild hyena laugh, he grabs his staff in his
+teeth and continues to parry your blows by swinging his head about.  When he
+sees a break in your offense, he spins himself in a circle, cracking you over
+the head with either end of his staff.<br><br>You slump to the ground, and he starts beating you with his staff, shrieking,
+'WHERE'S MY CANDY!!!'&quot;<br> A choice called hermswoa is for HermitSword. &quot;Try to trip him up&quot;. It triggers HermitTrip.<br> A choice called hermswob is for HermitSword. &quot;Try to block his attacks&quot;. It triggers HermitDefend.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitDefend is a page.<br> &quot;You curl up on the floor, trying to protect your vital organs from attack.<br><br>'GET OFF OF HER!!!' the Mad Hermit screams.  'LET HER BREATHE!!!'  He grabs
+your head in both hands and twists counterclockwise until it comes off.  He
+beats himself over the head with your skull, chanting, 'PORK!!!  PORK!!!
+PORK!!!  PORK!!!  PORK!!!  PORK!!!'<br><br>*** YOU ARE DIED ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitTrip is a page.<br> &quot;You grab the Mad Hermit's feet and yank as hard as you can.  Much to your
+surprise, they yank right back.  Before you realize what's going on, you're
+pulled off the ground and into the darkness that surrounds you.  Your center of
+balance rocks about like dice in a tumbler as you fly a chaotic, zigzagging
+course through the air.  The Mad Hermit smacks his staff down into your skull
+repeatedly, cackling, 'PETER PETER PUMPKIN HEATER!!!  HAD A WIFE THAT LET HIM
+EAT HER!!!'&quot;<br> A choice called hermtripa is for HermitTrip. &quot;Hang on for dear life&quot;. It triggers HermitHangon.<br> A choice called hermtripb is for HermitTrip. &quot;Let go&quot;. It triggers HermitLetgo.<br> A use called hermtripc is for HermitTrip. It triggers HermitMidairSword. It uses the sword.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitFly is a page.<br> &quot;You aren't a quick learner.&quot;<br> It is followed by HermitSplat.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitSplat is a page.<br> &quot;The fall isn't so bad, but the sudden stop at the end is a killer.  The Mad
+Hermit throws himself into your entrails and rolls around, sobbing, 'I'M NOT
+BUYING ANY MORE APPLES!!!'<br><br>*** YOU ARE DIED ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitHangon is a page.<br> &quot;'IT TAKES TWO TO TANGO!!!' the Mad Hermit declares, driving his staff
+straight through your eye and into your brain.  You forget how to do algebra,
+and then how to breathe.  Deprived of the two things that make life worthwhile,
+you expire.<br><br>*** YOU ARE DIED ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitDontattack is a page.<br> &quot;Before you can decide on another course of action, the Mad Hermit screams,
+'MARY!!! YER COVERED WITH LEECHES!!!'  He descends upon you like a bird of prey,
+smacking you about with his staff, shrieking at the top of his voice, 'KEEP 'EM
+BACK!!!  KEEP 'EM BACK!!!  KEEP 'EM BACK!!!'&quot;<br> A choice called hermdonatta is for HermitDontattack. &quot;Fight back&quot;. It triggers HermitStruggle.<br> A choice called hermdonattb is for HermitDontattack. &quot;Go on the defensive&quot;. It triggers HermitDefend.<br> A use called hermdonattc is for HermitDontattack. It triggers HermitWand. It uses the wand.<br> A use called hermdonattd is for HermitDontattack. It triggers HermitSword. It uses the sword.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitStruggle is a page.<br> &quot;You reach out and grab the Mad Hermit's staff.  His eyes go so wide that they
+start to squeeze out of their sockets as a struggle ensues.  He gives one good,
+hard twist and sends you rolling to the ground.  'I'M NOT WEARING YOUR BOOTS!!!'
+he cackles victoriously.  He waves the staff at you and sends you hurtling up in
+the air.  You're several hundred feet high before you start to descend once
+again.&quot;<br> A choice called hermstruga is for HermitStruggle. &quot;Fall to your death&quot;. It triggers HermitSplat.<br> A choice called hermstrugb is for HermitStruggle. &quot;Learn how to fly&quot;. It triggers HermitFly.<br> A use called hermstrugc is for HermitStruggle. It triggers HermitJello. It uses the wand.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitLetgo is a page.<br> &quot;You let go and tumble through space.&quot;<br> A choice called hermletgoa is for HermitLetgo. &quot;Plummet to your death&quot;. It triggers HermitSplat.<br> A choice called hermletgob is for HermitLetgo. &quot;Learn how to fly&quot;. It triggers HermitFly.<br> A use called hermletgoc is for HermitLetgo. It triggers HermitJello. It uses the wand.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Endgame is a page.<br> &quot;The Mad Hermit lies dead at your feet.  The reign of terror is finally over,
+and the land of Placebo can once again be free.<br><br>You consider the magic staff lying next to the wizard's lifeless body.  And
+suddenly, you realize what you must do next.&quot;<br> It gives amusing. It is followed by EndingChoices.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> EndingChoices is a page.<br> A choice called endchoicea is for EndingChoices. &quot;Begin your next quest&quot;. It triggers EndingHero.<br> A choice called endchoiceb is for EndingChoices. &quot;Return to your humble home&quot;. It triggers EndingHome.<br> A choice called endchoicec is for EndingChoices. &quot;Take up the wizard's staff and continue his work&quot;. It triggers EndingEvil.<br> A use called endchoiced is for EndingChoices. It triggers AmusingPage. It uses amusing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitMidairSword is a page.<br> &quot;You hold onto the Mad Hermit's ankle with one hand and draw your sword with
+the other hand.  With one swing of your sword, you manage to hack off the Mad
+Hermit's leg at the shin.  Unfortunately, it was the one you were holding onto.
+You fall through space, clutching half of a leg in one hand and a sword in the
+other.  And, somehow or other, you manage to impale yourself on your sword upon
+landing, which is great because that way you're dead slightly before every bone
+in your body is broken on impact.<br><br>*** YOU ARE DIED ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> BartenderBribe is a page.<br> A choice called barbribea is for BartenderBribe. &quot;Excuse yourself&quot;. It triggers Bar.<br> A use called barbribeb is for BartenderBribe. It triggers BartenderWand. It uses the wand.<br> A use called barbribec is for BartenderBribe. It triggers BartenderSack. It uses the sack.<br> A use called barbribed is for BartenderBribe. It triggers BartenderInfo. It uses the goldenpear.<br> A use called barbribee is for BartenderBribe. It triggers BartenderStone. It uses the stone.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> BartenderSack is a page.<br> &quot;The bartender takes the sack from you and examines the contents with an even
+nastier grin.  'Thank you kindly.  Quite a generous donation.'  He slips the
+sack away, and you never see it again.&quot;<br> It removes the sack. It is followed by BartenderBribe.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> KingLicense is a page.<br> &quot;The king snickers.  'Yeah, it's a bureaucratic thing.  It's basically just a
+way to gouge adventurers so the railroads get more business.  But whaddaya gonna
+do?  I can get you one for a hundred gold pazoozas if you want.'&quot;<br> A choice called kinglica is for KingLicense. &quot;'I don't have any money.'&quot; It triggers NoMoney.<br> A use called kinglicb is for KingLicense. It triggers BuyLicense. It uses the sack.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> BuyLicense is a page.<br> &quot;The king cackles.  'Awesome!  Here you go.'  You trade your gold pazoozas for
+a pretty sheet of paper.  Make sure to keep copies for your personal records.<br><br>(Type LICENSE instead of an option when you want to use it.)&quot;.<br> It gives the license. It removes the sack. It is followed by KingTopics.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Forest5 is a page.<br> &quot;You are in a maze of twisty little trees, all alike.&quot;<br> A choice called for5a is for Forest5. &quot;Go South&quot;. It triggers Forest4.<br> A choice called for5b is for Forest5. &quot;Go West&quot;. It triggers Forest1.<br> A choice called for5c is for Forest5. &quot;Search through the grass for no reason&quot;. It triggers FindSack. It is cancelled by SACKTAKEN.<br> A choice called for5d is for Forest5. &quot;Search through the grass for no reason&quot;. It triggers FindNothing. It requires SACKTAKEN.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> FindSack is a page.<br> &quot;Not sure what you expected to find, searching through -- hello!  It looks
+like someone's dropped a small sack here.  Upon closer inspection, it seems to
+contain about 100 golden pazoozas.  How fortunate!&quot;<br> A choice called findsacka is for FindSack. &quot;Take the sack with you&quot;. It triggers TakeSack.<br> A choice called findsackb is for FindSack. &quot;Leave the sack where you found it&quot;. It triggers LeaveSack.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> TakeSack is a page.<br> &quot;Finders keepers!  You tie the sack to your belt.<br><br>(Type SACK instead of an option when you want to use it.)&quot;.<br> It gives the sack. It gives SACKTAKEN. It is followed by Forest5.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitBarehands is a page.<br> &quot;You land a solid punch in the Mad Hermit's face.  He spins around in place
+three times from the force of the punch, staggers backwards, and starts dancing
+around the room singing a showtune at the top of his voice.  'OH IT'S HAPPY!!!
+YELLOW SNAPPY!!! IT'S TRIPPY AND WITTY AND TWIRLY AND PURPLE AND GAAAAAAAAAY!!!'<br><br>Rocks start to crumble from somewhere up above as he sings, and light starts
+to pour into the room.&quot;<br> A choice called hermbarhana is for HermitBarehands. &quot;Watch out for falling rocks&quot;. It triggers HermitFallingRocks.<br> A choice called hermbarhanb is for HermitBarehands. &quot;Rush the wizard before he brings down the roof&quot;. It triggers HermitRush.<br> A use called hermbarhanc is for HermitBarehands. It triggers HermitWand. It uses the wand.<br> A use called hermbarhand is for HermitBarehands. It triggers HermitSword. It uses the sword.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitRush is a page.<br> &quot;You tackle the Mad Hermit to the ground, and the rocks stop tumbling from
+above.  'CANS BLANGERS AND CORKAMEL!' he curses, writhing beneath you.
+Suddenly, you feel yourself rising into the air.  The Mad Hermit is transforming
+beneath you, expanding several times his normal size, into the form of a
+monstrous, nightmare horse.  He towers larger than Placebo Castle, and still he
+grows, cackling madly and galloping around the room.&quot;<br> A choice called hermrusha is for HermitRush. &quot;Hang on for dear life&quot;. It triggers HermitHorseride.<br> A choice called hermrushb is for HermitRush. &quot;Bail out&quot;. It triggers HermitHorsejump.<br> A use called hermrushc is for HermitRush. It triggers HermitHorseSword. It uses the sword.<br> A use called hermrushd is for HermitRush. It triggers HermitHorseWand. It uses the wand.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitHorsejump is a page.<br> &quot;You roll over the side of the horse's back and fall safely to the floor.
+You're trampled unsafely into the floor exactly two seconds later.  The horse
+takes seventy three victory laps around the room, smearing you into a sick red
+stain on the floor every time he trots across you.<br><br>*** YOU ARE DIED ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> DragonFight is a page.<br> &quot;You land a crushing blow on the dragon's nose.  He counters by eating you in
+a single bite.  You strangle his stomach.  He counters by thoroughly digesting
+you, bones and all.  You give him a crippling attack of constipation.  VICTORY.<br><br>*** YOU ARE DIED ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitHorseride is a page.<br> &quot;You cling to the horse's back as tightly as you can, a decision that you
+regret when it spontaneously bursts into flame five seconds later.  You burn to
+a cinder as the horse starts quacking like a duck.<br><br>*** YOU ARE DIED ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitHorseSword is a page.<br> &quot;Sword in hand, you start to climb the horse's neck, which has grown as tall
+as a hill.  As you try to go for a lethal blow at the base of the skull, the
+horse suddenly flips his head back and shakes you loose.  As you tumble through
+space, you can see the horse below you.  He's staring straight back up at you as
+you seem to be heading straight for him.<br><br>His mouth opens wide, and you head right for it.<br><br>GULP.<br><br>*** YOU ARE DIED ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitTackle is a page.<br> &quot;When the Mad Hermit sees you approach, he ducks his head down and charges
+full force into your gut.  He packs a surprising punch for such a wirey old man.
+'WHO WANTS SOME CAKE!!!' As you double over and fall to the ground, he starts
+stomping repeatedly on your skull until it splits open.<br><br>*** YOU ARE DIED ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitPeeled is a page.<br> &quot;Suddenly, the electricity crawls up the Mad Hermit's arm.  He screams and
+drops it to the ground.  Now's your chance!&quot;<br> A choice called hermpa is for HermitPeeled. &quot;Grab the Mad Hermit's magic staff&quot;. It triggers HermitZap.<br> A choice called hermpb is for HermitPeeled. &quot;Tackle the Mad Hermit&quot;. It triggers HermitTackle.<br> A use called hermpc is for HermitPeeled. It triggers HermitKill. It uses the sword.<br> A use called hermpd is for HermitPeeled. It triggers HermitWand. It uses the wand.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitJello is a page.<br> &quot;You wave the wand at the ground, hoping beyond hope that something good will
+come of it.  And as you reach the floor, you find that it's turned into
+lime-flavored gelatine.  You bounce harmlessly on the surface until you come to
+a complete stop.<br><br>When you look up, you see that you're laying at the Mad Hermit's feet.  He
+raises his staff high above his head.  'I'M GOING TO PEEL YOU!!!'  he declares.
+'I'M GOING TO PEEL YOU!!!'  Electricity begins to crackle up and down the length
+of his staff.&quot;<br> A choice called hermjella is for HermitJello. &quot;Wait to be peeled&quot;. It triggers HermitPeeled.<br> A choice called hermjellb is for HermitJello. &quot;Tackle him&quot;. It triggers HermitZap.<br> A use called hermjellc is for HermitJello. It triggers HermitZap. It uses the sword.<br> A use called hermjelld is for HermitJello. It triggers HermitWand. It uses the wand.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> HermitHorseWand is a page.<br> &quot;You wave your magic wand at the horse's head.  He screams in shock, and you
+get a sinking feeling as he starts to return to normal size.  Suddenly he trips,
+and you both go tumbling.<br><br>As you rise to your feet again, you see the Mad Hermit, back in his natural
+form, holding his staff above his head.  'NO MORE WAITING FOR MARY!!!' he
+declares.  'THIS TIME IT'S AUGUST!!!'  Electricity begins to crackle up and down
+the length of his staff.&quot;<br> A choice called hermhorwaa is for HermitHorseWand. &quot;Wait for Mary&quot;. It triggers HermitPeeled.<br> A choice called hermhorwab is for HermitHorseWand. &quot;Attack him&quot;. It triggers HermitZap.<br> A use called hermhorwac is for HermitHorseWand. It triggers HermitZap. It uses the sword.<br> A use called hermhorwad is for HermitHorseWand. It triggers HermitWand. It uses the wand.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> EndingHero is a page.<br> &quot;Yes, clearly you were cut out for this sort of thing.  A life of righteous
+adventuring!  Vanquishing evil, rescuing damsels, all that good stuff!  Before
+the Mad Hermit's body even cools, you've already decided that you're going to
+seek someone else who needs killing.  With a sword at your side and an
+adventuring license, you set out into the world.<br><br>YOU WILL RETURN IN PLACEBO II -- THE MAD HERMIT'S REVENGE!<br><br>*** YOU ARE WIN ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> EndingEvil is a page.<br> &quot;You take up the Mad Hermit's staff as your own, feeling the power flow
+through you.  Yes, clearly this was your destiny -- to rule the land of Placebo
+with an iron fist.<br><br>You amass an army of hideous green humanoids and wage a war that leads to the
+fall of humanity, enslaving the world and twisting it into your own monstrous
+image.  But your comeuppance finally arrives when, one day, you die of old age,
+which just goes to show that all evildoers get it in the end.<br><br>*** YOU ARE DIED ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> EndingHome is a page.<br> &quot;Yes, the evil wizard's reign of terror is over.  It's been an exciting
+afternoon, but now it's time to return to your cozy little home and see if
+there's anything interesting on television tonight.  Or whatever it is you do in
+the evenings, it was never exactly clear what time period this game took place
+in.<br><br>*** YOU ARE WIN ***&quot;.<br> It is followed by The Last Page.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> AmusingPage is a page.<br> &quot;It's been at least ten years since I first drew out the map for what would
+turn out to be Placebo, my very first adventure game.  I wrote the first version
+on a TI-82 graphics calculator when I should have been paying attention to my
+high school classes.  The text was terse, and the interface was simple, but I
+was damned proud of it.  I had managed to put a text adventure on a system that
+didn't even allow for string variables.<br><br>I've reworked and expanded the game for Jon Ingold's Adventure Book as an
+exercise with the system, and it's been a delightful experience.  It is, in many
+ways, much more satisfying than working with a full-blown programming language,
+or even with a game-specific language such as Inform.  My only regret is that
+this project barely scratches the surface of what's possible with the system --
+Kingdom Without End is a tough act to follow.&quot;<br> It is followed by Amusing2.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Amusing2 is a page.<br> &quot;There's only so much that you can keep hidden in a game where most of your
+choices are explicitly listed for you.  However, there are a couple optional
+amusements you may have missed.  Did you try attacking the dragon and using the
+magic wand?  Did you try offering a sack of gold or a lesser magic to the
+bartender in exchange for his information?  Did you know there are three basic
+decision branches (which converge toward the end) that let you beat the Mad
+Hermit?<br><br>I hope the game gave you a giggle.  Now choose your ending.&quot;<br> It is followed by EndingChoices.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

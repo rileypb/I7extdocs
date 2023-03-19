@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Tutorial Mode<font color="#404040"> by </font>Emily Short</b><p><small></small><p><p><hr><p>
+<p>
+ Tutorial Mode is intended to make a work of interactive fiction act a little more like a commercial game with a standard tutorial mode that begins whenever the player first starts play.
+<p>
+ Tutorial mode by default teaches LOOK, EXAMINE, INVENTORY, TAKE, DROP, and the use of compass directions. It does this by prompting the player to try these commands whenever the situation is right -- so it will only prompt the player to try INVENTORY if he is holding something, TAKE if he can see a portable object, and so on. The intention is to create a tutorial that will work flexibly with a wide range of first rooms in games.
+<p>
+ It's likely that in any given game, Tutorial Mode will still need a little adjustment. Rules about what to teach are part of the instructional rules rulebook. If we don't like one of the rules currently included, we can get rid of it -- for instance, the compass directions rule might not be valuable in a game that uses GO TO ROOM instead, so we might want
+<p>
+<blockquote><font color="#000080"> The teach compass directions rule is not listed in any rulebook.</font></blockquote>
+<p>
+... to remove this rule from the list.
+<p>
+ We can also add new instructional rules on the model of the existing ones. For example, we might add a new rule teaching the player to eat things like this:
+<p>
+<blockquote><font color="#000080"> An instructional rule (this is the teach eating rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the teach eating rule is listed in the completed instruction list, make no decision;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the player can see a previously-mentioned edible thing (called target item):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let N be indexed text;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now N is &quot;[target item]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[italic type]If you get hungry, you can always try eating the food you find. Try EAT [N in upper case].[roman type]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the held rule is the teach eating rule;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; make no decision.</font></blockquote>
+<p>
+ This is slightly complicated, so to go over the elements: the completed instruction list is a list of all the instruction rules that the player has successfully learned. These lessons are not repeated.
+<p>
+ We check whether the target is &quot;previously-mentioned&quot; because we want to make sure that, at each stage, the player is only being asked to interact with things that the text of the game has already mentioned to him. This excludes inventory objects when the player hasn't yet taken inventory, for instance, even though those objects are technically &quot;visible&quot;.
+<p>
+ Earlier versions of this extension would strictly force the player to type exactly what was instructed, similar to the strict behavior of tutorial modes in casual games, but playtesting found that this was more annoying than helpful.
+<p>
+ We change &quot;held rule&quot; to the current rule (that is, in this example, the &quot;teach eating rule&quot;) so that after the player's command is read, the parser can determine whether the player has learned this lesson or not, and, if he has, add this rule to the completed instruction list.
+<p>
+ It's often the case that we want to follow up a lesson by telling the player a little something extra -- for example, that he can use abbreviations for compass directions. That kind of reply -- printed only when the player has successfully issued the command we're currently teaching -- can be stored in the Table of Instruction Followups, like this:
+<p>
+<blockquote><font color="#000080"> Table of Instruction Followups (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> selector</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> followup</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> teach opera rule</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Perfect. To simplify matters, the ARIA command can be abbreviated throughout the game as A.&quot;</font></font></td></tr></table></blockquote>
+<p>
+ Example: * Silence in the Library - A very small environment showing how the instruction rules fire in various orders depending on the initial configuration.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Silence in the Library&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Tutorial Mode by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Infinite Library is a room. &quot;This is an entire planet devoted to nothing but books. Judging from your nearly-equatorial position, you must be near the biography section. Off to the west, you can see a small shop.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Little Shop is west of the Infinite Library. &quot;The shop sells an assortment of doodads and tourist trinkets for those who have recently been perusing the books. The main library is back to the east.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The paperweight is a thing in the Little Shop. The description of the paperweight is &quot;It is shaped like the face of William Shakespeare -- as he would look if troubled with severe indigestion.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;look / west / l paperweight / jump / look at me / take paperweight / i&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

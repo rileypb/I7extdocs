@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Object Descriptors<font color="#404040"> by </font>Peter Orme</b><p><small></small><p><p><hr><p>
+<p>
+ Object Descriptors adds the ability to list properties of objects, a bit like the &quot;showme&quot; command does, but this makes it available from other code (for example, for inclusion in debug logs).
+<p>
+ We can add rules to customize which properties are listed when we're inspecting a specific object kind.
+<p>
+ The extension comes with rules already set up for many of the built-in kinds such as containers and people, but it is easy to add additional rules for other kinds.
+<p>
+ Example: * The Den - just describing some things
+<p>
+ This example just sets up some random objects, and there's a &quot;when play begins&quot; rule that iterates over all the things and list the properties. This is just to give you and idea of how this works. It also illustrates how to add a new rule for a specific kind.
+<p>
+<img border=0 src=../../doc_images/paste.png> &quot;The Den&quot;
+<p>
+<blockquote><font color="#000080"> Include Object Descriptors by Peter Orme.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Den is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The wooden chest is a container in the den. It is closed, openable.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Mrs Benson is a woman in the den.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> the marble bench is a supporter in the den. It is fixed in place.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> the portal is a door. It is outside from the den.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> the rat king is an animal in the den. The indefinite article is &quot;a&quot;. it is plural-named.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The laser slicer is a switched off, unlit device in the den.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> after switching on the laser slicer:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the laser slicer is lit;<br>&nbsp;&nbsp;&nbsp;&nbsp; continue the action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> after switching off the laser slicer:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the laser slicer is unlit;<br>&nbsp;&nbsp;&nbsp;&nbsp; continue the action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> a wooz is a kind of thing. a wooz can be floppy or stiff.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> an Object Descriptor rule for a wooz (called item):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the item is floppy, add &quot;floppy&quot; to the descriptor list;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the item is stiff, add &quot;stiff&quot; to the descriptor list;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> There is a floppy edible wooz called a spongy cake in the lab.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> when play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with item running through things:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[item] - [the object descriptors of the item].&quot;;</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

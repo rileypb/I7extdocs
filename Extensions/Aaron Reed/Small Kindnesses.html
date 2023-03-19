@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Small Kindnesses<font color="#404040"> by </font>Aaron Reed</b><p><small></small><p><p><hr><p>
+<p>
+ Players often stumble on minor annoyances in the standard behavior of an Inform game. Many of these have been &quot;fixed&quot; over and over again by individual authors. This extension packages up a number of these small kindnesses, many taken from examples in the Inform 7 documentation, to make things a little easier for your players.
+<p>
+ This extension is designed to play well and overlap as little as possible with several similar extensions. Anyone including this extension should highly consider also using Modified Exit by Emily Short, Locksmith by Emily Short, Extended Grammar by Aaron Reed, and Implicit Actions by Eric Eve. It borrows a few pieces of functionality from these extensions, in case of compiling for a small platform. This extension should function well with or without any of these.
+<p>
+ Simply including the extension is all that is needed, unless you wish to remove some of the behaviors. To remove one, replace the section title with a blank or modified bit in your code (see &quot;Extensions can interact with other extensions&quot; in the docs). For example, if you don't want the implementation of a &quot;use&quot; verb:
+<p>
+<blockquote><font color="#000080"> Chapter - No use verb (in place of Chapter - Implement Use verb for common actions in Small Kindnesses by Aaron Reed)</font></blockquote>
+<p>
+ Here are the names of all the sections.
+<p>
+<blockquote><font color="#000080"> Chapter - Exit leaves when there's only one way to go<br> Chapter - Go Back returns to previous location<br> Chapter - Examining the room<br> Chapter - Automatically leave containers before going<br> Chapter - Show valid directions after going nowhere<br> Chapter - Allow for switching things in darkness<br> Chapter - Don't perform implicit actions for doomed tasks<br> Chapter - Implement Use verb for common actions</font></blockquote>
+<p>
+ Example: * Checkup - A small example illustrating the extension's functionality.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Checkup&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Small Kindnesses by Aaron Reed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Sidewalk is a room. The Waiting Room is inside from Sidewalk. The Dentist's Office is east of Waiting Room. A reclined chair is a fixed in place enterable supporter in Office. &quot;You see a comfy chair here.&quot; The player wears a backpack. The backpack is open and openable. In the backpack is a magazine.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;look at sidewalk / in / e / exit / n / e / get in chair / w / go back / eat chair / sit on chair / use backpack&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

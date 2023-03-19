@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Tailored Room Description<font color="#404040"> by </font>Emily Short</b><p><small></small><p><p><hr><p>
+<p>
+ Tailored Room Description is an extension for use with Emily Short's Room Description Control. Tailored Room Descriptions provides a set of rules for writing paragraphs about objects.
+<p>
+ Chapter: Using Tailored Room Description
+<p>
+ Section: Overview of Tailored Room Description's Process
+<p>
+ The behavior of Tailored Room Description is to go through the list of Seen Things prepared by Room Description Control and follow this protocol:
+<p>
+<blockquote><font color="#000080"> (a) if the item in question has an initial appearance and has not been moved, print the initial appearance; otherwise, if it has a flexible appearance (see below), print the flexible appearance; otherwise, say that you see the item.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> (b) if the item is on or in something other than the location, mention the holder of the item and any other objects also in the holder of the item.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> (c) if the paragraph so generated has mentioned any containers or supporters that themselves hold unmentioned items, generate sentences mentioning the contents of those things, until everything referenced by the paragraph has been adequately revealed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> (d) as an exceptional case, if the item is considered &quot;deeply dull&quot;, a sentence will instead be printed listing the item together with all other &quot;deeply dull&quot; objects in a single sentence, as in &quot;You also see here the wrench, the monkey, and the weasel.&quot; Items are only deeply dull if they share in having the lowest possible description-rank; according to the ranking rules of this extension, that means that they neither contain nor support anything, have no initial appearance, and have not been rendered interesting by any other ranking rule. It is possible to add further definitions to affect whether specific kinds of things are considered deeply dull; see the &quot;Doors and doors&quot; example below.</font></blockquote>
+<p>
+ Section: Initial appearance, flexible appearance
+<p>
+ Initial appearance is a description of something that is printed when the player looks and the object has not been moved. Tailored Room Description adds a &quot;flexible appearance&quot;, which will be printed even if the object in question has been moved. So we might say
+<p>
+<blockquote><font color="#000080"> The initial appearance of the cup is &quot;Someone has casually tossed away a paper cup here.&quot;</font></blockquote>
+<p>
+ so that after being moved it will simply be described in the collection of random objects; but
+<p>
+<blockquote><font color="#000080"> The flexible appearance of the tripod is &quot;A tripod is set up [if the location is indoors]on the floor[otherwise]on the ground[end if].&quot;</font></blockquote>
+<p>
+ so that the tripod will always have its own treatment, even if moved from room to room. If an item has both an initial appearance and a flexible appearance, the initial appearance will be consulted until the item is moved, and the flexible appearance afterward.
+<p>
+ Section: Overriding the default for specific objects
+<p>
+ The entire protocol can be overwritten by providing a more particular rule for writing a paragraph about for specific items; so for instance
+<p>
+<blockquote><font color="#000080"> Rule for writing a paragraph about a person (called dude):<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The dude] is standing way too close to you.&quot;</font></blockquote>
+<p>
+ would print this sentence and omit all other results.
+<p>
+ The printing of an item's holder is managed by the disclosing exterior activity. We can change the way this is handled by writing a new rule for disclosing exterior of something. For instance:
+<p>
+<blockquote><font color="#000080"> Rule for disclosing exterior of tripod:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The tripod] is perched awkwardly on [the holder of the tripod]. &quot;</font></blockquote>
+<p>
+ Rules for disclosing exterior should ideally end with a period and a single space, in case the paragraph needs to continue thereafter.
+<p>
+ The printing of an item's contents is managed by the disclosing contents activity. We can change the way this is handled by writing a new rule for disclosing contents of something. For instance:
+<p>
+<blockquote><font color="#000080"> Rule for disclosing contents of the vase when at least two things are in the vase:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The list of things which are in the vase] are crammed together into [if the vase is mentioned][the vase][otherwise][a vase][end if]. &quot;</font></blockquote>
+<p>
+ Again, this rule should produce output ending in a period and space, allowing for further sentences to follow without pause.
+<p>
+ Tailored Room Descriptions also excludes from TAKE ALL any items currently being concealed by our concealment rules.
+<p>
+ Chapter: Extra and Related Features
+<p>
+ Section: Ordering the descriptions and excluding items
+<p>
+ Users of Tailored Room Description sometimes ask how they can prevent something entirely from appearing in a room description. The answer is that this functionality -- choosing items that should not appear in the room description at all -- can be manipulated using TRD's base extension, Room Description Control. That extension's documentation explains how to write ranking rules and description-concealing rules for a variety of situations.
+<p>
+ Section: Change Log
+<p>
+ Version 3 of Tailored Room Descriptions builds on previous versions by adding description for things carried or held by non-player characters and better handling for enterable containers.
+<p>
+ Version 7 of Tailored Room descriptions moves to a new way of managing internal text: rules to construct paragraphs, instead of constructing sentences out of small snippets of text intermingled with code, refer to tables such as
+<p>
+<blockquote><font color="#000080"> Table of Prementioned Containers</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> disclosure</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[The list of mentioned things which are in the current-subject] [mentioned-are] in [a current-subject][if current-subject contains something mentionable], which also [hold] [a list of mentionable things in the current-subject][end if].&quot;</font></font></td></tr></table></blockquote>
+<p>
+ The disclosure entry here is a template used by the extension to create a viable sentence. One of these lines is selected at random from the table to use in each situation, which means that if we would like to diversify the range of sentence options, we can simply continue the table in our own code, as in
+<p>
+<blockquote><font color="#000080"> Table of Prementioned Containers (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> disclosure</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[The list of mentioned things which are in the current-subject] [mentioned-are] in [a current-subject], together with [a list of mentionable things in the current-subject][end if].&quot;</font></font></td></tr></table></blockquote>
+<p>
+ We may also swap these tables entirely for other tables of our own devising, as in
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the current-supporter-content-table is the Table of New Supporter Content.</font></blockquote>
+<p>
+ The purpose of this change is to make the extension more flexible and more useful to authors working with alternative viewpoints (to recast the prose in first-person past tense, for instance) or in other languages. It also substantially reduces the number of individual rules and quantity of redundant code in the extension.
+<p>
+ Version 8 tweaks the reporting of character possessions and worn items to appear more natural. It also adds section headings to the documentation.
+<p>
+ Version 13/160601: Counterfeit Monkey version. Update for Inform 6M62. Fix tests. Remove dependency on Plurality.
+<p>
+ Example: * Doors and doors - Writing paragraphs about doors to generate sentences such as &quot;Exits include the white door and the black door. The black door is open.&quot;
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Doors and doors&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Tailored Room Description by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Jurassic Room is a room. The white door is a door. It is north of Jurassic and south of Cretaceous.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The black door is a door. It is south of the Jurassic and north of the Triassic.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The purple door and the grey door are doors. The purple door is south of the Triassic and north of the Museum Forecourt. The grey door is southwest of the Triassic and northeast of the Parking Lot.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Definition: a door is deeply dull: no.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for writing a paragraph about a door:<br>&nbsp;&nbsp;&nbsp;&nbsp; let N be the number of mentionable doors;<br>&nbsp;&nbsp;&nbsp;&nbsp; let O be the number of mentionable open doors;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[if N is 1]The only door out is[otherwise]Exits include[end if] [the list of mentionable doors]. &quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if N is O<br>&nbsp;&nbsp;&nbsp;&nbsp; begin;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[all O of them are]open.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise if O is greater than 0;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The list of open doors referenced by the current-paragraph] [if O is 1]is[otherwise]are[end if] open.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[all N of them are]closed.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; end if.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say all (N - a number) of them are:<br>&nbsp;&nbsp;&nbsp;&nbsp; if N is 0<br>&nbsp;&nbsp;&nbsp;&nbsp; begin;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;None are &quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise if N is 1;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[one of]It's [or]It is [purely at random]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise if N is 2;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[one of]Both of them are [or]Both are [or]They are both [or]They're both [purely at random]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[one of]They are all [or]They're all [or]Every one of them is [or]All [N in words] are [purely at random]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; end if.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;open white door / look / open black door / look / n / close door / look / open door / s / s / open grey door / look / open purple door / look&quot;.</font></blockquote>
+<p>
+ Example: * Boatman - A sample involving modified descriptions for items in an enterable container with the player.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Boatman&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Tailored Room Description by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Salt Lake is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The rowboat is an enterable container in the Salt Lake. Understand &quot;boat&quot; as the rowboat. It contains a boatman, a pole, and a bottle of fresh water. The boatman is a man.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Salt Lake contains a single flipper.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A ranking rule for the boatman: increase the description-rank of the boatman by 10.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for writing a paragraph about the boatman when the boatman is in the rowboat:<br>&nbsp;&nbsp;&nbsp;&nbsp; if entering the rowboat, say &quot;[The boatman] leans to one side to provide balance as you scramble in. [paragraph break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise say &quot;[The boatman] sits in [the rowboat], looking grim. [paragraph break]&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for writing a paragraph about something while entering a container (called special-target):<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;In [the special-target] with you, you see [the list of mentionable things in the special-target].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for writing a paragraph about a deeply dull thing which is in the rowboat when the player is in the rowboat:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;In the bottom of the boat, you see [a list of deeply dull mentionable things which are in the rowboat]. [paragraph break]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for writing a paragraph about a deeply dull thing which is in the Salt Lake:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Floating on the impossibly buoyant water: [a list of deeply dull mentionable things which are in the Salt Lake]. [paragraph break]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;get flipper / put flipper in rowboat / look / enter rowboat / get pole / look / get water / look / out / look / drop all / look / get in boat / look&quot;.</font></blockquote>
+<p>
+ Example: ** Introductions - A system whereby both things and rooms can be given an &quot;introduction&quot;, a tag line of text that is added the first time the player sees them in the room description if they are the main topic of a paragraph, or as an addendum to the object's description the first time it's examined. Introduction text can also be reviewed by the player with a THINK ABOUT command.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Introductions&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Tailored Room Description by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 1 - The Rules</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A thing has some text called the introduction. The introduction of a thing is usually &quot;&quot;.<br> A room has some text called the introduction. The introduction of a room is usually &quot;&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for writing a paragraph about an as-yet-unknown introduceable thing (called special-target):<br>&nbsp;&nbsp;&nbsp;&nbsp; carry out the writing a topic sentence about activity with the special-target;<br>&nbsp;&nbsp;&nbsp;&nbsp; introduce the special-target;<br>&nbsp;&nbsp;&nbsp;&nbsp; say paragraph break.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After examining an as-yet-unknown introduceable thing (called special-target):<br>&nbsp;&nbsp;&nbsp;&nbsp; introduce the special-target;<br>&nbsp;&nbsp;&nbsp;&nbsp; say paragraph break.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To introduce (special-target - an object):<br>&nbsp;&nbsp;&nbsp;&nbsp; now the special-target is introduced;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[introduction of the special-target]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Definition: a thing is introduceable unless its introduction is &quot;&quot;.<br> Definition: a room is introduceable unless its introduction is &quot;&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A thing can be as-yet-unknown or introduced. A thing is usually as-yet-unknown.<br> A room can be as-yet-unknown or introduced. A room is usually as-yet-unknown.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The first time looking rule is listed after new object description rule in the carry out looking rules.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the first time looking rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; if location is introduceable and the location is as-yet-unknown<br>&nbsp;&nbsp;&nbsp;&nbsp; begin;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; introduce the location;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say paragraph break;<br>&nbsp;&nbsp;&nbsp;&nbsp; end if.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A description-concealing rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; now every thing which is held by an as-yet-unknown introduceable person is not marked for listing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;think about [any introduceable introduced thing]&quot; or &quot;remember [any introduceable introduced thing]&quot; as thinking about. Understand the commands &quot;recall&quot; or &quot;consider&quot; or &quot;recollect&quot; or &quot;ponder&quot; or &quot;contemplate&quot; as &quot;remember&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Thinking about is an action applying to one visible thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out thinking about:<br>&nbsp;&nbsp;&nbsp;&nbsp; introduce the noun;<br>&nbsp;&nbsp;&nbsp;&nbsp; say paragraph break.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 2 - The Scenario</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Maremma Breeding Ground is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Logar is an animal in Maremma Breeding Ground. &quot;Logar stands here, waiting for instructions.&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp; The description is &quot;A nine-month puppy, Logar is nonetheless a pretty sizable dog already.&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp; The introduction is &quot;He's your latest acquisition in a large collection of work dogs.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Logar carries a bone.<br>&nbsp;&nbsp;&nbsp;&nbsp; The description of the bone is &quot;Pretty well chewed already.&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp; The introduction of the bone is &quot;That bone came out of a leg of lamb, but there's not much left on it.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;z / look / x logar / think about logar / x bone&quot;.</font></blockquote>
+<p>
+ Example: ** Gobs of Mayonnaise - A scenario with various objects competing for our attention.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Gobs of Mayonnaise&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Tailored Room Description by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Farmhouse Kitchen is a room. &quot;This place bears testament to its owners[apostrophe] patriotism, or possibly their devotion to Women's Day magazine. Pseudo-colonial decor abounds, including a multitude of tiny 13-star flags painted just under the ceiling. A heavy pedestal is located immediately opposite the door.&quot; The tiny 13-star flags are scenery in the Farmhouse Kitchen. &quot;Stencilled all around the ceiling.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The chair is an enterable supporter in the Farmhouse Kitchen. It is pushable between rooms.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Jones is a man on the chair. Persuasion rule: persuasion succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A ranking rule for a person (called special-target):<br>&nbsp;&nbsp;&nbsp;&nbsp; increase the description-rank of the special-target by 10.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A treasure is a kind of thing. A ranking rule for a treasure (called special-target): increase the description-rank of the special-target by 75.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The pedestal is a supporter in Farmhouse Kitchen. It is scenery. On the pedestal is a bust of Washington. The bust is a treasure. The flexible appearance of the bust is &quot;A bust of Washington glares proudly over the room[if the holder of the bust is not a room] from [the holder of the bust][otherwise]... from about knee height[end if]. &quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The table is in the Farmhouse Kitchen. &quot;A rough-hewn table uses up an entire corner of the room.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A utensil is a kind of thing. A knife is a utensil. A fork is a utensil. The knife and the fork are on the table.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before listing contents: initially group utensils together. Before grouping together utensils: say &quot;a place setting (consisting of &quot;. After grouping together utensils: say &quot;)&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> On the table is a vase. In the vase is a flower.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for disclosing contents of the vase when at least two things are in the vase:<br>&nbsp;&nbsp;&nbsp;&nbsp; if something in the vase is mentioned, say &quot;Besides [the list of mentioned things in the vase] you can see in the vase [a list of mentionable things in the vase]. &quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise say &quot;[The list of things which are in the vase] are crammed together into [if the vase is mentioned][the vase][otherwise][a vase][end if]. &quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> On the table is a glass. In the glass is a treasure called a diamond. The flexible appearance of the diamond is &quot;A sparkling, winking diamond commands your attention!&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A description-concealing rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the diamond is in the glass, now the diamond is not marked for listing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Closet is west of the Farmhouse Kitchen. The Closet contains a plastic box. The plastic box is closed and openable and transparent. In it are a rubber chicken and a light bulb.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before printing the name of an openable container (called special-target) while writing a paragraph about something:<br>&nbsp;&nbsp;&nbsp;&nbsp; if special-target is open, say &quot;open &quot;; otherwise say &quot;closed &quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The high shelf is a thing in the Closet. On the high shelf is a jug of mayonnaise. The flexible appearance of the jug is &quot;The thing that draws your eye right off is an utterly enormous jug of mayonnaise.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A description-concealing rule when the player is not on the chair:<br>&nbsp;&nbsp;&nbsp;&nbsp; now every thing enclosed by the high shelf is not marked for listing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A ranking rule for the jug:<br>&nbsp;&nbsp;&nbsp;&nbsp; increase description-rank of the jug by 100.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

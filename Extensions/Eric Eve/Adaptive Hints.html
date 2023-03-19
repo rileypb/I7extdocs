@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Adaptive Hints<font color="#404040"> by </font>Eric Eve</b><p><small></small><p><p><hr><p>
+<p>
+ Emily Short's Menus extension includes a mechanism for showing hints, but provides only for static hint menus. In many cases we may want our hint system to adapt to the situation in the game, showing only those hints that are currently relevant.
+<p>
+ For example, it may be premature to display a series of hints on &quot;How do I extract the golden egg from the glass goose?&quot; until the player knows that there are such objects as the golden egg and the glass goose. Conversely there is no point in continuing to display this hint once the player has solved the golden egg puzzle. The Adaptive Hints extension builds on Emily Short's Menus extension to allow the author to activate and deactivate hints as appropriate.
+<p>
+ To set up a system of adaptive hints, we first need to supply a table of hints for each hint topic, as in the Tabulation example that comes with the Menus extension. For example we might create hint tables like:
+<p>
+<blockquote><font color="#000080"> Table of Golden Egg Hints</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hint</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> used</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;How might you get an object out of a closed glass container?&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a number</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;You can't just smash the glass goose, because you might never get it back together again,
+and Professor Gosling asked you to bring it back in one piece.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Maybe you could cut the glass with something?&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It would have to be something sharp and hard.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Have you wondered what you might do with that diamond?&quot;</font></font></td></tr></table></blockquote>
+<p>
+ Then, to use the Adaptative Hints extension, we need to define a pair of table continuations to contain, first the hints that are going to come into play later in our game, and second, the currently active hints. The first of these tables must be called &quot;The Table of Potential Hints (continued)&quot; and contains just two columns, &quot;title&quot; and &quot;subtable&quot;:
+<p>
+<blockquote><font color="#000080"> Table of Potential Hints (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> subtable</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;How do I extract the golden egg from the glass goose?&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Table of Golden Egg Hints</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;How do I unlock the lead door?&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Table of Lead Door Hints</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;How do I get past the deranged ostrich?&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Table of Ostrich Hints</font></font></td></tr></table></blockquote>
+<p>
+ The second table, &quot;The Table of Active Hints&quot;, is defined in the extension, and allows for up to twenty hints to be active at once. If we need more than this we can define a continuation table, which must be called &quot;The Table of Active Hints (continued)&quot; and must contain four columns: &quot;title&quot;, &quot;subtable&quot;, &quot;description&quot;, &quot;toggle&quot;. This table must contain enough blank rows to accommodate the maximum number of hints that may be active at any one time. For example, if we think that we may have a maximum of thirty hints active at some point in our game, we shall need to define a continuation table with an extra 10 rows:
+<p>
+<blockquote><font color="#000080"> Table of Active Hints (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> subtable</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> description</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> toggle</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> text</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> table-name</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> text</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a rule</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> with 10 blank rows</font></font></td></tr></table></blockquote>
+<p>
+ On the other hand, if we are sure there will never be more than twenty hints active at once, we need not define this continuation table at all.
+<p>
+ We next need some mechanism for activating and deactivating hints as required. To this end we can simply use &quot;activate {Table Name}&quot; or &quot;deactivate {Table Name}&quot; as required; for example:
+<p>
+<blockquote><font color="#000080"> activate the Table of Golden Egg Hints.<br> deactivate the Table of Ostrich Hints.</font></blockquote>
+<p>
+ The first phrase moves the Table of Golden Egg Hints row from the Table of Potential Hints to the Table of Active Hints, and automatically fills in the toggle column with the appropriate hint toggle rule. The second simply blanks out the row corresponding to the specified table name from either the Table of Active Hints or the Table of Potential Hints (depending which table the row currently resides in). If there is no row containing the table name, then the deactivate phrase will have no effect. Once a hint has been deactivated it is therefore no longer available to be reactivated, since it will almost certainly not be needed again. If for any reason we did need to reactivate a hint we could always choose a blank row in either the Table of Active Hints or the Table of Potential Hints and fill in the appropriate columns; e.g.:
+<p>
+<blockquote><font color="#000080"> To reinstate (hint table - a table-name) with (hint title - text):<br> choose a blank row in the Table of Potential Hints;<br> now the title entry is hint title;<br> now the subtable entry is hint table.</font></blockquote>
+<p>
+ Activate and deactivate may be used at any convenient place in our code; for example, to make a hint available from the start of the game we might write:
+<p>
+<blockquote><font color="#000080"> When play begins: activate the Table of Fruit Basket Hints.</font></blockquote>
+<p>
+ During play, it may be more convenient to watch for conditions that require hints to be activated or deactivated rather than adding activate and deactivate phrases to action responses. To this end the Adaptive Hints extension supplies a pair of rulebooks called the hint activation rules and the hint deactivation rules. These are consulted just before the current set of hints is displayed. The hint activation rules are consulted before the hint deactivation rules to ensure that obsolete rules are cleared out even if they have only just become active. To use these rules we might, for example, write:
+<p>
+<blockquote><font color="#000080"> A hint activation rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the Goose Vault is visited, activate the Table of Golden Egg Hints.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A hint deactivation rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the golden egg is handled, deactivate the Table of Golden Egg Hints.</font></blockquote>
+<p>
+ Note that these rulebooks are only consulted when the player asks for hints, since there is no need to bring the list of active hints up to date until the player wants to view it.
+<p>
+ Finally, we need a way of displaying hints. This is achieved by invoking the display hints rule, which is what the asking for hints action provided in the Adaptive Hints extension does. The extension defines HINT and HINTS as the commands to display hints. It does not make HELP a synonym for HINTS since some authors may prefer to use HELP for other purposes (e.g. as a synonym for ABOUT or to display a general help menu rather than specific hints). If you want HELP to be a synonym for HINTS you can, of course, simply define:
+<p>
+<blockquote><font color="#000080"> Understand &quot;help&quot; as asking for hints.</font></blockquote>
+<p>
+ The first time the HINTS command is used the player is given the option of disabling hints altogether. Hints can also be disabled subsequently using the HINTS OFF command. The extension does not provide a HINTS ON command to reverse this process, since this would defeat the object of allowing players to disable hints in the first place.
+<p>
+ NOTE: Both this extension and Basic Help Menu by Emily Short define responses to the commands HINT and HINTS. To avoid a clash when you use both extensions, please include Adaptive Hints AFTER Basic Help Menu in your code: Adaptive Hints explicitly defines the commands &quot;hint&quot; and &quot;hints&quot; as something new before assigning them to its own asking for hints action.
+<p>
+ Example: ** Escape from an Old House - A short game with several adaptive hints
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Escape from an Old House&quot; by Eric Eve</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Adaptive Hints by Eric Eve.<br> Use scoring.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Part 1 - Hint Tables</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Potential Hints (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> subtable</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;What should I do now?&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Table of General Hints</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;What can I do in the Hall?&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Table of Hall Hints</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;What should I do in the Lounge?&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Table of Lounge Hints</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;How do I open the front door?&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Table of Front Door Hints</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;How do I unlock the tall cabinet?&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Table of Cabinet Hints</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;How can I get through the window?&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Table of Window Hints</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;How do I unlock the front door?&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Table of Iron Key Hints</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of General Hints</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hint</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> used</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Try exploring a bit.&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a number</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Then trying exploring a bit more.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Have you explored enough yet?&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Lounge Hints</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hint</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> used</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Look around.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;But frankly there's not much here.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Except that mouldy old carpet.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Hall Hints</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hint</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> used</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Search it thoroughly.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;What did you find?&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Perhaps that tall cabinet is worth investigating.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Cabinet Hints</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hint</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> used</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Obviously, you need to find a key.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Maybe it's been dropped somewhere.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Somewhere not that obvious.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;And maybe it slid under something.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Like a carpet.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Front Door Hints</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hint</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> used</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Well, finding the key would be a start.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It may not be far from the front door&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Have you tried looking in the cabinet?&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;What did you find there?&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Iron Key Hints</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hint</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> used</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;What did you find in the hall cabinet?&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;How thoroughly have you examined it?&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Did it have a pocket?&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;What was in the pocket?&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Window Hints</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hint</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> used</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Forget it&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;There's no way you're going to get through that window.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> A hint deactivation rule:<br> if the number of visited rooms is the number of rooms - 1,<br> deactivate the Table of General Hints.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A hint deactivation rule:<br> If the tall cabinet has been open begin;<br>&nbsp;&nbsp;&nbsp;&nbsp; deactivate the Table of Cabinet Hints;<br>&nbsp;&nbsp;&nbsp;&nbsp; deactivate the Table of Hall Hints;<br>&nbsp;&nbsp;&nbsp;&nbsp; deactivate the Table of Front Door Hints;<br> end if.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A hint deactivation rule:<br> If the iron key is seen begin;<br>&nbsp;&nbsp;&nbsp;&nbsp; deactivate the Table of Window Hints;<br>&nbsp;&nbsp;&nbsp;&nbsp; deactivate the Table of Iron Key Hints;<br> end if.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A hint deactivation rule:<br> If the brass key is seen, deactivate the Table of Lounge Hints.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A hint activation rule:<br> if the lounge is visited, activate the Table of Lounge Hints.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A hint activation rule:<br> If the hall is visited, activate the Table of Hall Hints.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A hint activation rule:<br> If the window is seen, activate the Table of Window Hints.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A hint activation rule:<br> If the tall cabinet has been open,<br>&nbsp;&nbsp;&nbsp;&nbsp; activate the Table of Iron Key Hints.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Part 2 - Game World</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Chapter 1 - Setup</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Use full-length room descriptions.<br> When play begins: activate the Table of General Hints.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After printing the banner text when the turn count is 1:<br> say &quot;[line break]You woke up this morning to find yourself trapped in this creepy old house. Now you just want to get out.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every thing is either seen or unseen. A thing is usually unseen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before printing the name of a thing (called the item):<br> Now the item is seen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out examining something (called the item):<br> Now the item is seen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The maximum score is 4.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Chapter 2 - The Map</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 1 - The Drawing Room</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Drawing Room is a room. &quot;A window overlooks the drive to the north, but unfortunately it is solidly barred and there seems to be no way to open it. But you could go south to the lounge or east to the hall.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The barred window is scenery in the drawing room. The description is &quot;You can see through it onto the drive, but there seems to be no way you could open it, and even if you could the bars would prevent your climbing through.&quot; Understand &quot;bars&quot; as the window.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of entering or opening the window:<br> now the window is seen;<br> say &quot;The bars prevent you.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of attacking the window:<br> now the window is seen;<br> say &quot;Beating your bare fists against the bars proves painful and unproductive.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 2 - The Lounge</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Lounge is a room. &quot;A mouldy carpet covers most of the floor all the way up to the archway leading into the drawing room to the north.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The mouldy carpet is scenery in the lounge. The description is &quot;Worn and woven in muddy colours, this carpet was probably new when Horatio Nelson was still a midshipman.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of looking under the mouldy carpet for the first time:<br> Now the brass key is carried by the player;<br> increase score by 1;<br> say &quot;You turn up one corner of the carpet after another, and your fourth attempt you find a small brass key, which you duly take.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of looking under the mouldy carpet:<br> say &quot;You find nothing more but dust.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The plain archway is a door. It is south of the Drawing Room and north of the Lounge. It is scenery, open and unopenable. The description is &quot;Rather plain, it nevertheless just about serves to separate the drawing room and lounge into two separate areas.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 3 - The Hall</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Hall is east of the Drawing Room.<br> &quot;Large enough to count as pretentious, the hall stretches towards a heavy front door to the north. A broad staircase leads up to the first floor, while the drawing room lies to the west.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The tall wooden cabinet is here. &quot;A tall wooden cabinet stands proudly against the wall.&quot; The cabinet is a container. It is openable, closed, lockable, locked and fixed in place. The description is &quot;You're no expert on antique furniture, but you'd judge this to be a regency piece.&quot; Understand &quot;regency&quot; or &quot;antique&quot; or &quot;furniture&quot; as the tall wooden cabinet.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The small brass key unlocks the tall wooden cabinet.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before opening the tall wooden cabinet when the cabinet is locked:<br> activate the Table of Cabinet Hints.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The old trench coat is in the cabinet. &quot;An old trench coat hangs in the cabinet&quot;. It is wearable. The description is &quot;It looks battered enough to have been through the Battle of the Somme. It does have one pocket still intact however.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The pocket is part of the coat. It is an unopenable open container. Understand &quot;coat pocket&quot; as the pocket.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of searching the coat, try searching the pocket.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> In the pocket is a large iron key. The description of the large iron key is &quot;It looks just the job for unlocking a large, heavy door.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The solid front door is a door. It is north of the hall and south of the drive. The description is &quot;It's made of thick, solid oak. There's clearly going to be no way through it without opening it, and it's current [if open]open[otherwise]firmly closed[end if].&quot; It is closed, scenery, lockable and locked. The large iron key unlocks the front door.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before opening the front door when the front door is locked:<br> activate the Table of Front Door Hints.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The drive is a room. After going to the drive:<br> say &quot;At last, you're out of that wretched house!&quot;;<br> increase score by 3;<br> end the story finally saying &quot;You have won&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The staircase is a door. The staircase is above the Hall and below the Landing. It is scenery, open and unopenable. Understand &quot;stairs&quot; as the staircase.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of climbing the staircase: try entering the staircase.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 4 - The Landing</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Landing is a room. &quot;This long landing runs between many bedrooms, all of which you have searched thoroughly already. A staircase leads back down to the hall.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of going nowhere from the landing, say &quot;You've already searched thoroughly up here, and in any case the only way out of this wretched house is surely downstairs.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Chapter 3 - Testing</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test first with &quot;Open window/break window/e/n/open door/climb the stairs/n/d/open the cabinet&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test second with &quot;w/s/look under the carpet/n/e/unlock the cabinet/open it/look in cabinet&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test third with &quot;take coat/wear it/x it/look in pocket/unlock door with iron key/open door/n&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test me with &quot;test first/test second/test third&quot;</font></blockquote>
+<p>
+ Note that although this test runs through the game to completion, it doesn't of itself demonstrate the hint system. For that you need to run through the game manually and try out the hints every few turns to see how they change.
+<p>
+
+<p>
+<p></body></html>

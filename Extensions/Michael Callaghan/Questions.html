@@ -1,0 +1,357 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Questions<font color="#404040"> by </font>Michael Callaghan</b><p><small></small><p><p><hr><p>
+<p>
+ This extension allows us to suspend normal parser input to enable questions to be asked and the answers to be processed.
+<p>
+ Chapter: About questions
+<p>
+ Section: Introduction
+<p>
+ During the normal course of a game, the parser responds to commands given by the player. If we type look, the parser interprets the command and displays a description of the current room; if we type N, the player heads North (if that exit is available, and so on.
+<p>
+ Occasionally, we may want to ask specific questions and process the answers. Examples may be asking the player's name or age or displaying a menu of options from which the player selects a choice. Answers to these types of questions fall outside the range of the normal parser functions. Therefore we need to intercept the player's answers to these types of questions and respond to them separately.
+<p>
+ This extension provides a framework that can be used to ask different types of questions. The mechanics are hidden behind the scenes to allow us to concentrate on asking and responding to a question without having to implement the framework ourselves.
+<p>
+ Section: What's new?
+<p>
+ Version 1
+<p>
+ The first public release of Questions.
+<p>
+ Version 2
+<p>
+ - Punctuation removal in text questions is now optional.
+<p>
+ - Questions can now be used in conjunction with the Fixed Point Maths extension to allow questions that requires a real number to be asked.
+<p>
+ - To decide phrase added to determine if we are asking a question.
+<p>
+ Many thanks are due to Erik Temple for suggesting the changes implemented in version 2.
+<p>
+ Version 3
+<p>
+ The variable &quot;current menu&quot; has been changed to &quot;current question menu&quot; to avoid a namespace clash with Emily Short's Menu extension.
+<p>
+ Version 4
+<p>
+ Deprecated phases have been removed from the extension and the examples.
+<p>
+ Version 5
+<p>
+ - Updated for version 6L02 and above. - Links to fixed point maths removed. - Real numbers are questions are supported. - Requires Glulx.
+<p>
+ Chapter: Types of questions
+<p>
+ Section: Overview
+<p>
+ The extension allow us to ask questions that require different types of answers. The following questions types are allowed:
+<p>
+ - Questions that require a number as an answer.
+<p>
+ - Questions that require a real number as an answer.
+<p>
+ - Questions that require an item from a menu to be chosen.
+<p>
+ - Questions that require a Yes or No answer.
+<p>
+ - Questions that require a gender selection (Male, Female or Neuter).
+<p>
+ - Questions that require a text answer.
+<p>
+ Section: Open and closed questions
+<p>
+ The extension makes a distinction between &quot;open&quot; and &quot;closed&quot; questions. The difference between the two is that closed questions will not allow the game to proceed unless and until we specify that a correct answer has been given to a question. With open questions, if an 'incorrect 'reply is given, the game proceeds and tries to parse the player's command using the normal parser rules. For example, if we ask the question &quot;How old are you?&quot; expecting a number answer, the extension will deal with replies differently depending on whether we ask an open or a closed question.
+<p>
+ Open questions:
+<p>
+ If player answered &quot;inv&quot; to a number question, the extension will exit question mode and proceed to parse the answer normally. In this case, the player's inventory will be displayed. If the player answered 12, we determine whether this is an acceptable answer. If the answer is acceptable, the extension exits question mode and the play resumes. If the answer is unacceptable, for example the player enters 234 when asked his or her age, we can specify whether the question needs to asked again or whether play should proceed without an answer.
+<p>
+ Closed questions:
+<p>
+ If the player answered &quot;inv&quot;, the answer will be rejected and the player will need to answer the question again. If the player answered 12, we determine whether this is an acceptable answer. If the answer is acceptable, the game exits question mode and proceeds as normal. If the answer is unacceptable, for example the player enters 234, the player will need to answer the question again.
+<p>
+ Section: Flag for open or closed questions
+<p>
+ To test if a question is an open or a closed question, we can use the 'closed question mode' flag:
+<p>
+<blockquote><font color="#000080"> if closed question mode is true:<br>&nbsp;&nbsp;&nbsp;&nbsp; do this.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> if closed question mode is false:<br>&nbsp;&nbsp;&nbsp;&nbsp; do that.</font></blockquote>
+<p>
+ Chapter: Asking questions
+<p>
+ Section: Setting the current question
+<p>
+ To ask a question, we first set the text for the question. The form is:
+<p>
+<blockquote><font color="#000080"> now the current question is &quot;How old are you?&quot;</font></blockquote>
+<p>
+ Section: Setting items for menu questions
+<p>
+ Before we ask a question that requires an answer from a menu of options, we need to set the menu items to be displayed. We do this by setting the variable &quot;current question menu&quot; to the list of options that we require.
+<p>
+<blockquote><font color="#000080"> now current question is &quot;What is your favourite colour? &gt;&quot;;<br> now current question menu is { &quot;Red&quot;, &quot;Blue&quot;, &quot;Green&quot;, &quot;Yellow&quot; };<br> ask a closed question, in menu mode.</font></blockquote>
+<p>
+ Section: Asking the question in closed question mode
+<p>
+ To ask the question in closed mode, we use the following forms for closed questions:
+<p>
+<blockquote><font color="#000080"> ask a closed question, in number mode;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> ask a closed question, in real number mode;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> ask a closed question, in menu mode;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> ask a closed question, in yes/no mode;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> ask a closed question, in gender mode;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> ask a closed question, in text mode;</font></blockquote>
+<p>
+ Section: Asking the question in open question mode
+<p>
+ To ask the question in open mode, we use the following forms for open questions:
+<p>
+<blockquote><font color="#000080"> ask an open question, in number mode;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> ask an open question, in real number mode;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> ask an open question, in menu mode;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> ask an open question, in yes/no mode;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> ask an open question, in gender mode;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> ask an open question, in text mode;</font></blockquote>
+<p>
+ Chapter: Setting the command prompt for questions
+<p>
+ Section: Overview
+<p>
+ When a question is asked, we can change the command prompt to indicate to the player that a question is being asked. By default, the extension sets a series of default prompts. These are specific to the type of question being asked; they are:
+<p>
+<blockquote><font color="#000080"> Closed number prompt: &quot;Please enter a whole number &gt;&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Open number prompt: &quot;&gt;&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Closed real number prompt: &quot;Please enter a number &gt;&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Open real number prompt: &quot;&gt;&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Closed menu prompt: &quot;Please select a number between 1 and [number of entries in current question menu] &gt;&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Open menu prompt is &quot;&gt;&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Closed yes/no prompt: &quot;Please enter Y or N (Yes or No) &gt;&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Open yes/no prompt: &quot;&gt;&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Closed gender prompt: &quot;Please enter M,  F or N (Male or Female or Neuter) &gt;&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Open gender prompt: &quot;&gt;&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Closed text prompt: &quot;Please enter your answer &gt;&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Open text prompt &quot;&gt;&quot;.</font></blockquote>
+<p>
+ Section: Changing the question prompt
+<p>
+ To change the question prompt, we set the variable &quot;current prompt&quot; to the text that we want:
+<p>
+<blockquote><font color="#000080"> Now current question is &quot;How old are you?&quot;;<br> Now the current prompt is &quot;Enter a number between 5 and 111: &gt;&quot;<br> Ask a closed question, in number mode.</font></blockquote>
+<p>
+ If we set the current prompt to &quot;&quot;, the relevant default prompt outlined above will be used.
+<p>
+ Section: Combining the question and prompt
+<p>
+ We can combine the question and the prompt. To do so, we set the current question to a blank string and the question prompt to the question that we want to ask:
+<p>
+<blockquote><font color="#000080"> now current question is &quot;&quot;;<br> now current prompt is &quot;What is your name? &gt;&quot;;<br> ask a closed question, in text mode.</font></blockquote>
+<p>
+ Chapter: Responding to the answers given
+<p>
+ Section: Player input
+<p>
+ The player can answer a question by typing the number, menu number, yes / no response, gender response or text. The player can also answer a question by using the form 'say X' where X is the answer given.
+<p>
+ Section: Rulebooks
+<p>
+ When we answer a question, the answer is processed by a rulebook. By adding our own rules in the game, we can tailor the Questions extension to provide the functionality that we require.
+<p>
+ Each type of question has its own rulebook. These are:
+<p>
+ Number questions: The number question rules.
+<p>
+ Real number questions: The real number question rules.
+<p>
+ Menu questions: The menu question rules.
+<p>
+ Yes/No questions: The yes/no question rules.
+<p>
+ Gender questions: The gender questions rules.
+<p>
+ Text questions: The text question rules.
+<p>
+ Section: Rulebook outcomes
+<p>
+ Each rulebook has three named outcomes that we can use to control how the game proceeds. The outcomes are:
+<p>
+ Exit: The answer to the question is discarded and the game proceeds as normal. Usually, we will have used the answer to set other conditions in the game before we use exit. The exit outcome automatically advances the game by one turn.
+<p>
+ Retry: The answer to the question is discarded but we remain in question mode awaiting another answer. Usually, this will be because the answer to the question is not a valid answer.
+<p>
+ Parse: The answer to the question is not disregarded and the question mode ends leaving the answer to be parsed as normal. Usually, we use this where there is an open question.
+<p>
+ Section: Default rules
+<p>
+ Each rulebook has default rules. If we do not create our own rules, the default rules control how answers are processed. The default rules are set out below.
+<p>
+ Section: Adding our own rules
+<p>
+ We can add our own rules in the game. For example:
+<p>
+<blockquote><font color="#000080"> A number question rule (this is the set age rating rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the current question is &quot;How old are you?&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the number understood is less than 5:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;It seems unlikely that a person of such tender years would be playing this game.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; retry;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the number understood is greater than 111:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;I find it hard to believe that this is your real age.  Please be more realistic.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; retry;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the number understood is less than 21:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Setting the game mode to mild!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now gamemode is mild;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Setting the game mode to crude!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now gamemode is crude;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A menu question rule (this is the channel rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the current question is &quot;Which channel would you like to watch on the telly?&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the number understood is 1:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Raucous music blasts out from the local music TV station.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the number understood is 2:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The film that comes on is so raunchy that even a hard-bitten army sergeant would blush with shame&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the number understood is 3:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The latest trend in reality TV assails you - celebrity navel transplants!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the number understood is 4:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You stomach turns with disgust - the collected speeches of George Bush begin to play.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit.</font></blockquote>
+<p>
+ Section: Rules for number questions
+<p>
+ We test the answer to a number question using the phrase 'the number understood'.
+<p>
+ There are two default rules for processing answers to number questions.
+<p>
+ The first rule, called 'the invalid number reply rule', operates where the player enters an answer to a number question that is not a number. If the question is a closed number question, the outcome is retry. If the question is an open question, the outcome is parse.
+<p>
+ The last rule, called 'the default number question rule', has the outcome exit.
+<p>
+ Section: Rules for real number questions
+<p>
+ We test the answer to a real number question using the phrase 'the number understood'.
+<p>
+ There are two default rules for processing answers to real number questions.
+<p>
+ The first rule, called 'the invalid real number reply rule', operates where the player enters an answer to a real number question that is not a real number. If the question is a closed number question, the outcome is retry. If the question is an open question, the outcome is parse.
+<p>
+ The last rule, called 'the default real number question rule', has the outcome exit.
+<p>
+ Section: Rules for menu questions
+<p>
+ We test the answer to menu questions using the phrase 'the number understood'. The value should be between 1 and the number of items in the menu.
+<p>
+ There are two default rules for processing answers to menu questions.
+<p>
+ The first rule, called the 'invalid menu reply rule' first tests whether the player has entered a number. If the player has entered an answer that is not a number, the outcome is retry if the question was a closed menu question or parse if the question was an open menu question. If a numbered was entered that falls outside the range 1 to the number of items in the menu, the outcome is retry for both open and closed menu questions.
+<p>
+ The last rule, called the 'default menu rule', has the outcome exit.
+<p>
+ Section: Rules for Yes/No questions
+<p>
+ We test the answer to yes/no questions using the phrase 'the decision understood'. The decision understood takes one of two values, 'Yes' or 'No'. 'Y' and 'N' are understood as Yes and No when the player types their response.
+<p>
+ There are two default rules for processing the answers to yes/no questions.
+<p>
+ The first rule, called the 'invalid yes/no reply rule' tests whether the player has entered Yes or No. If the player has not so responded, the outcome is retry if the question is a closed yes/no question or parse if the question is a closed menu question.
+<p>
+ The last rule, called the 'default yes/no rule', has the outcome exit.
+<p>
+ Section: Rules for gender questions
+<p>
+ The test the answer to gender questions using the phrase 'the gender understood'. The gender understood takes one of three values, 'Masculine', 'Feminine' or 'Neutral'. 'M', 'F' and 'N' are understood as Masculine, Feminine and Neutral when the player types their response. Neutral is used instead of Neuter as Neuter is defined as an adjective in I7.
+<p>
+ There are two default rules for processing the answers to gender questions.
+<p>
+ The first rule, called the 'invalid gender reply rule' tests whether the player has entered a valid gender. If the player has not entered a valid gender, the outcome is retry if the question is a closed gender question or parse if the question is an open gender question.
+<p>
+ The last rule, called the 'default gender rule', has the outcome exit.
+<p>
+ Section: Rules for text questions
+<p>
+ We test the answer to text questions using the variable &quot;current answer&quot;. The current answer is set to the player's answer. If the answer was given in the form &quot;say answer&quot;, the word &quot;say&quot; and the following space is also removed.
+<p>
+ There are two default rules for text questions.
+<p>
+ The first rule, called the 'remove punctuation from text questions rule' determines whether or not punctuation is removed from the player's answer before it is processed. We can control punctuation removal by setting the truth state 'punctuation removal'.
+<p>
+<blockquote><font color="#000080"> now punctuation removal is true;<br> now punctuation removal is false;</font></blockquote>
+<p>
+ The last rule is called the 'default text rule'. If the question was a closed text question, the outcome is retry. If the question was an open text question, the outcome is parse.
+<p>
+ Chapter: Determining whether or not we are asking a question
+<p>
+ If we need to determine whether or not we are currently asking a question, for example as a test in another rulebook, we can do so by using the phrase 'If we are asking a question'. This will decide Yes if an open or closed question is being asked.
+<p>
+ Example: * Open Sesame - A short example to show the question rules with an initial open text question followed by an interview section to gather information about the player.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Open Sesame&quot; by Michael Callaghan</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include questions by Michael Callaghan.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Canyon is a room. &quot;You are at the far end of a canyon.  A recent rock fall behind you prevents all further hopes of escape.  A large boulder to the east emits a faint green light.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A large boulder is a door. The large boulder is locked and closed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The large boulder is scenery. The description is &quot;Inscribed in runic letters on the face of the boulder are the words 'Solve Oriel[']s Myth to find your way forward.'&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of doing anything other than examining with the large boulder:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;There is an aura of magic about the large boulder that prevents you doing this.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Small cave is a room. &quot;A flight of steps leads down into the darkness.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The large boulder is east of the canyon and west of the small cave.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Introduction is a scene.<br> Introduction begins when play begins.<br> Introduction ends when the large boulder is open.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When introduction begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; follow the set open sesame rule.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn when introduction is happening (this is the set open sesame rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; now current question is &quot;&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now current prompt is &quot;&gt;&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now punctuation removal is true;<br>&nbsp;&nbsp;&nbsp;&nbsp; ask an open question, in text mode.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A text question rule (this is the open sesame rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if introduction is happening:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the current answer is &quot;emily short&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;With an eerie screech, the boulder rolls to one side.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the large boulder is open;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the large boulder is unopenable;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; parse.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Room of requirements is a room. Room of requirements is down from the small cave. The description is &quot;The room smells musty.[If unvisited]  An alien presence invades your mind and deep in your bones you hear a voice echo 'Welcome brave soul.  You have passed the first hurdle.  Before you proceed, you must answer the following questions.'&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of doing anything when gathering is happening and stage is not complete:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You are under a strange compulsion and unable to move.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Data is a kind of value. The data are name, age, sex, character, finalise, seed and complete.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Gathering is a scene. Gathering begins when the location is the room of requirements.<br> Gathering ends when stage is complete.<br> Stage is data that varies.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When Gathering begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now stage is name.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn during Gathering:<br>&nbsp;&nbsp;&nbsp;&nbsp; if stage is name:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now current question is &quot;What is your name?&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now current prompt is &quot;Enter your name &gt;&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now punctuation removal is false;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ask a closed question, in text mode;<br>&nbsp;&nbsp;&nbsp;&nbsp; if stage is age:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now current question is &quot;How old are you?&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ask a closed question, in number mode;<br>&nbsp;&nbsp;&nbsp;&nbsp; if stage is sex:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now current question is &quot;Do you want to play as a male, female or neutral character&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ask a closed question, in gender mode;<br>&nbsp;&nbsp;&nbsp;&nbsp; if stage is character:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now current question is &quot;Which of the following is your preferred character type:&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now current question menu is { &quot;Wizard&quot;, &quot;Warrior&quot;, &quot;Sage&quot;, &quot;Healer&quot; };<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ask a closed question, in menu mode;<br>&nbsp;&nbsp;&nbsp;&nbsp; if stage is finalise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You have chosen:[line break]Name: [player's name][line break]Age: [Player's age][line break]Sex: [Player's sex][line break]Character:  [Player's character][paragraph break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now current question is &quot;Are you happy with your responses?&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ask a closed question, in yes/no mode;<br>&nbsp;&nbsp;&nbsp;&nbsp; if stage is seed:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now current question is &quot;Enter a seed number between 0 and 1:&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ask a closed question, in real number mode.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player's name is indexed text that varies.<br> The player's age is a number that varies.<br> The player's sex is a gender that varies.<br> The player's character is text that varies.<br> The player's strength is a number that varies.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A text question rule (this is the gather name rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if gathering is happening and stage is name:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the number of words in the current answer is greater than 1:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;I think we will simply refer to you as [word number 1 in the current answer][line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the player's name is word number 1 in the current answer;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the player's name is the current answer;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Welcome to this venture, [player's name][line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now stage is age;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A number question rule (this is the gather age rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if gathering is happening and stage is age:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the number understood is less than 5:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;It seems improbable that one of such tender years would be venturing so far.[line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; retry;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the number understood is greater than 111:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Let's try to be realistic about this.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; retry;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the player's age is the number understood;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Thank you:  You are [the player's age] for the remainder of your venture into the unknown[line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now stage is sex;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A gender question rule (this is the gather gender rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if gathering is happening and stage is sex:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the player's sex is the gender understood;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Thank you.  You are [the player's sex] gender[line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now stage is character;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A menu question rule (this is the gather character rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if gathering is happening and stage is character:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let temp be the number understood;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the player's character is entry temp in the current question menu;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Thank you, you are playing as a [player's character][line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now stage is finalise;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A yes/no question rule (this is the confirm answers rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if gathering is happening and stage is finalise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the decision understood is Yes:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Thank you.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now stage is seed;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;OK.  Let's start again, shall we[line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now stage is name;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A real number question rule (this is the seed rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if gathering is happening and stage is seed:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the real number understood is 0.0:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The number must be more than 0&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; retry;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the real number understood &lt; 0.0:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The number must be more than 0&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; retry;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the real number understood is 1.0:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The number must be less than 1.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; retry;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the real number understood &gt; 1.0:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The number must be less than 1.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; retry;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let seed be the real number understood;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; repeat with counter running from 1 to a random number from 5 to 10:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now seed is seed times 997;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now seed is seed minus floor of seed;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now seed is seed times 100;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now seed is floor of seed;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now player's strength is seed to the nearest whole number;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Your strength has been set to [player's strength].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now stage is complete;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Venture into the unknown brave [player's character].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;x boulder / push boulder/ say Emily Short / e / d / Peter / 34 / M / 3 / Y / 0.23448&quot;.</font></blockquote>
+<p>
+ Example: * Quiz Night - A short example to show creating a multiple choice quiz.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Quiz Night&quot; by Michael Callaghan</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include questions by Michael Callaghan.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The pub is a room. &quot;The pub is crowded for the weekly quiz night.  The barman is ready to call out the questions.  Get one wrong and you will be barred from the pub for life.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After looking for the first time:<br>&nbsp;&nbsp;&nbsp;&nbsp; follow the pub rule.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of quiz questions</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Qn</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Options</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Correct</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;In which year was the Battle of Hastings&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> { &quot;1256&quot;, &quot;1066&quot;, &quot;1589&quot;, &quot;1790&quot; }</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 2</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;What type of animal is Basil Brush&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> { &quot;Cat&quot;, &quot;Dog&quot;, &quot;Rabbit&quot;, &quot;Fox&quot; }</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 4</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;What is the square root of 126736?&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> { &quot;356&quot;, &quot;289&quot;, &quot;421&quot;, &quot;321&quot; }</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 1</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;How many books are there in the Old Testament&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> { &quot;23&quot;, &quot;39&quot;, &quot;37&quot;, &quot;41&quot; }</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 2</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;What is a Cantaloupe?&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> { &quot;Animal&quot;, &quot;Star&quot;, &quot;Fruit&quot;, &quot;Vegetable&quot; }</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 3</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> The expected answer is a number that varies.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn when the location is the pub (this is the pub rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; choose a random row in the table of quiz questions;<br>&nbsp;&nbsp;&nbsp;&nbsp; now current question is the Qn entry;<br>&nbsp;&nbsp;&nbsp;&nbsp; now current question menu is the Options entry;<br>&nbsp;&nbsp;&nbsp;&nbsp; now expected answer is the correct entry;<br>&nbsp;&nbsp;&nbsp;&nbsp; blank out the whole row;<br>&nbsp;&nbsp;&nbsp;&nbsp; ask a closed question, in menu mode.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A menu question rule (this is the pub answer rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the number understood is the expected answer:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the table of quiz questions is not empty:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Well done.  You have survived to the next round.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end the story finally saying &quot;Congratulations you have won!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end the story finally saying &quot;You have been barred from the pub for getting a question wrong.&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

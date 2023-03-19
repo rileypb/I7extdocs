@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Vorple Tooltips<font color="#404040"> by </font>Juhana Leinonen</b><p><small></small><p><p><hr><p>
+<p>
+ The Tooltips extension lets the story display small notifications above target elements. Tooltips can be activated when the mouse pointer is over them or at request.
+<p>
+ Chapter: Tooltips on mouseover
+<p>
+ Text with a tooltip can be created with:
+<p>
+<blockquote><font color="#000080"> place text &quot;examine&quot; with a tooltip reading &quot;You can also use the short form X&quot;;</font></blockquote>
+<p>
+ The tooltip is shown when the reader puts the mouse cursor over the text and hidden when the mouse cursor is moved away.
+<p>
+ A tooltip can be added to existing elements (see the Vorple core extension for more on how to create elements):
+<p>
+<blockquote><font color="#000080"> place an inline element called &quot;secret&quot; reading &quot;a mysterious box&quot;;<br> attach a tooltip &quot;You found me!&quot; on the element called &quot;secret&quot;;</font></blockquote>
+<p>
+ If there are many elements with the same name, the tooltip is attached to the last of them. The tooltip can also be attached to all elements with the same name.
+<p>
+<blockquote><font color="#000080"> attach a tooltip &quot;You found me!&quot; to all elements called &quot;secret&quot;;</font></blockquote>
+<p>
+ Chapter: Tooltips on request
+<p>
+ Tooltips can also be triggered manually on existing elements.
+<p>
+<blockquote><font color="#000080"> display a tooltip &quot;Take a look here&quot; on the element called &quot;important&quot;;</font></blockquote>
+<p>
+ By default the tooltip appears immediately and is hidden in 7 seconds. The delay how long until the tooltip appears and the duration of the tooltip can be changed:
+<p>
+<blockquote><font color="#000080"> display a tooltip &quot;Take a look here&quot; on the element called &quot;important&quot; after 3 seconds for 10 seconds;</font></blockquote>
+<p>
+ The duration can also be &quot;indefinitely&quot; which keeps the tooltip visible until it's manually hidden.
+<p>
+<blockquote><font color="#000080"> display a tooltip &quot;Take a look here&quot; on the element called &quot;important&quot; indefinitely;</font></blockquote>
+<p>
+ The default duration can be changed globally. The following example makes all tooltips display for 4 seconds unless otherwise specified:
+<p>
+<blockquote><font color="#000080"> The default tooltip duration is 4.</font></blockquote>
+<p>
+ As with tooltips that are activated on mouseover, if there are multiple elements with the same name the tooltip is shown only on the last one.
+<p>
+ A tooltip can be placed on the prompt (handy for giving a hint on how to play to people who aren't familiar with interactive fiction):
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; display a tooltip &quot;Type something here!&quot; on the prompt.</font></blockquote>
+<p>
+ Chapter: Hiding tooltips
+<p>
+ The currently open tooltip can be closed immediately with:
+<p>
+<blockquote><font color="#000080"> hide the tooltip;</font></blockquote>
+<p>
+ An optional duration can be provided:
+<p>
+<blockquote><font color="#000080"> hide the tooltip after 5 seconds;</font></blockquote>
+<p>
+ Only one tooltip can be open at a time. Tooltips are automatically closed when a new tooltip is shown.
+<p>
+ Example: * Medical Dictionary - Technical terms that have their definitions shown in a tooltip.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Medical Dictionary&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Vorple Tooltips by Juhana Leinonen.<br> Release along with the &quot;Vorple&quot; interpreter.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Surgery is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A craniotome, a tracheotome, a probang and some butterfly stitches are in the Surgery.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A thing has some text called the definition.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The definition of the craniotome is &quot;A tool for drilling holes in the skull&quot;.<br> The definition of the tracheotome is &quot;A blade used to cut an hole to the trachea for a breathing tube&quot;.<br> The definition of the probang is &quot;A sponge attached to a long flexible rod, used to clear obstacles from the throat&quot;.<br> The definition of butterfly stitches is &quot;Thin adhesive strips for bandaging small wounds&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for printing the name of something (called the item) when the item provides the property definition and the definition of item is not empty:<br>&nbsp;&nbsp;&nbsp;&nbsp; place text &quot;[printed name of the item]&quot; with a tooltip reading &quot;[definition of item]&quot;.</font></blockquote>
+<p>
+ Example: ** How To II - More tips to new players who might not be familiar with standard IF conventions
+<p>
+ We'll show a tooltip on the prompt to direct the player to use the keyboard, hint about what kind of commands to use if the first command they try is an error and direct their attention to parts of items.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;How To II&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Vorple Tooltips by Juhana Leinonen.<br> Release along with the &quot;Vorple&quot; interpreter.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Bedroom is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The wardrobe is openable closed fixed in place container in the bedroom.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of examining the wardrobe when the wardrobe is closed:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The wardrobe is &quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; place an element called &quot;wardrobe-closed&quot; reading &quot;closed&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; display a tooltip &quot;You can OPEN WARDROBE to see what's inside.&quot; on the element called &quot;wardrobe-closed&quot; in 2 seconds;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;.&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The jacket is a wearable thing in the wardrobe.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for printing the name of the jacket when the jacket is in the wardrobe:<br>&nbsp;&nbsp;&nbsp;&nbsp; place an element called &quot;jacket-text&quot; reading &quot;jacket&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; display a tooltip &quot;The jacket is something you can TAKE or WEAR.&quot; on the element called &quot;jacket-text&quot; in 2 seconds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins (this is the show prompt hint rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; display tooltip &quot;Type a command to play&quot; on the prompt.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for printing a parser error (this is the show parser error hint rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; display tooltip &quot;Try to, for example, EXAMINE things you see or take INVENTORY.&quot; on the prompt;<br>&nbsp;&nbsp;&nbsp;&nbsp; make no decision.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;x wardrobe / open wardrobe&quot;.</font></blockquote>
+<p>
+ Example: ** Ibid. (2) - Footnotes that can be read by placing the mouse cursor over them.
+<p>
+ We're modifying example 300 (Ibid.) from Writing with Inform to show the footnotes when the mouse cursor is on top of the footnote reference numbers.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Ibidem&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Vorple Tooltips by Juhana Leinonen.<br> Release along with the &quot;Vorple&quot; interpreter.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Ship Inn is a room. &quot;Here you are in a lovely pub which your guidebook assures you is extremely authentic. [1 as a footnote].<br><br>To your left sits a party of Italians, with their guidebook.<br><br>To your right is a silent, but not unappealing, young man.&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A party of Italians and a silent young man are people in the Ship Inn. The Italians and the young man are scenery.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The table is a supporter in the Ship Inn. On the table is a mysterious pie. The description of the pie is &quot;Your waitress told you it was the specialty of the day, Steak and Owl Pie. [2 as a footnote].&quot; The pie is edible.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Footnotes</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> assignment</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> note</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a number</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Francis Drake ate here, if the sign on the door is to be believed&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;this is unlikely, considering that owls are protected animals in England these days&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Footnotes mentioned is a number that varies.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say (footnote - a number) as a footnote:<br>&nbsp;&nbsp;&nbsp;&nbsp; if footnote &gt; number of filled rows in the Table of Footnotes:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Programming error: footnote assignment out of range.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; choose row footnote in the Table of Footnotes;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if there is an assignment entry:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; place text &quot;([assignment entry])&quot; with a tooltip reading &quot;[note entry]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; increment footnotes mentioned;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; choose row footnote in the Table of Footnotes;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now assignment entry is footnotes mentioned;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; place text &quot;([assignment entry])&quot; with a tooltip reading &quot;[note entry]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;footnote [number]&quot; as looking up a footnote.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Looking up a footnote is an action applying to one number.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check looking up a footnote:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the number understood &gt; footnotes mentioned, say &quot;You haven't seen any such footnote.&quot; instead;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the number understood &lt; 1, say &quot;Footnotes are numbered from 1.&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out looking up a footnote:<br>&nbsp;&nbsp;&nbsp;&nbsp; choose row with assignment of number understood in the Table of Footnotes;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;([assignment entry]): [note entry].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;footnote 1 / examine pie / footnote 2 / footnote 3&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

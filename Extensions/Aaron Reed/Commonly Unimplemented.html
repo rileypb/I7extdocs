@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Commonly Unimplemented<font color="#404040"> by </font>Aaron Reed</b><p><small></small><p><p><hr><p>
+<p>
+ An extension for Smarter Parser, this provides three new rules that offer tutorial-style messages if the player tries interacting with unimplemented body parts, clothing, or generic surroundings like the floor or ceiling.
+<p>
+ Chapter: Customizing
+<p>
+ Frequently you actually *will* implement some of these things, and want to avoid misleading your players if they're using the right word but an incorrect syntax. You can alter the messages to help teach players the correct format (see below) but you can also keep the extension from triggering at all by excluding specific words from the match list.
+<p>
+ To do this, probably in a &quot;when play begins&quot; rule, you can use either of the phrase variants:
+<p>
+<blockquote><font color="#000080"> release body part word &quot;skull&quot; from Smarter Parser<br> release body part words { &quot;skull&quot;, &quot;head&quot;, &quot;hair&quot; } from Smarter Parser</font></blockquote>
+<p>
+... as well as four other phrases to &quot;release clothing word(s)&quot; and &quot;release surroundings word(s).&quot; This will also stop plurals from matching as well. You can see a list of the current words with:
+<p>
+<blockquote><font color="#000080"> say body part words</font></blockquote>
+<p>
+ And likewise for the other two categories.
+<p>
+ Chapter: Rules
+<p>
+ Section: the flexible stripping body parts rule
+<p>
+ Looks for commands that reference parts of the body. If the reference is in the form of an addendum like ON HIS SHOULDER or IN THE FACE, strip the addendum and reparse. Also tries to reparse something like LOOK AT LISA'S FACE as LOOK AT LISA. If a body part word is found outside either of these patterns, reject the command.
+<p>
+ The default list is:
+<p>
+<blockquote><font color="#000080"> eye, head, skull, hair, nose, mouth, ear, cheek, forehead, face, neck, chest, gut, breast, belly, stomach, body, nipple, shoulder, collar, arm, wrist, hand, finger, knuckle, fingernail, waist, thigh, leg, knee, shin, ankle, foot, feet, toe, elbow, fist, thumb, tongue, lip, heart</font></blockquote>
+<p>
+ To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> flexible stripping body parts rule &quot;[as the parser]You do not normally need to refer to parts of the body.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The flexible stripping body parts rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the usually no clothing rule
+<p>
+ Rejects commands which include mentions of common articles of clothing. The default list is:
+<p>
+<blockquote><font color="#000080"> clothes, shirt, pant, jacket, sock, shoe, belt, hat, underwear, jean, trouser, pocket</font></blockquote>
+<p>
+ To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> usually no clothing rule &quot;[as the parser]You do not normally need to refer to articles of clothing.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The usually no clothing rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the generic surroundings rule
+<p>
+ Rejects commands which include mentions of generic and probably unimplemented surroundings. The default list is:
+<p>
+<blockquote><font color="#000080"> ground, floor, wall, corner, ceiling, sky</font></blockquote>
+<p>
+ To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> generic surroundings rule &quot;[as the parser]Unless specifically mentioned by the text, avoid general concepts like the floor and ceiling. Try typing LOOK and then using verbs like TAKE or EXAMINE on the things you see mentioned.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The generic surroundings rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Example: ** Noses - Subtitle of this example.
+<p>
+ Show how to easily prevent the extension from stepping on your toes.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Noses&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Smarter Parser by Aaron Reed.<br> Include Commonly Unimplemented by Aaron Reed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Stage is a room. Bob and Phil are people in Stage.<br> A nose is a kind of thing. A nose is part of every person.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Nose poking is an action applying to one thing. Understand &quot;poke [something]&quot; as nose poking. Check nose poking: if noun is not a nose, instead say &quot;Only for noses!&quot;. Carry out nose poking: say &quot;Strangely satisfying.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins: release body part word &quot;nose&quot; from Smarter Parser.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Smarter Parser Messages (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> rule name</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> message</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> flexible stripping body parts rule</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[as the parser]You do not normally need to refer to parts of the body; except in the case of noses, which you can try to POKE.[as normal]&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> test me with &quot;x phil's nose / pick phil's nose / punch phil in the nose / poke phil's cheek / poke my nose&quot;</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

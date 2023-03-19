@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Armed<font color="#404040"> by </font>David Ratliff</b><p><small></small><p><p><hr><p>
+<p>
+ First I would like to thank Sebastian Rahn for helping me test this update and providing helpful feedback.
+<p>
+ Section: Basics of this Extension
+<p>
+ This extension adds the actions shooting something with something and stabbing something with something.
+<p>
+ Shooting a non-person thing is allowed, but has no real affect on the thing without additional rules. It is possible to make a game where the player has to shoot bottles to win a prize, or even to stop an enemy in a vehicle by shooting the tires.
+<p>
+ Stabbing a non-person thing is also allowed, but again does nothing on it's own. Again, the uses for this would depend on what the author had need to do with it.
+<p>
+ Another thing this extension does is add a few kinds: weapon (kind of thing), projectile (kind of weapon), blade (kind of weapon), fire arm (kind of projectile), bow (kind of projectile), knife (kind of blade) and sword (kind of blade). An author can create most any weapon they want using fire arm, bow, knife or sword, and they should behave properly.
+<p>
+ Lastly, this extension makes it possible for a player holding a weapon to succeed in persuasion up to 80% of the time.
+<p>
+ Section: Changes in this Version
+<p>
+ The shooting and stabbing actions now work for any actor, not just the player.
+<p>
+ This version no longer causes instant death when shooting or stabbing a person. Everyone starts out with 100 health, and attacks do various damage depending upon the weapon used and random outcomes.
+<p>
+ The player can use examine me for information about his or her health.
+<p>
+ Taking inventory will also allow the player to see his or her present health.
+<p>
+ Examining a NPC will also allow the player to see the present health of the NPC.
+<p>
+ If the player shoots or stabs another actor, that actor will become hostile. Hostile actors will take any weapon available (if there is one) and fight back.
+<p>
+ Additionally, a dead person no longer magically vanishes. A dead person, naturally, can not do anything, and little can be done to a dead person. If the need should arise, however, it is now possible to search the corpse of a fallen enemy, and take anything they may have been carrying.
+<p>
+ Section: 6L02 Compatibility Update
+<p>
+ This extension differs from the author's original version: it has been modified for compatibility with version 6L02 of Inform. The latest version of this extension can be found at &lt;https://github.com/i7/extensions&gt;.
+<p>
+ This extension is released under the Creative Commons Attribution licence. Bug reports, feature requests or questions should be made at &lt;https://github.com/i7/extensions/issues&gt;.
+<p>
+ Example: * Bob Fights Back! - A simple game featuring poor Bob. We can order Bob around (if we carry a weapon), or eliminate Bob. In this example, Bob will grab a weapon (if there is one available) and fight back. Using test commands may not give the desired results, as there is a 20% chance Bob will not do as he is told. After running the test me, one can restart the game to try something different. Trying test Bob will show Bob refusing to be bullied (and with luck, Bob refusing to commit suicide).
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Bob Fights Back!&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Armed by David Ratliff</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Use no scoring.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Hyar is a room. Thar is east of Hyar. A gun is a fire arm in Hyar. Bob is a man in Hyar. A katana is a sword in Thar.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;Bob, go east/take gun/Bob, go east/go east/x me/x Bob/shoot Bob with gun/x me/shoot Bob with gun/shoot Bob with gun/shoot Bob with gun/shoot Bob with gun/x me/x Bob/search Bob/take katana&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test Bob with &quot;take gun/Bob, go east/go east/Bob, take katana/Bob, drop katana/Bob, stab Bob with katana&quot;</font></blockquote>
+<p>
+ Example: ** Shooting Gallery - Bob invites you to shoot bottles to win a prize! This example is to show why it might be useful to allow a non-person thing to be shot. It shows the report shooting non-people rule being replaced, as well as a simple way to make shooting a non-person thing actually do something.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Shooting Gallery&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Armed by David Ratliff</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Use no scoring.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;A shady looking guy named Bob has convinced you to try your luck at shooting down six bottles with a cork gun. 'If you can do it, I[apostrophe]ll give you a teddy bear,' he promises.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Shooting gallery is a room.<br>&nbsp;&nbsp;&nbsp;&nbsp; A bottle is a kind of thing.<br>&nbsp;&nbsp;&nbsp;&nbsp; A table is in shooting gallery.<br>&nbsp;&nbsp;&nbsp;&nbsp; Six bottles are on the table.<br>&nbsp;&nbsp;&nbsp;&nbsp; A cork gun is a fire arm in shooting gallery.<br>&nbsp;&nbsp;&nbsp;&nbsp; Bob is a man in shooting gallery.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of shooting Bob with the cork gun, say &quot;Bob gives you a frightening stare and says 'You wouldn[apostrophe]t stand a chance even if that thing were real!'&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of doing anything to Bob, say &quot;He glares at you and says 'Just see if you can shoot all the bottles.'&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The report shooting non-people rule is not listed in any rulebook.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After shooting a bottle with something: remove the noun from play; continue the action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report shooting a bottle with something: say &quot;POP! goes the cork gun. SHATTER! goes the bottle. Bob says '[bottles message]!'&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say bottles message:<br>&nbsp;&nbsp;&nbsp;&nbsp; let x be the number of bottles on the table;<br>&nbsp;&nbsp;&nbsp;&nbsp; if x is 5:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Only 5 more to go&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise if x is 4:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Only 4 more&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise if x is 3:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Half way there&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise if x is 2:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Just 2 more&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise if x is 1:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Only 1 more and you win&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You shot all of the bottles! You win the teddy bear&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end the story finally saying &quot;You should give your newly won teddy bear to someone you love!&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;x Bob/take cork gun/shoot Bob with cork gun/shoot a bottle with cork gun/shoot a bottle with cork gun/shoot a bottle with cork gun/shoot a bottle with cork gun/shoot a bottle with cork gun/shoot a bottle with cork gun&quot;</font></blockquote>
+<p>
+ Example: *** Trolls - Bob, king of the trolls, must be destroyed! This example shows how easy it is to override some of the values used by Armed, such as max health and maximum damage, as well as how to make a NPC always want to attack the player on sight. Additionally, this example shows a simple way to create something to restore health to the player.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Trolls&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Armed by David Ratliff</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Use no scoring.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A crossbow is a bow. The description of the crossbow is &quot;An old crossbow. It still functions, but only barely.&quot; The maximum damage of the crossbow is 25.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A sharpened bone is a kind of knife. The maximum damage of a sharpened bone is 15.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A thing called the old rusty sword is a sword.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A potion is a kind of thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of drinking a potion:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the present health of the player is less than 86 begin;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let elixer be a random potion carried by the player;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You gulp down the vile tasting potion. 15 points have been restored to your health.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the present health of the player is the present health of the player + 15;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; remove elixer from play;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Drinking the potion while your health is [present health of the player] will do you no good. Save it for when you need it.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end if.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A troll is a kind of person. The max health of a troll is usually 40. A troll is usually hostile. Every troll carries one sharpened bone.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Forrest is a room. The description of forrest is &quot;A lush forrest. In front of you is a cave. A peculiar odor wafts out from the cave. Strangely, you neither see nor here any animals. Will you go in?&quot; The crossbow and one potion are here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Cave is a room. Cave is inside from forrest. The description of cave is &quot;A dank cave. It smells rather like trolls.&quot; A troll called a tall troll is in cave.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Passage is north of cave. The description is &quot;A narrow passage leading deeper into the cave.&quot; A troll called a short troll is here. It carries two potions.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Throneroom is west of passage. The description is &quot;This is the throneroom of Bob the troll king.&quot; Bob is a troll in throneroom. The max health of Bob is 70. Bob is docile. Bob carries the old rusty sword.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After going to throneroom for the first time:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Bob the troll king looks at you and says 'I am the troll king. Leave now or I will punish you for killing my followers!'&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if Bob is dead, end the story finally saying &quot;You have slain Bob, king of the trolls!&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;take all/go in/shoot troll with crossbow/shoot troll with crossbow/x me/drink potion/i/go north/shoot troll with crossbow/shoot troll with crossbow/search troll/take potions/i/drink potion/x me/go west/shoot Bob with crossbow/shoot Bob with crossbow/shoot Bob with crossbow/shoot Bob with crossbow&quot;</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Configurable Creative Commons License<font color="#404040"> by </font>Creative Commons</b><p><small></small><p><p><hr><p>
+<p>
+ This extension is designed to make it easy to release your Inform 7 work under one of the several types of Creative Commons Public License (CCPL). It is based on the information found at:
+<p>
+<blockquote><font color="#000080"> http://creativecommons.org/about/licenses/meet-the-licenses</font></blockquote>
+<p>
+ as of May 27, 2010.
+<p>
+ This extension implements three commands:
+<p>
+<blockquote><font color="#000080"> &quot;license&quot; - which displays the terms of the Creative Commons license you have selected<br> &quot;deed&quot; - which displays a plain English outline of terms and conditions of the selected license<br> &quot;warranty&quot; - which displays only the warranty portions of the terms</font></blockquote>
+<p>
+ It also includes rules to display a copyright notice and a display of the &quot;deed&quot; on startup. The display of the deed on startup may be suppressed by setting the 'suppress CC deed on startup' truth state provided by this extension in your source code. If this flag is set, only the copyright notice and a note about how to display the deed will be shown.
+<p>
+ This extension offers customization of its function as follows:
+<p>
+<blockquote><font color="#000080"> * The copyright notice displayed automatically includes the copyright year based on either the I7 'story creation<br> year' variable (defined as part of bibliographic data) or the 'copyright year string' text provided in this extension.<br> If both of these variables are left undefined, the compilation year will be used as the basis for determining the<br> copyright year, and a warning will be printed at the start of a non-release build using this extension to notify the<br> author. If both variables are defined, the 'copyright year string' will be displayed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> * The copyright holder of a work may not be the same as the author. This extension includes a variable called<br> 'copyright holder' that the author may set explicitly, to have entities other than the author shown as the<br> copyright holder in the copyright notice. If this variable is left undefined, a rule in the extension will set it to<br> the story author by default, and a warning will be printed at the start of a non-release build using this extension<br> to remind the author.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> * For authors who don't want to set the above variables but also don't want to see the warnings, a truth state<br> variable called 'suppress CC license warnings' is provided by the extension. If the author sets this to true in<br> the story source, these warnings will not be shown even in a non-release build.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> * The author may specify what type of CCPL is desired by setting the 'CC license chosen' variable to one of<br> six predefined codes: by, by-nc, by-nd, by-sa, by-nc-nd, or by-nc-sa. See the URL at the start of this<br> documentation for more information about the terms associated with each license type. If the author does<br> not specify a license type, the Attribution-Noncommercial-ShareAlike (by-nc-sa) license will be used, and a<br> warning will be printed at the start of a non-release build.</font></blockquote>
+<p>
+ Before using, PLEASE NOTE: Creative Commons does not recommend the use of the CCPL for software. However, although he is NOT A LAWYER, the writer of this extension believes a work of interactive fiction is readily distinguishable from typical software due to the creative narrative elements that are essential to the form. The CCPL is readily applicable to written fiction, and, at the very least, this extension's writer suspects the license would be interpreted as being appropriate for these narrative elements. This extension's writer also suspects that authors can extend this license to the programming art component of their work by choosing to release the source code in a work incorporating the CCPL.
+<p>
+
+<p>
+<p></body></html>

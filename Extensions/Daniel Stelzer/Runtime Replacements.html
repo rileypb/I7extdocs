@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Runtime Replacements<font color="#404040"> by </font>Daniel Stelzer</b><p><small></small><p><p><hr><p>
+<p>
+ This utility extension allows players to define replacements to alter their own commands. It does not affect the world model or the game itself in any way, only the user interface.
+<p>
+ With this extension installed, players have access to four new commands:
+<p>
+<blockquote><font color="#000080"> def input = output</font></blockquote>
+<p>
+ This defines a new text replacement: all instances of the word &quot;input&quot; in commands will now be replaced with &quot;output&quot;.
+<p>
+<blockquote><font color="#000080"> regex input = output</font></blockquote>
+<p>
+ This similarly adds a new replacement, but this time &quot;input&quot; will be taken as a regular expression rather than a simple piece of text.
+<p>
+<blockquote><font color="#000080"> undef input</font></blockquote>
+<p>
+ This allows the player to remove a previously-defined replacement. It actually removes *every* replacement which takes the given input, in case there are multiple.
+<p>
+<blockquote><font color="#000080"> macros</font></blockquote>
+<p>
+ This shows the definitions which have been defined thus far.
+<p>
+ Note that text replacements are taken to apply to whole words by default: if you redefine &quot;o&quot; to mean &quot;open&quot;, then &quot;o box&quot; will become &quot;open box&quot; rather than &quot;open bopenx&quot;. Regular expressions apply anywhere unless you specify otherwise, and thus can get around this if necessary.
+<p>
+ Example: * Rezrov
+<p>
+<blockquote><font color="#000080"> &quot;Rezrov&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Runtime Replacements by Daniel Stelzer.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Antechamber is a room. &quot;You have survived the dangers of the maze and escaped with your magical treasures! Now all that remains between you and victory are some locked doors to the east. Such tedium...&quot;<br> The player carries a thaumaturgical sensor, a thaumaturgical dooropener, and a broken dooropener.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of unlocking a locked door with the thaumaturgical dooropener:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The noun] [are] magically unsealed.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the noun is unlocked.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Red Chamber, the Orange Chamber, the Yellow Chamber, the Green Chamber, the Blue Chamber, the Indigo Chamber, and the Violet Chamber are rooms.<br> The Red Door is a locked door. It is east of the Antechamber and west of the Red Chamber.<br> The Orange Door is a locked door. It is east of the Red Chamber and west of the Orange Chamber.<br> The Yellow Door is a locked door. It is east of the Orange Chamber and west of the Yellow Chamber.<br> The Green Door is a locked door. It is east of the Yellow Chamber and west of the Green Chamber.<br> The Blue Door is a locked door. It is east of the Green Chamber and west of the Blue Chamber.<br> The Indigo Door is a locked door. It is east of the Blue Chamber and west of the Indigo Chamber.<br> The Violet Door is a locked door. It is east of the Indigo Chamber and west of the Violet Chamber.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After going to the Violet Chamber: end the story finally saying &quot;You have escaped at last!&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Last after reading a command: say &quot;[italic type][bracket]Command: '[player's command]'[close bracket][roman type][line break]&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test boring with &quot;unlock red door with thaumaturgical dooropener / go east / unlock orange door with thaumaturgical dooropener / go east&quot;.<br> Test text-define with &quot;def t = thaumaturgical dooropener / unlock red with t / go east / unlock orange with t / go east&quot;.<br> Test regex-define with &quot;regex rezrov (.+) = unlock \1 with thaumaturgical dooropener / rezrov red / go east / rezrov orange / go east&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

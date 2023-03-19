@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Approaches<font color="#404040"> by </font>Emily Short</b><p><small></small><p><p><hr><p>
+<p>
+ Approaches provides a GO TO... action which allows the player to move to a named room, as long as the path lies through rooms he has already visited.
+<p>
+ Several Inform examples already show how to do this: what Approaches adds is a flexible and adaptable set of rules and more elegant reporting of movement through intermediate rooms before arrival at the final goal.
+<p>
+ Chapter: Route-finding methods
+<p>
+ Section: Default behavior with visited rooms only
+<p>
+ By default, Approaches will find a route only through rooms already visited by the player, but it will ignore states of darkness. (A dark room never becomes &quot;visited&quot; until the player has seen it in the light, though, so this will not facilitate fumbling through dark rooms.) It also seeks a route first through unlocked doors and only attempts locked doors if that fails.
+<p>
+ If we wish to change this behavior, we may do so by replacing the approach-heading selection rule, which currently reads thus:
+<p>
+<blockquote><font color="#000080"> An approach-finding rule (this is the approach-heading selection rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; now approach-heading is the best route from the location to the noun through visited rooms, using doors;<br>&nbsp;&nbsp;&nbsp;&nbsp; if approach-heading is not a direction<br>&nbsp;&nbsp;&nbsp;&nbsp; begin;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now approach-heading is the best route from the location to the noun through visited rooms, using even locked doors;<br>&nbsp;&nbsp;&nbsp;&nbsp; end if.</font></blockquote>
+<p>
+ Section: Routes through unvisited rooms
+<p>
+ If we wanted, we could replace this rule with another, such as
+<p>
+<blockquote><font color="#000080"> An approach-finding rule (this is the new approach-heading selection rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; now approach-heading is the best route from the location to the noun, using even locked doors.</font></blockquote>
+<p>
+ This eliminates the double-pass approach and allows the player to move across areas of the map as yet unvisited.
+<p>
+ This may still be too limiting, however, since by default Approaches only understands GO TO or RETURN TO or GO BACK TO or even REVISIT any room which the player has already visited. Names of unvisited rooms are not recognized, to protect the game's secrets.
+<p>
+ If we want to let the player move through unvisited rooms, we may also want to let him GO TO places he hasn't been yet; in that case we could add the line
+<p>
+<blockquote><font color="#000080"> Understand &quot;go to [any room]&quot; or &quot;go back to [any room]&quot; or &quot;return to [any room]&quot; or &quot;revisit [any room]&quot; as approaching.</font></blockquote>
+<p>
+ See Riverside Path, below, for an example of how to combine these elements.
+<p>
+ Section: Routes in darkness
+<p>
+ If we want to force the player to avoid darkness, we could also write
+<p>
+<blockquote><font color="#000080"> An approach-finding rule (this is the lighted-room approach-heading selection rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; now approach-heading is the best route from the location to the noun through lighted rooms, using even locked doors.</font></blockquote>
+<p>
+... though another approach would be to find and execute the path, but stop the player at the point where he reaches a dark room and not allow him to enter it. The example &quot;Traveling with Candles&quot;, below, demonstrates how to do this.
+<p>
+ Section: Stopping partway through a path
+<p>
+ The trickiest aspect of the go to command is that the player can be stopped at any time by a locked door or by some other instead rule preventing motion; and if that happens, we want to print the description of the route taken so far and only then explain what the barrier was.
+<p>
+ Approaches is designed to work with Locksmith in such a way that if the player encounters a locked door for which he doesn't have a key, the path will be printed first and then the lack of key will be explained. But if we are also introducing other things that can stop the player, we need to write rules that account for the possibility of interrupted travel.
+<p>
+ To do this, we would invoke the describing path activity, as in
+<p>
+<blockquote><font color="#000080"> carry out the describing path activity with the player.</font></blockquote>
+<p>
+ or, as a shortcut useful in text output,
+<p>
+<blockquote><font color="#000080"> say &quot;[path-walked so far]&quot;.</font></blockquote>
+<p>
+ In the event that the player has not already traveled through several rooms, this will print nothing, so no extra conditions are needed to use it. See the Wide-Eyed Saloon example below for a demonstration of this.
+<p>
+ Chapter: Refining the description of movement
+<p>
+ Section: The path history rule
+<p>
+ Approaches creates a description of the player's trip by making a list of pieces of indexed text, such as &quot;south to the wishing well&quot; or &quot;northeast again to Peter's House&quot;. This list is called the described motion of a person; so when it comes time to print out the path description, we simply say &quot;[described motion of the player]&quot; and get a comma-delimited list of each of the directions the player goes.
+<p>
+ There are several points at which we can intervene to modify the text that is built and printed here.
+<p>
+ One is to replace the creating a path history rule, which constructs these pieces of text. If we want to use essentially the same method but write the output text in a different language or using different conventions, that would be the best place to intervene.
+<p>
+ For instance, we might change to the following if we wanted to be sure to list doorways passed through:
+<p>
+<blockquote><font color="#000080"> An approach-finding rule (this is the new creating a path history rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; add the approach-heading to the path so far of the player;<br>&nbsp;&nbsp;&nbsp;&nbsp; let approach-destination-name be indexed text;<br>&nbsp;&nbsp;&nbsp;&nbsp; let approach-destination-name be &quot;[the approach-destination]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; let adverb be indexed text;<br>&nbsp;&nbsp;&nbsp;&nbsp; let adverb be &quot;&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; let X be the number of entries in the path so far of the player;<br>&nbsp;&nbsp;&nbsp;&nbsp; if X is greater than 1<br>&nbsp;&nbsp;&nbsp;&nbsp; begin;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let previous direction be entry (X - 1) in the path so far of the player;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the previous direction is the approach-heading, now adverb is &quot;again &quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; end if;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the room-or-door approach-heading from the location is a door, now adverb is &quot;[adverb]through [the room-or-door approach-heading from the location] &quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; let N be indexed text;<br>&nbsp;&nbsp;&nbsp;&nbsp; if approach-destination is proper-named,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let N be &quot;[approach-heading] [adverb]to [approach-destination-name]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise let N be &quot;[approach-heading] [adverb]to [approach-destination-name in lower case]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; add N to the described motion of the player;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[run paragraph on]&quot;;</font></blockquote>
+<p>
+ or, if we planned very complicated variations, we could even break this behavior down into a new rulebook or set of activities, allowing for very specific customized travel descriptions for any given pair of rooms.
+<p>
+ Section: The describing path of activity
+<p>
+ A second possibility is to rewrite the rule for describing path: &quot;describing path of something&quot; is an activity, so we can supply special rules for alternative player characters, while driving in a car, etc.
+<p>
+ The possibilities here are moderately complex; the &quot;Jade Amphitheater&quot; example below demonstrates one approach, whereby we might change our output to leave out the direction names and just list the rooms passed through, as in
+<p>
+<blockquote><font color="#000080"> You go to Crimson Chamber by way of Grooved Channel, Shallow Jade Amphitheater, Silver Filigree Prison and Mandarin Casket Room.</font></blockquote>
+<p>
+ Section: Changing the cases or names of rooms in movement output
+<p>
+ At a more microscopic level: names of rooms will be put in the lower case unless they are proper-named: this means that places called, e.g., &quot;the church&quot; will be lower-cased, but &quot;Paris&quot; would be left in its original sentence casing. If we want to do anything extraordinary to override this behavior, we can always write a rule such as
+<p>
+<blockquote><font color="#000080"> Rule for printing the name of the Lotus-Eaters' Island while approaching:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;dangerously soporific island&quot;</font></blockquote>
+<p>
+ and this new text will be used instead of the usual name. See the &quot;Proper Places&quot; example for a fuller demonstration of how to control this output.
+<p>
+ Chapter: Other characters
+<p>
+ Section: A warning
+<p>
+ The behavior of Approaches for characters other than the player is relatively simple: most steps of approach-finding are omitted. Other characters are allowed, by default, to travel through any rooms they like, subject to the usual rules about locked doors; no special attempt is made to modify the description of that travel, because in almost all cases, the player will only be around to see the character move (at most) into and out of a room. So the regular report going rules are adequate to the cause.
+<p>
+ This may not be ideal if the player character ever winds up riding in a vehicle with another character while the other character follows a path through multiple rooms. In this case, we will see a series of room descriptions and movement announcements, and the output text could end up being rather long and complex.
+<p>
+ This is a sufficiently uncommon situation that Approaches does not attempt to provide an alternate reporting method for us; appropriate description is likely to vary from game to game.
+<p>
+ Example: * Easy Keys - Demonstrating how to use Approaches with Locksmith to create doors that properly bar the player's travel.
+<p>
+ Approaches is designed to work together with Locksmith to produce sensible messages when the player stops in the middle of going somewhere because of a locked door. Conversely, if the player does have the correct keys, he will automatically unlock, open, and move through any doors that stand in his way, without special comment.
+<p>
+ The only trick to bear in mind here is that we must use the &quot;sequential action&quot; option; otherwise, Locksmith will print &quot;(first unlocking the hut door)&quot; sorts of messages at inappropriate points in our action reporting.
+<p>
+ So for example:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Easy Keys&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Approaches by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Use sequential action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Seamus' Hut is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> South of Seamus' Hut is the hut door. The hut door is a door. It is lockable and unlocked. The tiny key unlocks the hut door. The player carries the tiny key.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> South of the hut door is an Open Field.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> South of the open field is Woodland.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;s / lock door / s / drop key / go to Hut / go to woodland / get key / go to Hut&quot;.</font></blockquote>
+<p>
+ Example: * Wide-Eyed Saloon - Demonstrating how to safely interrupt the player's travel with conditions other than locked doors.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Wide-Eyed Saloon&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Approaches by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Wide-Eyed Saloon is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> North of Wide-Eyed Saloon is a Dusty Street.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Church is west of a Dusty Street.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of going to the church when the player does not carry the hymnal:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[path-walked so far]Entry into the church is barred without a hymnal, unfortunately.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player carries the hymnal.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;n / w / go to Saloon / drop hymnal / go to church / west&quot;.</font></blockquote>
+<p>
+ Example: * Proper Places - Demonstrating how to change the names of rooms as printed in movement descriptions.
+<p>
+ There are two ways to make a room count as proper-named: to define it without an article, as we define Paris here; or to explicitly say that it is proper-named, as shown in the case of the Bois du Boulogne. Either way, the place name will be shown capitalized, whereas other location names will be printed in lower case during travel descriptions.
+<p>
+ As mentioned, we can override output with the rule for printing the name..., as well.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Proper Places&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Approaches by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Paris is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> West of Paris is the Bois du Boulogne. The Bois du Boulogne is proper-named.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> South of Paris is an Unattended Pathway.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> South of the Unattended Pathway is a Small Forbidding Hut.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for printing the name of the small forbidding hut while the player is hurrying:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;aforementioned unwelcoming hut&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> South of the Small Forbidding Hut is the Empty Kitchen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;w / e / s / s / s / go to bois&quot;.</font></blockquote>
+<p>
+ Example: ** Traveling with Candles - Movement in which the player is not allowed to enter a dark room unless some light source is found inside or the player himself carries a light source.
+<p>
+ This example is a little tricky in that we must invoke some of Inform's underlying machinery to check whether the room the player is about to enter in fact has a visible lightsource inside; otherwise, it is much the same as the previous example in setting special limits on the player's movement and printing the path description when necessary.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Traveling with Candles&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Approaches by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Living Room is a room. The Kitchen is north of the Living Room. The Basement is below the Kitchen. The Oubliette is south of the Basement.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Basement and the Oubliette are dark.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of going to a provisionally dark room (called danger spot) when the player does not enclose a lit thing:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[path-walked so far]It looks dark in [the danger spot], [if the number of entries in the path so far of the player is greater than 0]though, [end if]so you stop&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the number of entries in the path so far of the player is greater than 0:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;.[no line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player carries a lit thing called a candle.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To decide whether (place - a room) finds light inside:<br>&nbsp;&nbsp;&nbsp;&nbsp; (-  ( OffersLight({place}) )  -)</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Definition: a room is internally lit if it finds light inside.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Definition: a room is provisionally dark if it is not internally lit.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;n / d / s / drop candle / go to Living Room / get candle / n / drop candle / s / go to living room / go to basement / get candle / go to living room / drop candle / go to oubliette&quot;.</font></blockquote>
+<p>
+ Example: ** Riverside Path - A bicycle that the player can use to traverse multiple rooms at a time, when travel on foot is restricted to single-room movement.
+<p>
+ Suppose we want the player to be able to travel long distances at once only when riding on a vehicle: maybe it's part of a timed puzzle that the player can solve only after finding the bike, or maybe it's simply a gesture at realism.
+<p>
+ We're also going to allow the player to travel even to unvisited rooms in this scenario, so that he can go by bicycle to places he knows about but hasn't had time to explore on foot.
+<p>
+ Finally, because our travel is by vehicle, we're going to restrict the player to disallow riding through doors, so we calculate &quot;the best route from the location to the noun&quot; rather than &quot;the best route from the location to the noun, using doors&quot;.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Riverside Path&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Approaches by Emily Short. Include Rideable Vehicles by Graham Nelson.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 1 - Restricting travel to bike</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check approaching:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the holder of the player is not vehicular and the noun is not adjacent, say &quot;On foot you can only travel short distances at a time.&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 2 - Allowing travel to and through unvisited rooms</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;go to [any room]&quot; or &quot;go back to [any room]&quot; or &quot;return to [any room]&quot; or &quot;revisit [any room]&quot; as approaching.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The new approach heading finding rule is listed instead of the approach-heading selection rule in the approach-finding rules.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the new approach heading finding rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; now approach-heading is the best route from the location to the noun.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 3 - The scenario</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Field is north of the Street. The Street is north of the Town Square. The Town Square is north of the Riverside Path.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The bicycle is a rideable vehicle in the Field.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;go to Riverside Path / get on bicycle / go to riverside path / get off bicycle / go to town square&quot;.</font></blockquote>
+<p>
+ Example: ** The Jade Amphitheater - A replacement for the ordinary describing path rule to produce text output such as &quot;You go to Crimson Chamber by way of Grooved Channel, Shallow Jade Amphitheater, Silver Filigree Prison and Mandarin Casket Room.&quot;
+<p>
+ Here we want to change both the individual pieces of the movement description (using only room names and not directions traveled) and the order in which this output is presented. Therefore, we need a new rule to write the player's described motion using just the room names, and also a new describing path rule to put the description together:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Jade Amphitheater&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 1 - Rules for Revising Output</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Approaches by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The new creating a path history rule is listed instead of the creating a path history rule in the carry out going rules.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Room sequence is a list of rooms that varies.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out going while the player is hurrying (this is the new creating a path history rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; add the approach-heading to the path so far of the player;<br>&nbsp;&nbsp;&nbsp;&nbsp; add the approach-destination to the room sequence;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for describing path of the player:<br>&nbsp;&nbsp;&nbsp;&nbsp; let N be the number of entries in the room sequence;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[We] [go] [if the location is the noun]to[otherwise]toward[end if] [entry N of room sequence]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if N is greater than 1:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; truncate the room sequence to (N - 1) entries;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot; by way of [the room sequence]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;. [run paragraph on]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; clear the path-walked for the player;<br>&nbsp;&nbsp;&nbsp;&nbsp; now room sequence is { }.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 2 - Scenario</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Crimson Chamber is north of the Mandarin Casket Room. The Mandarin Casket Room is west of the Silver Filigree Prison. The Silver Filigree Prison is northwest of the Shallow Jade Amphitheater. The Shallow Jade Amphitheater is north of the Grooved Channel. Below the Grooved Channel is the Carved Basin.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A room is usually proper-named.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;s / e / se / s / d / go to the Crimson Chamber&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

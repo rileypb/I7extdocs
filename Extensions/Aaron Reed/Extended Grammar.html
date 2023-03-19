@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Extended Grammar<font color="#404040"> by </font>Aaron Reed</b><p><small></small><p><p><hr><p>
+<p>
+ Including this extension adds about sixty new verbs to a story's vocabulary, including words like GRAB, INSPECT, DESCEND, and KICK. Note that no new actions are created: these are all simply synonyms for existing commands.
+<p>
+ A few new command forms are also understood as well: for instance, CLIMB UP is understood as going, CLIMB INTO THE CHAIR as entering, and CLIMB ON WALL as climbing, all three of which are normally unrecognized.
+<p>
+ The functionality is similar to that provided by the old Inform 6 extension ExpertGrammar.h by Emily Short, minus some of the features since incorporated by default into Inform's grammar, and plus a few words and command forms I observed new IF players try to use during the testing of various projects. Emily's comments in the original extension note that many of these words are either standard in other IF languages, or were observed in the command logs of an online version of Zork.
+<p>
+ Example: * Look Around You -
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Give My Creation Life&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Extended Grammar by Aaron Reed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Laboratory is above the Operating Room. A slab is an enterable supporter in the Operating Room. A man called the Creature is on the slab. The player carries a raw steak. The oscillitron is a device in Operating Room. Instead of attacking the creature, say &quot;It's alive!&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;descend / look around / observe the creature / activate oscillitron / sit down on the slab / hand steak to Creature / place steak on slab / kick Creature / upstairs&quot;</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

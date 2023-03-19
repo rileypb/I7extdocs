@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Randomness<font color="#404040"> by </font>Mikael Segercrantz</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter: Information on the Pseudorandom number generator
+<p>
+ The Randomness extension creates a pseudorandom number generator kind, which has a few properties in it:
+<p>
+<blockquote><font color="#000080"> the previous value - the latest calculated random number<br> the multiplier - the multiplier used to create random numbers<br> the adder - the adder used to create random numbers</font></blockquote>
+<p>
+ The pseudorandom number generator of the Randomness extension is of the most basic kind, utilizing the formula SEED = (SEED * MULT) + ADD to generate random numbers.
+<p>
+ Chapter: The main pseudorandom number generator
+<p>
+ This extension automatically creates one pseudorandom number generator called the main pseudorandom number generator. If your project requires multiple generators, you are free to create more of them, e.g. with
+<p>
+<blockquote><font color="#000080"> The skeleton in the closet pseudorandom number generator is a pseudorandom number generator.</font></blockquote>
+<p>
+ Chapter: Seeding the PRNG
+<p>
+ To seed the pseudorandom number generator created by the Randomness extension, you can use the following phrases:
+<p>
+<blockquote><font color="#000080"> seed the random number generator (name of generator) with (the seed value).<br> set the multiplier of (name of generator) to (the multiplier value).<br> set the adder of (name of generator) to (the adder value).</font></blockquote>
+<p>
+ It is highly recommended that the multiplier be a prime number; the same can be said of the adder, although the extension does not require this.
+<p>
+ Chapter: Reading values from the PRNG
+<p>
+ You can read any pseudorandom number generator using the following syntax:
+<p>
+<blockquote><font color="#000080"> the next random number of (name of generator)</font></blockquote>
+<p>
+ However, accessing the main pseudorandom number generator is somewhat easier:
+<p>
+<blockquote><font color="#000080"> the next random number</font></blockquote>
+<p>
+ is enough to access it.
+<p>
+ If you wish to read the last random number generated, you can use
+<p>
+<blockquote><font color="#000080"> the previous random number of (name of generator)</font></blockquote>
+<p>
+ and
+<p>
+<blockquote><font color="#000080"> the previous random number</font></blockquote>
+<p>
+ to access them.
+<p>
+
+<p>
+<p></body></html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Command Prompt on Cue<font color="#404040"> by </font>Ron Newcomb</b><p><small></small><p><p><hr><p>
+<p>
+ Section: Purpose
+<p>
+ When our player is in a multi-way conversation, or is witnessing a scene that they may or may not wish to intervene, when to allow the player to intervene becomes a design problem. Too infrequently, and the player may feel railroaded for the sake of prose. Too frequently, and the prose suffers from the choppy intrusion of the command prompts, many of which have only a WAIT command on them.
+<p>
+ This extension suppresses the command prompt in such scenes until the player begins to type a command. If the player does not wish to enter a command, pressing SPACE will allow the prose to continue unhindered. Clever use of the Say phrase &quot;run paragraph on&quot; can even allow several turns to go by within a single paragraph, allowing a command prompt at any time between sentences.
+<p>
+ Section: Knobs and Dials and Readouts
+<p>
+ The truth state variable &quot;command prompt on cue&quot; is the master switch for the extension. When true, the extension works as advertised. When false, the extension turns itself off. By default, it is off when play begins. This is because it is assumed the extension's mode of play will be used only within the work's busier scenes.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> When the rapier duel begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;'Then you'll die by my blade, upstart.'&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now command prompt on cue is true.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When the rapier duel ends:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Then he turned and walked away, leaving you with your injured lover.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now command prompt on cue is false.</font></blockquote>
+<p>
+ &quot;The implicit unobtrusive command&quot; is the command we wish to run when our player presses SPACE. By default, it equals &quot;WAIT&quot;, so pressing SPACE calls the game's waiting action. We may change this whenever we wish, to whatever we wish.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> After entering the closet during an eavesdropping scene:<br>&nbsp;&nbsp;&nbsp;&nbsp; change the implicit unobtrusive command to &quot;LISTEN&quot;.</font></blockquote>
+<p>
+ &quot;Unobtrusive player&quot; is a readout. When true, it means that this turn, our player has merely pressed SPACE -- he or she has decided not to intervene. When false, it means our player had decided to join in and try a command. This allows us to distinguish why the implicit action was called.
+<p>
+ Section: Caveats
+<p>
+ Due to technical reasons, the extension does not deal well with single-letter commands. When our player tries to interrupt with a L (for LOOK) or i (for INVENTORY), a spurious &quot;I beg your pardon&quot; error will result. The player may then proceed normally. Secondly, the player cannot delete the first typed letter. Finally, fast typists may lose the second letter -- understanding &quot;ak&quot; and &quot;tll&quot; may be called for.
+<p>
+ Section: 6L02 Compatibility Update
+<p>
+ This extension differs from the author's original version: it has been modified for compatibility with version 6L02 of Inform. The latest version of this extension can be found at &lt;https://github.com/i7/extensions&gt;.
+<p>
+ This extension is released under the Creative Commons Attribution licence. Bug reports, feature requests or questions should be made at &lt;https://github.com/i7/extensions/issues&gt;.
+<p>
+ Example: * It Must Be the Argument Clinic - John and Marsha need some time away from each other.
+<p>
+ As we use the SPACE bar a lot, a TEST ME script does not perform well. When running the example, just press SPACE a few times until you get your bearings, then try some ASK ABOUT or TELL ABOUT commands.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;It Must Be the Argument Clinic&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Command Prompt on Cue by Ron Newcomb.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The living room is a room. &quot;It seems like John and Marsha are at it again.   Press the space bar or enter key to listen.  Or try to help matters and ASK her what's wrong or TELL him some good advice.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now command prompt on cue is true;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the command prompt is &quot;You decide to &quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Some headphones are a wearable thing in the living room.<br> Carry out wearing the headphones: now command prompt on cue is false.<br> Last report wearing the headphones: say &quot;Blessed silence.&quot;<br> Carry out taking off the headphones: now command prompt on cue is true.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> John is a man in the living room. Marsha is a woman in the living room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of waiting when the remainder after dividing the turn count by 2 is 0, say &quot;'You never showed any love!' says John.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of waiting when the remainder after dividing the turn count by 2 is 1, say &quot;'You were always out at the bar with the guys!' says Marsha.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of answering John that, say &quot;'Oh don't you start in on me, too!' says John.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of answering Marsha that, say &quot;'He never listens,' she says to you.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of asking John about, say &quot;He shakes his head.  It seems [the topic understood] angers him.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of asking Marsha about, say &quot;'Oh John knows all about [italic type][topic understood][roman type].  Ask him anything, he knows it all!'&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of telling John about, say &quot;'Try telling her that!'&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of telling Marsha about, say &quot;'I know you're trying to help, but there's no help for him.'&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;ask [someone] [text]&quot; as asking it about.<br> Understand &quot;ak [someone] [text]&quot; as asking it about.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;tell [someone] [text]&quot; as telling it about.<br> Understand &quot;tll [someone] [text]&quot; as telling it about.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

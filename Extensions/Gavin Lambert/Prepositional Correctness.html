@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Prepositional Correctness<font color="#404040"> by </font>Gavin Lambert</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter - Compatibility
+<p>
+ This extension was written for Inform 6M62. Since it delves heavily into Standard Library messages it is likely incompatible with any other version of Inform, but YMMV.
+<p>
+ It does not depend on any other extensions, but does introduce some extra features to enhance &quot;Rideable Vehicles by Graham Nelson&quot; if you happen to be using that as well.
+<p>
+ Chapter - Prepositions in General
+<p>
+ Inform's world model currently only defines two types of things that can contain other things:
+<p>
+ - Containers, which have things &quot;in&quot; them, and (if enterable) will show &quot;(in the container)&quot; in the room description heading. - Supporters, which have things &quot;on&quot; them, and (if enterable) will show &quot;(on the supporter)&quot; in the room description heading.
+<p>
+ Sometimes, however, we want to be more creative than this -- perhaps rather than &quot;(on the ladder)&quot; you'd rather see &quot;(dangling from the ladder)&quot;. Or in another case you might want &quot;(under the chassis)&quot; or perhaps even just &quot;(lounging about)&quot;. Or when describing the things contained in a closet, you might want to say &quot;Hanging in the closet&quot; rather than simply &quot;In the closet&quot;.
+<p>
+ This extension overrides a ton of internal things in the Standard Rules to (hopefully) allow you to replace *almost* all of the places where the default prepositions are used with your own item-specific ones:
+<p>
+<blockquote><font color="#000080"> The preposition of the closet is &quot;hanging inside&quot;.</font></blockquote>
+<p>
+ Note that prepositions should always be specified in lower case. They'll be automatically capitalised if required when used at the beginning of a sentence. But if you don't like the automatic capitalisation, you can override it:
+<p>
+<blockquote><font color="#000080"> The capital preposition of the closet is &quot;Hanging within&quot;.</font></blockquote>
+<p>
+ For more complex cases, you can either put if conditions in the preposition, or you can write a special rule -- but note that there are still a small number of places where only the preposition is used, not the rule:
+<p>
+<blockquote><font color="#000080"> Rule for capital prepositionally naming a supporter (called the table):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the table is magical, say &quot;Glowing runes surround [the table], illuminating&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise continue the activity.</font></blockquote>
+<p>
+ Note that you need to specify the full text (typically including the name; while that's not mandatory it would usually be confusing without it), and (for the 'capital' variant only) needs to sound correct when followed by a list of objects.
+<p>
+ Chapter - Entering/Exiting Prepositions
+<p>
+ There are a few places where Inform wants to print a verb related to the preposition -- for example, when entering and exiting, it may want to use phrases like &quot;get into&quot; or &quot;gets out of&quot; or &quot;getting onto&quot;. These don't fit neatly into a simple text property since they need to adapt to the story narrative tense and whether the actor being mentioned is plural or not and a few other factors, so instead we're piggybacking on Inform's rich adaptive verb system to handle these.
+<p>
+ To add a new action phrase, you first need to link it to a relation that Inform is aware of (while Inform does support verbs &quot;for saying&quot; that aren't linked to relations, it doesn't currently allow using prepositions with these for some reason):
+<p>
+<blockquote><font color="#000080"> The verb to squeeze into means the reversed containment relation.<br> The verb to pop out of means the reversed containment relation.<br> The entering preposition of the small chest is the verb squeeze into.<br> The exiting preposition of the small chest is the verb pop out of.</font></blockquote>
+<p>
+ It doesn't really matter which relation you associate with them (unless you use the phrase elsewhere in your source text), but typically &quot;reversed containment&quot; and &quot;reversed support&quot; make the most sense, or perhaps another relation that is defined by an extension.
+<p>
+ (And yes, you can just use a verb without a preposition, despite the property name. But calling the property this keeps them logically related, despite not being entirely grammatically accurate.)
+<p>
+ These don't have associated rules/activities, but if you need them to be dynamic for some reason then you can change the property during play as required.
+<p>
+ Chapter - The Room Description Heading
+<p>
+ By default, the same prepositions will be used in the room description heading (when inside or on top of something) as in other places. However, since these are only printed for the player (whereas the others are most commonly used for things other than the player), it's fairly likely that you'd want to customise them independently. This can be done through another activity:
+<p>
+<blockquote><font color="#000080"> Rule for room heading describing the ladder: say &quot;dangling from [the ladder]&quot;.<br> Rule for room heading describing an animal (called the mount): say &quot;riding [the mount]&quot;.</font></blockquote>
+<p>
+ Note that you need to specify the full text that you want to appear in the parentheses, typically including the name of the thing that the player is inside or on, otherwise it may be confusing for the player.
+<p>
+ Also note that these rules will only be used for the parenthetical extensions after the main location name -- if someone gets into a closet, then it will print the location name and follow the rule to print the closet's prepositional phrase afterwards; but if they then close the closet so they can no longer see the external room, then the closet is now the &quot;visibility ceiling&quot; and it will simply print its name without any parenthetical extensions and without trying these rules (unless the player were inside something else inside the closet). If you really want to replace this text as well, then you'll have to use a different technique, such as:
+<p>
+<blockquote><font color="#000080"> This is the closeted rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[bold type]Hiding inside the closet[roman type][line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; say run paragraph on with special look spacing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The closeted rule substitutes for the room description heading rule when the player is inside the closed closet.</font></blockquote>
+<p>
+ Note that this requires more boilerplate, since you're replacing the entire standard rule. (And this replacement rule doesn't check if the player is inside something else that is in turn inside the closet, so try to avoid doing that sort of thing, or you'll need a more complex rule or condition, or perhaps to intercept &quot;printing the name&quot; instead.)
+<p>
+ Chapter - What's not affected
+<p>
+ The response text for several actions (notably, the &quot;putting it on&quot; and &quot;inserting it into&quot; actions) have deliberately not been altered to use custom prepositions. This is to remain consistent with the parser's grammar for the command itself.
+<p>
+ If you want to recognise additional custom prepositions in player commands, then you will need to define additional commands and/or amend the grammar yourself. Since Inform's parser is (in general) a left-to-right one, it isn't really feasible to have these parse using a preposition property for a not-yet-known second noun.
+<p>
+ Example: * Excessive Comfort
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Excessive Comfort&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Prepositional Correctness by Gavin Lambert.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Small Apartment is a room. &quot;An opulently decorated small apartment room, to a nearly ridiculous level for its size.  And yet, nothing actually appears out of place.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A closet is an enterable openable lit container in the apartment.<br> The description is &quot;[if the player is inside the closet]It was a tight squeeze through some expensive leather coats, but you've found a space within.[otherwise]Mahogany.  Mmmmm-ahogany.[end if]  [closet state]&quot;.<br> Understand &quot;closet door&quot; as the closet. Understand &quot;door&quot; as the closet when the player is inside the closet.<br> To say closet state:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the player is inside the closet:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the closet is open, say &quot;The closet door is still open.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise say &quot;The closet is closed, but sufficient light still filters through to the inside.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the closet is open, say &quot;The closet is invitingly open.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise say &quot;The closet is closed.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A sofa is an enterable supporter in the apartment.<br> The description is &quot;You're not entirely sure what kind of upholstery this sofa is decked out in, but [if the player is on the sofa]it is the softest thing ever[otherwise]it looks invitingly soft[end if].&quot;<br> The preposition is &quot;draped on&quot;.<br> A plush cushion is on the sofa.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A large bed is an enterable supporter in the apartment.<br> The description is &quot;[if the player is on the bed]It's like sleeping on a cloud.[otherwise]The sheets and spreads are entirely white, but not starkly so.  Somehow, airy.  Tempting.&quot;<br> The preposition is &quot;lying on&quot;.<br> Understand &quot;lie down/-- on [bed]&quot; as entering.<br> A fluffy pillow is on the bed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for room heading describing the open closet: say &quot;awkwardly standing inside [the closet]&quot;.<br> Rule for room heading describing the sofa: say &quot;lounging about on [the sofa]&quot;.<br> Rule for room heading describing the bed: say &quot;floating amongst the clouds&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The verb to squeeze into means the reversed containment relation.<br> The verb to pop out of means the reversed containment relation.<br> The entering preposition of the closet is the verb squeeze into.<br> The exiting preposition of the closet is the verb pop out of.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for printing the locale description for the closet: try examining the closet.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;enter closet / l / close closet / l / open closet / sit on sofa / l / sit on bed / l&quot;.</font></blockquote>
+<p>
+ Example: * Horseback
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Horseback&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Rideable Vehicles by Graham Nelson.<br> Include Prepositional Correctness by Gavin Lambert.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Grasslands is a room. &quot;Wide open grasslands stretch as far as the eye can see.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A horse is a kind of rideable animal. Understand &quot;horse&quot; as a horse.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Spirit is a horse in Grasslands. &quot;Spirit grazes aimlessly nearby.&quot;<br> The description is &quot;This is your horse, of course, of course.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;mount horse / l&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Consolidated Multiple Actions<font color="#404040"> by </font>John Clemens</b><p><small></small><p><p><hr><p>
+<p>
+ Section: Basic behavior
+<p>
+ Normally, when the player issues a command such as &quot;take knife and fork&quot; or &quot;drop all&quot;, Inform prints a series of messages, one for each object, preceded by the object name. This often results of a series of default messages, which we might rather see grouped into a single message. Consolidated Multiple Actions combines the reports of such multiple actions into a single message when the actions have standard results. The default behavior requires no additional work beyond including the extension.
+<p>
+ Before printing any reports, the actions are tested and divided into three categories. &quot;Standard&quot; action results are those which succeed and print nothing when run silently, i.e., they print text only in report rules (parenthetical and bracketed output, such as &quot;(first taking the...)&quot; and debugging messages are ignored here). &quot;Failed&quot; action results are those which fail. &quot;Noteworthy&quot; action results are ones which either succeed but print text other than in a report rule (e.g., they use an &quot;after&quot; rule), or are explicitly marked as noteworthy. This can override standard and failed results. An action result can be marked as noteworthy by using the phrase:
+<p>
+<blockquote><font color="#000080"> indicate noteworthy consolidation</font></blockquote>
+<p>
+ This can be used anywhere in the rulebooks for the action except the &quot;report&quot; rules (which are not consulted during testing).
+<p>
+ After the action results are determined, a single report message is printed for all of the objects which had standard results. Then the failed actions are run sequentially, with the usual reporting, followed by the noteworthy actions. By default, the object name is printed before failed action results (as in the ordinary behavior), but is omitted before noteworthy action results.
+<p>
+ There is one use option: &quot;Use strict action consolidation checking&quot; will require that nothing at all be printed (not even parenthetical messages) in order for an action result to be considered standard. Finally, when using the &quot;actions&quot; debugging commands, messages will be printed showing the results of the consolidation tests.
+<p>
+ Section: New rules and rulebooks
+<p>
+ The extension adds a new rulebook, the multiple action processing rules, which is run after Inform has determined that there are multiple objects but before the action is run on them. Actions can take multiple objects if they have grammar lines including the &quot;[things]&quot; token; the standard library allows this for the actions of taking, dropping, removing from, putting on, and inserting into. This rulebook contains one rule, &quot;the consolidate multiple actions rule&quot;, which consolidates and reports the standard action results as described above. Other rules may be added to this rulebook for additional processing of multiple objects (such as reordering the multiple object list). After this rulebook finishes, the action is applied to the objects remaining in the multiple objects list in the normal fashion.
+<p>
+ The consolidate multiple objects rule creates two lists of objects: &quot;the consolidated objects list&quot; which contains those objects whose reports have been consolidated, and &quot;the noteworthy objects list&quot; which contains those objects whose action results are noteworthy. These may be consulted for use in further customization.
+<p>
+ The results of an action are categorized by a second rulebook, the action consolidation results rules. This rulebook has three possible outcomes: standard, failed, and noteworthy. New rules may be added here to change the default determination of which actions are standard.
+<p>
+ Section: New activities
+<p>
+ The extension introduces three new activities:
+<p>
+ * Reporting consolidated actions: This activity prints the action report message for the consolidated objects. Any action which can take multiple objects needs to have a reporting consolidated actions rule or nothing will be printed for standard results. Rules are provided for the built-in actions which allow multiple nouns. Actions by NPCs are also consolidated and need reporting rules; these should have the preamble:
+<p>
+<blockquote><font color="#000080"> Rule for reporting consolidated actions when asking someone to try (the action)</font></blockquote>
+<p>
+ since multiple actions by an NPC will only be generated in response to the player issuing a command to the NPC.
+<p>
+ The text substitution &quot;[consolidated objects]&quot; may be used in such report rules to list the objects whose reports are being consolidated; this will invoke the &quot;printing consolidated objects&quot; activity.
+<p>
+ We should be careful not to write a rule like &quot;Rule for reporting consolidated actions when taking the plate&quot;, since only the last object in the consolidated objects list will match here. Instead, we should phrase the rule as &quot;Rule for reporting consolidated actions when taking and the plate is listed in the consolidated objects list&quot;.
+<p>
+ * Printing consolidated objects: This activity prints the actual list of the objects whose reports are consolidated. The default behavior of this activity makes use of Inform's list writing functions so that the &quot;grouping together&quot; activity may be applied to it. The following phrase may be used to print out a list using these abilities:
+<p>
+<blockquote><font color="#000080"> list the elements of (L - a list of objects)... (options);</font></blockquote>
+<p>
+ This phrase can take all of the same phrase options as &quot;list the contents of&quot; (as well as the option &quot;with capitalized first article&quot;). For convenience, the most common two uses of this phrase can be invoked with:
+<p>
+<blockquote><font color="#000080"> say the grouped (L - a list of objects)<br> say The capitalized grouped (L - a list of objects)</font></blockquote>
+<p>
+ * Announcing a multiple occurrence of something: This activity prints the message which precedes an action for an object which has not been consolidated. By default, this prints the objects name followed by a colon for failed actions, and nothing for noteworthy actions. The variable
+<p>
+<blockquote><font color="#000080"> the number of multiple actions so far this turn</font></blockquote>
+<p>
+ can be used to tell how many such actions have occurred in order to vary such messages.
+<p>
+ Section: Handling the pronoun &quot;them&quot;
+<p>
+ After printing the consolidated objects, these objects are stored in a list called &quot;the stored consolidated objects&quot; so that they may be referred to in input using the pronoun &quot;them&quot;. This pronoun is also used by Inform to refer to plural-named objects, and so will be updated in the normal fashion (in which case it will no longer refer to the last list of consolidated objects). The usual testing command &quot;pronouns&quot; can be used to determine what the current interpretation is. It may be desirable to try to update this list when printing a list of objects in other places, but since there is no uniformly desirable behavior this task is left to authors. This may be done using the phrase:
+<p>
+<blockquote><font color="#000080"> set pronouns from (L - a list of objects)</font></blockquote>
+<p>
+ and we can test whether &quot;them&quot; currently refers to a list of objects with:
+<p>
+<blockquote><font color="#000080"> if them refers to a list...</font></blockquote>
+<p>
+ This feature is somewhat experimental, and authors who wish to disable it can do so by adding the lines:<blockquote><font color="#000080"> The update the pronoun them to consolidated objects rule is not listed in any rulebook.<br> The replace them by stored consolidated objects rule is not listed in any rulebook.</font></blockquote>
+<p>
+ Section: Change Log
+<p>
+ Version 3 was updated for compatibility with 6L38 by Emily Short, and the examples somewhat revised to demonstrate adaptive text behavior.
+<p>
+ Example: * Clutter - Illustrating the basic functionality, grouping of objects, and some nicer output for non-standard results.
+<p>
+ We can use the grouping together activity when printing consolidated objects just as we can when listing contents, as illustrated with the Scrabble pieces below. We can also add a new rule for announcing a multiple occurrence to vary the reporting of failed and noteworthy results.
+<p>
+ Notice also the difference between a Report rule and an After rule for taking. The Report rule for the glass (&quot;You carefully pick up the glass.&quot;) fires only when it's taken by itself, whereas thanks to its After rule, the cat will always be reported as struggling no matter how many objects we're picking up.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Clutter&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Consolidated Multiple Actions by John Clemens.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Cluttered Office is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The trash can is an open fixed in place container in the cluttered office.<br> A desk is here. It is fixed in place. A glass and a plate are on the desk.<br> Report taking the glass: say &quot;[We] carefully [pick] up the glass.&quot;; rule succeeds.<br> A cat is here. After taking the cat, say &quot;The cat [struggle], but [we] [manage] to pick it up.&quot;<br> The hot potato is here. Instead of taking the hot potato: indicate noteworthy consolidation; say &quot;[We] [burn] [our] hand on the potato, and [let] go immediately.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Some flowers are here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Bob is a man in the cluttered office. Persuasion rule: persuasion succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A book is a kind of thing. 5 books are in the cluttered office.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A Scrabble piece is a kind of thing. The X, the Y and the Z are Scrabble pieces in the cluttered office. Understand &quot;tile&quot; as a Scrabble piece. Understand &quot;tiles&quot; as the plural of Scrabble piece.<br> Before printing consolidated objects: group Scrabble pieces together.<br> Before listing contents: group Scrabble pieces together.<br> Before printing the name of a Scrabble piece while not grouping together, say &quot;tile &quot;. After printing the name of a Scrabble piece while not grouping together, say &quot; from a Scrabble set&quot;.<br> Before grouping together Scrabble pieces, say &quot;the tiles &quot;. After grouping together Scrabble pieces while not printing consolidated objects, say &quot; from a Scrabble set&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To fail is a verb. To struggle is a verb. To manage is a verb. To burn is a verb. To let is a verb.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for announcing a multiple occurrence of something (called object in question) when taking or removing:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the number of multiple actions so far this turn is greater than 1, say conditional paragraph break;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the object in question is not listed in the noteworthy objects list:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if number of multiple actions so far this turn is:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- 1: say &quot;[We] [are] unable to take&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- 2: say &quot;[We] further [cannot] take&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- 3: say &quot;[We] also [fail] to obtain&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- otherwise: say &quot;And&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot; [the object in question]: [run paragraph on]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;take all / drop all / Bob, take glass and plate / Bob, put them on the desk / remove all from desk/ put them in trash can / take glass / drop glass / take glass and plate / drop them / take flowers / drop them&quot;.</font></blockquote>
+<p>
+ Example: ** Orderly Announcement - Another way of naming collections of objects when reporting actions, to allow naming them in input as well.
+<p>
+ We can use the &quot;grouping together&quot; activity to rename a collection when reporting consolidated actions, but we may also want to recognize the collection names in input. For this we can use a somewhat more complicated approach; the technique used here is not very sophisticated and will only recognize the exact name of the collection.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Orderly Announcement&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Consolidated Multiple Actions by John Clemens.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Kitchen is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A utensil is a kind of thing. The knife, the fork, and the spoon are utensils in the kitchen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A glove is a kind of thing. A glove is always wearable. Understand &quot;glove&quot; as a glove. The left glove and the right glove are gloves in the kitchen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before listing contents:<br>&nbsp;&nbsp;&nbsp;&nbsp; group gloves together;<br>&nbsp;&nbsp;&nbsp;&nbsp; group utensils together.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before grouping together gloves:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;a pair of gloves (&quot;;<br> After grouping together gloves:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;)&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before grouping together utensils:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the listing group size is 3:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;a place setting (&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; else:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;some utensils (&quot;.<br> After grouping together utensils:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;)&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A collection is a kind of thing. A collection has a list of objects called components.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The pair of gloves is a collection. The components of the pair of gloves is { left glove, right glove }.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The place setting is a collection. The components of the place setting is { knife, fork, spoon }.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To decide if (L1 - list of objects) is a subset of (L2 - list of objects):<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with x running through L1:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if x is not listed in L2, no;<br>&nbsp;&nbsp;&nbsp;&nbsp; yes.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before printing consolidated objects:<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with group running through collections:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let L be the components of group;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if L is a subset of the consolidated objects list:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; repeat with x running through L:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; remove x from the consolidated objects list, if present;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; add group to the consolidated objects list.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After reading a command:<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with group running through collections:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let N be text;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let Y be text;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let N be the player's command;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let Y be &quot;[components of group]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while N matches the regular expression &quot;[group]&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; replace the regular expression &quot;(.*)[group](.*)&quot; in N with &quot;\1[Y]\2&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; change the text of the player's command to N.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;take all / drop place setting / take knife and fork / drop all&quot;.</font></blockquote>
+<p>
+ Example: *** Burn, Baby, Burn - Adding a new action which allows multiple nouns.
+<p>
+ We can add a new action which allows multiple nouns (or extend an already existing action) using the &quot;[things]&quot; token. In addition to the usual check, carry out, and report rules, we also need to add a rule for reporting consolidated actions for the new action (and a rule for reporting actions by others, if NPCs can be commanded to perform the action). Here we add a &quot;burning it with&quot; action.
+<p>
+ Note that we would not want to use the strict action consolidation checking option here because of a possible &quot;(first taking the lighter)&quot; message.
+<p>
+ Since the action typically fails in one way, we can also add a new multiple action processing rule to consolidate the failed action reports as well.
+<p>
+ And just for fun, we vary the printing of the consolidated objects list a bit.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Burn, Baby, Burn&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Consolidated Multiple Actions by John Clemens.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Abandoned Warehouse is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player carries a lighter.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Flammability is a kind of value. The flammabilities are flammable and non-flammable. A thing has a flammability. The flammability of a thing is usually non-flammable. Understand the flammability property as describing a thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A book, a newspaper, some dried flowers, and a bra are flammable things in the warehouse.<br> A safe, a bottle of water, and a fire-resistant flag are here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand the command &quot;burn&quot; as something new.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To refuse is a verb. To burst is a verb.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;burn [things] with [something]&quot; or &quot;burn [things]&quot; as burning it with. Burning it with is an action applying to one thing and one carried thing.<br> Rule for supplying a missing second noun while burning with: now the second noun is the lighter.<br> Check burning the player with: instead say &quot;[We] [are not] eager to hurt [ourselves].&quot;<br> Check burning lighter with: instead say &quot;The lighter [are] designed to burn fluid without the rest of the casing being consumed.&quot;<br> Check burning it with: if the second noun is not the lighter, instead say &quot;[The second noun] [are] not a suitable fire-starter.&quot;<br> Check burning it with: if the noun is not flammable, instead say &quot;[The noun] [refuse] to catch fire.&quot;<br> Carry out burning it with: remove the noun from play.<br> Report burning it with: say &quot;[The noun] [burst] into flames and [are] soon gone.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for reporting consolidated actions when burning with: say &quot;[The capitalized grouped consolidated objects list] burst[s] into flames and [are] soon gone.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A multiple action processing rule for burning with (this is the consolidate inflammables rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; let L be the multiple object list;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the number of entries of L is at least 1:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The capitalized grouped L] [refuse] to catch fire.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; truncate L to 0 entries;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alter the multiple object list to L.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The consolidate inflammables rule is listed after the consolidate multiple actions rule in the multiple action processing rulebook.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for printing consolidated objects when not burning with:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the number of entries of the consolidated objects list is at least 3, say &quot;a bunch of things[if the lighter is listed in the consolidated objects list], including [the lighter]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise say the grouped consolidated objects list.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;take all / i / drop all / burn me with lighter / burn lighter with lighter / burn newspaper / burn flowers with lighter / burn everything!&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

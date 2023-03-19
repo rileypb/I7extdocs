@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Dynamic Tables<font color="#404040"> by </font>Jesse McGrew</b><p><small></small><p><p><hr><p>
+<p>
+ This extension allows the number of rows in a table to be changed at runtime. For example:
+<p>
+<blockquote><font color="#000080"> change the Table of Ice Cream Flavors to have 31 rows;</font></blockquote>
+<p>
+ Using that phrase, we may change the size of any table to any non-negative number of rows at any time. After resizing the table, the data that was stored in the table will still be there, the usual table phrases like &quot;the number of rows in Table of Ice Cream Flavors&quot; will reflect the new size, and in general the table will behave exactly as if we had defined it with 31 rows in the source code.
+<p>
+ The only way to tell that the table has been resized at all is to use the new phrase &quot;the original number of rows in Table of Ice Cream Flavors&quot;, which will return the number of rows that were defined in the source code. If the table hasn't been resized, the original number of rows will be the same as the number of rows.
+<p>
+ When we make a table larger, new blank rows are added at the end of the table.
+<p>
+ When we make a table smaller, rows are deleted from the end of the table. If the deleted rows aren't blank, the data stored there will be lost. To avoid losing data unnecessarily, we might want to sort the table before making it smaller, since sorting will push all the blank rows to the end.
+<p>
+ We can even change a table to have fewer rows than it was defined with. This probably isn't useful, though, since it will use more memory than if we had left the table at its original size.
+<p>
+ Changing the size of a table will allocate memory from Inform's heap, the space that's also used for indexed text, lists, and stored actions. The operation might fail if the heap is too full, leaving the table at its old size; this extension won't print an error message, but we can check the number of rows afterward to be sure it succeeded. If we change a table back to its original size, the memory will be reclaimed and the table will go back into the space it originally occupied.
+<p>
+ If the game doesn't use indexed text, lists, or stored actions at all, Inform won't normally create a heap, so this extension forces it to create a small heap in that situation (half the normal minimum size). If that isn't big enough, we should add a stored action variable somewhere to make Inform create the heap itself, and then the usual settings like &quot;Use dynamic memory allocation of at least 16384&quot; will work if we need even more space.
+<p>
+ Section: Creating New Tables
+<p>
+ This extension also allows us to create new tables at runtime, which can be referred to with table-name variables or properties. For example:
+<p>
+<blockquote><font color="#000080"> let T be a new table with columns { speaker, quip } and 10 blank rows;</font></blockquote>
+<p>
+ After that phrase, &quot;T&quot; is now a table-name variable pointing to a new table, containing two columns and ten rows. Despite the variable's type being called &quot;table-name&quot;, the new table has no actual name, and &quot;say T&quot; will show &quot;** Dynamically created table **&quot; instead.
+<p>
+ Note that we have two obligations if we use this syntax. First, we must define the columns (&quot;speaker&quot; and &quot;quip&quot; in this example) in another table in the source code somewhere, so that Inform knows what kinds of value are supposed to go there. We can reuse columns from another table we're already using, or we can define a new table just for this purpose; once the columns have been defined, we can create as many new tables using them as we need.
+<p>
+ Second, we must not lose the value of &quot;T&quot;, since it's the only way to refer to the new table. If the table is going to stay in use until the end of the game, we should store it in a global variable or a property. If we only need the table temporarily, we should return its memory when we're done with it by writing:
+<p>
+<blockquote><font color="#000080"> deallocate T;</font></blockquote>
+<p>
+ (Note that &quot;T&quot; will no longer be a valid table-name once it's been deallocated, so it must not be used afterward.)
+<p>
+ To see whether a particular table-name value points to a table that was created this way, we can write:
+<p>
+<blockquote><font color="#000080"> if T was dynamically created,</font></blockquote>
+<p>
+ This syntax is useful when we have a table-name variable that might point to a table defined in the source, or maybe a new table, and so we aren't sure whether it needs to be deallocated when we're done with it. It can also be used to check whether the table was created successfully -- if there wasn't enough memory to create the new table, the phrase will return false.
+<p>
+ Section: Change Log
+<p>
+ Version 2 adds the &quot;new table&quot; and &quot;deallocate table&quot; features.
+<p>
+ Version 3 works with Inform 7 version 6E59.
+<p>
+ Version 4 fixes a bug where dynamically created tables couldn't be resized.
+<p>
+ Version 5 works with (and requires) version 6L38.
+<p>
+ Example: * Notlob - A parrot that assigns a value to everything he hears, and repeats the lines back in his preferred order.
+<p>
+ The Table of Parrot Quips holds the lines that the parrot has heard, along with a score indicating how much the parrot likes each one, and a usage count to limit the number of times he repeats each one. We use a dynamic table, rather than three lists, because we need to keep the score and usage count associated with the correct text: table sorting keeps rows together, but lists can only be sorted independently of each other.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Notlob&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Dynamic Tables by Jesse McGrew.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Pet Shoppe is a room. &quot;A sign reads: 'If you're looking for pets, look no further! Pets are something we sell and you can buy them from us.'&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The parrot is an animal in the Pet Shoppe. &quot;A parrot is perched here.&quot; Instead of buying the parrot, say &quot;Except that one.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Parrot Quips</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> quip text</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> quip score</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> usage count</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> indexed text</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a number</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a number</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> The highest quip score is a number that varies. The highest quip score is 0.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After answering the parrot that:<br>&nbsp;&nbsp;&nbsp;&nbsp; let the textual quip be indexed text;<br>&nbsp;&nbsp;&nbsp;&nbsp; let the textual quip be the topic understood;<br>&nbsp;&nbsp;&nbsp;&nbsp; let the current quip score be the calculated quip score of the textual quip;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the number of blank rows in the Table of Parrot Quips is 0, change the Table of Parrot Quips to have (2 * the number of rows in the Table of Parrot Quips) rows;<br>&nbsp;&nbsp;&nbsp;&nbsp; choose a blank row in the Table of Parrot Quips;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the quip text entry is the textual quip;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the quip score entry is the current quip score;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the usage count entry is 0;<br>&nbsp;&nbsp;&nbsp;&nbsp; sort the Table of Parrot Quips in reverse quip score order;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the current quip score is greater than the highest quip score:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The parrot listens intently, whistling with excitement.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the highest quip score is the current quip score;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The parrot listens.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To decide which number is the calculated quip score of (msg - indexed text):<br>&nbsp;&nbsp;&nbsp;&nbsp; let msg be msg in lower case;<br>&nbsp;&nbsp;&nbsp;&nbsp; let the result be 0;<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with N running from 1 to the number of characters in msg:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let C be character number N in msg;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if C is &quot;p&quot; or C is &quot;a&quot; or C is &quot;r&quot; or C is &quot;o&quot; or C is &quot;t&quot;, increase the result by 1;<br>&nbsp;&nbsp;&nbsp;&nbsp; decide on the result.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn when the highest quip score is greater than 0:<br>&nbsp;&nbsp;&nbsp;&nbsp; choose row 1 in the Table of Parrot Quips;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The parrot squawks, '[quip text entry]'&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; increase the usage count entry by 1;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the usage count entry is 3:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; blank out the whole row;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the number of filled rows in the Table of Parrot Quips is 0:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the highest quip score is 0;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sort the Table of Parrot Quips in reverse quip score order;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; choose row 1 in the Table of Parrot Quips;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the highest quip score is the quip score entry.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;say hello polly / say hello polly parrot / say i've got a lovely fresh cuttlefish for you / say pining for the fjords / z / z / z / z&quot;.</font></blockquote>
+<p>
+ Example: ** Multiplication - Using the &quot;new table&quot; feature to create a 2D multiplication table using cross references.
+<p>
+ A table is a two-dimensional structure already, but you can only access columns by name, not by number. This example shows how to create a table that contains references to other tables, so that we can multiply two numbers by looking up the first one in the master table, cross referencing to another table, and looking up the second number in that other table.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Multiplication&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Dynamic Tables by Jesse McGrew.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Multiplication</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> factor</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> cross reference</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a number</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a table-name</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> with 19 blank rows.</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Dummy Columns</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> product</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a number</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with R running from 1 to 20:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let the subtable be a new table with columns { factor, product } and 20 blank rows;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; choose row R in the Table of Multiplication;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the factor entry is R;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the cross reference entry is the subtable;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; repeat with C running from 1 to 20:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; choose row C in the subtable;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the factor entry is C;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the product entry is R * C.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To look up (X - number) times (Y - number) in the multiplication table:<br>&nbsp;&nbsp;&nbsp;&nbsp; if X is a factor listed in the Table of Multiplication:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let the subtable be the cross reference entry;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if Y is a factor listed in the subtable:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[X in capitalized words] times [Y in words] is [product entry in words].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stop;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;That isn't in the multiplication table.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say (N - number) in capitalized words:<br>&nbsp;&nbsp;&nbsp;&nbsp; let temp be indexed text;<br>&nbsp;&nbsp;&nbsp;&nbsp; let temp be &quot;[N in words]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; say temp in sentence case.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The other factor is a number that varies.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After reading a command:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the player's command includes &quot;by/times [number]&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the other factor is the number understood;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; replace the matched text with &quot;by __num__&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Multiplying is an action applying to one number. Understand &quot;multiply [number] by/times __num__&quot; as multiplying.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out multiplying:<br>&nbsp;&nbsp;&nbsp;&nbsp; look up the number understood times the other factor in the multiplication table.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Classroom is a room. &quot;This is a peaceful place in which to multiply numbers by other numbers.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;multiply 5 times 6 / multiply 12 by 8 / multiply 67 by 91&quot;.</font></blockquote>
+<p>
+ (We could do this without the extension by defining all twenty-one tables in the source text, but that's a lot of typing.)
+<p>
+
+<p>
+<p></body></html>

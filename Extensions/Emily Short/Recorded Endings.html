@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Recorded Endings<font color="#404040"> by </font>Emily Short</b><p><small></small><p><p><hr><p>
+<p>
+ Recorded Endings is intended for use with Glulx works that can end in multiple ways. It records short text descriptions of the various endings to an external file, then allows the player an ENDINGS option when the game is over, so that he can review all of the endings he has encountered so far whether in this playthrough or in an earlier one.
+<p>
+ To use Recorded Endings, we need only to:
+<p>
+ 1) include a line naming the file in which conclusions will be written, thus:
+<p>
+<blockquote><font color="#000080"> The File of Conclusions is called &quot;recconclusions&quot;.</font></blockquote>
+<p>
+ Everything about this line should be exactly as written *except* the name within the quotation marks, which should be something that the game author chooses.
+<p>
+ Originally Recorded Endings declared this file itself, but the result is that if one game is played in the same directory as another that also uses Recorded Endings, the identical file names will cause bugs in whichever game is played second. Therefore we should pick a name that will be unique to this particular game, perhaps using the initials of the title or the game author in some way.
+<p>
+ It does not matter whether the File of Conclusions is named before or after the &quot;Include Recorded Endings&quot; line is added.
+<p>
+ 2) tell the game what to record before each ending. So for instance if we have a sequence leading to death, we might write
+<p>
+<blockquote><font color="#000080"> record &quot;Martyrdom among the lions&quot; as an ending;<br> end the game in death.</font></blockquote>
+<p>
+ Or again we might write
+<p>
+<blockquote><font color="#000080"> record &quot;Abduction by aliens&quot; as an ending;<br> end the game saying &quot;You spend the rest of your life orbiting Alpha Centauri&quot;.</font></blockquote>
+<p>
+ By default, Recorded Endings offers the player the ENDINGS option regardless of whether the game ended in victory. If we wish to change this so that the ENDINGS are shown only after &quot;end the game in victory&quot;, then we might write
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; choose a row with a final response rule of list endings rule in the Table of Final Question Options;<br>&nbsp;&nbsp;&nbsp;&nbsp; change the only if victorious entry to true.</font></blockquote>
+<p>
+ If there are more than twenty possible endings in the game, we may need to extend the table that records them, the Table of Possible Endings. To do this, we might write
+<p>
+<blockquote><font color="#000080"> Table of Possible Endings (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> description</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> with 10 blank rows.</font></font></td></tr></table></blockquote>
+<p>
+ (This will actually append a total of 11 rows to the table, but that -- entry cannot be omitted or Inform will become confused about appending more blank rows to the table.)
+<p>
+ Finally, we may want elsewhere in the game to find out whether the player has already experienced a specific ending. (Perhaps the game subtly changes descriptions after multiple playings.) For this case, we would write
+<p>
+<blockquote><font color="#000080"> if &quot;Turning into a pumpkin&quot; is a used ending:...</font></blockquote>
+<p>
+ where &quot;Turning into a pumpkin&quot; is the exact text that we record when that ending occurs.
+<p>
+ Example: * Reincarnation - We have a vial of poison that the player recognizes only on the second playthrough.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Reincarnation&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Recorded Endings by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The File of Conclusions is called &quot;examplecon&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Cloudy Chamber is a room. It contains a wooden table. On the wooden table is a vial.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The description of the vial is &quot;It is full of a delicious-looking golden liquid.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of smelling the vial:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;It smells like honey wine.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for printing the name of the vial when &quot;Death by poison&quot; is a used ending:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;vial of poison&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;poison&quot; or &quot;of poison&quot; as the vial when &quot;Death by poison&quot; is a used ending.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of drinking the vial:<br>&nbsp;&nbsp;&nbsp;&nbsp; if &quot;Death by poison&quot; is a used ending:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;A chill comes over you as you consider it, as though you were being warned by a previous incarnation from another lifetime: this is foul poison.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You lift the vial to your lips and throw it back. The flavor is sweet on your tongue, but the effects are nearly instant...&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; record &quot;Death by poison&quot; as an ending;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end the story saying &quot;You have died by poison&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

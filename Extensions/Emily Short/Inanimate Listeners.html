@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Inanimate Listeners<font color="#404040"> by </font>Emily Short</b><p><small><p>Extension built in to Inform</small><p><p><hr><p>
+<p>
+ Ordinarily, if the player tries to speak to an inanimate object, he receives a response such as &quot;You can only do that to something animate.&quot;
+<p>
+ Sometimes, however, we'd like to have an item in the game that is not a person but still responds to queries -- much like the shipboard computer on Star Trek.
+<p>
+ &quot;Inanimate Listeners&quot; allows us to declare any objects to be addressable, as in
+<p>
+<blockquote><font color="#000080"> The computer is an addressable scenery thing in the Bridge.</font></blockquote>
+<p>
+ Once this is done, the player can ask questions or make remarks to the computer, which we can then handle in the same way we might handle remarks made to a non-player character.
+<p>
+ By default, a persuasion rule also prevents us from ordering inanimate objects to do a full range of actions; the player will receive a response like this:
+<p>
+<blockquote><font color="#000080"> &gt;computer, n<br> The computer cannot do everything a person can.</font></blockquote>
+<p>
+ If we wish to remove this, we need to use the following line:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The unsuccessful persuasion of inanimate objects rule is not listed in any rulebook.</font></blockquote>
+<p>
+ We can then substitute our own persuasion rules allowing the inanimate item to do specific actions.
+<p>
+ Example: * Command Chair - A computer that answers questions and responds to comments.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Command Chair&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Inanimate Listeners by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Bridge is a room. &quot;Beeping and blinking, the computer awaits your instructions and requests.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The computer is an addressable scenery thing in the Bridge.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of asking the computer about &quot;coordinates&quot;: say &quot;'Our coordinates are 3,4,5.'&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of telling the computer about &quot;coordinates&quot;: say &quot;'Space is surprisingly small,' you tell the computer. [paragraph break]'Parse not found,' the computer complains.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The command chair is an enterable supporter in the Bridge. The player is on the command chair.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;ask computer about coordinates / tell computer about coordinates / computer, n / ask chair about coordinates&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

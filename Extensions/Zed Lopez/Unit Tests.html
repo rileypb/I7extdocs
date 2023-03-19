@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Unit Tests<font color="#404040"> by </font>Zed Lopez</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter Introduction
+<p>
+ This is a unit test extension. There are many like it, but this one is mine.
+<p>
+ Note: because this extension declares a unit test variable, if you include Unit Tests, your code *must* create at least one unit test, or it will fail to compile.
+<p>
+ The entire extension is marked &quot;not for release&quot;.
+<p>
+ Chapter Use case
+<p>
+ To test your game as a whole, I recommend using Andrew Plotkin's (https://eblong.com/zarf/plotex/regtest.html). The latest is available in (https://github.com/erkyrath/plotex/blob/master/regtest.html).
+<p>
+ But if you're testing code in isolation that isn't about accepting player commands or producing player-visible output, RegTest isn't the most natural fit. This extension was written for those cases.
+<p>
+ Chapter Unit Test kind
+<p>
+ A unit test is a kind of object, with a text description property, which should be populated for the test to identify itself. (It *can* be left blank, in which case the test falls back on the object name itself.) Because the property is &quot;description&quot; it can be specified with just a stand-alone string immediately following the object definition.
+<p>
+<blockquote><font color="#000080"> Math-still-works is a unit test. &quot;Whether math still works&quot;.</font></blockquote>
+<p>
+ ``Testing`` is an activity on unit tests. For the test to do anything useful, you must define a corresponding ``For testing`` rule:
+<p>
+<blockquote><font color="#000080"> For testing math-still-works:<br>&nbsp;&nbsp;&nbsp;&nbsp; for &quot;Add 2 + 2&quot; assert 2 + 2 is 4;</font></blockquote>
+<p>
+ (More about assert statements later.)
+<p>
+ If you have setup to do, a ``Before testing`` rule is a good place for it. But you may need to establish global variables or activity variables for the ``For testing`` and/or ``After testing`` rules to have access to information set up in the Before rule.
+<p>
+ If there's more reporting you want, you might use an ``After testing`` rule. But you shouldn't need to do any teardown: unit tests are idempotent. They save the game state before they start, and restore when they're finished. (On glulx one can protect memory from being clobbered by a restore, so make that *mostly* idempotent, but it should be fairly difficult for one test to screw up the environment for another.)
+<p>
+ This means that you also can't share context between different tests... but you can make the same Before rule apply to more than one test. (You could have multiple ``for testing`` rules for the same unit test, using ``continue the activity``, but assertions/refutations spread among multiple rules in that fashion would be equivalent to them all being in the same rule.)
+<p>
+<blockquote><font color="#000080"> Before testing a unit test (called ut) when ut is test1 or ut is test2:</font></blockquote>
+<p>
+ And don't have one test invoke another: the save-state in the inner test's Before testing rule would clobber the outer test's state, so when the outer test restored state, it would restore state as of the beginning of the inner test, not the outer test.
+<p>
+ Chapter Assertions and Refutations
+<p>
+ assert/refute statements are the heart of testing. This documentation will refer to assertions and refutations collectively as &quot;test statements&quot;.
+<p>
+ It technically doesn't matter where they occur in the activity, but the intent is that they be used in For Testing rules. There are several varieties:
+<p>
+ Equality with ``is`` or ``==``
+<p>
+<blockquote><font color="#000080"> for &lt;label&gt; assert &lt;value&gt; is &lt;value&gt;;<br> for &lt;label&gt; refute &lt;value&gt; is &lt;value&gt;;</font></blockquote>
+<p>
+ The values must be of compatible kinds. For texts, == is a special case that means the same as ``exactly matches the text``; ``is`` is the same as in conventional I7. See Text Comparisons below.
+<p>
+ Less than or greater than:
+<p>
+<blockquote><font color="#000080"> for &lt;label&gt; assert &lt;value&gt; &lt; &lt;value&gt;;<br> for &lt;label&gt; refute &lt;value&gt; &lt; &lt;value&gt;;<br> for &lt;label&gt; assert &lt;value&gt; &gt; &lt;value&gt;;<br> for &lt;label&gt; refute &lt;value&gt; &gt; &lt;value&gt;;</font></blockquote>
+<p>
+ Any arbitrary condition:
+<p>
+<blockquote><font color="#000080"> for &lt;label&gt; assert &lt;condition&gt;<br> for &lt;label&gt; refute &lt;condition&gt;</font></blockquote>
+<p>
+ And, if you've included If True by Zed Lopez, a plain truth state value.
+<p>
+<blockquote><font color="#000080"> for &lt;label&gt; assert &lt;truth state value&gt;<br> for &lt;label&gt; refute &lt;truth state value&gt;</font></blockquote>
+<p>
+ Operators for! =, &lt;=, =&gt; aren't provided; just refute ==, &gt;, &lt;, respectively.
+<p>
+ If you create a unit test object, you should write a corresponding For testing activity rule which should include at least one test statement. This isn't enforced: if you don't have any test statements, the test will run and report 0/0 Passed.
+<p>
+ Chapter Instantly passing or failing
+<p>
+ You can say either of:
+<p>
+<blockquote><font color="#000080"> for &lt;label&gt; pass;<br> for &lt;label&gt; fail;</font></blockquote>
+<p>
+ As to why you'd want to, say you had a test whose setup relied upon a phrase invocation that could return an invalid value, or a case where you wanted the output to include something extra or both. You might do something like:
+<p>
+<blockquote><font color="#000080"> For testing dark-rooms:<br> let r be a random dark room;<br> let label be &quot;dark room has a container&quot;;<br> if r is nowhere, for &quot;[label] (got nowhere)&quot; fail;<br> for label assert r encloses a container.</font></blockquote>
+<p>
+ Chapter Testing printed output, including errors
+<p>
+ If you want to test phrases' output, use the test say-phrase. It can be passed a phrase invocation or a complete conditional, but it cannot be passed just a value. Any variables local to your For testing rule won't be available; don't make assignments in your phrase. For example:
+<p>
+ for &quot;inv-test&quot; assert &quot;[test follow the the print standard inventory rule]&quot; rmatches &quot;the rubber ducky&quot;;
+<p>
+ For sayable values, you don't need to use ``test``.
+<p>
+ for &quot;entry 0 error&quot; assert &quot;[entry 0 of empty-l]&quot; reports an error;
+<p>
+ ``&lt;text&gt; reports an error`` is true if the text includes a newline character followed by three asterisks and a space.
+<p>
+ Chapter Output Result
+<p>
+ The output for the results is determined by the ``output result`` phrase property on the relevant unit test. You can see simple-output-result and original-output-result in the code for working examples. The following values and say phrases provide the ingredients to build your own:
+<p>
+ Values: - ut-assert (truth state) true if it was an assertion; false if it was a refutation - ut-truth-state (truth state) true if it was a conditional or boolean; false if it was a comparison - ut-result (truth state) true if passed; false if failed
+<p>
+ Suppose that ``say foo 123`` produces ``123 out of range for foo``.
+<p>
+<blockquote><font color="#000080"> for &quot;foo 123&quot; assert &quot;[foo 123]&quot; exactly matches &quot;123&quot;;<br> for &quot;foo 123 error&quot; assert previous reported error;</font></blockquote>
+<p>
+ *Both* of these will fail. ``&quot; &quot;`` was never actually said, so it didn't
+end up captured so that ut-test-output could find it. In this case:<br><br>for &quot; foo 123 error&quot; assert &quot;[foo 123]&quot; rmatches &quot;^\*\*&quot;;
+<p>
+ would be better.
+<p>
+ Say phrases: - ut-expected: - for comparisons: the expected (right hand side of the comparison) value - for conditional/booleans: if it was a refutation, false; if it was an assertion, true. - ut-found: - if using the test say-phrase, all output - otherwise: - for comparisons, the found (left hand side of the comparison) value - for conditional/booleans, the same as ut-expected if the test passed; the opposite of ut-expected if the test failed - ut-how-tested: the text &quot;Asserted&quot; or &quot;Refuted&quot;. - ut-operator: if it was a comparison, a textual representation of the operator - ut-opposite: if it was a comparison, a textual representation of the opposite of the operator (i.e., instead of &lt;, ==, &gt;, it would be &gt;=, &lt;&gt;, &lt;=, respectively)
+<p>
+ It's a phrase text -&gt; nothing; it automatically receives as a parameter the text value specified in ``for &lt;label&gt;``.
+<p>
+ You can set a custom phrase as the default for all unit tests:
+<p>
+<blockquote><font color="#000080"> The output result of a unit test is usually custom-output-result.</font></blockquote>
+<p>
+ Or create subkinds of unit tests that have different defaults:
+<p>
+<blockquote><font color="#000080"> Verbose unit test is a kind of unit test.<br> The output result of a verbose unit test is usually verbose-output-result.<br> Terse unit test is a kind of unit test.<br> The output result of a terse unit test is usually terse-output-result.</font></blockquote>
+<p>
+ Or set a custom phrase on a per unit test basis:
+<p>
+<blockquote><font color="#000080"> Complicated phrase trial is a unit test.<br> The output result of complicated phrase trial is complicated-output-result.</font></blockquote>
+<p>
+ Since the granularity is at the unit test level, all test statements in rules associated with some given unit test must all use the same output result phrase. If you find you want different output result phrases for some of them, move them to a different unit test with a different output result phrase.
+<p>
+ Chapter Test commands
+<p>
+ Otherwise you can enter the command ``test suite`` or ``utest``.
+<p>
+ The ``utest`` command can also take an argument. It will run all unit tests whose object names begin with the argument given, so if you choose common prefixes for the names of related unit tests, you can easily run those together, e.g.,
+<p>
+<blockquote><font color="#000080"> person-wearing is a unit test.<br> person-carrying is a unit test.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> &gt; utest person</font></blockquote>
+<p>
+ Chapter Use Options
+<p>
+ Section Less Verbose
+<p>
+ You can omit details about successful tests with:
+<p>
+<blockquote><font color="#000080"> Use don't report passing tests.</font></blockquote>
+<p>
+ Section Test Automatically
+<p>
+ There is a &quot;test automatically&quot; use option. You can include:
+<p>
+<blockquote><font color="#000080"> Use test automatically.</font></blockquote>
+<p>
+ and all tests will be run on startup.
+<p>
+ Section Quit after autotesting
+<p>
+<blockquote><font color="#000080"> Use quit after autotesting.</font></blockquote>
+<p>
+ Quits the game after testing. It does nothing unless test automatically is also active.
+<p>
+ Section Test quietly (for use with Text Capture by Eric Eve)<blockquote><font color="#000080"> Use test quietly. Suppresses any text output the assertions' and refutations' operations would normally produce. If Text Capture is not included, this Use option doesn't get defined and mention of it would cause a compilation error.</font></blockquote>
+<p>
+ Chapter Text comparisons
+<p>
+ If you have this:
+<p>
+ To say ab: say &quot;x&quot;; To say cd: say &quot;x&quot;; To say xx: say &quot;xx&quot;;
+<p>
+ all of these are false:
+<p>
+ if &quot;[ab]&quot; is &quot;[cd]&quot; let t be &quot;[ab]&quot;; if t is &quot;[ab]&quot; if &quot;[ab]&quot; is &quot;[ab]&quot;
+<p>
+ but the following are true:
+<p>
+ if &quot;x&quot; is &quot;[ab]&quot; if &quot;[cd]&quot; is &quot;x&quot; if the substituted form of &quot;[ab]&quot; is the substituted form of &quot;[cd]&quot; if &quot;[ab]&quot; exactly matches the text &quot;[cd]&quot; if &quot;[ab]&quot; matches the text &quot;x&quot; if &quot;[ab]&quot; matches the text &quot;[ab]&quot; if &quot;[ab]&quot; matches the text &quot;[cd]&quot; if &quot;[xx]&quot; matches the text &quot;[ab]&quot; if &quot;[ab]&quot; matches the regular expression &quot;[cd]&quot;
+<p>
+ In old versions of I7, text and indexed text were separate types. Only texts could include substitutions; indexed texts were some particular static string. Subsequently, they were collapsed together (you can still use &quot;indexed text&quot; as a synonym for &quot;text&quot;) but they continue to have different underlying representations.
+<p>
+ When you test whether a text containing substitutions *is* a text that doesn't, I7 automatically takes the substituted form of the text containing substitutions. But when you test whether a text containing a substitution *is* a text containing another substitution, the answer doesn't depend on whether the evaluations of the two texts are the same, but on whether the underlying function representing it is the same. Outside of contrived circumstances, this will be false. That's why we have the ``substituted form of`` and ``exactly matches the text`` phrases. (I avoid using &quot;is&quot; in text comparisons unless there's a text literal on one side.)
+<p>
+ Additionally, if a text T contains a substitution, ``if T is empty`` is always false, whether or not the substituted form of T is empty.
+<p>
+ All of ``exactly matches the text``, ``matches the text``, and ``matches the regular expression`` automatically take the substituted forms of the texts.
+<p>
+ But to make writing tests easier, you can use ``if T1 == T2`` and it acts like ``if T1 exactly matches the text T2``. And you can use ``if T1 is blank`` and that acts like ``if T1 exactly matches the text &quot;&quot; ``.
+<p>
+ The phrase
+<p>
+ if &lt;text1&gt; matches the text &lt;text2&gt;
+<p>
+ is true if text2 occurs anywhere within text 1. So these are all true:
+<p>
+ If &quot;banana&quot; matches the text &quot;b&quot; If &quot;banana&quot; matches the text &quot;an&quot; If &quot;banana&quot; matches the text &quot;anana&quot;
+<p>
+ This is awkwardly non-parallel to similar phrases to compare snippets and topics, where
+<p>
+ if &lt;snippet&gt; matches &lt;topic&gt;
+<p>
+ is true only if it's an exact match, and
+<p>
+ if &lt;snippet&gt; includes &lt;topic&gt; is true if the topic occurs anywhere within the snippet, like the behavior of ``matches the text``.
+<p>
+ So this extension includes the following phrases, that correspond to the behavior of snippets and topics:
+<p>
+ if &lt;text1&gt; exactly matches &lt;text2&gt; if &lt;text1&gt; includes &lt;text2&gt;
+<p>
+ (There are also ``does not exactly match`` and ``does not include``.) This allows you to forget about ``matches the text`` and to always use ``exactly matches`` and ``includes`` and to get the same behavior.
+<p>
+ Existing phrases are unchanged.
+<p>
+ Further, it includes the following just to reduce the verbosity of regular expression usage:
+<p>
+ if &lt;text&gt; rmatches &lt;text of a regexp&gt; let t1 be match 1 let t0 be match 0
+<p>
+ Beware that the values of the matches only persist until the next regular expression operation, so store the results of a regexp match before trying to use ``exactly matches`` to test them.
+<p>
+ Chapter Prior art
+<p>
+ Section Other unit testing extensions
+<p>
+ (https://gitlab.com/Natrium729/extensions-inform-7/-/blob/master/Unit%20Testing.i7x) (https://github.com/i7/extensions/blob/master/Peter%20Orme/Unit%20Testing.i7x) (https://github.com/i7/extensions/blob/master/Peter%20Orme/Checkpoints.i7x) (includes Unit Testing by Peter Orme) (https://github.com/i7/extensions/blob/master/Xavid/Command%20Unit%20Testing.i7x) (https://github.com/jeffnyman/exploring-testing/blob/master/Learning.materials/Extensions/Jeff%20Nyman/i7Spec.i7x)
+<p>
+ Section of related interest
+<p>
+ (https://github.com/i7/extensions/blob/master/Juhana%20Leinonen/Object%20Response%20Tests.i7x) (https://github.com/i7/extensions/blob/master/Dannii%20Willis/Benchmarking.i7x) (https://github.com/erkyrath/glulxe/blob/master/profile-analyze.py)
+<p>
+ Section for 6G60
+<p>
+ (https://github.com/i7/extensions/blob/master/Dannii%20Willis/Simple%20Unit%20Tests.i7x) (https://github.com/i7/kerkerkruip/blob/master/Kerkerkruip.materials/Extensions/Kerkerkruip/Automated%20Testing.i7x) (https://github.com/i7/archive/blob/master/Roger%20Carbol/Automated%20Testing.i7x)
+<p>
+ The fundamental mechanism at the heart of Simple Unit Tests ceased working after 6G60, and Kerkerkruip's Automated Testing depends on Simple Unit Tests. (Despite the names, it and Automated Testing by Roger Carbol don't appear to be related.)
+<p>
+ The design of this extension's interface owes most to Simple Unit Tests and Benchmarking.
+<p>
+ Chapter Changelog
+<p>
+ v7: put back enough support for Text Capture to reinstate Use test quietly. Introduced special-case for texts of == meaning exactly matches and ``is blank`` meaning ``is &quot;&quot; ``.
+<p>
+ v6: ripped out text capture support and the unit test operator value kind of value added ``test`` say-phrases and ``reports an error`` phrase.
+<p>
+ v5: added heap tracking unit tests, per a contribution by Dannii Willis fixed bug by which output was written to the file of results twice renamed phrases for saving, restoring state eliminated utest rulebook; incorporated functionality into To say test results
+<p>
+ v4: support for Text Capture by Eric Eve
+<p>
+ v3: Output now done in I7 via output result phrase text -&gt; nothing on unit tests.
+<p>
+ v2: Renamed &quot;unit-test&quot; -&gt; &quot;unit test&quot;; completely changed how assertions and refutations are formed. Incorporated some suggestions and code by Dannii Willis.
+<p>
+ Chapter Examples
+<p>
+ Example: * Who tests the testers?
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Unit Tests&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Unit Tests by Zed Lopez.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Use test automatically.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Lab is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To decide what number is (m - a number) to the (n - a number):<br> if n &lt; 0, decide on -1;<br> if n is zero, decide on 1;<br> let result be m;<br> repeat with i running from 2 to n begin;<br> now result is result * m;<br> end repeat;<br> decide on result;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> a hat is a thing.<br> the player wears a sweater.<br> Conditional-tests is a unit test. &quot;All conditionals all the time.&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> for testing conditional-tests:<br> if the player wears a hat, for &quot;testing forced pass&quot; pass;<br> else for &quot;testing forced fail, so failing is correct)&quot; fail;<br> for &quot;player wears sweater (true thus should pass)&quot; assert the player wears a sweater;<br> for &quot;player wears hat (false thus should fail)&quot; assert the player wears a hat;<br> for &quot;player wears sweater (true thus should fail)&quot; refute the player wears a sweater;<br> for &quot;player wears hat (false thus should pass)&quot; refute the player wears a hat;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Power-test-assertion-truths is a unit test. &quot;Power test: asserting truths, should pass&quot;.<br> Power-test-assertion-lies is a unit test. &quot;Power test: asserting lies; should fail.&quot;.<br> Power-test-refutation-lies is a unit test. &quot;Power test: refuting lies; should pass&quot;.<br> Power-test-refutation-truths is a unit test. &quot;Power test: refuting truths; should fail&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Numeric-comparison-assertion-truths is a unit test. &quot;Numeric comparison asserting truths, should pass&quot;.<br> Numeric-comparison-refutation-lies is a unit test. &quot;Numeric comparison refuting lies, should pass&quot;.<br> Numeric-comparison-assertion-lies is a unit test. &quot;Numeric comparison asserting lies, should fail&quot;.<br> Numeric-comparison-refutation-truths is a unit test. &quot;Numeric comparison refuting truths, should fail&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Text-comparison-assertion-truths is a unit test. &quot;Text comparison asserting truths, should pass&quot;.<br> Text-comparison-assertion-lies is a unit test. &quot;Text comparison asserting lies, should fail&quot;.<br> Text-comparison-refutation-lies is a unit test. &quot;Text comparison refuting lies, should pass&quot;.<br> Text-comparison-refutation-truths is a unit test. &quot;Text comparison refuting truths, should fail&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For testing power-test-assertion-truths:<br> for &quot;3^2&quot; assert 3 to the 2 is 9;<br> for &quot;0^0&quot; assert 0 to the 0 is 1;<br> for &quot;2^-1&quot; assert 2 to the -1 is -1;<br> for &quot;0^-1&quot; assert 0 to the -1 is -1;<br> for &quot;0^111&quot; assert 0 to the 111 is 0;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For testing power-test-refutation-lies:<br> for &quot;3^2&quot; refute 3 to the 2 is 27;<br> for &quot;0^0&quot; refute 0 to the 0 is 0;<br> for &quot;2^-1&quot; refute 2 to the -1 is -2;<br> for &quot;0^111&quot; refute 0 to the 111 is 1;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For testing power-test-assertion-lies:<br> for &quot;3^2&quot; assert 3 to the 2 is 27;<br> for &quot;0^0&quot; assert 0 to the 0 is 0;<br> for &quot;2^-1&quot; assert 2 to the -1 is -2;<br> for &quot;0^111&quot; assert 0 to the 111 is 1;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For testing power-test-refutation-truths:<br> for &quot;3^2&quot; refute 3 to the 2 is 9;<br> for &quot;0^0&quot; refute 0 to the 0 is 1;<br> for &quot;2^-1&quot; refute 2 to the -1 is -1;<br> for &quot;0^-1&quot; refute 0 to the -1 is -1;<br> for &quot;0^111&quot; refute 0 to the 111 is 0;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For testing numeric-comparison-assertion-truths:<br> for &quot;5 &gt; 3&quot; assert 5 &gt; 3;<br> for &quot;0 &gt; -1&quot; assert 0 &gt; -1;<br> for &quot;-1 &gt; -2&quot; assert -1 &gt; -2;<br> for &quot;1 == 1&quot; assert 1 == 1;<br> for &quot;1 is 1&quot; assert 1 is 1;<br> for &quot;0 &lt; 111&quot; assert 0 &lt; 111;<br> for &quot;2 &lt; 3&quot; assert 2 &lt; 3;<br> for &quot;-2 &lt; -1&quot; assert -2 &lt; -1;<br> for &quot;3 &gt; -3&quot; assert 3 &gt; -3;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For testing numeric-comparison-refutation-truths:<br> for &quot;5 &gt; 3&quot; refute 5 &gt; 3;<br> for &quot;0 &gt; -1&quot; refute 0 &gt; -1;<br> for &quot;-1 &gt; -2&quot; refute -1 &gt; -2;<br> for &quot;1 == 1&quot; refute 1 == 1;<br> for &quot;1 is 1&quot; refute 1 is 1;<br> for &quot;0 &lt; 111&quot; refute 0 &lt; 111;<br> for &quot;2 &lt; 3&quot; refute 2 &lt; 3;<br> for &quot;-2 &lt; -1&quot; refute -2 &lt; -1;<br> for &quot;3 &gt; -3&quot; refute 3 &gt; -3;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For testing numeric-comparison-assertion-lies:<br> for &quot;2 &lt; 1&quot; assert 2 &lt; 1;<br> for &quot;2 &lt; 2&quot; assert 2 &lt; 2;<br> for &quot;2 &lt; 0&quot; assert 2 &lt; 0;<br> for &quot;2 &lt; -2&quot; assert 2 &lt; -2;<br> for &quot;3 &gt; 3&quot; assert 3 &gt; 3;<br> for &quot;3 &gt; 4&quot; assert 3 &gt; 4;<br> for &quot;0 &gt; 3&quot; assert 0 &gt; 3;<br> for &quot;0 &gt; 0&quot; assert 0 &gt; 0;<br> for &quot;0 &lt; 0&quot; assert 0 &lt; 0;<br> for &quot;-3 &lt; -3&quot; assert -3 &lt; -3;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For testing numeric-comparison-refutation-lies:<br> for &quot;2 &lt; 1&quot; refute 2 &lt; 1;<br> for &quot;2 &lt; 2&quot; refute 2 &lt; 2;<br> for &quot;2 &lt; 0&quot; refute 2 &lt; 0;<br> for &quot;2 &lt; -2&quot; refute 2 &lt; -2;<br> for &quot;3 &gt; 3&quot; refute 3 &gt; 3;<br> for &quot;3 &gt; 4&quot; refute 3 &gt; 4;<br> for &quot;0 &gt; 3&quot; refute 0 &gt; 3;<br> for &quot;0 &gt; 0&quot; refute 0 &gt; 0;<br> for &quot;0 &lt; 0&quot; refute 0 &lt; 0;<br> for &quot;-3 &lt; -3&quot; refute -3 &lt; -3;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say X: say &quot;X&quot;;<br> To say X2: say &quot;X&quot;;<br> To say Y: say &quot;Y&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say lbrack: say bracket.<br> To say rbrack: say close bracket.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For testing text-comparison-assertion-truths:<br> for &quot;'X' is 'X'&quot; assert &quot;X&quot; is &quot;X&quot;;<br> for &quot;'X' &lt; 'Y'&quot; assert &quot;X&quot; &lt; &quot;Y&quot;;<br> for &quot;'Y' &gt; 'X'&quot; assert &quot;Y&quot; &gt; &quot;X&quot;;<br> for &quot;[lbrack]X[rbrack] exactly matches X&quot; assert &quot;[X]&quot; exactly matches &quot;X&quot;;<br> for &quot;[lbrack]X[rbrack] exactly matches [lbrack]X2[rbrack]&quot; assert &quot;[X]&quot; exactly matches &quot;[X2]&quot;;<br> for &quot;[lbrack]X[rbrack] does not exactly match [lbrack]Y[rbrack]&quot; assert &quot;[X]&quot; does not exactly match &quot;[Y]&quot;;<br> for &quot;'banana' rmatches '(an)+'&quot; assert &quot;banana&quot; rmatches &quot;(an)+&quot;;<br> let m0 be match 0;<br> let m1 be match 1;<br> for &quot;match 0 exactly matches anan&quot; assert m0 exactly matches &quot;anan&quot;;<br> for &quot;match 1 exactly matches an&quot; assert m1 exactly matches &quot;an&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For testing text-comparison-refutation-truths:<br> for &quot;1 is not 2&quot; refute &quot;1&quot; is not &quot;2&quot;;<br> for &quot;'X' is 'X'&quot; refute &quot;X&quot; is &quot;X&quot;;<br> for &quot;'X' &lt; 'Y'&quot; refute &quot;X&quot; &lt; &quot;Y&quot;;<br> for &quot;'Y' &gt; 'X'&quot; refute &quot;Y&quot; &gt; &quot;X&quot;;<br> for &quot;[lbrack]X[rbrack] exactly matches X&quot; refute &quot;[X]&quot; exactly matches &quot;X&quot;;<br> for &quot;[lbrack]X[rbrack] exactly matches [lbrack]X2[rbrack]&quot; refute &quot;[X]&quot; exactly matches &quot;[X2]&quot;;<br> for &quot;[lbrack]X[rbrack] does not exactly match [lbrack]Y[rbrack]&quot; refute &quot;[X]&quot; does not exactly match &quot;[Y]&quot;;<br> for &quot;'banana' rmatches '(an)+'&quot; refute &quot;banana&quot; rmatches &quot;(an)+&quot;;<br> let m0 be match 0;<br> let m1 be match 1;<br> for &quot;match 0 exactly matches anan&quot; refute m0 exactly matches &quot;anan&quot;;<br> for &quot;match 1 exactly matches an&quot; refute m1 exactly matches &quot;an&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For testing text-comparison-refutation-lies:<br> for &quot;[lbrack]X[rbrack] does not exactly match [lbrack]X2[rbrack]&quot; refute &quot;[X]&quot; does not exactly match &quot;[X2]&quot;;<br> for &quot;[lbrack]X[rbrack] exactly matches [lbrack]Y[rbrack]&quot; refute &quot;[X]&quot; exactly matches &quot;[Y]&quot;;<br> for &quot;'A' &gt; 'B'&quot; refute &quot;A&quot; &gt; &quot;B&quot;;<br> for &quot;'B' &lt; 'A'&quot; refute &quot;B&quot; &lt; &quot;A&quot;;<br> for &quot;'A' &gt; 'A'&quot; refute &quot;A&quot; &gt; &quot;A&quot;;<br> for &quot;'A' &gt; 'A'&quot; refute &quot;A&quot; &gt; &quot;A&quot;;<br> for &quot;'B' is 'A'&quot; refute &quot;B&quot; is &quot;A&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For testing text-comparison-assertion-lies:<br> for &quot;[lbrack]X[rbrack] does not exactly match [lbrack]X2[rbrack]&quot; assert &quot;[X]&quot; does not exactly match &quot;[X2]&quot;;<br> for &quot;[lbrack]X[rbrack] exactly matches [lbrack]Y[rbrack]&quot; assert &quot;[X]&quot; exactly matches &quot;[Y]&quot;;<br> for &quot;'A' &gt; 'B'&quot; assert &quot;A&quot; &gt; &quot;B&quot;;<br> for &quot;'B' &lt; 'A'&quot; assert &quot;B&quot; &lt; &quot;A&quot;;<br> for &quot;'A' &gt; 'A'&quot; assert &quot;A&quot; &gt; &quot;A&quot;;<br> for &quot;'A' &gt; 'A'&quot; assert &quot;A&quot; &gt; &quot;A&quot;;<br> for &quot;'B' is 'A'&quot; assert &quot;B&quot; is &quot;A&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say (T - a text) backwards:<br> let len be the number of characters in T + 1;<br> repeat with i running from 1 to the number of characters in T begin;<br> say character number len - i in T;<br> end repeat;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Backwards-test is a unit test. &quot;Saying text backwards&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Text-scratch is initially &quot;&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For testing backwards-test:<br> let orig be &quot;schmoop&quot;;<br> For &quot;'schmoop' backwards&quot; assert &quot;[orig backwards]&quot; exactly matches &quot;poomhcs&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> empty-list is a list of numbers that varies.<br> empty-list is initially { }.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Error-test is a unit test. &quot;Detecting an error&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For testing error-test:<br> for &quot;can't get entry 0&quot; assert &quot;[test entry 0 of empty-list is 0]&quot; reports an error;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player carries a rubber ducky.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rubber-ducky-test is a unit test. &quot;Ducky possession&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For testing rubber-ducky-test:<br> for &quot;inv-test&quot; assert &quot;[test follow the print standard inventory rule]&quot; rmatches &quot;rubber ducky&quot;;</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

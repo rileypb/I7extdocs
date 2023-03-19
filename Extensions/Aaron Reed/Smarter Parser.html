@@ -1,0 +1,495 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Smarter Parser<font color="#404040"> by </font>Aaron Reed</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter: Introduction
+<p>
+ Newcomers to IF can be frustrated by the standard parser, which offers little instruction and is fairly rigid about the type of input it will accept. After one or two confusing errors, many new players will just give up. This extension responds to various common forms of misunderstood input tried by new players, as seen in hundreds of example transcripts collected by many IF authors over the years, and both offers more helpful responses as well as retrying some commands in a more standard form, teaching the player correct syntax as it goes.
+<p>
+ Section: Installation and Use
+<p>
+ Smarter Parser is triggered only when a parser error is about to be printed; that is, when the parser has given up trying to understand the player's command. After standardizing the misunderstood input to simplify pattern matching, it looks through all the rules in a new rulebook, the Smarter Parser rules. Depending on the result of a rule, a command can be rejected with a better error message, or changed into a better form and re-parsed.
+<p>
+ Since Smarter Parser only interferes when parsing has failed, you shouldn't normally have to worry about it interfering with your own nouns or verbs. For instance, while Smarter Parser will respond helpfully to &gt;HINT, if you create your own &quot;hint&quot; command, it will take precedence over Smarter Parser. However, since Smarter Parser will still fire if the player misuses your command in a way that causes it not to be parsed (by typing &gt;HINT CASTLE, for instance, if your command expects only HINT) you should review the Smarter Parser rules below and modify the output or delist rules that could hinder rather than help your own implementation.
+<p>
+ Section: Quick Tips
+<p>
+ If your story includes any of the following, you'll probably want to take a look at the listed rules as a starting point:
+<p>
+<blockquote><font color="#000080"> conversation<br>&nbsp;&nbsp;&nbsp;&nbsp; the failed communication attempts rule</font></blockquote>
+<p>
+<blockquote><font color="#000080"> nonstandard movement or an &quot;exits&quot; command<br>&nbsp;&nbsp;&nbsp;&nbsp; the where can i go rule<br>&nbsp;&nbsp;&nbsp;&nbsp; the where am i rule<br>&nbsp;&nbsp;&nbsp;&nbsp; the unnecessary movement rule</font></blockquote>
+<p>
+<blockquote><font color="#000080"> new verbs requiring you to do something &quot;with&quot; something else<br>&nbsp;&nbsp;&nbsp;&nbsp; the stripping failed with rule</font></blockquote>
+<p>
+<blockquote><font color="#000080"> a characterized narrator or parser<br>&nbsp;&nbsp;&nbsp;&nbsp; the asking who are you rule (at a minimum)</font></blockquote>
+<p>
+<blockquote><font color="#000080"> any questions-based commands (who, what, where, etc)<br>&nbsp;&nbsp;&nbsp;&nbsp; the asking unparseable questions rule</font></blockquote>
+<p>
+<blockquote><font color="#000080"> nouns involving possessives, like &quot;Bob's nose&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp; the unnecessary possessives rule</font></blockquote>
+<p>
+ Section: Testing
+<p>
+ In an unreleased story, you can type PARSER to start showing the names of matched Smarter Parser rules. You can look up a rule in this documentation to see how to change or remove it.
+<p>
+ Section: Configuration
+<p>
+ Experienced players can type NOVICE OFF to disable Smarter Parser completely, which will improve speed on slower platforms, or CORRECT OFF to turn off automatic reparsing of commands (instead, the extension recommends a correction but does not actually submit it). These commands (along with UNDO) are introduced the first time the extension kicks in. If the target platform supports file i/o, this configuration is saved to disk and will be honored across projects using version 15 of Smarter Parser or newer if they're run locally from the same directory.
+<p>
+ Authors can also disable corrections or Smarter Parsing entirely, perhaps temporarily for a certain sequence or permanently after the player has advanced past an introductory sequence, with the following phrases:
+<p>
+<blockquote><font color="#000080"> now corrections enabled is false<br> now novice mode enabled is false</font></blockquote>
+<p>
+ Section: Style
+<p>
+ Smarter Parser messages can easily be styled differently than normal messages by adding before and after formatting instructions to the &quot;as the parser&quot; and &quot;as normal&quot; say phrases. For instance, to make Smarter Parser messages appear in italics:
+<p>
+<blockquote><font color="#000080"> To say as the parser: say italic type.<br> To say as normal: say roman type.</font></blockquote>
+<p>
+ Chapter: The Rules
+<p>
+ Section: Blank Lines
+<p>
+ Novice players often press enter at a blank prompt, which normally shows the message &quot;I beg your pardon?&quot; Under the theory that players probably do this when they're not sure what to do next, Smarter Parser maps blank lines to LOOK, to get a fresh description of the surroundings. You can change the command to any string:
+<p>
+<blockquote><font color="#000080"> The blank line replacement is &quot;wait&quot;.</font></blockquote>
+<p>
+... or restore the default behavior:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Use normal blank lines.</font></blockquote>
+<p>
+ Section: Lonely Nouns
+<p>
+ If a player types just a noun, as in &gt;SWORD, we treat this like &gt;EXAMINE SWORD.
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Use normal lonely noun behavior.</font></blockquote>
+<p>
+ Section: the stripping punctuation rule
+<p>
+ This rule tries to remove extraneous punctuation marks from the player's input, successfully parsing commands like &gt;WAIT? or &gt; (LISTEN). It prints no message.
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The stripping punctuation rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the simplify contractions rule
+<p>
+ To make pattern matching simpler in later rules, this changes things like I'LL to I WILL. It prints no message.
+<p>
+ To remove (although note that this will cause some later rules to not recognize contractions):
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The simplify contractions rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the Standardize can verbs rule
+<p>
+ Similarly, this replaces CAN, WOULD, WILL, SHOULD, MAY, DO, and LIKE TO with _CAN. This special word simplifies later pattern matching. It prints no message.
+<p>
+ To remove (although note that this will break several later rules):
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The standardize can verbs rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the where can I go rule
+<p>
+ Tries to help players who seem to be trying to find where the exits are, matching commands like &gt;WHICH WAY IS OUT or &gt;CAN I LEAVE. To change the message it prints, paste the code block below and adjust the quoted text accordingly.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> where can I go rule &quot;[as the parser]Movement is usually by compass direction. Typing LOOK is a good way to get oriented.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The where can I go rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the signs of confusion rule
+<p>
+ Looks for patterns indicating player confusion or frustration, including &gt;I DON'T KNOW..., &gt;WTF, &gt;SO CONFUSED, &gt;HUH??, &gt;INFO, &gt;HOW DO I..., &gt;ACTIONS, and several others. To change the parser message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> signs of confusion rule &quot;[as the parser]Try typing LOOK for a description of your surroundings. Any directions indicate exits which you can use by typing [get direction example]. Some of the objects mentioned in the description might be worth a closer look with a command like EXAMINE [get noun example]. You can also TAKE or DROP some things, type INVENTORY to see a list of what you're carrying already, OPEN or CLOSE containers or doors, and so on.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The signs of confusion rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: The stripping niceties rule
+<p>
+ Removes the phrases PLEASE or CAN I (and variants) and reparses the command. To change the parser message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> stripping niceties rule &quot;[as the parser]You can just state your commands directly.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The stripping niceties rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: The stripping interjections rule
+<p>
+ Removes interjections to successfully parse colorful commands like &gt;GET THE DAMN JAR or &gt;WHERE IN THE HELL AM I and reparses without showing an error message. If this reduces the command to one or no words, don't reparse and show the message below. To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> stripping interjections rule &quot;[as the parser]I think your command included an interjection, but I couldn't understand it. Try stating your intention more directly.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The stripping interjections rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: The standardize be verbs rule
+<p>
+ Replaces words like AM, WAS, WERE, HAVE BEEN with _BE, to simplify later pattern matching.
+<p>
+ To remove (although note that this will break several later rules):
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The standardize be verbs rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the asking who are you rule
+<p>
+ Responds to players trying to address the parser or narrator with commands like &gt;WHO ARE YOU, &gt;WHO'S SPEAKING, &gt;WHO AM I TALKING TO, and so on. To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> asking who are you rule &quot;[as the parser]I'm the parser-- I translate what you type into actions your character takes in the story world. Use imperative commands like LOOK, GET [get noun example], or GO [get direction example] to advance the story. Try typing [default help command in upper case] for more information.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The asking who are you rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the asking who am I rule
+<p>
+ Answers the question &gt;WHO AM I? with an explanation and a reparsing as &gt;EXAMINE ME. To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> asking who am i rule &quot;[as the parser]You are a character in this story. Normally, you'll want to phrase your input as commands, not questions.[if corrections enabled is true] I've taken the liberty of demonstrating below.[end if][as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The asking who am I rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the asking where am I rule
+<p>
+ Answers the question &gt;WHERE AM I or attempts to examine the location (&gt;LOOK AROUND, &gt;EXAMINE ROOM, &gt;SEARCH LOCATION, &gt;WHAT'S IN THE AREA) with a pointer towards &gt;LOOK. To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> asking where am i rule &quot;[as the parser]To get a description of your surroundings, try typing LOOK.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The asking where am I rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the stripping verbose intro rule
+<p>
+ Reparses commands that contain an unnecessary introduction, such as &gt;I GO NORTH, &gt;CAN WE TAKE THE BALL, &gt;LET'S WAIT, &gt;I WANT TO ATTACK, and so on. To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> stripping verbose intro rule &quot;[as the parser]You can just begin your command with the verb.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The stripping verbose intro rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the asking unparseable questions rule
+<p>
+ Rejects commands that look like questions: anything starting with WHO, WHAT, WHERE, WHY, WHICH, HOW, or variants on CAN I. To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> asking unparseable questions rule &quot;[as the parser]You can't ask direct questions to the game. Type a verb - noun command like EXAMINE [get noun example] to interact with the story world, or LOOK to get a description of your surroundings.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The asking unparseable questions rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the stripping adverbs rule
+<p>
+ Reparses the player's command after removing some of the most commonly tried adverbs, including SLOWLY, CAREFULLY, QUICKLY, QUIETLY, and LOUDLY. To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> stripping adverbs rule &quot;[as the parser]Adverbs are not usually necessary in interactive fiction.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The stripping adverbs rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the making assertions rule
+<p>
+ Rejects commands that look like assertion statements, such as anything starting with I, HE, SHE, IT, THIS, YOU, or YOUR. To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> making assertions rule &quot;[as the parser]Please rephrase your command to start with an imperative verb, like LOOK.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The making assertions rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the unnecessary movement rule
+<p>
+ Rejects a wide variety of commands that look like attempts to move within a single room, one of the most common newbie moves in IF, with a mini-tutorial message. Commands matched include those starting with phrases like &gt;GO OVER TO, &gt;MOVE AWAY FROM, &gt;STAND NEXT TO, &gt;GET IN FRONT OF, &gt;WALK UP TO, etcetera. To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> unnecessary movement rule &quot;[as the parser]If you can see an object, you can usually just interact with it directly without worrying about your position[if player is enclosed by something] (although since you're in or on something, you may need to type EXIT first)[end if]. Try a command like EXAMINE [get noun example] for a closer look at something[if the number of sp_viable directions is at least 1], LOOK to get a new description of this location, or a direction like [get direction example] to move to a different location.[otherwise], or LOOK to show the description of this location again.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The unnecessary movement rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the stripping vague words rule
+<p>
+ Rejects commands containing vague words like SOMEONE, ANYWHERE, NOBODY, or EVERYTHING. To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> stripping vague words rule &quot;[as the parser]You will need to be more specific. Try typing LOOK to get a description of your surroundings.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The stripping vague words rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the stripping pointless words rule
+<p>
+ Rejects commands containing hedges like ANYWAY, ALMOST, SO, or JUST, as well as generally meaningless sequential or quantitative words like NOW, NEXT, or MORE, and reparses the command if any words remain, otherwise rejecting it. To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> stripping pointless words rule &quot;[as the parser]Most connecting and comparative words are not necessary.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The stripping pointless words rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the stripping failed with rule
+<p>
+ Reparses commands that contain unnecessary addenda like &gt;ATTACK MONSTER WITH MY SWORD, &gt;GO NORTH BY THE PATH, &gt;TOUCH ROCK USING MY FINGERTIP, and so on. (Everything from the &quot;with&quot; word on is stripped.) If your story includes a command that legitimately uses &quot;with,&quot; you may want to change the message to account for this, or remove this rule altogether. To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> stripping failed with rule &quot;[as the parser]You don't always need to specify what you're doing something with.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The stripping failed with rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the gerunds rule
+<p>
+ If the input contains the gerund form of several common IF commands, such as LOOKING, GOING, PUSHING, etc., strips the &quot;ing&quot; and reparses. Most useful in conjunction with other rules; i.e. along with &quot;stripping pointless words&quot; allows a command like &gt;TRY WAITING to be successfully understood. To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> no gerunds rule &quot;[as the parser]Use verbs in present tense command form.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The gerunds rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the unnecessary possessives rule
+<p>
+ If the player's command includes an interior unrecognized word that ends with an apostrophe s, strip the word and reparse. This works because the interior word is most likely to be a possessive in a command like &gt;GET BOB'S JACKET; if the story doesn't recognize the word BOB'S, we can assume this isn't going to be a helpful disambiguation word and try just &gt;GET JACKET instead. We limit our search to interior words to exclude different contexts like &gt;BOB'S A JERK or &gt;GET APPLE'S. This rule prints no message.
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The unnecessary possessives rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the understood as far as rule
+<p>
+ If the parser understood the player's command up to a certain point, and the words before that point look like a standard IF command, try stripping the excess and reparsing. This lets commands like &gt;TAKE BALL I SUPPOSE, &gt;LOOK AROUND THE ROOM, or &gt;KILL THE TROLL IN TERROR work. To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> stripping unnecessary addendum rule &quot;[as the parser]I only understood the first part of that[if corrections enabled is true]-- trying anyway[end if].[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The understood as far as rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the failed communication attempts rule
+<p>
+ If a person is near the player and they typed one of several common greeting words, including HELLO, HI, GREET, SPEAK..., etc., reject the command and print a message pointing towards correct conversation commands. Note that if your story includes a conversation system, you will almost certainly want to replace this message with something customized for your game, or remove the rule entirely. To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> failed communication attempts rule &quot;[as the parser]If you're trying to talk to someone, you might try ASK [get person example] ABOUT something, the traditional conversation syntax. Type [default help command in upper case] to see if this story offers more detailed instructions for conversation.[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The failed communication attempts rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: the too many words rule
+<p>
+ If none of the previous rules have matched and the player's command has more than six words, reject it with a tip to try shorter commands. To change the message:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Table of Smarter Parser Messages (continued)<br> rule name message<br> too many words rule &quot;[as the parser]You typed a rather long command and I didn't understand it. It's better to stick to simpler things like TAKE [get noun example].[as normal]&quot;</font></blockquote>
+<p>
+ To remove:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> The too many words rule is not listed in the Smarter Parser rulebook.</font></blockquote>
+<p>
+ Chapter: Advanced Features
+<p>
+ Section: Changing how reparsing is presented to the player
+<p>
+ To change the text used to frame reparsed commands, and the notifications the first time auto-corrections and a smarter parser message are seen, just redefine one of the following phrases in your own source (the text shown here is the default behavior):
+<p>
+<blockquote><font color="#000080"> To display the active corrections introduction:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[line break][as the parser]Retrying as:[as normal][line break]&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To display the inactive corrections introduction:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[as the parser]You might try:[as normal] &quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To display the corrections instructions:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[paragraph break][as the parser]Type UNDO if this isn't what you wanted to do, or CORRECT OFF to stop automatically correcting commands.[as normal]&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To display the novice instructions:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[line break][as the parser]To stop these messages entirely, type NOVICE OFF.[as normal]&quot;.</font></blockquote>
+<p>
+ More utilitarian but also available to be replaced if necessary:
+<p>
+<blockquote><font color="#000080"> To display the rule explanation (explanation - a text):<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[explanation][command clarification break]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To display the reborn command:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;&gt;[reborn command in upper case]&quot;.</font></blockquote>
+<p>
+ Section: Default Examples
+<p>
+ A number of the built-in messages need examples of things, people, or directions. Some effort is made to find sensible options from the nearby environment, but if nothing matches, the extension uses default fallbacks, which can be changed thusly (again, the defaults are below):
+<p>
+<blockquote><font color="#000080"> The default noun example is &quot;flower&quot;.<br> The default person example is &quot;John&quot;.<br> The default direction example is north.</font></blockquote>
+<p>
+ Several instructional messages encourage the player to type the standard ABOUT to get more help or information about the game. (If your game doesn't have an ABOUT command, Smarter Parser will print some generic instructional text if the player tries it.) You can change the referenced command if your game provides something different:
+<p>
+<blockquote><font color="#000080"> The default help command is &quot;hint&quot;.</font></blockquote>
+<p>
+ Section: Making your own rules
+<p>
+ You can add new Smarter Parser rules to match additional patterns of misunderstood input. Smarter Parser uses regular expressions on the indexed text variable &quot;the rejected command&quot; to match patterns. The &quot;Advanced Text&quot; chapter of the Inform docs has a good primer on how to use regular expressions if you're not familiar with them.
+<p>
+ Smarter Parser rules can optionally modify a second indexed text, &quot;the reborn command,&quot; and can have one of four outcomes:
+<p>
+<blockquote><font color="#000080"> reparse the command (success)<br> reparse the command without an explanation (success)<br> reject the command (failure)<br> no match (default)</font></blockquote>
+<p>
+ If there is no match, the next rule in the rulebook will be checked, and so on. If no Smarter Parser rules match, responsibility for printing an error returns to the default parser, as if Smarter Parser hadn't run.
+<p>
+ For any of the non-default outcomes, however, the rule must first call the phrase:
+<p>
+<blockquote><font color="#000080"> identify error as (the name of the matching rule)</font></blockquote>
+<p>
+ In all cases except &quot;without an explanation,&quot; the extension looks up the identified rule in the Table of Smarter Parser Messages, which has two columns, &quot;rule name&quot; and &quot;message,&quot; and display the associated text to explain the nature of the problem. Stylistically, Smarter Parser messages should not just explain what went wrong, but try to suggest a better command or explain something about the IF world model that will lead the player towards more helpful input in the future. It's legal to have no matching error message, in which case nothing is printed.
+<p>
+ With the two &quot;reparse the command&quot; outcomes, and if &quot;corrections enabled&quot; is true, the extension next takes the value of &quot;the reborn command&quot; and starts parsing over again as if the player had typed that command. The &quot;without an explanation&quot; variant will do so without printing an explanation, which is useful for very straightforward or obvious corrections such as misplaced punctuation.
+<p>
+ Here's an example of a Smarter Parser rule that rejects a command:
+<p>
+<blockquote><font color="#000080"> A smarter parser rule (this is the signs of frustration rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the rejected command matches the regular expression &quot;(stupid|hate|dumb|boring|wtf)&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; identify error as signs of frustration rule;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reject the command.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Smarter Parser Messages (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> rule name</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> message</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> signs of frustration rule</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[as the parser]You know, there's a HINT command available...[as normal]&quot;</font></font></td></tr></table></blockquote>
+<p>
+ And here's one that reparses:
+<p>
+<blockquote><font color="#000080"> A smarter parser rule (this is the stripping formal address rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the rejected command matches the regular expression &quot;(sir|ma'am)&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; replace the regular expression text matching subexpression 1 in the reborn command with &quot;&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; identify error as stripping formal address rule;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reparse the command.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Smarter Parser Messages (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> rule name</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> message</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> stripping formal address rule</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[as the parser]There's no need to be overly polite.[as normal]&quot;</font></font></td></tr></table></blockquote>
+<p>
+ Section: Shortcuts for new rules
+<p>
+ There are a few built-in phrases to streamline common patterns in making Smarter Parser rules. One of these is checking whether a pattern matches, and if so, removing it from the player's command. This can be done with the &quot;stripping (regex) is fruitful&quot; phrase. The &quot;stripping formal address rule&quot; example above could be rewritten like this:
+<p>
+<blockquote><font color="#000080"> A smarter parser rule (this is the stripping formal address rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if stripping &quot;(sir|ma'am)&quot; is fruitful:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; identify error as stripping formal address rule;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reparse the command.</font></blockquote>
+<p>
+ By default these phrases all stop at word boundaries, so the above would not match on the word &quot;sirrah.&quot; We can override this, or restrict the search to only match the beginning of the rejected command, with these two phrase variants:
+<p>
+<blockquote><font color="#000080"> if stripping &quot;regex&quot; is fruitful, even within words<br> if stripping &quot;regex&quot; is fruitful, only from the beginning</font></blockquote>
+<p>
+ Similarly, we can check if the rejected command contains a certain regular expression (without modifying the command) with this shortcut phrase and variants:
+<p>
+<blockquote><font color="#000080"> if input contains &quot;regex&quot;<br> if input starts with &quot;regex&quot;<br> if input ends with &quot;regex&quot;</font></blockquote>
+<p>
+ We can also add the &quot;, even within words&quot; suffix to any of these three phrases to search across word boundaries.
+<p>
+ Finally, there's a much faster alternate version of the &quot;input starts with&quot; phrase that works if you're just looking to match individual words at the start of a command and don't need any complex regular expression handling. This is:
+<p>
+<blockquote><font color="#000080"> if input simple starts with &quot;word&quot;<br> if input simple starts with &quot;(one|of|these|words)&quot;</font></blockquote>
+<p>
+ Smarter Parser rules are checked in the order defined in the source, meaning any new ones you define will come at the end of the built-in set. You can use the standard rule reordering syntax to adjust this:
+<p>
+<blockquote><font color="#000080"> The stripping formal address rule is listed before the stripping pointless words rule in the Smarter Parser rules.</font></blockquote>
+<p>
+ A final note: checking regular expressions is slow, so adding rules ad infinitum is not necessarily a good idea. The slowdown only happens when the player types misunderstood input, but keep in mind this might be rather frequent for new players, many of whom may be playing your story on a slow interpreter such as a Javascript-based web environment.
+<p>
+ Chapter: Miscellany
+<p>
+ Section: No default rules
+<p>
+ You can remove all of the built-in rules by adding the use option:
+<p>
+<blockquote><font color="#000080"> Use empty Smarter Parser rulebook.</font></blockquote>
+<p>
+ Section: Overriding player preferences
+<p>
+ If an author is doing something unique with Smarter Parser and wants to override player preferences saved in an external file, she can simply use a &quot;when play begins&quot; rule to set &quot;corrections enabled&quot; or &quot;novice mode enabled&quot; to the desired boolean value.
+<p>
+ Section: Compatibility
+<p>
+ Smarter Parser replaces the I6 Keyboard routine to allow for blank line replacement, which may create compatibility issues with other extensions that replace this routine (such as Undo Output Control by Erik Temple). If you don't want to replace Keyboard, you can fall back on a simpler implementation for dealing with blank lines by adding an empty section replacing the relevant code:
+<p>
+<blockquote><font color="#000080"> Section - revert to simple blank lines (in place of Section - Nothing Entered Advanced Version in Smarter Parser by Aaron Reed)</font></blockquote>
+<p>
+ The simpler version can't have a custom verb (it always LOOKs) and acts like an out-of-world command (time doesn't pass).
+<p>
+ Section: Bugs
+<p>
+ The author is constantly striving to improve this extension. If you have any problems with Smarter Parser or suggestions for future improvement, please contact me at my gmail account, aareed, or on the intfiction.org forum.
+<p>
+ Example: * Caverns and Kobolds - A tiny scenario to test misunderstood input with.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Caverns and Kobolds&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Smarter Parser by Aaron Reed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Spooky Cave is a room. A glowing sword is in Spooky Cave. Dark Tunnel is north of Spooky Cave. A dusty skull is in Dark Tunnel. The kobold is a man in Tunnel. The kobold holds a spear.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A smarter parser rule (this is the no leet speak allowed rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if input contains &quot;\w\d+\w&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; identify error as no leet speak allowed rule;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reject the command.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A smarter parser rule (this is the stripping formal address rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if stripping &quot;(sir|maam)&quot; is fruitful:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; identify error as stripping formal address rule;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reparse the command.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A smarter parser rule (this is the signs of frustration rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if input contains &quot;(stupid|damn|idiot|hate)&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; identify error as signs of frustration rule;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reject the command.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The stripping formal address rule is listed first in the smarter parser rules.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Smarter Parser Messages (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> rule name</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> message</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> no leet speak allowed rule</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;This story requires you to use proper spelling and grammar.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> stripping formal address rule</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Oh please, we don't stand on titles here.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> signs of frustration rule</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;If you're feeling frustrated, you can always SAVE and come back later.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;ub4r l33t / novice off / who am i? / novice on / who am i??? / sword / i'll look at the sword / which way should I go / what do I do then?? / i'm so confused / walk over to the sword / try looking / please take the sword sir / drop the freaking sword / the hell / who are you / look around the area / I want to take the sword / why is the sky blue / go somewhere / carefully go north / anyway look around / you're very tall / hello / get kobold's spear / touch ceiling / touch skull with my foot / wait for a while / well it looks like i'm starting to figure it out&quot;.</font></blockquote>
+<p>
+ Example: * Stress test - A large archive of edge cases and actual misunderstood newbie inputs. Not all of these are caught by Smarter Parser, but are included to help ensure the extension is not making things less clear (or for speed profiling thousands of regular expression calls).
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Stress Test&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Smarter Parser by Aaron Reed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Stage is a room. A sword is in Stage. A cat is a male animal in Stage. A cube is a fixed in place supporter in Stage. Understand &quot;Molly&quot; as cat. Bob is a man in Stage. An apple is in Stage.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> East of Stage is Isolation Ward. North of Isolation Ward is Cell. The prisoner is a person in cell. A dog is an animal in cell. North of Cell is Foyer. Suzan and a lady barrister are women in Foyer. Mister Aleric Chesterworth and the Prime Minister are men in Foyer. The platform is a fixed in place supporter in Foyer. The bolt is part of the platform. The glass bowl is a transparent closed unopenable container. It is part of the platform. In the glass bowl is a screwdriver. The crowd is a backdrop in Foyer. An orange is in Foyer.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The alcove is inside from Foyer. Spleenwards is a direction. The opposite of spleenwards is liverwurst. Liverwurst is a direction. The opposite of liverwurst is spleenwards. The kidney room is spleenwards from the Foyer. Stage is east from the kidney room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test punctuation with &quot;? / get sword &amp; cat / x cat; x sword: x cube? x me / ~wait / wait* / get (cat) / (get cat / * / ???look / !!?!! / look??go north / north???!&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test examples with &quot;who are you / hello / e / who are you / hello / n / who are you / hello / hello / n / who are you / who are you / hello / hello / hello / in / who are you / out / spleenwards / who are you / who are you / who are you&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test standardize with &quot;who is there / who's there / who i'm speaking to / who're you / I'll go north / who I've been talking to&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test where with &quot;which way / can I go / what direction should I move in&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test confusion with &quot;I'm confused / how can I play / what should I do&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test niceties with &quot;please go north / can I jump / please go / please / please please / please please please look please wait please&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test interjections with &quot;what in the hell / who the hell are you / take the freaking sword / the shit / you're the shit / this is balls / in the name of god run&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test frustration with &quot;commit suicide / you're stupid / I hate this / screw you / go to hell / die in a fire / MORON / what in the hell is that?&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test words with &quot;one two three four five / one two three four five six / one two three four five six seven / wait. wait. wait. wait. wait. / wait &amp; wait &amp; wait &amp; xyzzy&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test who with &quot;who are you? / who said that / who am i talking to / who've i been speaking with / who's there / whos talking / who is saying that&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test whome with &quot;who am I? / who am i supposed to be?&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test whereami with &quot;where am i / look at the room / look around / search area / what is this place / look in room&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test questions with &quot;what should i do / who is that man / where is the sword / why am I playing this / which sword should I choose / how do I solve this puzzle / do I have to go north?&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test intro with &quot;i want to go north / I'm going north / I'm going to take sword / I'll wait / I'll try to wait / I'd like to listen / can I get the sword / try to listen / try listening / try going north / should I stop / let's go west / I think we should go west&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test assertions with &quot;I am happy / I can do anything / I don't care about you / He's crazy / She is a bird / It is only natural / This is interesting / You have a problem / Your fly is unzipped&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test adverbs with &quot;go carefully north / find fly / find lyre / look at lysander / look at Pigglywiggles / pet molly / give molly some cream / where is molly / golly this is fun / really / Really I mean it / This is awefully dangerous / casually pet the cat / think locally, not globally / run really fast / run really quickly / run carefully north&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test movewithin with &quot;get closer to cat / move away from cat / stand next to cat / get in front of cat / go to cat / go over to cat / walk near the cat / move underneath cat / go farther away / get inside cat / climb up to cat / walk around cat&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test vague with &quot;somebody listen / is anyone there / take everyone / nobody likes me / go anyplace / walk to somewhere / here&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test pointless with &quot;anyway get cat / go north instead / very carefully attack cat / walk almost north / so just listen now / next try waiting / walk a little farther&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;attack [something] with [something]&quot; as targetting. Targetting is an action applying to two things. Carry out targetting: say &quot;You target [the noun] with [the second noun].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test failedwith with &quot;get cat with my hands / get cat with patience / get cat using my brain / get cat using legs / get cat by using my hands / kill cat with sword / kill cat with the blunderbuss / attack cat with / attack cat burgler / attack cat with fence / attack cat with sword&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test surroundings with &quot;look at ground / sit on floor / go left / climb above cat / touch ceiling / forward / look backward / examine sky&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test body with &quot;take bob's hand / hit bob with my fist / get on my knees / slit wrists / kiss tongue / touch bob on his chest / cut bob's fingernails&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test clothes with &quot;take off shirt / remove underwear / untie shoes / tie tie / undo belt&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test possessives with &quot;x suzan's orange / suzan's a weirdo / get orange's / get aleric's goat / examine suzan's barrister&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test newbies with &quot;talkto cat / talk cat / smack cat / damn cat / wait for cat / call cat / stay here with cat / hello cat / bye / get apple, cat / say hi / yo / tell cat to ask me about the apple / cat, what seems to be the problem? / hit me, cat / Where is cat / I am ready to fight! / what next? / why not / who is cat / who is there / the voice outside bother me / please help me / who is around / what is in the room / what is it / what do you want me to do? / i have to go home / what do you mean / what happened / talk to cat / hmm / what apple / what is apple / who / enter / stand / leave\ / back / lay down / walk outside / go Stage / go Outdoors / move / right / leave room / leave Stage / leave Outdoors / jump across apple / walk apple / go to apple / goto apple / put the apple on the ground / examine the apple on the floor / find apple / look room / exit right / sit apple / lie on stage / lie on floor / lie on apple / approach apple / run east / go through door / use door / open doors / exit door / look left / sleep on apple / look behind apple / jump down / return / move apple /  go back / climb apple / walk away / sit / look outside / exit door / walk into door / exit apple / follow cat / help' / get appl / lsk s / take golden ap / wati / \asdf / ;apple / looka ta apple / gt apple / dfsdf / waiyt / help0 / 0 / 'exit' / goodbuy / get apepl / loook / udno / zlook / ook / poop / smile / ok / don't hesitate / laugh / commit suicide / choke and die from poison / explore / kill myself / lol / die / suicide / scream / pick nose / l33t hax0r skillz / shrug / hear / cool / for goodness sake give me my apple / say maybe I can eat it later / get ye flask / lick self / take a nap / ... / close my eyes / search ground / damn / okay / hi / kill me with apple / kill me / kill self / look apple / get that apple / use apple / listen apple / drop apple / make to to apple / raise apple / put the apple back / drop apple / info look / grab apple / drop apple / more / bring apple / swallow apple /  view apple / grab apple / stare apple / inspect apple / see apple / lift apple / hold apple / lay on apple / feel apple / put hand on apple / think of apple / lie down in apple / walk on apple / don apple / carry apple / use apple on cat / throw apple against the wall / take and go /  please take / listen more / listen then / take a lot / watch /  detailed instructions / what actions are there / what commands are available / I don't get it&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test all with &quot;test punctuation / test standardize / test where / test confusion /test niceties / test interjections / test frustration / test words / test who / test whome / test whereami / test questions / test intro / test assertions / test adverbs / test movewithin / test vague / test pointless / test failedwith / test surroundings / test body / test newbies / test clothes / test possessives&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

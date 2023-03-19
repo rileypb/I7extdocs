@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Ordinary Room Description<font color="#404040"> by </font>Emily Short</b><p><small></small><p><p><hr><p>
+<p>
+ The purpose of Ordinary Room Description is to replicate as closely as possible the default room description behavior of Inform while relying on the framework provided by Room Description Control.
+<p>
+ This means that including Ordinary Room Description should, by itself, change nothing about the way descriptions are presented in our game.
+<p>
+ The advantage of including it is that we can then make use of Room Description Control to make slight tweaks to Inform's default behavior, as for instance by writing description-concealing rules or changing the priority of items so that they are listed in a different order from the usual within a room.
+<p>
+ For more detail on these abilities, see the documentation for Room Description Control.
+<p>
+ Example: * Quiet Shelf - A scenery supporter which does not list its contents in the room description.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Quiet Shelf&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Ordinary Room Description by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Sample Chamber is a room. The shelf is scenery in Sample Chamber. On the shelf is a gold coin.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A description-concealing rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; now every thing on the shelf is not marked for listing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;look / get coin / look / drop coin / look&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

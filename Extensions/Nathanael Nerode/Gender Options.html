@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Gender Options<font color="#404040"> by </font>Nathanael Nerode</b><p><small></small><p><p><hr><p>
+<p>
+ Section 1 - Summary
+<p>
+ Gender Options makes male, female, and neuter into independent on-off properties, each of which determines respectively whether &quot;HE&quot;, &quot;SHE&quot;, or &quot;IT&quot; can be used to refer to the thing. It makes &quot;THEY&quot; refer to any plural-named or ambiguously plural thing. It also allows some authorial choices over which pronoun to print for things with multiple valid genders or numbers. It should be just as fast and efficient as the standard rules.
+<p>
+ I have a taste for writing stuff with odd gender behavior, and so I decided to do this in a general-purpose manner. There are several purposes most of which are shown in the City Park example.
+<p>
+ Section 2 - Gender/Number Model and Pronouns
+<p>
+ In the new model, male, female, and neuter are each separate properties, so that a thing is &quot;male&quot; or &quot;not male&quot;, &quot;female&quot; or &quot;not female&quot;, and &quot;neuter&quot; or &quot;not neuter&quot;. This allows for maximum flexibility short of adding new pronouns (which is much more complicated and probably slower).
+<p>
+ The gender is primarily for pronoun purposes. When the player types &quot;HE&quot;, anything male will match. When the player types, &quot;SHE&quot;, anything female will match. When the player types &quot;IT&quot;, anything neuter will match. Something which is none of the three will never match any singular pronoun, which is not usually desirable, but may occasionally be useful (e.g. &quot;The Exalted One shall not be referred to by pronouns!&quot;).
+<p>
+ If you define a &quot;man&quot; or &quot;men&quot;, it will by default be male, and not female or neuter. If you define a &quot;woman&quot; or &quot;women&quot;, it will by default be female, and not male or neuter. If you define a &quot;person&quot; or &quot;people&quot;, it will by default be male and female, but not neuter. This makes more sense than it might at first appear; a person of unknown gender can be referred to as &quot;he&quot; or &quot;she&quot; by the player. If you define a &quot;thing&quot; or an &quot;animal&quot;, it will by default be neuter, and not male or female.
+<p>
+ All of these can be overrriden and changed by specifying things like:<blockquote><font color="#000080"> Tracy is not male.<br> Tracy is not female.<br> Tracy is neuter.</font></blockquote>
+<p>
+ The parser will update and recognize the appropriate pronouns when used by the player. So a character who is both male and female can be referred to as &quot;he&quot; or &quot;she&quot; by the player, a ship can be referred to as &quot;it&quot; or &quot;she&quot;, etc.
+<p>
+ A similarly flexible model is implemented for number. Any object which is plural-named or ambiguously plural can be referred to as &quot;THEY&quot;. Any object which is ambiguously plural can additionally be referred to using the singular pronouns -- whichever ones apply according to its gender.
+<p>
+ So an amibguously plural, male, female, neuter thing can be referred to by any of the pronouns THEY, HE, SHE, IT. Even if it's singular-named.<blockquote><font color="#000080"> The jumble is an ambiguously plural, male, female, neuter thing.<br> The description of the jumble is &quot;Things and people, all in a jumble! [They] [are] quite something.&quot;</font></blockquote>
+<p>
+ The concept of &quot;ambiguously plural&quot; items is present in the Standard Rules but is not fully implemented. (A singular-named ambiguously plural item will not match &quot;they&quot; in the Standard Rules. It will match with Gender Options active.)
+<p>
+ Section 3 - Advice on the gender model
+<p>
+ This is designed to be a plug-in extension which requires no change in existing code and keeps the same behavior if you have been using &quot;man&quot;, &quot;woman&quot;, or &quot;animal&quot;. If you have been using &quot;person&quot; to refer to generic non-gendered people and using &quot;ambiguously plural&quot; appropriately, this should simply improve the pronoun behavior with no code changes necessary. But there may be some changes required if you have been using explicit gender adjectives.
+<p>
+ This is because now male, female, and neuter are entirely separate traits; setting one does not set another. Consider this code:<blockquote><font color="#000080"> Tracy is a person.<br> Tracy is male.</font></blockquote>
+<p>
+ Because the default for &quot;person&quot; is both male and female, responding to &quot;him&quot; and &quot;her&quot;, this makes Tracy both male and female; the &quot;male&quot; adjective does nothing. If you want to make Tracy a man (male and not female), you would have to do this:<blockquote><font color="#000080"> Now Tracy is not female.</font></blockquote>
+<p>
+ Now suppose you want to change Tracy from a man to a woman (female and not male). You'll have to make two statements:<blockquote><font color="#000080"> Now Tracy is female.<br> Now Tracy is not male.</font></blockquote>
+<p>
+ Now you want to make Tracy respond to &quot;it&quot;.<blockquote><font color="#000080"> Now Tracy is neuter.</font></blockquote>
+<p>
+ Tracy is still female. If you want Tracy to stop responding to &quot;her&quot;:<blockquote><font color="#000080"> Now Tracey is not female.</font></blockquote>
+<p>
+ Similarly, if you make an animal female, the player can refer to the animal as both &quot;it&quot; and &quot;her&quot; (unless you also make the animal not neuter):<blockquote><font color="#000080"> Peppy is a female animal.</font></blockquote>
+<p>
+ This is usually desirable.
+<p>
+ Section 4 - Gender in output messages
+<p>
+ Gender and number is used for a second purpose other than recognizing pronouns in the English Language extension, and we must fix this up too. It shows up in message substitutions such as. For this, each object must have a single preferred grammatical gender, even when it has multiple genders which match player input.
+<p>
+ We define two variables for this purpose: &quot;prefer neuter gender&quot; and &quot;default animate gender&quot;. These are variables so that they can be changed at runtime (for effect).
+<p>
+<blockquote><font color="#000080"> Prefer neuter gender is a truth state which varies.<br> Prefer neuter gender is usually true. If you have a dog or a ship which can be referred to as &quot;it&quot; or &quot;her&quot;, this will print &quot;it&quot;. If you would rather have &quot;she&quot; printed, use this:<br> Prefer neuter gender is false.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The preferred animate gender is a grammatical gender which varies.<br> The preferred animate gender is usually the masculine gender. If you have an androgynous person (both male and female, but not neuter), this will print &quot;him&quot;. If you would rather have &quot;her&quot; printed, use this:<br> The preferred animate gender is the feminine gender.</font></blockquote>
+<p>
+ Prefer neuter gender is checked first; if it is false, then the preferred animate gender is checked. An object will never be printed with a pronoun which isn't valid for it, unless it is not male, not female, *and* not neuter -- not responding to any pronouns from the player -- in which case &quot;it&quot; will be used.
+<p>
+ Note that these use values of a different kind from the genders of objects for parsing purposes; the phrase &quot;masculine gender&quot;, &quot;feminine gender&quot;, and &quot;neuter gender&quot; must be specifically used.
+<p>
+ This is all implemented with the following decide phrase. If you don't like these rules and want to do something even more complicated (perhaps a per-object choice), override the decide phrase.
+<p>
+<blockquote><font color="#000080"> To decide which grammatical gender is the printing gender for (o - an object):</font></blockquote>
+<p>
+ Section 5 - Number in output messages
+<p>
+ Ambiguously plural items (like &quot;pair of shoes&quot;) will be treated as plural or singular by output messages depending on whether they are &quot;plural-named&quot; or &quot;singular-named&quot; This is standard behavior. This does not affect the ability to refer to them by pronouns (you can always use both &quot;they&quot; and the singular pronouns for their gender).
+<p>
+ The plural-named property is also used for the items like &quot;the trees&quot; which are always plural. This is standard behavior.
+<p>
+ Please note that for a thing which is ambiguously plural but singular-named, such as &quot;pair of dice&quot;, the substitution &quot;[they're]&quot; will produce &quot;that's&quot;, while &quot;[they]['re]&quot; will produce &quot;it's&quot;. Choose wisely!
+<p>
+ Section 6 - Printing differences from standard behavior
+<p>
+ For reference, this is the procedure currently used in the Standard Rules as of the time of writing:
+<p>
+<blockquote><font color="#000080"> For non-people:<br> If person is plural, the plural form (&quot;they&quot;) is used.<br> Otherwise, neuter form (&quot;it&quot;) is used.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For people (including animals)<br> If person is the player, &quot;you&quot; is used.<br> If person is plural, plural form (&quot;they&quot;) is used.<br> Otherwise, if person is female, female form (&quot;her&quot;) is used.<br> Otherwise, if person is neuter, neuter form (&quot;it&quot;) is used.<br> Otherwise, male form (&quot;him&quot;) is used.</font></blockquote>
+<p>
+ In contrast, this is the procedure in Emily Short's Plurality:
+<p>
+<blockquote><font color="#000080"> If the thing/person is plural, plural form (&quot;they&quot;) is used.<br> Otherwise, if the thing/person is the player, &quot;you&quot; is used.<br> Otherwise, if the thing/person is neuter, neuter form (&quot;it&quot;) is used.<br> Otherwise, if the thing/person is male, male form (&quot;he&quot;) is used.<br> Otherwise, if the thing/person is female, female form (&quot;she&quot;) is used.</font></blockquote>
+<p>
+ Changing the gender model causes these to be two different procedures, which is why I wrote an entirely new and more versatile procedure.
+<p>
+ Section 7 - Interaction with Other Extensions
+<p>
+ Gender Options replaces parts of Standard Rules by Graham Nelson and should be included after it. Gender Options replaces most of English Language by Graham Nelson and should be included after it.
+<p>
+ Gender Options is compatible with Neutral Standard Responses by Nathanael Nerode. Gender Options is incompatible with Neutral Library Messages by Aaron Reed, which predates the &quot;reponses&quot; system. Neutral Standard Responses is intended as a replacement.
+<p>
+ Gender Options includes fixes for the gender handling in Original Parser by Ron Newcomb. However, Original Parser is broken on the current version of Inform, so don't use it. As a result this is untested and Gender Options probably doesn't work as well with Original Parser as it does with the standard parser.
+<p>
+ Gender Options is compatible with Plurality by Emily Short in that it is safe to include both. But they will probably not interact well due to conflicting gender assumptions. Plurality is largely obsolete due to incorporation of most of its features in the Standard Rules as of Inform 6M62; please use the Standard Rules features in preference to the features in Plurality.
+<p>
+ Gender Options is incompatible with Second Gender by Felix Larsson. The two do very similar things, but IMO Gender Options does so in a cleaner and more comprehensive fashion. It was developed completely independently.
+<p>
+ Section 8 - Changelog
+<p>
+ Version 3/210331 - Fix example / testsuite. Version 3/170818 - Small documentation and comment tweaks. Version 3/170816 - Replaced &quot;always&quot; with &quot;usually&quot; for man and woman. Eliminated implications which didn't work. Mboved &quot;person is usually not neuter&quot; into correct section. Removed androgyne kind and collective noun property for efficiency (they were syntactic sugar). Revised documentation, comments, and City Park exmaple. Added &quot;It for All&quot; example. Version 2/170815 - First public release for gamma testing.
+<p>
+ Example: * City Park
+<p>
+ This consists of a room with items featuring most of the combinations of gender and number options which seemed plausible. Take special note of the toy ship (you can call it &quot;she&quot;). This is also the test suite for the extension.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Everyone Comes To City Park&quot; by Nathanael Nerode</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The release number is 3.<br> Include Gender Options by Nathanael Nerode.<br> City Park is a room.<br> The description of City Park is &quot;Everyone comes to City Park!&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The shadow is a person in the park. &quot;Someone skulks in the shadow.&quot;<br> Understand &quot;skulker&quot; as the shadow.<br> The description of the shadow is &quot;[We] [can't get] a good look at [regarding the shadow][them].&quot;<br> The shadow is neuter.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> John is a man in the park.<br> The description of John is &quot;John is a dapper man.&quot;<br> Understand &quot;dapper man&quot; as John.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Jane is a woman in the park.<br> The description of Jane is &quot;Jane is an elegant woman.&quot;<br> Understand &quot;elegant woman&quot; as Jane.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A deity is a person in the park.<br> Understand &quot;Hermaphroditus&quot; as deity.<br> Description of deity is &quot;A deity with both male and female characteristics.&quot;<br> Deity is male.<br> Deity is female.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A couple of girls are women in the park.<br> Description of couple of girls is &quot;Two girls who clutch each other inseparably.&quot;<br> A couple of girls is ambiguously plural.<br> A couple of girls is plural-named.<br> A couple of girls has indefinite article &quot;a&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A bunch of boys are men in the park.<br> Description of bunch of boys is &quot;A bunch of boys wander around.&quot;<br> A bunch of boys is ambiguously plural.<br> A bunch of boys is plural-named.<br> A bunch of boys has indefinite article &quot;a&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Some sunbathers are people in the park.<br> Description of the sunbathers is &quot;A mixed-gender group is out bathing in the sun.&quot;<br> Sunbathers are male.<br> Sunbathers are female.<br> Sunbathers are ambiguously plural.<br> Sunbathers are plural-named.<br> Sunbathers are not proper-named.<br> Sunbathers have indefinite article &quot;a few&quot;.<br> Understand &quot;few sunbathers&quot; as sunbathers.<br> Understand &quot;group&quot; as sunbathers.<br> Understand &quot;mixed-gender group&quot; as sunbathers.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A deer-animal is a kind of animal.<br> Deer-animal usually have printed plural name &quot;deer&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A group of does are deer-animal in the park.<br> Description of the does is &quot;A group of does are grazing in the park.&quot;<br> Does are female.<br> Does are ambiguously plural.<br> Does are plural-named.<br> Does have indefinite article &quot;a&quot;.<br> Understand &quot;deer&quot; as does.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A buck is an deer-animal in the park.<br> Description of the buck is &quot;The buck is watching the does.&quot;<br> Buck is male.<br> Understand &quot;deer&quot; as buck.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A cute puppy is an animal in the park.<br> Description of the puppy is &quot;There's a cute puppy running around.&quot;<br> Puppy is female.<br> Puppy is neuter.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A plastic banana is a thing in the park.<br> Description of banana is &quot;It's a plastic banana.  I don't know why it exists, either.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A pair of dice is a thing in the park. &quot;A pair of dice lie abandoned on the ground.&quot;<br> Description of pair of dice is &quot;A pair of casino-style dice.&quot;<br> A pair of dice is ambiguously plural.<br> A pair of dice is not plural-named.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A toy ship is a thing in the park. &quot;A toy ship lies abandoned to one side.&quot;<br> Description of ship is &quot;A toy ship called the 'Santa Maria'.&quot;<br> Ship is female.<br> Understand &quot;Santa Maria&quot; as ship.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A large cardboard box is a container in the park.<br> Description of cardboard box is &quot;A large cardboard box is lying out in the sun.&quot;<br> Cardboard box is enterable.<br> Cardboard box is openable.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The jumble is an ambiguously plural, male, female, neuter thing in the park.<br> The description of the jumble is &quot;Things and people, all in a jumble! [They] [are] quite something.&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Unpronounable One is a thing in the park.<br> The description of the Unpronounable One is &quot;[We] [may] not refer to the Unpronounable One by pronouns.&quot;<br> The Unpronounable One is not neuter.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Analyzing is an action applying to one thing.<br> Understand &quot;gender [something]&quot; as analyzing.<br> Carry out analyzing:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[A noun] [are] here; [regarding the noun][they]['re] here.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> setting female default is an action applying to nothing.<br> Understand &quot;matriarchy&quot; as setting female default.<br> Carry out setting female default:<br>&nbsp;&nbsp;&nbsp;&nbsp; now preferred animate gender is feminine gender.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> setting male default is an action applying to nothing.<br> Understand &quot;patriarchy&quot; as setting male default.<br> Carry out setting male default:<br>&nbsp;&nbsp;&nbsp;&nbsp; now preferred animate gender is masculine gender.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> setting gendered default is an action applying to nothing.<br> Understand &quot;anthropomorphize&quot; as setting gendered default.<br> Carry out setting gendered default:<br>&nbsp;&nbsp;&nbsp;&nbsp; now prefer neuter gender is false.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> setting neuter default is an action applying to nothing.<br> Understand &quot;objectify&quot; as setting neuter default.<br> Carry out setting neuter default:<br>&nbsp;&nbsp;&nbsp;&nbsp; now prefer neuter gender is true.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test pronouns with &quot;pronouns / x john / pronouns / x jane / pronouns / x deity / pronouns / x girls / pronouns / x boys / pronouns / x sunbathers / pronouns / x does / pronouns / x buck  / pronouns  / x dice / pronouns / x ship / pronouns / x unpronounable one / pronouns / x jumble / pronouns&quot; in City Park.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test gender with &quot;anthropomorphize / gender buck / gender puppy / gender shadow / objectify / gender buck / gender puppy / gender shadow / anthropomorphize / matriarchy / gender deity  / gender shadow  / x shadow / patriarchy / gender deity / gender shadow / x shadow&quot; in City Park.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test number with &quot;gender girls / gender boys / gender sunbathers / gender dice&quot; in City Park.</font></blockquote>
+<p>
+ Example: ** It for All
+<p>
+ Some authors have requested that &quot;it&quot; apply to anything, plural or singular, of any gender, for the convenience of their players.
+<p>
+<blockquote><font color="#000080"> &quot;It for All&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Gender Options by Nathanael Nerode.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A person is neuter. A man is neuter. A woman is neuter.<br> A plural-named thing is ambiguously plural.<br> Prefer neuter gender is false.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Marching Grounds is a room. &quot;The place for marching!&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> to march is a verb. to watch is a verb.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The soldiers are plural-named men in Marching Grounds.<br> The description of the soldiers is &quot;[Regarding the soldiers][They] [march] up and down.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An observer is a improper-named woman in Marching Grounds.<br> The description of the observer is &quot;[Regarding the observer][They] [watch] the soldiers.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test pronouns with &quot;x soldiers / pronouns / x observer / pronouns&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

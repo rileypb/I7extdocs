@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Unit Testing<font color="#404040"> by </font>Peter Orme</b><p><small></small><p><p><hr><p>
+<p>
+ This is an extension aimed at software developer-type Inform 7 authors. It allows you to write &quot;asserts&quot; in the code.
+<p>
+ The main idea is to make a bunch of assertions, and then check the results, as a way of grouping asserts together.
+<p>
+ Chapter: Testing
+<p>
+ The typical usage involves writing some code that runs a number of &quot;assert&quot; tests. The assert calls all have the form &quot;assert&quot; (actual) something (expected) saying (message) where actual is the actual value, expected some expected value, and message is the message that is used if the assertion fails (or succeeeds, in verbose mode). Finally the &quot;something&quot; is one of &quot;is&quot;, &quot;is not&quot; or &quot;is greater than&quot;.
+<p>
+ There are some versions on this. First, there is an optional &quot;that&quot;, if we think that reads more fluently: &quot;assert that 1 + 2 is 3 saying 'adding numbers'&quot;. Second, if we don't want to include a message (the &quot;saying&quot; part) we can just leave that out, but adding a message makes it easier for us too recognize where the test is in the code. Finally there is a &quot;saying only&quot; version. The &quot;saying (message)&quot; version prepends that message to whatever text the test naturally logs, typically the expected and actual parameters. If we want to be in complete control we can use the &quot;saying only&quot; version which does not append any such additional texts. In fact, the other two versions use the &quot;saying only&quot; version internally.
+<p>
+ Section: asserting two values are the same
+<p>
+ assert (actual - a value) is (expected - a value) saying (msg - a text)
+<p>
+ Section: asserting two values are different
+<p>
+ assert (actual - a value) is not (expected - a value) saying (msg - a text)
+<p>
+ Section: asserting one value is greater than the other
+<p>
+ assert (actual - a value) is greater than (expected - a value) saying (msg - a text)
+<p>
+ Section: asserting a text is empty
+<p>
+ assert (actual - a text) is empty saying (msg - a text)
+<p>
+ There is a special form that does not append the value to the message:
+<p>
+ assert (actual - a text) is empty saying only (msg - a text)
+<p>
+ Chapter: Reporting
+<p>
+ While you run asserts, the asserter object gathers information about the number of failed and succesful tests. The &quot;report asserts&quot; action will print out a summary of the results. Setting the verbosity affects how much output this produces, and for the &quot;report asserts&quot; action you may also pass in a verbosity using the &quot;report asserts using verbose&quot; phrase.
+<p>
+ The use of &quot;report asserts using silent&quot; may seem a silly thing to do, but if the halting behavior is set to &quot;halt on summary&quot;, which is the default, it still does do something: if halts the execution of the entire game if there have been failures. However, it does that without really providing much of a clue to what went wrong, so the combination of &quot;silent&quot; and &quot;halt on summary&quot; really is rather unhelpful.
+<p>
+ Chapter: Settings
+<p>
+ There are two settings that that modify the behavior of the asserter.
+<p>
+ Section: Setting the verbosity
+<p>
+ To set the verbosity, use a phrase like &quot;now the verbosity of the asserter is high verbosity&quot;. Setting to to high verbosity will make it say more, setting it to low verbosity will make it quiet. The default is normal verbosity.
+<p>
+ Section: Setting the halting behavior
+<p>
+ There are also three values for the &quot;halting behavior&quot;. Setting it to &quot;halt on failure&quot; will make it halt (stop the execution of the entire game) as soon as an assertion fails. Setting it to &quot;halt never&quot; will, not surprisingly, make it never halt. The default is &quot;halt on summary&quot;, which will make it halt in the &quot;report asserts&quot; action, but only if there were any failures.
+<p>
+ Chapter: Version History
+<p>
+ Section: Version 2
+<p>
+ Introduces an optional &quot;that&quot; so you can use either &quot;assert that 1 + 1 is 2 saying 'adding numbers'&quot; or &quot;assert that 1 + 1 is 2 saying 'adding numbers'&quot;. Also makes the &quot;saying&quot; part optional, so you can use just &quot;assert that 1 + 1 is 2&quot;.
+<p>
+ Chapter: Examples
+<p>
+ Example: * Asserting Arithmetic - Using assertions to check we know how to do math operations.
+<p>
+ In this example we make an &quot;assert&quot; verb available to the player. Another option is just calling the asserts in a &quot;when play begins&quot; method. We don't really need an extension like this to test the standard built-in arithmetic of Inform7, but this illustrates the idea.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Asserting Arithmetic&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> the demo is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> include Unit Testing by Peter Orme.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> to perform asserts:<br>&nbsp;&nbsp;&nbsp;&nbsp; assert 3 + 3 is 6 saying &quot;adding numbers&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert 3 - 1 is 2 saying &quot;subtracting numbers&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert 1 * 4 is 4 saying &quot;mutliplying numbers&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that 2 + 2 is 4;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert 5 - 2 is 3;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> asserting is an action out of world applying to nothing. Understand &quot;assert&quot; as asserting.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> carry out asserting:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the verbosity of the asserter is normal verbosity;<br>&nbsp;&nbsp;&nbsp;&nbsp; perform asserts;<br>&nbsp;&nbsp;&nbsp;&nbsp; report asserts using high verbosity.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test me with &quot;assert&quot;;</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Extended Banner<font color="#404040"> by </font>Gavin Lambert</b><p><small></small><p><p><hr><p>
+<p>
+ Extended Banner provides all of the tools necessary to rewrite the banner that is printed when a game begins.
+<p>
+ It was originally written by Stephen Granade; but in version 2, Gavin Lambert updated it to compile in 6M62 and made it easier to entirely replace the copyright line.
+<p>
+ By default it does nothing but define several new text substitutions: the extended story headline, the story serial number, and the I7 version number. For example, the following rule would print a version of the banner that's the same as the default one:
+<p>
+<blockquote><font color="#000080"> Rule for printing the banner text:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[bold type][story title][roman type][line break][extended story headline][if story author is not blank] by [story author][end if][line break]Release [release number] / Serial number [story serial number] / Inform 7 build [I7 version number][line break]&quot; instead.</font></blockquote>
+<p>
+ The &quot;if story author is not blank&quot; text substitution uses a new phrase that determines whether or not a piece of text is blank.
+<p>
+ To add a copyright line to the banner, you don't have to write a rule like the one above. Instead, you can define the story copyright string with the year or years for which you're claming copyright:
+<p>
+<blockquote><font color="#000080"> The story copyright string is &quot;2005-6&quot;.</font></blockquote>
+<p>
+ You can also change the rights you are claiming by changing the story rights string (this is only printed if you specify the story copyright string):
+<p>
+<blockquote><font color="#000080"> The story rights statement is &quot;Released under the Creative Commons Attribution-NonCommercial-ShareAlike 2.5 License&quot;</font></blockquote>
+<p>
+ By default the story rights statement is &quot;All rights reserved&quot;.
+<p>
+ If you have something more complicated to say for your copyright statement, you can replace or adjust the &quot;printing the story copyright line&quot; activity:
+<p>
+<blockquote><font color="#000080"> Rule for printing the story copyright line:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Based on a true story originally written by Suspicious Badger in 1823.&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before printing the story copyright line:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;An anarchic kerfuffle.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After printing the story copyright line:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You can discuss this story in the forum at https://my.awesome.website/&quot;</font></blockquote>
+<p>
+ Note that if you replace the default story copyright line rule then it won't print the story copyright string or story rights statement, but you can still use these in your own rule.
+<p>
+
+<p>
+<p></body></html>

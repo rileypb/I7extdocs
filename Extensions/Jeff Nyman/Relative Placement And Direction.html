@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Relative Placement and Direction<font color="#404040"> by </font>Jeff Nyman</b><p><small></small><p><p><hr><p>
+<p>
+ You should create a &quot;When play begins:&quot; rule and make sure you have a phrase like this:
+<p>
+<blockquote><font color="#000080"> The player is facing &lt;direction&gt;.</font></blockquote>
+<p>
+ Here &lt;direction&gt; is a cardinal compass direction.
+<p>
+ This extension allows the player to make relative direction references for movement. For example, instead of saying a cardinal direction (&quot;north&quot;, &quot;east&quot;, etc), the player can say &quot;go forward&quot; or &quot;go backward&quot;.
+<p>
+ This will move the player in the direction that they are facing.
+<p>
+ The player can also turn to face a relative direction by saying &quot;turn left&quot; or &quot;turn right&quot;. It's also possible for the player to &quot;turn around&quot;.
+<p>
+ Directions allowed are &quot;forward&quot; or &quot;f&quot;, &quot;back&quot; or &quot;b&quot;, &quot;left&quot; or &quot;l&quot;, and &quot;right&quot; or &quot;r&quot;. There are some new verbs established that allow these relative directions to be used:
+<p>
+<blockquote><font color="#000080"> &quot;turn left&quot;<br> &quot;turn right&quot;<br> &quot;turn around&quot;</font></blockquote>
+<p>
+ When the player moves to a new room, he will face the way he is traveling. So if the player is facing north in a given room but goes east (or left) they will be facing to the left when they get to the new room.
+<p>
+ This extension provides a relation about &quot;facing.&quot; So something can be set up as &quot;to be facing [a direction]&quot;. For example, you could have this:
+<p>
+<blockquote><font color="#000080"> The statue is facing east.</font></blockquote>
+<p>
+ Let's say this refers to a statue in a room where the player just entered it from the south and is facing north. If the player now examines that statue, the player will be facing west, as if they turned toward the statue to look at it. This is purely optional as no objects (or people) are required to have an orientation set in the story.
+<p>
+ As part of the descriptions for objects or rooms, you can use a construct like this:
+<p>
+<blockquote><font color="#000080"> &quot;[north facing]&quot;</font></blockquote>
+<p>
+ Here &quot;north&quot; can be replaced by any cardinal compass direction. (Or, rather, any of the straight compass directions: north, south, east, west. Currently diagnoal directions do not really work for this.) What this substitution does is produce text that provides a relative direction, such as &quot;to your left&quot;, &quot;to your right&quot;, &quot;in front of you&quot;, or &quot;behind you&quot; depending on the direction the player is facing when the description is produced.
+<p>
+ One downside is that, currently, the diagonal directions (northwest, northeast, southwest, southesat) are not fully supported. The directional commands should work in those contexts but a visual facing indicator is not possible in the status line display, as its unclear what symbol to use. So if the player is facing a diagonal direction, the visual indicator will simply be a bullet/point display.
+<p>
+ For any rooms that use in / out or enter / exit), this can get tricky but you can allow the player to face a particular way upon leaving or entering. The extension makes sure that each room has a default-facing property and this can be set as such:
+<p>
+<blockquote><font color="#000080"> The default-facing of Long Water is east.</font></blockquote>
+<p>
+ This will provide a default way for the player to be facing when one of the cardinal or relative directions is not used. If this value isn't specified, the default facing direction is north.
+<p>
+ It's important to note that any of the directional information, movement, and orientation references are for the player character. There are no provisions to handle any of this for non-player characters.
+<p>
+ Example: * A Relative Stroll Through a Park
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;A Relative Stroll Through a Park&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Relative Placement and Direction by Jeff Nyman.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Part - Locations</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Palace Gate is a room.<br> Black Lion Gate is a room.<br> Lancaster Gate is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Broad Walk is a room.<br> Flower Walk is a room.<br> Lancaster Walk is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Along Bayswater Road is a room.<br> Round Pond is a room.<br> Grassy Area is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Long Water is a room.<br> Wading is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The default-facing of Wading is east.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Part - Connections</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Broad Walk is north of Palace Gate.<br> Flower Walk is east of Palace Gate.<br> Lancaster Walk is north of Flower Walk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Black Lion Gate is north of Broad Walk.<br> Lancaster Gate is north of Lancaster Walk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Along Bayswater Road is east of Black Lion Gate and west of Lancaster Gate.<br> Along Bayswater Road is northeast of Broad Walk and northwest of Lancaster Walk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Round Pond is east of Broad Walk and west of Lancaster Walk.<br> Round Pond is southeast of Black Lion Gate and southwest of Lancaster Gate.<br> Round Pond is south of Along Bayswater Road.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Grassy Clearing is south of Round Pond, northeast of Palace Gate, and northwest of Flower Walk.<br> The Grassy Clearing is southeast of Broad Walk and southwest of Lancaster Walk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Grassy Area is east of Lancaster Walk.<br> Long Water is east of Grassy Area.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A door called the tent door is down from Long Water and up from Sinkhole.<br> The tent door is closed and openable.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Wading is inside from Long Water.<br> Wading is east of Long Water.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Part - Setup of Status Line</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the player is facing north.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Fancy Status</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2>&nbsp;&nbsp;&nbsp;&nbsp; left<font color="#000080"> central</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> right</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2>&nbsp;&nbsp;&nbsp;&nbsp; &quot;&quot;<font color="#000080"> &quot;&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[top rose]&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2>&nbsp;&nbsp;&nbsp;&nbsp; &quot; [location]&quot;<font color="#000080"> &quot;&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[middle rose]&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2>&nbsp;&nbsp;&nbsp;&nbsp; &quot;&quot;<font color="#000080"> &quot;&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[bottom rose]&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for constructing the status line:<br>&nbsp;&nbsp;&nbsp;&nbsp; fill the status bar with the Table of Fancy Status;<br>&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

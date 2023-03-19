@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Alternate Lighting System<font color="#404040"> by </font>Daniel Stelzer</b><p><small></small><p><p><hr><p>
+<p>
+ This extension replaces the Inform 6 lighting code with an Inform 7 version. In essence, it replaces the condition &quot;object has light&quot; in the Inform 6 templates with a call to an Inform 7 rulebook. If you don't want the overhead for a particular object, you can declare it to be &quot;not specially lighted&quot;.
+<p>
+ By default, the &quot;special light calculation&quot; rules merely check the &quot;light&quot; flag (and thus you won't see any real difference when you include the extension). But additional rules can be added to give finer control over when something is lit or not. For example, if your game includes a &quot;frotz&quot; spell, a can of phosphorescent paint, and a brass lantern which can be switched on or off, you could write the following rules:
+<p>
+<blockquote><font color="#000080"> Special light calculation:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the light-calculation object is affected by frotz, rule succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Special light calculation:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the light-calculation object is phosphor-coated, rule succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Special light calculation for the brass lantern:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the lantern is switched on, rule succeeds;<br>&nbsp;&nbsp;&nbsp;&nbsp; rule fails.</font></blockquote>
+<p>
+ This has a great advantage over changing the lantern's &quot;lit&quot; property when these other properties change: you can add new ones with relative ease. Let's say you decide to add a supporter which prevents light from escaping it.
+<p>
+<blockquote><font color="#000080"> Special light calculation for something on the Pedestal of Darkness:<br>&nbsp;&nbsp;&nbsp;&nbsp; rule fails.</font></blockquote>
+<p>
+ Now you don't need to worry about resetting the light property when the lantern is removed from the pedestal based on the other conditions: the rulebook takes care of all that for you.
+<p>
+
+<p>
+<p></body></html>

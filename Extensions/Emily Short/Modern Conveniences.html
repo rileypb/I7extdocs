@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Modern Conveniences<font color="#404040"> by </font>Emily Short</b><p><small></small><p><p><hr><p>
+<p>
+ Modern Conveniences provides a kitchen kind and a bathroom kind of room. Kitchens will automatically be furnished with scenery cabinets, counters (called &quot;furniture counter&quot; to distinguish them from other counter variables), stove-and-oven assemblies, sinks, and refrigerators. Bathrooms will automatically be furnished with sinks, toilets, baths, and cabinets.
+<p>
+ One slight challenge lies in giving these assembled pieces separate descriptions. When we have an assembly that adds parts to objects, we can then talk about (for instance) &quot;the stove's switch&quot; elsewhere in the code. But items that have been assigned rooms are not named in the same way, so we cannot talk about &quot;the Industrial Kitchen's stove&quot; in our code as a way to assign it a description or special behavior.
+<p>
+ If we only have one instance of each item in our game, we may simply say something like
+<p>
+<blockquote><font color="#000080"> The description of a stove is &quot;Scrupulously polished.&quot;</font></blockquote>
+<p>
+ applying the description to the class as a whole since there will only be one instance of it.
+<p>
+ In a game that features multiple bathrooms and kitchens, this won't be enough; we might instead give the items descriptions that check their location (if there are only a couple of each):
+<p>
+<blockquote><font color="#000080"> The description of a stove is &quot;[if in Industrial Kitchen]A massive stainless steel stove-top with six burners[otherwise]Your standard four-burner item[end if].&quot;</font></blockquote>
+<p>
+ or create an
+<p>
+<blockquote><font color="#000080"> Instead of examining the stove in the Industrial Kitchen:...</font></blockquote>
+<p>
+ sort of rule for those objects we want to describe specially; or, as the most extreme case, we might write a When play begins:... rule to initialize the features of the generated objects, like so:
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; let N be a random stove in the Industrial Kitchen;<br>&nbsp;&nbsp;&nbsp;&nbsp; move the boiling pot to N;<br>&nbsp;&nbsp;&nbsp;&nbsp; change the description of N to...</font></blockquote>
+<p>
+ We can also, of course, use the appliances individually. In the end, the &quot;kitchen&quot; and &quot;bathroom&quot; room types are likely to be most useful when we want to include the standard props but not actually make them a critical part of the game; if stoves and sinks have more of a starring role in the production, we may be better off coding them or at the very least placing them by hand, as in
+<p>
+<blockquote><font color="#000080"> The Industrial Kitchen is a room.<br> Thor is a stove in the Industrial Kitchen. It supports a boiling pot.</font></blockquote>
+<p>
+ Additional code is provided for a more rigorous treatment of liquids when this extension is used alongside Measured Liquid by Emily Short. In that case, turning on taps will create a liquid source called &quot;flowing water&quot; from which fluid containers can be filled.
+<p>
+ Example: * Our House - A minimalist house consisting of two rooms.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Our House&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Modern Conveniences by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Our Household Kitchen is a kitchen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Tiny Bathroom is a bathroom. It is west of Our Household Kitchen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The description of a stove is &quot;Scrupulously polished.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The description of a refrigerator is &quot;It is baby blue and has the contours of a 50[']s chevy. One of these days it really will break down, but it's been serving your family faithfully since your grandmother's honeymoon.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;x refrigerator / open fridge / x freezer / look in freezer / open freezer / turn on stove / turn on oven / x oven switch / turn off oven switch / turn off stove switch / turn on taps / x sink / w / x sink / turn on sink / take bath / use toilet&quot;.</font></blockquote>
+<p>
+ Example: ** Getting a drink - A house in which we're allowed to turn on the taps and get a drink of the running water, using a cup we find in the kitchen cabinet.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Getting a Drink&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Measured Liquid by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Modern Conveniences by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Home Kitchen is a kitchen. The Little Bathroom is a bathroom. It is west of the Home Kitchen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The cup is a fluid container. It is preferred for drinking.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; let target be a random cabinet in the Home Kitchen;<br>&nbsp;&nbsp;&nbsp;&nbsp; move the cup to the target.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;open cabinet / get cup / fill cup / turn on tap / fill cup / x cup / drink water / x cup / empty cup into sink / put cup in sink / turn off tap / x water / get cup / west / turn on water / fill cup / e / drink water / fill cup / turn on tap / fill cup / drink water / w / fill cup / empty cup in sink / e / put cup on counter / look&quot;.</font></blockquote>
+<p>
+ Example: ** Tidy Bowl - Adding a toilet bowl to every toilet, which will contain undrinkable toilet water.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Tidy Bowl&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Measured Liquid by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Modern Conveniences by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Home Kitchen is a kitchen. The Little Bathroom is a bathroom. It is west of the Home Kitchen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The cup is a fluid container. It is preferred for drinking.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; let target be a random cabinet in the Home Kitchen;<br>&nbsp;&nbsp;&nbsp;&nbsp; move the cup to the target.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A toilet bowl is a kind of fluid container. A toilet bowl is part of every toilet. The liquid of a toilet bowl is toilet water. The fluid content of a toilet bowl is 163.0 fl oz. The fluid capacity of a toilet bowl is 163.0 fl oz.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Setting action variables for pouring a toilet into something:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the noun is a random toilet bowl which is part of the noun.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Setting action variables for filling something with a toilet:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the second noun is a random toilet bowl which is part of the second noun.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Setting action variables for filling a toilet with something:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the noun is a random toilet bowl which is part of the noun.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Setting action variables for pouring something into a toilet:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the second noun is a random toilet bowl which is part of the second noun.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Setting action variables for drinking a toilet:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the noun is a random toilet bowl which is part of the noun.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for clarifying the parser's choice of a toilet:<br>&nbsp;&nbsp;&nbsp;&nbsp; do nothing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for clarifying the parser's choice of a toilet bowl:<br>&nbsp;&nbsp;&nbsp;&nbsp; do nothing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Liquids (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> liquid</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> potable</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> flavor</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> toilet water</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;open cabinet / get cup / w / fill cup from toilet / x toilet bowl / pour cup into toilet / drink from toilet / fill cup with toilet water / empty toilet water into bath&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

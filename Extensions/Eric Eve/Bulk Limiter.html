@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Bulk Limiter<font color="#404040"> by </font>Eric Eve</b><p><small></small><p><p><hr><p>
+<p>
+ This extension adds a bulk property to all things, and a bulk capacity property to all containers and people. The implementation is deliberately quite basic, in order to provide an extension with a relatively small footprint to deal with simple cases such as preventing boulders being put in purses or carried. In order to keep things simple this extension deliberately doesn't deal with bulk capacities of supporters, or weights, or take into account the maximum dimension of long, thin objects or the like. It is intended to provide a simple solution to a common problem, not a full simulation.
+<p>
+ The default bulk of a thing is 1. The default bulk capacity of a container is 10. The default bulk capacity of a person is 100.
+<p>
+ The extension performs a check on attempting to insert something into a container that the total bulk of the objects inside the container does not exceed its capacity. If an actor (not necessarily the player) attempts to insert an object whose bulk is larger than the bulk capacity of the container or to take an object whose bulk is larger than their own bulk capacity, the attempt will fail with a message saying that the object is too large for the container. Otherwise, if we attempt to insert an object into a container when there's not enough room left for it or take an object we can no longer carry, we'll get a message saying that there's not enough room left.
+<p>
+ Note that this extension complements rather than replaces Inform's built in capacity check for containers.
+<p>
+ With thanks to Kevin Riggle whose suggestions have been incorporated into this extension.
+<p>
+ Example: * The Basket, the Bricks and the Spoon - Putting things in a container with not quite enough room for them all, and carrying things without quite enough arms for them all.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Basket&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Bulk Limiter by Eric Eve</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The bulk capacity of a person is normally 10.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Kitchen is a room. &quot;The only furniture of interest is the table.&quot; A table is a scenery supporter in the kitchen. A small spoon is on the table.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A large hamper is in the kitchen. The bulk is 100.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> On the table is a container called the wicker basket.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A brick is a kind of thing. The bulk of a brick is normally 5. Two bricks are here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;put [things] in [something]&quot; as inserting it into.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;Put bricks in basket/put spoon in basket/take brick/put spoon in basket/put brick in basket/put spoon in basket/take brick/take spoon/take hamper&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

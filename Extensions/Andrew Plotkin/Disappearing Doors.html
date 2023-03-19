@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Disappearing Doors<font color="#404040"> by </font>Andrew Plotkin</b><p><small></small><p><p><hr><p>
+<p>
+ The Standard Rules let you &quot;change the (direction) exit of (room) to (room)&quot;, but doors are fixed in place on the map. This extension does not allow you to move doors around, but it does let you make a door disappear and then reappear in the same place.
+<p>
+ This is done through a &quot;present&quot; (or &quot;absent&quot;) property of doors. So you can write:
+<p>
+<blockquote><font color="#000080"> now the magic door is absent;<br> now the magic door is present;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> if the magic door is absent:...<br> if the magic door is present:...</font></blockquote>
+<p>
+ Doors always start as &quot;present&quot;. If you want an initially hidden door to be revealed (a common case) then you must say:
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the secret door is absent.</font></blockquote>
+<p>
+ When a door disappears, it leaves no exit where it was previously connected. You can reconnect those directions to other rooms, but you must disconnect them before you make the door present again.
+<p>
+ Making a door disappear or reappear does not affect whether it is open, closed, locked, or unlocked.
+<p>
+ A one-sided door cannot be made absent. This extension only works on two-sided doors.
+<p>
+ (This extension has been tested with Inform 6G60 and 6L38.)
+<p>
+ Example: * The Prisoner of La-Z-enda - A simple demonstration of an appearing door.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;The Prisoner of La-Z-enda&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Disappearing Doors by Andrew Plotkin.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Prison Cell is a room. &quot;These four stone walls are all you have seen of the world for thirty-five interminable minutes. [if the steel door is absent]There is no way in or out. Except for the[else]There's an[end if] escape tunnel to the northeast[if the Tunnel is not visited], but that looks terribly uncomfortable, so you've never tried it[end if].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of going nowhere in the Prison Cell:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The walls are obdurate.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The steel door is a door. The steel door is north of the Prison Cell. &quot;A door beckons in the [direction of steel door from location] wall!&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Tunnel is a room. &quot;The tunnel is less uncomfortable than you'd been led to believe. Your cell is southwest, and sweet freedom is northwest.&quot;<br> The Tunnel is southeast of the Hallway.<br> The Tunnel is northeast of the Prison Cell.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Hallway is north of the steel door. &quot;Many's the time you've imagined this corridor. It lives up to your expectations. The rest of your life is to the west.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of going west in the Hallway:<br>&nbsp;&nbsp;&nbsp;&nbsp; end the story finally saying &quot;Freedom&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the steel door is absent.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The doorbell is carried by the player.<br> Understand &quot;button&quot;, &quot;bell&quot;, &quot;device&quot; as the doorbell.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The doorbell can be ever-tried.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The description of the doorbell is &quot;It's a little bell-shaped device with a button on it. You once heard that pushing the button would make a door appear or disappear. [if the doorbell is not ever-tried]You've never bothered to try it.[else]Guess it works.[end if]&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of pushing the doorbell:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the doorbell is ever-tried;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the steel door is present:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the steel door is in the location:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The steel door disappears.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Click. Nothing seems to happen.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the steel door is absent;<br>&nbsp;&nbsp;&nbsp;&nbsp; else:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the steel door is present;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the steel door is in the location:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;A steel door appears!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Click. Nothing seems to happen.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;north / push button / look / north / examine door / push button / look / examine door / west&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

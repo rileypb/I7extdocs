@@ -1,0 +1,17 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Verb Stripping<font color="#404040"> by </font>Nathanael Nerode</b><p><small></small><p><p><hr><p>
+<p>
+ If you're writing an adventure game, you won't want this. This is for games with very different themes, specifically social themes.
+<p>
+ This extension removes a lot of the verb synonyms from the standard rules, so that (for example) &quot;dust object&quot; is no longer a synonym for &quot;rub object&quot;. This is to avoid misleading reactions.
+<p>
+ It also removes most of the verb words which just have minimal stub implementations (like jump, cut, and attach).
+<p>
+ It removes the unimplemented kiss and embrace and hug, which in a social game should probably not be synonyms. Likewise it removes attack and all its synonyms.
+<p>
+ It also removes &quot;push&quot;, which actually is implemented for shoving objects from room to room. This is probably not the most intuitive meaning of &quot;push&quot; in a socially oriented game.
+<p>
+ The selection of which verbs to leave was somewhat arbitrary, based on the game I was working on at the time.
+<p>
+
+<p>
+<p></body></html>

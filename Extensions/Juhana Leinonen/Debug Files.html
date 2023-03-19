@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Debug Files<font color="#404040"> by </font>Juhana Leinonen</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter: Overview
+<p>
+ The purpose of the Debug Files extension is to provide a way to record debugging information to a text file while beta testers play the game. This information can then help the author to locate problems found during the testing.
+<p>
+ The usual convention is that the beta testers save a transcript of their playthroughs for the author to read. When using this extension the game creates another file, called &quot;debug.glkdata&quot; (the actual extension depends on the interpreter used). The author can have the game output information to this file at any point. The text is not displayed to the player so beta testers can play the game without debug information cluttering the view.
+<p>
+ Z-machine can't save external files. Therefore this extension is Glulx-only.
+<p>
+ Chapter: How to use it
+<p>
+ To use this extension you have to declare &quot;Use debug files&quot; in addition to including the extension.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Include Debug Files by Juhana Leinonen.<br> Use debug files.</font></blockquote>
+<p>
+ The purpose of the use option is that you can remove that line when you release the game, so that the final version will not save any debugging information. (I7 has a built-in system that could disable the extension in released games, but the use option is there because the author might not want to give debug builds to beta testers.)
+<p>
+ There will be two changes in the game itself: firstly, a &quot;play session identifier number&quot; is displayed after the banner text. This random 5-digit number is shown in both the transcripts (if not, the testers should type VERSION after starting the transcript to have it shown) and debug files. The purpose is to facilitate matching debug files to the corresponding transcripts.
+<p>
+ Secondly, there is an incrementing number printed before the prompt (the prompt counter). The number helps matching the debug information to the corresponding action in the transcript. Note that this number is not the same as turn count: the prompt counter advances every time the player issues a command, regardless of whether the action advances the turn count.
+<p>
+ To save information to the file, use the command 'debug':
+<p>
+<blockquote><font color="#000080"> After burning a match:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The match burns quickly out.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; remove the noun from play;<br>&nbsp;&nbsp;&nbsp;&nbsp; debug &quot;There are [number of matches in the matchbox] matches remaining.&quot;</font></blockquote>
+<p>
+ The debug text is saved to the file with the prompt counter automatically added. Nothing is printed to the player. If you remove the &quot;Use debug files&quot; option, the debug commands do nothing.
+<p>
+ The author might use this functionality to, for example, track a wandering NPC:
+<p>
+<blockquote><font color="#000080"> Every turn:<br>&nbsp;&nbsp;&nbsp;&nbsp; debug &quot;Bob is now in [the location of Bob].&quot;</font></blockquote>
+<p>
+ The debug file would then read:
+<p>
+<blockquote><font color="#000080"> &lt;2&gt;: Bob is now in the gym.<br> &lt;3&gt;: Bob is now in women's dressing room.<br> &lt;4&gt;: Bob is now in the police lockup.</font></blockquote>
+<p>
+ (numbers would be in square brackets.) The numbers would correspond to the prompt counter shown in the transcript.
+<p>
+ Chapter: About the saved file
+<p>
+ The location where the debug file is saved will depend on the interpreter. This is probably the same directory where the game file is. The Inform 7 IDE saves the file to the same location where the project file is.
+<p>
+ If the interpreter can't save the debug file for some reason, the game will probably crash.
+<p>
+ If the debug file already exists, new information will be appended to the old data.
+<p>
+ Chapter: Version history
+<p>
+ Version 2 (April 2014): Modified the extension for compatibility with the new release of Inform.
+<p>
+ Example: * Bear Hunter - An example where some information of the game mechanics is saved to the debug file.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Include Debug Files by Juhana Leinonen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Use debug files.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The glacier is a room. A bipolar bear is a male animal in the glacier. The bipolar bear can be manical or depressed. The description of the bear is &quot;The bipolar bear looks [if manical]like he's full of life[otherwise]quite depressed[end if].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A person has a number called hit points. The hit points of a person is usually 10.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn when a random chance of 1 in 3 succeeds:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the bear is depressed:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the bear is manical;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; debug &quot;The bear has a manic episode.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the bear is depressed;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; debug &quot;The bear is now depressed.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of attacking the depressed bear:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You strike the bear with all your strength.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; decrease the hit points of the bear by a random number between 1 and 5;<br>&nbsp;&nbsp;&nbsp;&nbsp; debug &quot;Bear's hit points reduced to [hit points of the bear].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the hit points of the bear is less than 1:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[line break]The mighty bipolar bear falls and you get another victory.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end the game in victory;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[line break]'Go ahead. Life's not worth it anyways,' the bear says.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of attacking the manical bear:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;'Oh no you don't!' the bear roars and slams you with his mighty white paw. 'There's nothing that could stop me today!'&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; decrease the hit points of the player by a random number between 1 and 5;<br>&nbsp;&nbsp;&nbsp;&nbsp; debug &quot;Player's hit points reduced to [hit points of the player].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the hit points of the player is less than 1:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[line break]The Great Bipolar Bear of the North proves to be stronger than you.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end the game in death.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;x bear/attack bear/g/g/g/g/g&quot;.</font></blockquote>
+<p>
+ After a test run the debug file might look something like this (except with brackets around the prompt numbers):
+<p>
+<blockquote><font color="#000080"> &lt;3&gt;: Bear's hit points reduced to 6.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> &lt;4&gt;: Bear's hit points reduced to 3.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> &lt;5&gt;: Bear's hit points reduced to 1.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> &lt;5&gt;: The bear has a manic episode.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> &lt;6&gt;: Player's hit points reduced to 6.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> &lt;6&gt;: The bear is now depressed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> &lt;7&gt;: Bear's hit points reduced to -3.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

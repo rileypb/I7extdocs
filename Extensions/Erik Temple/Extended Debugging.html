@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Extended Debugging<font color="#404040"> by </font>Erik Temple</b><p><small></small><p><p><hr><p>
+<p>
+ Extended Debugging is a very simple extension that provides for an alternative means of controlling code that is not for release. It is intended as a workaround for Inform's inability to &quot;release&quot; (that is, save for distribution or testing outside the IDE) a blorbed debugging build.
+<p>
+ Extended Debugging also includes I7 wrappers that allow the author to turn Inform's standard rule-tracing debug commands on and off from the source code, rather than entering &quot;rules on/all/off&quot; at the command prompt. This is intended primarily to allow for the debugging of rules that run before the first command prompt appears; these are impossible to debug using Inform's default setup. Also included is the ability to ensure that a rule is displayed when rule-tracing is on, since Inform does not always report all rules. Finally, we can set text to be printed only when the extension is installed.
+<p>
+ Extended Debugging is compatible with both the Z-machine and with Glulx.
+<p>
+ Section: Basic Usage
+<p>
+ Simply including Extended Debugging in a project will enable Inform's built-in debugging commands in a released file. Note that we should use the standard Release option in the IDE, not the Save Debug Build option; the latter does not include multimedia resources.
+<p>
+ If we also want our own debugging code/commands to be available in the released file, we need to go one step further. Rather than marking sections that contain debugging code as &quot;(not for release)&quot;, we mark them as follows:
+<p>
+<blockquote><font color="#000080"> (for use with Extended Debugging by Erik Temple)</font></blockquote>
+<p>
+ If we place the directive to include Extended Debugging in its own section:
+<p>
+<blockquote><font color="#000080"> Section - Extended Debugging</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Extended Debugging by Erik Temple.</font></blockquote>
+<p>
+ we can then mark just this section as &quot;not for release,&quot; and released builds will then be free of both the built-in debugging commands as well as our own:
+<p>
+<blockquote><font color="#000080"> Section - Extended Debugging (not for release)</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Extended Debugging by Erik Temple.</font></blockquote>
+<p>
+ Section: Additional Rules Tracing Functionality
+<p>
+ Inform's built-in debugging commands &quot;rules on/all/off&quot;, &quot;actions&quot;, and &quot;scenes&quot; are quite useful, but since they must be entered at the command prompt, they cannot be used to trace events that fire before the first command prompt appears. Especially in multimedia games, where we may want to track the setup of windows or other elements, this can be inconvenient.
+<p>
+ Extended Debugging provides a number of phrases that can be used to issue the debug tracing commands from our source code rather than from the command prompt:
+<p>
+<blockquote><font color="#000080"> Turn on actions-tracing<br> Turn off actions-tracing<br> Turn on brief rule-tracing<br> Turn on intensive rule-tracing<br> Turn off rule-tracing<br> Turn on scenes-tracing<br> Turn off scenes-tracing</font></blockquote>
+<p>
+ Brief rule-tracing corresponds to the command &quot;rules on&quot; and prints only the rules that apply. Intensive rule tracing refers to &quot;rules all&quot; and prints all rules considered, whether they were followed or not. It is probably best to use these phrases within a section that can be marked as &quot;for use with Extended Debugging&quot; so that they are easily turned off; that is, so that we need not manually delete them from the source once we wish to release a build without them.
+<p>
+ We can also suspend and then reinstate rules-tracing (code via Ron Newcomb):
+<p>
+<blockquote><font color="#000080"> Suspend rule-tracing;<br> Reinstate rule-tracing;</font></blockquote>
+<p>
+ When we suspend rule-tracing, the game saves the level of rule-tracing we were at (brief or intensive) and restores that when we use the reinstate rule-tracing command. Otherwise, the options are not distinct from the options to turn rules-tracing on and off.
+<p>
+ Section: Custom rule-tracing callout (code courtesy of Ron Newcomb)
+<p>
+ In some situations, Inform does not announce certain rules during rule-tracing. To force Inform to notice a rule during rule-tracing, use one of the following phrases:
+<p>
+<blockquote><font color="#000080"> Enable rule-tracing for my recalcitrant rule<br> Enable intensive rule-tracing only for my recalcitrant rule</font></blockquote>
+<p>
+ Usage example:
+<p>
+<blockquote><font color="#000080"> This is the custom reporting rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; enable rule-tracing for the custom reporting rule;<br>&nbsp;&nbsp;&nbsp;&nbsp;....</font></blockquote>
+<p>
+ Section: Summary use options
+<p>
+ In the interest of such easy compartmentalization, Extended Debugging provides two use mutually exclusive use options that turn on Inform's debug tracing during the &quot;before starting the virtual machine&quot; activity so that actions tracing, scene tracing, and rules tracing can all be initiated before any windows are opened. These options are:
+<p>
+<blockquote><font color="#000080"> Use initial brief debug tracing<br> Use initial intensive debug tracing</font></blockquote>
+<p>
+ The former starts the game with brief rule-tracing on, while the latter uses intensive rule-tracing (as defined above). These options are mutually exclusive, but if you happen to define both accidentally, the extension will use the intensive option. Example of use:
+<p>
+<blockquote><font color="#000080"> Section - Debugging Control</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Extended Debugging by Erik Temple.<br> Use initial intensive debug tracing.</font></blockquote>
+<p>
+ Placing these directives in the same section allows all functionality provided by the extension to be turned off by simply marking the section as &quot;(not for release)&quot;.
+<p>
+ Chapter: Version history
+<p>
+ Version 2 (30 May 2010): Name changed to Extended Debugging. Added the ability to control the glk list debugging command, and custom rule-tracing reporting (thanks to Ron Newcomb for the latter!)
+<p>
+ Version 1 (22 June 2009): Initial public release (as Permanent Debugging)
+<p>
+
+<p>
+<p></body></html>

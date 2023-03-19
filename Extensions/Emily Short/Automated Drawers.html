@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Automated Drawers<font color="#404040"> by </font>Emily Short</b><p><small></small><p><p><hr><p>
+<p>
+ &quot;Automated Drawers&quot; creates a drawer kind of container, which is designed to be part of an item of furniture. We might define a new object with drawers thus:
+<p>
+<blockquote><font color="#000080"> The dresser is in the Bedroom. Five vertical drawers are part of the dresser.<br> The tiny table is in the Kitchen. Two horizontal drawers are part of the tiny table.</font></blockquote>
+<p>
+ Section: Names of drawers
+<p>
+ Automated Drawers will now be described to the player in terms of where they are in an object, as follows:
+<p>
+<blockquote><font color="#000080"> An object with two horizontal drawers will have one drawer described as &quot;left&quot; and the other as &quot;right&quot;; one with two vertical drawers will have an &quot;upper&quot; and a &quot;lower&quot; drawer.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An object with three horizontal drawers will have one &quot;leftmost&quot;, one &quot;middle&quot;, and one &quot;rightmost&quot;; one with three vertical drawers will have one &quot;top&quot;, one &quot;middle&quot;, and one &quot;bottom&quot; drawer.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An object with more than three drawers will have the second through next-to-last drawers called &quot;second&quot;, &quot;third&quot;, etc., up through &quot;twelfth&quot;; the first and last will be called &quot;top&quot; and &quot;bottom&quot; or &quot;leftmost&quot; and &quot;rightmost&quot; as appropriate.</font></blockquote>
+<p>
+ Thus in principle an object may have up to thirteen drawers. If this is insufficient, the extension's understanding of numbers may be increased by adding lines to the table of ordinals; but if we routinely have objects with very large numbers of drawers, it would probably be better to rely on some alternative model.
+<p>
+ Even if a drawer has a position name, the number will still be understood to refer to the drawer; so that for instance &quot;first drawer&quot; will refer to any top or leftmost drawer.
+<p>
+ Section: Disambiguation
+<p>
+ Disambiguation rules tell the game to prefer to open closed drawers and to close open ones.
+<p>
+ When the parser is forced to choose a drawer, we give an especially explicit clarification, as in &quot;(the leftmost drawer of the tiny table)&quot;, in case more than one drawered object is visible in the same room.
+<p>
+ Similarly, if the parser has to ask the player to disambiguate between drawers that are part of two different objects, the disambiguation question will indicate this, as in
+<p>
+<blockquote><font color="#000080"> &gt;open rightmost drawer<br> Which do you mean, the tiny wooden table drawer or the cupboard drawer?</font></blockquote>
+<p>
+ Section: Description
+<p>
+ Automated Drawers also adds a line to the description of a drawered object, by default. This description tells us how many drawers there are and which are open currently, as in
+<p>
+<blockquote><font color="#000080"> The large dresser has five drawers. The top drawer and the fourth drawer are closed.</font></blockquote>
+<p>
+ This line is created by the describe drawered objects rule, which may be removed if we dislike it. We may also individually change the pieces of the rule using the describing the drawer layout activity; so for instance we might write
+<p>
+<blockquote><font color="#000080"> Rule for describing the drawer layout of the tiny table:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;There are two tiny inlaid drawers in the table. &quot;</font></blockquote>
+<p>
+ to produce
+<p>
+<blockquote><font color="#000080"> There are two tiny inlaid drawers in the table. The left drawer is open.</font></blockquote>
+<p>
+ rather than the usually &quot;The tiny table has two drawers.&quot; line. Or we might chain on further descriptive matter, as in:
+<p>
+<blockquote><font color="#000080"> After describing the drawer layout of something (this is the list open drawer content rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if an open drawer which is part of the noun contains something<br>&nbsp;&nbsp;&nbsp;&nbsp; begin;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say line break;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; repeat with item running through open drawers which are part of the noun<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; begin;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the item contains something, say &quot;In [the item] [is-are a list of things which are in the item]. &quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end repeat;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say paragraph break;<br>&nbsp;&nbsp;&nbsp;&nbsp; end if.</font></blockquote>
+<p>
+ Version 2 adds rule names to several rules and slightly modifies textual output. Version 3 updates for compatibility with Inform versions from 5T18.
+<p>
+ Example: * Tiny and Large - An example of a room with an assortment of drawered furniture in it.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Include Automated Drawers by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Dollhouse is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The large dresser is in the Dollhouse. Five vertical drawers are part of the dresser.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The tiny wooden table is in the Dollhouse. Two horizontal drawers are part of the tiny wooden table.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;open table / g / g / open dresser / g / g / g / open drawer / g&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

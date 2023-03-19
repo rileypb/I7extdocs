@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Rideable Vehicles<font color="#404040"> by </font>Gavin Lambert</b><p><small></small><p><p><hr><p>
+<p>
+ This is a trivial extension to the standard Rideable Vehicles by Graham Nelson (and includes that, so you only need include this one), that simply rejiggers the rule about standing up before going such that rideable vehicles and animals behave better in the presence of other supporters.
+<p>
+ It was inspired by the thread https://intfiction.org/t/limiting-requiring-vehicle-use/45634/5.
+<p>
+ The &quot;Back to the Hoverboard&quot; example was inspired by Matt Weiner's post in the same thread.
+<p>
+ Example: * Back to the Hoverboard
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Back to the Hoverboard&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Rideable Vehicles by Gavin Lambert.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Park is a room. Drive is north of Park.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The hoverboard is a rideable vehicle in Park. The bench is an enterable supporter in Park.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;sit on bench / stand on hoverboard / n / s / sit on bench / n&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

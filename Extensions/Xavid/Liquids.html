@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Liquids<font color="#404040"> by </font>Xavid</b><p><small></small><p><p><hr><p>
+<p>
+ This extension provides basic support for sources of liquids and things that can hold a liquid. It has some similarities to Liquid Handling by Al Golden but restricts itself to pretty basic functionality, not addressing possibilities like mixing liquids and interactions between liquids and other objects. It also isn't interested in measuring volumes of liquid.
+<p>
+ Chapter 1 - Vessels and Water-Tight Things
+<p>
+ A thing can be water-tight, which means it can hold a liquid. A vessel is a kind of thing that is water-tight, but you can also declare things water-tight directly, for example if you want a water-tight container (that can hold both liquids and things).
+<p>
+ A water-tight thing has a property called the contained liquid. Thus, you can create a vessel full of water with:
+<p>
+<blockquote><font color="#000080"> A vessel called a bottle is here. The contained liquid is water.</font></blockquote>
+<p>
+ Liquids are a kind of enumerated value, rather than a thing. (The water in two different things is equivalent, rather than them being two separate objects.) You can't interact with the liquid directly, but with whatever it's in. (However, you can use the contained liquid to refer to the thing it's in.)
+<p>
+ If there's nothing currently in a water-tight thing, its contained liquid is the special &quot;liquid&quot; emptiness. Aside from emptiness, the only default liquid is water, but you can easily create new liquids with something like:
+<p>
+<blockquote><font color="#000080"> There is a liquid called milk.</font></blockquote>
+<p>
+ Water-tight things are considered empty or nonempty based on whether they contain a liquid. You can also refer to them with phrases like &quot;if the noun is full of water&quot; or &quot;if water fills the noun&quot;.
+<p>
+ Chapter 2 - Liquid-Yielding Things
+<p>
+ Sometimes you want to have something be an infinite source of a liquid. To do this, just set the available liquid property of it.
+<p>
+<blockquote><font color="#000080"> A thing called the fountain is here. The available liquid is water.</font></blockquote>
+<p>
+ You can fill containers at these liquid-yielding things freely.
+<p>
+ Such things are considered liquid-yielding, and you can refer to them with phrases like &quot;if the noun yields water&quot; or &quot;if water is available at the noun&quot;.
+<p>
+ Chapter 3 - Actions
+<p>
+ This extension defines only a few basic actions to do with liquids, with the expectation that individual games will probably want to add more depending on how they want liquids to be used.
+<p>
+ You can fill a water-tight thing from a liquid-yielding thing or from another water-tight thing. (In the latter case, the source thing will now be empty, because it's assumed that all water-tight things have equivalent capacities.)
+<p>
+ You can pour out a water-tight thing, in which case the contained liquid is lost.
+<p>
+ You can pour a water-tight thing onto something specific. By default, this is blocked by the block pouring onto rule.
+<p>
+ You can also drink from a water-tight thing. The default behavior assumes that liquids are safe to drink and have no side-effects.
+<p>
+ Chapter 4 - Bugs and Comments
+<p>
+ This extension is hosted in Github at https://github.com/i7/extensions/tree/master/Xavid. Feel free to email me at extensions@xavid.us with questions, comments, bug reports, suggestions, or improvements.
+<p>
+ Example: * Kitchen - Basic manipulation of liquids.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Kitchen&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Liquids by Xavid.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Kitchen is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> There is a liquid called milk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A sink is here. It is fixed in place. The available liquid is water.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A vessel called a cup is here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A vessel called a jug is here. The contained liquid is milk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;pour milk into cup / i / drink milk / fill cup from sink / i / empty cup / i&quot;.</font></blockquote>
+<p>
+ Example: ** Unit Tests
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Unit Tests&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Liquids by Xavid.<br> Include Command Unit Testing by Xavid.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Kitchen is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> There is a liquid called milk.<br> There is a liquid called juice.<br> There is a liquid called vinegar.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A sink is here. It is fixed in place. The available liquid is water.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A vessel called a mug is here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A thing called a big jug is here. The available liquid is milk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A vessel called a cup is here. The contained liquid is juice.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A closed water-tight openable container called a jar is here. The contained liquid is vinegar.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An animal called a weasel is here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Unit test:<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;implicit taking&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;fill mug from jug&quot; produces &quot;(first taking the big jug)[line break](first taking the mug)[line break]You pour some milk from the big jug into the mug.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;drop mug&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;empty mug&quot; produces &quot;(first taking the mug)[line break]You pour out the milk from the mug.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;drop all&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;fill mug from cup&quot; produces &quot;(first taking the cup)[line break](first taking the mug)[line break]You pour the juice from the cup into the mug.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;drop mug&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;drink juice&quot; produces &quot;(first taking the mug)[line break]You drink the juice from the mug.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;drop all&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;fill cup from sink&quot; produces &quot;(first taking the cup)[line break]You fill the cup with water from the sink.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;put water in mug&quot; produces &quot;(first taking the mug)[line break]You pour the water from the cup into the mug.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;douse weasel&quot; produces &quot;(with the mug)[line break]Drenching the weasel in water doesn't seem like it would improve the situation.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;dump mug on weasel&quot; produces &quot;Drenching the weasel in water doesn't seem like it would improve the situation.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;dump cup on weasel&quot; produces &quot;The cup doesn't have anything in it to pour out.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;empty juice from mug&quot; produces &quot;The mug is full of water, not juice.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;empty water from mug&quot; produces &quot;You pour out the water from the mug.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;remove juice from mug&quot; produces &quot;The mug doesn't have any juice in it to pour out.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;take jar&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;empty jar&quot; produces &quot;The jar is closed.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;pour jar into cup&quot; produces &quot;The jar is closed.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;fill mug from sink&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;pour mug into jar&quot; produces &quot;The jar is closed.&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;unit&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

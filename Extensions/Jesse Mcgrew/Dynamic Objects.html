@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Dynamic Objects<font color="#404040"> by </font>Jesse McGrew</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter: Basic cloning
+<p>
+ This extension allows new objects to be created by cloning existing objects. Once we've defined a suitable prototype object, we can refer to &quot;a new object cloned from&quot; it, like so:
+<p>
+<blockquote><font color="#000080"> let the copy be a new object cloned from the prototype;</font></blockquote>
+<p>
+ That line will create the new object and assign it to the variable called &quot;copy&quot;. The copy will be the same kind as the prototype, and have all the same property values.
+<p>
+ By default, the new object will not be participating in any of the relationships of the prototype object. To clone the relationships as well, use the &quot;preserving relations&quot; option:
+<p>
+<blockquote><font color="#000080"> let the copy be a new object cloned from the prototype, preserving relations;</font></blockquote>
+<p>
+ Note that even with this option, one-to-various (or various-to-one) relationships are only preserved when the cloned object is on the &quot;various&quot; side, and one-to-one relationships are never preserved.
+<p>
+ If memory runs out and the new object cannot be created, the phrase will return &quot;nothing&quot;.
+<p>
+ Chapter: The &quot;cloning a new object from&quot; activity
+<p>
+ The cloning process is implemented as an activity called &quot;cloning a new object from&quot;. We can write &quot;before cloning a new object from&quot; rules to intervene before the object is cloned, and in those rules we can refer to &quot;preserving relations&quot; as a truth state which is true if the process is going to preserve object relationships.
+<p>
+ We can also write &quot;after cloning a new object from&quot; rules to intervene after the object is cloned, and in those we can also refer to the clone as &quot;the new object&quot;:
+<p>
+<blockquote><font color="#000080"> A thing has a number called the clone generation.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After cloning a new object from something:<br>&nbsp;&nbsp;&nbsp;&nbsp; increase the clone generation of the new object by 1.</font></blockquote>
+<p>
+ In this example, we change the behavior of &quot;preserving relations&quot; so that when the original object relates to itself, the clone also relates to itself (and not to the original object):
+<p>
+<blockquote><font color="#000080"> Love relates various people to various people. The verb to love (he loves, they love, he is loving, he is loved) implies the love relation.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After cloning a new object from a person (called the original):<br>&nbsp;&nbsp;&nbsp;&nbsp; if preserving relations is true and the original loves the original:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the new object does not love the original;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the original does not love the new object;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the new object loves the new object.</font></blockquote>
+<p>
+ Section: Handling block value properties
+<p>
+ When cloning objects that have properties containing block values (indexed text, stored actions, lists, or dynamic relations), we must indicate which properties those are so the extension can copy their values correctly; otherwise we may encounter unexpected behavior or runtime problem messages if the property values are changed. Use the &quot;fix the cloned _ property&quot; phrase in an &quot;after cloning a new object from&quot; rule:
+<p>
+<blockquote><font color="#000080"> A person has a list of numbers called the favorite numbers.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After cloning a new object from a person:<br>&nbsp;&nbsp;&nbsp;&nbsp; fix the cloned favorite numbers property.</font></blockquote>
+<p>
+ Chapter: Caveats
+<p>
+ If we plan to clone any rooms or doors, we must disable fast route-finding (which is enabled by default on Glulx):
+<p>
+<blockquote><font color="#000080"> Use slow route-finding.</font></blockquote>
+<p>
+ Chapter: Change log
+<p>
+ Version 2 uses Dynamic Tables (by the same author) to avoid replacing the standard locale description rules, and allows cloned objects to participate in all relations.
+<p>
+ Version 3 works with Inform 7 version 5U92.
+<p>
+ Version 4 fixes a bug with relations.
+<p>
+ Version 5 works with Inform 7 version 6E59. It also adds the &quot;cloning a new object from&quot; activity and the &quot;fix the cloned _ property&quot; phrase to allow block-type properties to be cloned correctly. It also changes the behavior (and specification) of &quot;preserving relations&quot; with regard to one-to-one relations: now they are never preserved, since that would result in removing the original object from the relation.
+<p>
+ Version 6 works with Inform 7 version 6G60.
+<p>
+ Version 7 fixes another bug with relations and a bug that prevented the &quot;new object cloned from&quot; phrase from being used in certain contexts.
+<p>
+ Version 8 works with (and requires) Inform 7 version 6L02.
+<p>
+ Example: * The Cubbins Effect - Creating a new hat every time the player removes the one he's wearing.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;The Cubbins Effect&quot; by Geodor Theisel</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Dynamic Objects by Jesse McGrew.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> King Derwin's Court is a room. &quot;You have been summoned here for the crime of failing to remove your hat in the king's presence.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A hat is a kind of thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A hat style is a kind of value. The hat styles are red, blue, green, yellow, white, black, brown, zebra-striped, tall, pointy, short, gray, pink, fuzzy, rainbow-colored, and feathered.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A hat has a hat style. Before printing the name of a hat, say &quot;[hat style] &quot;. Understand the hat style property as describing a hat.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player wears a hat which is red.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of taking off a hat which is worn by the player:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the noun is in the location;<br>&nbsp;&nbsp;&nbsp;&nbsp; if 500 hats are in the location:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You remove [the noun] and drop it. It seems that was the last one!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end the story finally saying &quot;You have won&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let the new hat be a new object cloned from the noun;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the player is wearing the new hat;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You remove [the noun] and drop it, only to find another hat upon your head -- a [hat style of the new hat] one.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After cloning a new object from a hat (called the original hat):<br>&nbsp;&nbsp;&nbsp;&nbsp; while the hat style of the new object is the hat style of the original hat:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the hat style of the new object is a random hat style.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for printing a number of hats (called the particular headwear):<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[listing group size in words] [hat style of the particular headwear] hats&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;remove hat / remove hat / remove hat / i / look&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

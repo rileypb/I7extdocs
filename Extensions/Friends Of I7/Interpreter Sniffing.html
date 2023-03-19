@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Interpreter Sniffing<font color="#404040"> by </font>Friends of I7</b><p><small></small><p><p><hr><p>
+<p>
+ With Interpreter Sniffing included we can determine the interpreter the story is running under by writing
+<p>
+<blockquote><font color="#000080"> the current interpreter</font></blockquote>
+<p>
+ as in
+<p>
+<blockquote><font color="#000080"> if the current interpreter is Zoom:<br>&nbsp;&nbsp;&nbsp;&nbsp;....</font></blockquote>
+<p>
+ At present, the possibilities are
+<p>
+<blockquote><font color="#000080"> FyreVM</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Zoom</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Git/Gift-based interpreter</font></blockquote>
+<p>
+ and
+<p>
+<blockquote><font color="#000080"> Unknown interpreter</font></blockquote>
+<p>
+ They all have the kind
+<p>
+<blockquote><font color="#000080"> an interpreter</font></blockquote>
+<p>
+ For more detail, we can ask about
+<p>
+<blockquote><font color="#000080"> the current Glulx implementation</font></blockquote>
+<p>
+ which has kind
+<p>
+<blockquote><font color="#000080"> a Glulx implementation</font></blockquote>
+<p>
+ and the possibilities
+<p>
+<blockquote><font color="#000080"> Git/Gift Glulx</font></blockquote>
+<p>
+<blockquote><font color="#000080"> FyreVM Glulx</font></blockquote>
+<p>
+ and
+<p>
+<blockquote><font color="#000080"> Unknown Glulx implementation</font></blockquote>
+<p>
+ Likewise, we may wish to know
+<p>
+<blockquote><font color="#000080"> the current IO implementation</font></blockquote>
+<p>
+ which has the kind
+<p>
+<blockquote><font color="#000080"> an IO implementation</font></blockquote>
+<p>
+ It may be
+<p>
+<blockquote><font color="#000080"> FyreVM channel system</font></blockquote>
+<p>
+<blockquote><font color="#000080"> CocoaGlk</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Unknown Glk implementation</font></blockquote>
+<p>
+ or
+<p>
+<blockquote><font color="#000080"> Unknown non-Glk implementation</font></blockquote>
+<p>
+ All of these tests have associated phrases to determine corresponding version numbers:
+<p>
+<blockquote><font color="#000080"> the current interpreter version number</font></blockquote>
+<p>
+<blockquote><font color="#000080"> the current Glulx version number</font></blockquote>
+<p>
+ and
+<p>
+<blockquote><font color="#000080"> the current IO version number</font></blockquote>
+<p>
+ Each of these decides on a value with the kind
+<p>
+<blockquote><font color="#000080"> a version number</font></blockquote>
+<p>
+ which is an arithmetic kind of value written in three parts, major version, minor version, and patch level, separated by dots. For example,
+<p>
+<blockquote><font color="#000080"> 3.1.2</font></blockquote>
+<p>
+ has major version 3, minor version 1, and patch level 2.
+<p>
+ With this syntax we can write conditionals like
+<p>
+<blockquote><font color="#000080"> if the current Glulx version number is at least 3.1.2:<br>&nbsp;&nbsp;&nbsp;&nbsp;....</font></blockquote>
+<p>
+ Finally, it is possible for the interpreter to change mid-story if the player saves and restores. If the change can be detected, rules in
+<p>
+<blockquote><font color="#000080"> the when the interpreter changes rulebook</font></blockquote>
+<p>
+ will be run; these are written
+<p>
+<blockquote><font color="#000080"> When the interpreter changes:<br>&nbsp;&nbsp;&nbsp;&nbsp;....</font></blockquote>
+<p>
+ Note that these rules are run as soon as possible, and the story might not have regained its bearings yet. (In particular, no Glk recovery has happened.) It is generally not safe to produce output within such rules; we should instead note the differences and respond at a less precarious time, such as before the next command prompt.
+<p>
+ Example: * Fourth Wall - Interpreter information in the story banner and other parts of the story.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Fourth Wall&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Interpreter Sniffing by Friends of I7.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After printing the banner text:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The current interpreter] [the current interpreter version number][line break]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Terp is a room.<br> &quot;[A lonely wooden sign] swings from an otherwise bare ceiling, and three of the walls are similarly blank.  Through [the fourth wall], however, you can vaguely make out [the author].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The ceiling is scenery in the terp.<br> The description is &quot;Blank, unstoried.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Some blank walls are scenery in the terp.<br> The description is &quot;Blank, unstoried.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A lonely wooden sign is scenery in the terp.<br> The description is &quot;The sign reads '[The current Glulx implementation] [the current Glulx version number]'.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The fourth wall is scenery in the terp.<br> Understand &quot;etched&quot; and &quot;surface&quot; as the fourth wall.<br> The description of the fourth wall is &quot;Etched on the surface is the text, '[The current IO implementation] [the current IO version number]'.&quot;<br> Instead of searching the fourth wall:<br>&nbsp;&nbsp;&nbsp;&nbsp; try examining the author.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The author is a scenery person in the terp.<br> The description is &quot;As best you can tell, [the author] is [the author's name].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include (- 
+		#ifdef Story_Author;
+			Constant Author_Name = Story_Author;
+		#ifnot;
+			Constant Author_Name = (+ &quot;Anonymous&quot; +);
+		#endif;
+	 -) after &quot;Definitions.i6t&quot;.<br> To decide what text is the author's name: (-  Author_Name  -).</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Interpreter changed is a truth state that varies; interpreter changed is false.<br> When the interpreter changes:<br>&nbsp;&nbsp;&nbsp;&nbsp; now interpreter changed is true.<br> Before reading a command when interpreter changed is true:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Whoa, déjà vu.  (It happens when they change something.)&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now interpreter changed is false.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;x sign / x wall / x author&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

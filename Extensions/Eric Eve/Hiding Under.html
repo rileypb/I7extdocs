@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Hiding Under<font color="#404040"> by </font>Eric Eve</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter: Hiding Under
+<p>
+ Section: The Basics
+<p>
+ Hiding Under defines a many-to-one relation called &quot;underconcealement&quot; which can be expressed with phrases like:
+<p>
+<blockquote><font color="#000080"> The pen is hidden under the desk.<br> Now the book is hidden under the bed.</font></blockquote>
+<p>
+ The effect of using such phrases is that such objects will the discovered when the player types LOOK UNDER DESK or LOOK UNDER BED. However, to ensure that the pen and book aren't found before then, it is a good idea if they start out as off-stage, since declaring something to be hidden under something else does not define its location in the game world.
+<p>
+ If we want to hide something under something else during the course of play, we need to move it off-stage as well, e.g.:
+<p>
+<blockquote><font color="#000080"> Now the book is hidden under the bed;<br> Remove the book from play.</font></blockquote>
+<p>
+ To do this in a single statement we can use the phrase:
+<p>
+<blockquote><font color="#000080"> Hide the book under the bed.</font></blockquote>
+<p>
+ Finally, if items are hidden under something portable, then the items are automatically revealed (and moved to the previous holder of the concealing item) when the concealing item is taken. This might generate a transcipt like:
+<p>
+<blockquote><font color="#000080"> &gt;TAKE CHAIR<br> Taking the chair reveals a small book and an odd sock hidden underneath.</font></blockquote>
+<p>
+ We can change the final part of this sentence (&quot;hidden underneath&quot;) by providing our own definition of the phrase &quot;to say previously-hidden-under (obj - a thing)&quot;. E. g.
+<p>
+<blockquote><font color="#000080"> To say previously-hidden-under (obj - the chair): say &quot;previously concealed under it&quot;.</font></blockquote>
+<p>
+ Which would result in:
+<p>
+<blockquote><font color="#000080"> &gt;TAKE CHAIR<br> Taking the chair reveals a small book and an odd sock previously concealed under it.</font></blockquote>
+<p>
+ Or we can change the entire response by providing our own definition of &quot;to say reveal-hidden-under (obj - a thing)&quot;. E. g.
+<p>
+<blockquote><font color="#000080"> To say reveal-hidden-under (obj - the chair):<br> say &quot;As you pick up the chair you notice [the list of things hidden under the chair] lying underneath.&quot;</font></blockquote>
+<p>
+ Giving us:
+<p>
+<blockquote><font color="#000080"> &gt;TAKE CHAIR<br> As you pick up the chair you notice the small book and the odd sock lying underneath.</font></blockquote>
+<p>
+ Section: Using Hiding Under Standalone
+<p>
+ If Hiding Under is used standalone (i.e. without Underside) it provides only fairly basic functionality. It permits use of the statements discussed above. In addition if we have hidden anything under anything then the command LOOK UNDER WHATEVER will list the items hidden there and move them into the holder of the item looked under (which will normally be the location of the player) so that they become available to the player. These items do not remain hidden under the other object, since the player now knows about them, and, by itself, Hiding Under does not model the space under other objects.
+<p>
+ We can change the message that's displayed in response to finding things under other things by providing our own definition of &quot;To say find-hidden-under (obj - a thing)&quot;. If we like, we can also arrange for this to result in the player taking what s/he finds (instead of leaving it on the ground); for example:
+<p>
+<blockquote><font color="#000080"> To say find-hidden-under (the bed - a thing):<br> now everything hidden under the bed is carried by the player;<br> say &quot;Under the bed you discover [a list of things hidden under the bed], which you duly take.&quot;</font></blockquote>
+<p>
+ Hiding Under also defines the command PUT X UNDER Y or HIDE X UNDER Y (these two mean the same thing, and refer to the placing it under action), which by default just responds with &quot;You can't but anything under the whatever.&quot; To allow things to be hidden under other things we can write an instead rule:
+<p>
+<blockquote><font color="#000080"> Instead of placing the pen under the bed:<br>&nbsp;&nbsp;&nbsp;&nbsp; hide the pen under the bed;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You hide the pen under the bed.&quot;;</font></blockquote>
+<p>
+ Or, more generally,
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> A thing can be can be underspaced or not underspaced. A thing is usually not underspaced.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of placing something under something underspaced:<br>&nbsp;&nbsp;&nbsp;&nbsp; hide the noun under the second noun;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You hide [the noun] under [the second noun].&quot;</font></blockquote>
+<p>
+ The limitation of this is that the player won't then be able to interact with the object thus hidden until s/he explicitly looks under the object it's hidden under, even though s/he presumably lnows perfectly well that it's there. A second limitation is that there's no automatic check that the first object will fit under the second, and it might start stretching credibility if, say, the player were allowed to place twenty large objects under the same small desk (though we could check for this manually). To get round these problems, we can use the Underside extension.
+<p>
+ Section: Using Hiding Under with Underside
+<p>
+ Underside does model the space under objects, and Hiding Under will take advantage of this if the two extensions are used together.
+<p>
+ In particular, the command LOOK UNDER WHATEVER will move anything hidden under Whatever to Whatever's underside, if Whatever has one (otherwise it will move anything hidden under Whatever to the holder of Whatever) before listing what's in Whatever's underside. This means that if Whatever has an underside, the previously hidden items will remain under the Whatever, although they'll no longer be hidden (the player can interact with them, and commands like TAKE ALL will now apply to them).
+<p>
+ Additionally, when the player takes something, both the items in its underside and the items hidden under it will be revealed and moved to the previous holder of the item just taken. For exampled, suppose we define:
+<p>
+<blockquote><font color="#000080"> The chair is a portable enterable supporter in the Study.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An underside called under#chair is part of the chair. under#chair is open.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A small red book is in under#chair.<br> A black pen is hidden under the chair.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player carries a blue ball.</font></blockquote>
+<p>
+ If the player issues the commands PUT BALL UNDER CHAIR followed by TAKE PEN (without first looking under the chair), then the parser will complain that he can't see the pen, although s/he could TAKE BALL or TAKE BOOK at this point. If however the player issues the commands PUT BALL UNDER CHAIR followed by TAKE CHAIR, then the ball, book and pen will all be revealed as having been under the chair.
+<p>
+ The real advantage here is that this provides a convenient mechanism for allowing the player to interact with items s/he knows are under the chair (e.g. because s/he put them there) while continuing to conceal items that we hid under the chair until the player takes active steps to find them (by looking under or taking the chair).
+<p>
+ Note that we can still provide our own definition of &quot;To say find-hidden-under (obj - a thing)&quot;, but this will only be effective for things that *don't* have an underside.
+<p>
+ We can also test whether something is under something else with the &quot;under&quot; relation, e.g.
+<p>
+<blockquote><font color="#000080"> if the pen is under the bed...<br> now everything under the bed is carried by the player.<br> say &quot;Under the bed is [a list of things under the bed].&quot;</font></blockquote>
+<p>
+ If Underside is used with the Hiding Under extension, the 'under' relation will include items hidden under the target object as well as items in the target object's underside. Note that &quot;to be under&quot; is a relation that tests a condition, so we can't declare &quot;the pen is under the bed&quot;, neither can we say &quot;now the pen is under the bed&quot;. As seen above we can declare &quot;the pen is hidden under the bed&quot; (as an initial state), and we can also rule that &quot;now the bed is hidden under the bed&quot;, although it's likely to be useful to use the phrase &quot;hide the pen under the bed&quot;.
+<p>
+ We can use &quot;contained under&quot; to test for something being in another object's underside, e.g.
+<p>
+<blockquote><font color="#000080"> if the pen is contained under the bed...</font></blockquote>
+<p>
+ will be true if the pen is in the bed's underside (but not if the pen is hidden under the bed in the sense that the Hiding Under extension gives to &quot;hidden under&quot;). Note that &quot;contained under&quot; is a to decide phrase, not a relation, so it can only be used in tests, not in descriptions.
+<p>
+ Finally, note a couple of important distinctions here.
+<p>
+ The statement &quot;The black pen is hidden under the chair&quot; makes the black pen hidden until the player looks under the chair or takes the chair. From the player perspective the black pen was under the chair all along, but from the author's perspective the black pen was in fact off-stage until the player discovered it.
+<p>
+ The statement &quot;A small red book is in under#chair&quot; places the small red book in the underside (a type of container) called &quot;under#chair&quot;. If under#chair is closed, then this has much the same effect as saying &quot;The small red book is hidden under the chair&quot;, insofar as the player won't be able to interact with the small red book until s/he either looks under or takes the chair. If, however, under#chair is defined to be an open underside, then the player will be able to interact with the small red book from the start (so long as s/he's in the appropriate location). Making an underside closed has the effect of concealing everything that's in it. Using &quot;hide x under y&quot; conceals only that particular x. Mixing the two mechanisms thus allows us to have some items hidden under something, and under items simply under the same thing without being hidden.
+<p>
+ Section: Which Extensions to Use for What
+<p>
+ At first sight it may seem that Underside and Hiding Under provide overlapping functionality, and it may be unclear which to use for what.
+<p>
+ In brief, Hiding Under provides rather basic functionality for finding things that were hidden under other things, but does not really model the space under objects. A further potential disadvantage is that it uses a many-to-one relation between things, which may be quite expensive in terms of resources. This should not matter for games compiled to Glulx but may be an issue for Z-Code games.
+<p>
+ Underside provides slightly fuller functionality insofar as it does model the space under objects, which may be particularly relevant if you want to allow players to put things other under things as well as just finding them there. Used by itself it doesn't employ any additional relations, and so may be the more economical solution for Z-Code games.
+<p>
+ Using Underside with Hiding Under doesn't do a lot that you can't do with Underside alone, but it does make it more convenient, since:
+<p>
+ (a) You can set up your game with statements like:
+<p>
+<blockquote><font color="#000080"> The ball is hidden under the bed.</font></blockquote>
+<p>
+ (b) There's less work to do to distinguish between items initially hidden under other items (that the player won't know about until s/he actively looks for them) and items placed under other items by the player (which s/he) will know about. Note, however, that to take full advantage of this you'll want to define your undersides as open, or else include something like the following somewhere in your code:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Carry out placing something under something (this is the open when placing underneath rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if an underside (called the underpart) is part of the noun, now the underpart is open.</font></blockquote>
+<p>
+ Or indeed simply:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> an underside is usually open.</font></blockquote>
+<p>
+ Thus, for a Glulx game it's probably worth including both extensions. For a Z-Code game you may need to be more choosy.
+<p>
+ Note that for really simple cases, such as a game when only one object (or only an handful of objects) is hidden under anything, you may not need either extension; in such cases a simple instead rule may be all that's required, for example:
+<p>
+<blockquote><font color="#000080"> Instead of looking under the mat when the cheque is off-stage:<br>&nbsp;&nbsp;&nbsp;&nbsp; move the cheque to the player;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Under the mat you find a cheque for ten thousand euros, which you quickly snatch up!&quot;</font></blockquote>
+<p>
+ Example: * Lost Cheque - A simple example of one thing hidden under another.
+<p>
+ This example illustrates most of the principle features of the extension when used by itself (i.e. without Underside). Note how we provide our own definition of &quot;To say find-hidden-under&quot; to make the player automatically pick up anything found under the mat.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;Lost Cheque&quot; by Eric Eve</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Hiding Under by Eric Eve.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Hall is a room.<br> &quot;[if unvisited]You know you dropped a cheque here somewhere; the question is where[otherwise]There's not much of interest here, really, apart from that cheque[end if].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The doormat is a portable enterable supporter in the Hall.<br> &quot;A brown doormat lies by the front door.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;brown&quot; or &quot;mat&quot; as the doormat.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The valuable cheque is hidden under the doormat.<br> The description is &quot;It's a cheque for ten thousand [if the American dialect option is active]dollars[otherwise]pounds[end if].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;check&quot; as the valuable cheque when the American dialect option is active.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for printing the name of the valuable cheque when the American dialect option is active: say &quot;valuable check&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of looking under something when the player is on the noun:<br> say &quot;You'll have to get off [the noun] first.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of placing the valuable cheque under the doormat:<br> hide the valuable cheque under the doormat;<br> say &quot;You slip the cheque back under the doormat.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say find-hidden-under (the doormat - a thing):<br> now everything hidden under the doormat is carried by the player;<br> say &quot;Under the mat you find [a list of things hidden under the doormat], which you eagerly snatch up.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;look under mat/i/x cheque/put cheque under mat/take mat&quot;</font></blockquote>
+<p>
+ Example: ** The Lost Sock and the Lost Cheque - Illustrating how Hiding Under can be combined with Underside.
+<p>
+ This example combines elements of the Lost Cheque example above with the Lost Sock example from the Underside extension. Note how we make underside open by default to take full advantage of the two different mechanisms involved: now we can take the red ball after it rolls under the bed without having to look under the bed (because we know the red ball rolled there), but we have to look under the bed before we can take the odd sock. Note too that we can hide the cheque under the mat without giving it an underside, but (as we've defined things) we can't put anything under the mat. The combination of the two extensions thus allows us to define two kinds of under-hiding things in the same game - those that simply reveal what was hidden under them when we look under them, and those that we can also put things under.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> &quot;The Lost sock and the Lost Cheque&quot; by Eric Eve</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Underside by Eric Eve.<br> Include Hiding Under by Eric Eve.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An underside is usually open.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Part 1 - Scenario</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Bedroom is a room. &quot;There's little room in here for anything but the bed, the desk and a solitary chair.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The bed is an enterable scenery supporter in the Bedroom.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An underside called under#bed is part of the bed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An odd sock is wearable. It is hidden under the bed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player is holding a red ball.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After dropping the red ball in the Bedroom:<br> move the red ball under the bed;<br> say &quot;The red ball falls to the floor and rolls under the bed.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The chair is an enterable portable supporter in the Bedroom.<br> A red sock is on the chair.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An underside called under#chair is part of the chair.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The book is hidden under the chair.<br> The scarf is hidden under the chair.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The red mat is a portable enterable supporter in the Bedroom.<br> &quot;A red mat lies on the floor.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The valuable cheque is hidden under the red mat.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say find-hidden-under (the red mat - a thing):<br> now everything hidden under the red mat is carried by the player;<br> say &quot;Under the mat you discover [a list of things hidden under the red mat], which you duly take.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say previously-hidden-under (obj - a thing):<br> say &quot;left behind on the floor&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;take sock/drop ball/take ball/take odd sock/look under bed/take odd sock/look under mat/put ball under mat/put ball under chair/take chair&quot;</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

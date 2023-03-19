@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Data Structures<font color="#404040"> by </font>Dannii Willis</b><p><small></small><p><p><hr><p>
+<p>
+ This Data Structures extension adds several new kinds to Inform 7. Unlike most extensions, this one also requires you to install two. i6t template files into your Inform folder. For example, in Windows you will need to make an I6T folder in My Documents/Inform/, and then copy these two files inside it:
+<p>
+<blockquote><font color="#000080"> https://raw.githubusercontent.com/i7/extensions/master/Dannii%20Willis/Figures.i6t<br> https://raw.githubusercontent.com/i7/extensions/master/Dannii%20Willis/Load-Figures.i6t</font></blockquote>
+<p>
+ You can leave those files there even if you do not use Data Structures in some of your projects.
+<p>
+ Section - Checked phrases
+<p>
+ This extension tries to be safe by default, so the return values of some phrases are Options or Results. These kinds wrap an optional return value; for Options you either will have a return value or none, for Results, either a return value or an error message. You must then check what is returned from these phrases and make sure you account for the possibility of failure. There are also unsafe &quot;unchecked&quot; phrases which you can use when you are sure that the phrase will be successful, but this is discouraged. In fact it will often be not only safer but also more performant to use the safe variations.
+<p>
+ For example, you might think of checking if a map has a value and extracting it like this:
+<p>
+<blockquote><font color="#000080"> if fruit varieties has key &quot;apple&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp; let apple name be get key &quot;apple&quot; of fruit varieties unchecked;</font></blockquote>
+<p>
+ But when you do this the code actually searches through the map twice: first to check if the key exists, and then to extract the value. It is better to just use the safe variant which returns an option:
+<p>
+<blockquote><font color="#000080"> let result be get key &quot;apple&quot; of fruit varieties;<br> if result is some let apple name be the value:<br>&nbsp;&nbsp;&nbsp;&nbsp;...</font></blockquote>
+<p>
+ And in fact you can combine these into one statement:
+<p>
+<blockquote><font color="#000080"> if get key &quot;apple&quot; of fruit varieties is some let apple name be the value:<br>&nbsp;&nbsp;&nbsp;&nbsp;...</font></blockquote>
+<p>
+ When a phrase may fail there is sometimes a phrase variant that lets you specify a backup value:
+<p>
+<blockquote><font color="#000080"> let apple name be get key &quot;apple&quot; of fruit varieties or &quot;Royal Gala&quot;;</font></blockquote>
+<p>
+ Section - Anys
+<p>
+ An any stores a value and its kind; the kind cannot be determined at compile time, but can be read at run time. These are useful for when you want to store multiple kinds of values in one list or map, or for when you don't know what kind some data might be.
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; let apple be &quot;Royal Gala&quot; as an any;<br>&nbsp;&nbsp;&nbsp;&nbsp; if kind of apple is a text:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[apple] is a text[line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if apple is a text let apple name be the value:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Apple variety: [apple name][line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; let year be apple as a number or 2022;</font></blockquote>
+<p>
+ Section - Closures
+<p>
+ A closure preserves the state of a phrase so that it can be resumed at a later time. They are still experimental, and do not yet support block value local variables.
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; let C1 be a new closure number -&gt; number;<br>&nbsp;&nbsp;&nbsp;&nbsp; ignore the result of generate test closure with C1;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Running:[line break][C1 applied to 10][line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Running:[line break][C1 applied to 100][line break]&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To decide what number is generate test closure with (C - closure number -&gt; number):<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Closure setup[line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; let N1 be 1;<br>&nbsp;&nbsp;&nbsp;&nbsp; initialise C with parameter N2;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Resumed closure[line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;N1: [N1][line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; increment N1;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;N2: [N2][line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; update all local variables of C;<br>&nbsp;&nbsp;&nbsp;&nbsp; decide on 20;</font></blockquote>
+<p>
+ The stack is preserved along with local variables, so if something pushes to the stack (usually some embedded I6 code) before the closure is initialised, you can pull from it when the closure is run. Be careful however if you then update all local variables, as there may not be anything remaining on the stack, and so the next time the closure is run it can cause a stack underflow.
+<p>
+ Section - Couples
+<p>
+ A couple is a 2-tuple, grouping two values of any kind. Couples are useful for when you need to return two values of different kinds from a phrase.
+<p>
+<blockquote><font color="#000080"> To decide what couple of person and number is the person evaluation:<br>&nbsp;&nbsp;&nbsp;&nbsp; decide on yourself and 1234 as a couple;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; let result be the person evaluation;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Person: [first value of result][line break]Evaluation: [second value of result][line break]&quot;;</font></blockquote>
+<p>
+ Section - Maps
+<p>
+ Maps store key-value pairs. Each map has a set kind for its keys and another set kind for its values, but if you need to store heterogenous keys or values you can make a map using anys.
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; let data be a map of text to any;<br>&nbsp;&nbsp;&nbsp;&nbsp; set key &quot;player&quot; of data to yourself;<br>&nbsp;&nbsp;&nbsp;&nbsp; set key &quot;score&quot; of data to 0;<br>&nbsp;&nbsp;&nbsp;&nbsp; set key &quot;action&quot; of data to the jumping action;<br>&nbsp;&nbsp;&nbsp;&nbsp; if get key &quot;score&quot; of data is some let score be the value:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Starting score: [score][line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; let temperature be get key &quot;temp&quot; of data or 23 as an any;</font></blockquote>
+<p>
+ Section - Nulls
+<p>
+ Null values are occasionally useful; they are needed for parsing JSON, and can also be used for a promise that indicates when it is finished but has no actual resulting value.
+<p>
+ Section - Options
+<p>
+ An optional value, either nothing, or a value of a specific kind.
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; let O1 be &quot;Hello&quot; as an option;<br>&nbsp;&nbsp;&nbsp;&nbsp; let O2 be a text none option;<br>&nbsp;&nbsp;&nbsp;&nbsp; if O1 is some let message be the value:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Message: [message][line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; let second message be value of O2 or &quot;Goodbye&quot;;</font></blockquote>
+<p>
+ Section - Promises
+<p>
+ A promise represents a value which is yet to be determined, and holds a list of code hooks to run when it has been resolved. Promises are still somewhat experimental.
+<p>
+<blockquote><font color="#000080"> Jump promise is a person promise that varies.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now jump promise is a new person promise;<br>&nbsp;&nbsp;&nbsp;&nbsp; attach receive the jumper to jump promise;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To receive the jumper (P - person) (this is receive the jumper):<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[P] jumped!&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After jumping:<br>&nbsp;&nbsp;&nbsp;&nbsp; ignore the result of resolve jump promise with the player;</font></blockquote>
+<p>
+ Section - Results
+<p>
+ A result contains either a wrapped value or an error message text.
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; let R1 be 1234 as a result;<br>&nbsp;&nbsp;&nbsp;&nbsp; if R1 is okay let score be the value:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Score: [score][line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; let R2 be a number error result with message &quot;Oops!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if R2 is okay let score be the value:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Score: [score][line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise if R2 is an error let message be the error message:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Error! [message][line break]&quot;;</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

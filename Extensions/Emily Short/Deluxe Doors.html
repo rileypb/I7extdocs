@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"></td></tr></table><p><img border=0 src=../../doc_images/paste.png>&nbsp;<b>Deluxe Doors<font color="#404040"> by </font>Emily Short</b><p><small></small><p><p><hr><p>
+<p>
+ Deluxe Doors allows for doors to have two sides, so that they can be unlocked differently from different directions and also so that they can have things visible on one face but not on the other. It also allows for doors to be latched rather than locked and unlocked with keys.
+<p>
+ Deluxe Doors requires Plurality and Locksmith by Emily Short.
+<p>
+ Chapter: Two One-sided Doors
+<p>
+ Section: Setting Up
+<p>
+ To set up a pair of doors, we use the &quot;door-unity&quot; relation, expressed with the phrase &quot;is a half-door of&quot;. Thus
+<p>
+<blockquote><font color="#000080"> Porch is a room. The house door is south of Porch. It is a lockable door. Through the house door is the Living Room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The porch door is north of Living Room. Through the porch door is the Porch. The porch door is a door. The porch door is a half-door of the house door.</font></blockquote>
+<p>
+ creates a pair of one-way doors that are now understood to be linked. We can also use the adjective &quot;a halved door&quot; to refer to doors that are only half of a larger entity, and &quot;the reverse side of (a given door)&quot; to refer to that door's other half.
+<p>
+ This now means that objects can be added to one side of a door, as in
+<p>
+<blockquote><font color="#000080"> A brass knocker is part of the house door.</font></blockquote>
+<p>
+ with some special implications: it will be visible and touchable when the player is on the &quot;house door&quot; side -- that is, standing on the Porch looking in. That's the easy part. The trickier part is that it will also be visible and touchable when the player is in the Living Room, if the porch door/house door combo is open.
+<p>
+ Section: A Warning
+<p>
+ This does require a little authorial self-discipline. If you have a place in your code where you say
+<p>
+<blockquote><font color="#000080"> now the gilded door is open;</font></blockquote>
+<p>
+ that doesn't ensure that its other half is open. Instead, Deluxe Doors provides a couple of phrases to use instead:
+<p>
+<blockquote><font color="#000080"> safely lock the gilded door<br> safely open the gilded door<br> safely close the gilded door<br> safely unlock the gilded door</font></blockquote>
+<p>
+ Using these will guarantee that both halves of a door will be maintained in their proper configuration.
+<p>
+ Chapter: Latched Doors
+<p>
+ Section: Setting Up
+<p>
+ The latched door features here can be used without the Deluxe Doors at all, if we like. A latched door is defined to be one that has a latch and thus can be opened without a key (and will in fact give an error message if the player tries to use a key instead). We can just write
+<p>
+<blockquote><font color="#000080"> The porch door is a latched door.</font></blockquote>
+<p>
+ to invoke this; every latched door will automatically have one door-latch object assigned to it.
+<p>
+ Example: ** Denise - We have a door that can be locked on one side and latched on the other; and another character we can annoy by endless knocking.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../doc_images/paste.png> Include Deluxe Doors by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Porch is a room. &quot;Here is your front porch, relatively tranquil because it is not your living room. Being inside has become more and more of a torture every day of late.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The house door is south of Porch. It is a lockable door. Through the house door is the Living Room. The initial appearance of the house door is &quot;The door into the house [if open]stands open[otherwise]is firmly shut[end if].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player carries a silver key. The silver key unlocks the house door.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of going inside in the Porch, try going south. Instead of exiting in the Living Room, try going north.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The porch door is north of Living Room. &quot;The door to the porch [if open]is thrown invitingly wide[otherwise]is shut[end if].&quot; Through the porch door is the Porch. The porch door is a latched door. The porch door is a half-door of the house door.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A brass knocker is part of the house door. The description is &quot;The brass knocker scowls at you: the old witch has a ring clenched in her teeth. Her incisors look almost like vampire fangs.&quot; Understand &quot;witch&quot; or &quot;old&quot; or &quot;ring&quot; or &quot;teet&quot; or &quot;incisors&quot; or &quot;vampire&quot; or &quot;fangs&quot; as the brass knocker.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The description of the Living Room is &quot;It's completely decorated by Denise, cleaned by Denise, and managed by Denise. The faintly bitter odor in the air is Denise's vetiver room scent.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Denise is a woman in the Living Room. &quot;Denise herself is bent over her antique sewing machine, pumping hard at the pedals and muttering under her breath.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn when the knocker is just-knocked and the location is the Porch and the porch door is closed:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;'[one of]Coming[or]Just a minute[or]Hang on[or]AAAARGH[stopping]!' calls a muffled voice from within.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; let rude comment be &quot;Forget your key[one of][or] again[stopping]?&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the porch door is unlocked, now rude comment is &quot;It was open! Why didn't you try opening it yourself?&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; try Denise opening the porch door;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the porch door is open, say &quot;'[rude comment]' asks Denise[one of][or], a little ungraciously[or], looking frankly irritated[stopping]. [one of]Since you're not a guest, she doesn't bother staying at the door, but wanders back to what she was doing[or]Muttering, she goes back to her task[or]She sets her jaw angrily and retreats from the door[stopping].&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn: now the knocker is not just-knocked.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The knocker can be just-knocked.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;knock [knocker]&quot; or &quot;knock on/with [knocker]&quot; or &quot;use [knocker]&quot; as attacking.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of attacking the knocker: say &quot;You knock loudly with the brass knocker.&quot;; now the knocker is just-knocked.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;knock on [something]&quot; as knocking on. Knocking on is an action applying to one thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of knocking on the house door, try attacking the knocker.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A thing can be soft or hard. A thing is usually hard. A person is usually soft. A wearable thing is usually soft.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report knocking on something soft:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The noun] [are] too soft for knocking to give any interesting effect.&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report knocking on something:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You rap your knuckles against [the noun], to no effect.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;x latch / open door / close door / knock on door / close door / lock door with key / knock on door / x knocker / x latch / in / x knocker / x latch / close door / x knocker / x latch / latch door / open door&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

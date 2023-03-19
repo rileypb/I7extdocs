@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Enterable Underside<font color="#404040"> by </font>Gavin Lambert</b><p><small></small><p><p><hr><p>
+<p>
+ This extension is based on Underside by Eric Eve, extending that to support the player actually entering the underside of objects.
+<p>
+ It defines one new action, &quot;entering underneath&quot;, which can move the player (or another actor) underneath any object that has had an underside created for it. By default, this requires that the underside (specifically) has been declared as &quot;enterable&quot;.
+<p>
+ Naturally, the space under things is often quite limited. Underside uses the Bulk Limiter extension (also by Eric Eve) to manage this; see the documentation for that extension for more details on setting the &quot;bulk&quot; (size) of each object and the &quot;bulk capacity&quot; (available space) in the underside. By default, entering underneath will only be allowed if there's enough free space in the underside for the actor to actually fit. (Although note that a little bit of Hammerspace may apply here -- by default the player's inventory is not counted in their bulk, so they can quite happily enter underneath something while carrying something else too large to fit underneath. You can fix this by carefully setting the player's bulk capacity (so that they cannot pick up enough things to not fit) and/or dynamically changing the player's bulk depending on their current inventory.)
+<p>
+ Note that this extension only introduces the new action -- it does not introduce any corresponding grammar to allow the player to actually perform it. This is because depending on the specific objects in your story, different commands may make more sense than others. You can define whatever commands you like; for example:
+<p>
+<blockquote><font color="#000080"> Understand &quot;hide under/beneath [something]&quot; as entering underneath.</font></blockquote>
+<p>
+ You can alternatively trigger &quot;try entering underneath bed&quot; from some other command's rules, as you'd expect, even if you don't define any commands for it.
+<p>
+ You may also want to override the default response text to make it more suitable for the commands you're using, for example:
+<p>
+<blockquote><font color="#000080"> can't enter underneath something not enterable rule response (A) is &quot;[regarding the noun][Those] [aren't] something [we] [can] hide under.&quot;</font></blockquote>
+<p>
+ Have a look at the &quot;entering underneath&quot; action in the Index for all the standard responses (and to quickly edit them using the 'set' link).
+<p>
+ Since this builds on top of Prepositional Correctness, you're also able to customise the &quot;under&quot; preposition used in the room heading when the player is underneath, or in room descriptions when other objects are:
+<p>
+<blockquote><font color="#000080"> The preposition of under#bed is &quot;beneath&quot;.</font></blockquote>
+<p>
+ Example: * Hide and Seek
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Hide and Seek&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Enterable Underside by Gavin Lambert.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Bedroom is a room. It contains a small bed, a table, and a chair.<br> The bed is an enterable fixed in place supporter.<br> The table is an enterable fixed in place supporter.<br> The chair is an enterable fixed in place supporter.<br> Rule for room heading describing the bed: say &quot;lying on a comfortable bed&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A fluffy pillow is on the bed. The bulk is 2.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An enterable underside called under#bed is part of the bed.<br> The bulk capacity of under#bed is 5. The bulk of the player is 4.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An enterable underside called under#table is part of the table.<br> The bulk capacity of under#table is 3.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A large blanket is in under#bed. The bulk is 3.<br> A small stuffed bear is in under#bed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;hide under/beneath [something]&quot; as entering underneath.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;look under bed / get blanket / hide under bed / l / exit&quot;.</font></blockquote>
+<p>
+ Example: * The Sweet Life
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;The Sweet Life&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Enterable Underside by Gavin Lambert.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;hide under/underneath [something]&quot; as entering underneath.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Bedroom is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The bed is an enterable supporter. It is in the bedroom. The player is on the bed. Angelina is a woman on the bed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The under#bed is an underside. It is part of the bed. It is enterable and transparent.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The shoebox is a container. It is in the under#bed. Roberto is a man. He is in the under#bed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After looking under the bed for the first time:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;'Angelina?  How could you -- with Roberto?'&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The bulk of a person is usually 5.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the story viewpoint is first person singular;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[italic type](Dedicated to those dubbed Italian comedies from the early 1970s)[roman type][paragraph break]The door to the apartment slams shut.  From the hallway, the voice calls out 'Mi amore, I'm home.'  Panic-stricken, Angelina looks at me and whispers 'It's Giovanni.  Quickly, you must hide!'  Giovanni's steps grow softer as he walks toward the kitchen.  She breathes a sigh of relief as we hear the refrigerator open.  'Now hide.'  She points down, under the bed.&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Arrival is a scene. Arrival begins when the player is in the under#bed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When arrival begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;As Giovanni enters the bedroom, he says, 'Mia cara!  It's so fine to be home.'  Angelina answers, 'O Giovanni, I missed you so.  Please buy some wine to celebrate!'[paragraph break]As her husband leaves for the store, she says, 'Both of you, out!'&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; try Roberto exiting.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;exit / look under bed / hide under bed / take shoebox / hide under bed / exit&quot;.</font></blockquote>
+<p>
+ Example: * A Nice Picnic
+<p>
+ Undersides are not really intended to model large spaces like this, since they deliberately conceal what lies underneath unless you're actively looking under. But they can -- and until version 2 this sort of thing didn't work due to some quirks in how Inform handles entering and exiting things with component parts, so this serves as a demonstration that this has been worked around successfully.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;A Nice Picnic&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Enterable Underside by Gavin Lambert.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Picnic Area is a room. &quot;A bright open area close to a large tree.  [if the blanket is carried]You can either set up your picnic out in the open or under the tree.[end if]&quot;.<br> A large tree is scenery in Picnic Area. The description is &quot;An oak, you think.&quot;<br> An underside called under#tree is part of the tree. It is enterable and transparent. The preposition is &quot;beneath&quot;.<br> The verb to go beneath means the reversed containment relation. The entering preposition of under#tree is verb go beneath.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player carries a large checkered blanket and a small picnic basket. The blanket is an enterable supporter. The basket is a locked container.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;sit under/beneath [tree]&quot; as entering underneath.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;put blanket under tree / sit on blanket / drop basket / l / exit / exit&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

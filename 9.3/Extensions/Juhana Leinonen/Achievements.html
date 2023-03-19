@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Achievements<font color="#404040"> by </font>Juhana Leinonen</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter: Setting up
+<p>
+ We must define the following table in the story source:
+<p>
+<blockquote><font color="#000080"> Table of Achievements</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> achievement</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> description</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> validation</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> awarded</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Example&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;You've unlocked the example achievement&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> example achievement rule</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font></font></td></tr></table></blockquote>
+<p>
+ The &quot;achievement&quot; column is the name of the achievement, and the &quot;description&quot; column is the longer explanation of the achievement, usually the reason for why the achievement was awarded.
+<p>
+ The validation column should contain a rule that succeeds when the achievement should be awarded.
+<p>
+<blockquote><font color="#000080"> This is the example achievement rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the player is carrying the MacGuffin:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds.</font></blockquote>
+<p>
+ The rule doesn't need to check if the condition is true for the first time, the extension awards each achievement only once.
+<p>
+ The validation entry can also be left blank. In that case the achievement must be awarded manually (see the next chapter).
+<p>
+ The last column, &quot;awarded&quot;, tracks whether the achievement has already been awarded. It should start out as false (unless for some reason we want the player to start the story with achievements already awarded).
+<p>
+ Chapter: Awarding achievements
+<p>
+ The rules in the validation column are checked at the very end of every turn and any new achievements are awarded. Achievements can also be awarded manually at any time:
+<p>
+<blockquote><font color="#000080"> award the &quot;Example&quot; achievement;</font></blockquote>
+<p>
+ Adding the &quot;silently&quot; modifier to the phrase suppresses the achievement notification:
+<p>
+<blockquote><font color="#000080"> award the &quot;Example&quot; achievement, silently;</font></blockquote>
+<p>
+ The rule responsible for achievement notifications is the print achievement unlocked rule, so unlisting it will remove notifications altogether.
+<p>
+ Printing achievement text is an activity and rules can be attached to it like to any other activity:
+<p>
+<blockquote><font color="#000080"> Before printing the achievement text:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Drumroll please...&quot;</font></blockquote>
+<p>
+ Chapter: Persistent achievements
+<p>
+ The achievements can optionally persist between playthroughs by applying a use option:
+<p>
+<blockquote><font color="#000080"> Use persistent achievements.</font></blockquote>
+<p>
+ Any unlocked achievements are then saved to a file and restored from there when play begins.
+<p>
+ Persistent achievements works only in Glulx.
+<p>
+ Example: * Another Day at the Office - Rule-based and manually awarded achievements
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Another Day at the Office&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Achievements by Juhana Leinonen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Office is a room. &quot;It's another boring afternoon in the office.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The desk is in the office. The inbox is on the desk. The memo is in the inbox.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A piece of gum is a thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The time of day is 4:57 PM.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of looking under the desk for the first time:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Hey, someone stuck a piece of gum under the desk!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the player is carrying the piece of gum.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After examining the memo:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;It's from the boss. You forget it as soon as you've read it.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; award the &quot;Diligent Employee&quot; achievement.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Achievements</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> achievement</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> description</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> validation</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> awarded</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Desk Treasure&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;You found the piece of gum.&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> gum achievement rule</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Diligent Employee&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;You read the memo.&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Overtime&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Stayed at work past 5 pm.&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> overtime achievement rule</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the gum achievement rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the player is carrying the piece of gum:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the overtime achievement rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the time of day is greater than 5:00 PM:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of exiting:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Ok, that's enough for today.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; end the story finally.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;read memo/look under desk/z/z/exit&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

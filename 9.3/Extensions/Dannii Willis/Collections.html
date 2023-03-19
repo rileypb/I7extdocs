@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Collections<font color="#404040"> by </font>Dannii Willis</b><p><small></small><p><p><hr><p>
+<p>
+ This extension provides support for array and map data structures. Unlike normal Inform lists, arrays can contain multiple different kinds. Maps are key-values pairs, where both keys and values can be (almost) any kind.
+<p>
+ Chapter - Collection references
+<p>
+ The basic data structure in this extension is the collection reference. A collection reference can be of any sayable kind. You can make a collection reference with these phrases:
+<p>
+<blockquote><font color="#000080"> collection value (sayable value)<br> collection value (name of sayable kind)</font></blockquote>
+<p>
+ The second will make a collection reference of that kind with its default value.
+<p>
+ You can test whether a collection reference is of a particular kind, whether it is equal to another collection reference, and say the name of kind of the collection reference with these phrase:
+<p>
+<blockquote><font color="#000080"> if kind of (collection reference) is (name of kind)<br> if (collection reference) equals (collection reference)<br> say &quot;[kind of collection reference]&quot;</font></blockquote>
+<p>
+ Unfortunately the names of numerical kinds cannot all be determined. If you have a weight kind, then this last phrase will display &quot;0kg&quot;.
+<p>
+ You can read the value of a collection reference with this phrase:
+<p>
+<blockquote><font color="#000080"> (collection reference) as a (name of kind)</font></blockquote>
+<p>
+ If you try to read it with the wrong kind then an error will be shown.
+<p>
+ You can update the value of a collection reference with these phrases; again the kind must be the same.
+<p>
+<blockquote><font color="#000080"> set (collection reference) to (value)<br> (collection reference) = (value)</font></blockquote>
+<p>
+ If you read a text collection reference into an existing text variable, then the two texts will become disconnected; changing the text variable will not result in the collection reference's internal text being changed. You can however set the collection reference to the text variable. Or if you read the collection reference into a new variable (&quot;let T be mycolref as a text&quot;) then the internal text will be exposed as the new variable, so that changes to the variable will result in the internal text being changed.
+<p>
+ Chapter - Arrays
+<p>
+ You can create an array and then access its internal list with these phrases:
+<p>
+<blockquote><font color="#000080"> new/empty array<br> let (new name) be (collection reference) as a list</font></blockquote>
+<p>
+ You can then use the normal Inform list manipulation phrases. Note that you can only add collection references to the internal list, so you will have to manually wrap your values using &quot;collection value (value)&quot;, and if you want to remove anything from the list, you need to manually destroy it first.
+<p>
+ Chapter - Maps
+<p>
+ There is no Inform data structure that fits a map, but you can use these phrases to create and access them:
+<p>
+<blockquote><font color="#000080"> new/empty map<br> if (R - collection reference) has key (K - value):<br> set key (K - value) of (R - collection reference) to (V - value)<br> get key (K - value) of (R - collection reference)<br> delete key (K - value) of (R - collection reference)</font></blockquote>
+<p>
+ When setting a key or value, you do not need to pass in a collection reference, the extension will handle wrapping the key/value in a reference for you. On the other hand, if you do set a key or value to an existing collection reference, it will be used directly and will become owned by the map, so that you don't need to destroy it individually. Unlike for individual collection references, if you are setting a value in a map for a key that already exists, the kind of the new value does not have to be the same as the kind of the old value.
+<p>
+ If you would like a slightly more programmy way of accessing maps, you can use these phrases:
+<p>
+<blockquote><font color="#000080"> (R - collection reference) =&gt; (key - value) = (V - value)<br> (R - collection reference) =&gt; (key - value)</font></blockquote>
+<p>
+ You can also repeat through the keys of a map with this phrase:
+<p>
+<blockquote><font color="#000080"> repeat with (loopvar - nonexisting collection reference variable) of/in (collection reference) keys</font></blockquote>
+<p>
+ Chapter - Cleaning up
+<p>
+ Collection references exist outside the normal Inform model, so you must manually destroy them in order to not leak memory. Destroying an array or map will clean up all of its contents as well.
+<p>
+<blockquote><font color="#000080"> destroy (collection reference)</font></blockquote>
+<p>
+ Example: * Collections demo
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Collections demo&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Collections by Dannii Willis.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Lab is a room.<br> In the lab is a coin.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; let mymap be a new map;<br>&nbsp;&nbsp;&nbsp;&nbsp; set key &quot;location&quot; of mymap to the Lab;<br>&nbsp;&nbsp;&nbsp;&nbsp; set key &quot;time&quot; of mymap to 12:17 PM;<br>&nbsp;&nbsp;&nbsp;&nbsp; mymap =&gt; &quot;player&quot; = player;<br>&nbsp;&nbsp;&nbsp;&nbsp; let myarray be a new array;<br>&nbsp;&nbsp;&nbsp;&nbsp; let myarray internal be myarray as a list;<br>&nbsp;&nbsp;&nbsp;&nbsp; add collection value true to myarray internal;<br>&nbsp;&nbsp;&nbsp;&nbsp; add collection value false to myarray internal;<br>&nbsp;&nbsp;&nbsp;&nbsp; mymap =&gt; &quot;truth states&quot; = myarray;<br>&nbsp;&nbsp;&nbsp;&nbsp; mymap =&gt; coin = &quot;coin&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[mymap][paragraph break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with key in mymap keys:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let V be mymap =&gt; key;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Key: [key] ([kind of key]), value: [V] ([kind of V])[line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; destroy mymap;</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

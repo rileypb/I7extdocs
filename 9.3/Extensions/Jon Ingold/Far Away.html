@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Far Away<font color="#404040"> by </font>Jon Ingold</b><p><small></small><p><p><hr><p>
+<p>
+ A simple extension providing for things out of reach. A check is performed between the Before and Instead phases of the action (more specifically, between &quot;visibility&quot; and &quot;touchability&quot; are performed). The extension provides an adjective, &quot;distant&quot;, for inaccessible objects (with antonym &quot;near&quot;). A distant object will be too far away to touch, as will anything it encloses (contents or parts). The appropriate error is printed by the distant stuff rulebook, which can also allow distant stuff to be interacted with, if it wants to, by including new rules.
+<p>
+ A circus game might need the following, for example:
+<p>
+<blockquote><font color="#000080"> A distant stuff rule when the player is wearing stilts: rule succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A distant stuff rule for the safety net when the player is wearing stilts: say &quot;You bought the best stilts you could afford but you're lower than the safety net.&quot;; rule fails.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A distant stuff rule for the trapeze wire when the player is wearing stilts: say &quot;You bought the best stilts you could afford but you're lower than the safety net, let alone the high wire.&quot;; rule fails.</font></blockquote>
+<p>
+ The rulebook is called &quot;for&quot; objects (it's an object-based-rulebook) which have been deemed to be too far away, either by being distant themselves or by being enclosed by something distant. &quot;Rule succeeds&quot; indicates the object should not be considered out of reach. &quot;Rule fails&quot; will stop the action in its tracks.
+<p>
+ Other characters are bound by the same basic rules as the player: if attempting to take an unreachable object the game will respond with the default message &quot;[The person asked] is unable to do that&quot;. This can be intercepted either by Before rules:
+<p>
+<blockquote><font color="#000080"> Before asking Will to jump over the moon, say &quot;'I'm that happy I could jump over the sun!' Will exclaims rather stupidly.&quot;</font></blockquote>
+<p>
+ or by distant stuff rules:
+<p>
+<blockquote><font color="#000080"> A distant stuff rule for something enclosed by the top shelf when the person asked is Will:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;(Will is six-foot-nine and high-up things are no problem for him.)[line break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds.</font></blockquote>
+<p>
+ Note, however, that the Instead entrypoint is too late and the distant check will have already happened.
+<p>
+ A rule can decide if it should be saying something when failing by testing &quot;if reporting errors&quot; - this is safer than just printing, as the accessibility rules are also called during visibility checks.
+<p>
+ Finally, the game provides the condition &quot;far off&quot; for objects which are considered out of reach - remember, these may be distant, or they may be parts/contents of distant stuff.
+<p>
+ Example: ** Christmas Morning - A simple example of distance, and how to overcome it.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Christmas Morning&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Far Away by Jon Ingold.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Living Room is a room. The description is &quot;The room is dominated by the top half of a Norwegian spruce. One side is almost bare as a result of Dad dragging it home along the snowless pavement.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The christmas tree is a supporter in the Living Room. &quot;The tree is still only half-decorated.&quot;. Understand &quot;bauble&quot;, &quot;baubles&quot; as the christmas tree. Instead of examining or searching the tree, say &quot;The tree is decorated in a smattering of baubles, [list of things on the tree]. [if the star is on the top of the tree]A star takes pride of place at the top.[end if][if the star is on the tree]The star looks a bit out of place though.[end if]&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The top of the tree is part of the tree. It is a supporter.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The top of the tree is distant.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A decoration is a kind of thing. Report putting a decoration on the christmas tree: say &quot;You hang [the noun] artfully on the tree.&quot; instead. Some tinsel strands, a snowman and the star are decorations carried by the player. The description of the tinsel is &quot;Shiny.&quot; The description of the snowman is &quot;Cheery.&quot; The description of the star is &quot;Bright[if the star is on the tree], but looks a bit out of place halfway up the tree[end if][if the star is on the top of the tree]. It takes pride of place[end if].&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report taking the star when the star was on the tree: say &quot;You take the star back down again.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of taking a decoration when the noun is on the tree and the noun is not the star, say &quot;If you start being picky about it you'll never get it done.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn: if all the decorations are enclosed by the tree and the star is on the top of tree, end the game saying &quot;The festivites may commence!&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The wonky stepladder is in the Living Room. It is an enterable supporter. Instead of climbing the stepladder, try entering the stepladder. Report entering the stepladder: say &quot;You clamber up the wonky stepladder.&quot; instead. Understand &quot;ladder&quot; as the stepladder.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A distant stuff rule for the top of the tree when the player is on the stepladder: rule succeeds.<br> A distant stuff rule for something enclosed by the top of the tree when the player is on the stepladder: rule succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of putting a decoration on the top of the tree when the noun is not the star, say &quot;That'd look all wrong.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;put tinsel on tree / x top of tree / put star on top of tree / climb stepladder / put star on top of tree / get off / take star / put snowman on tree&quot;.</font></blockquote>
+<p>
+ Example: *** Starfield Dome - a more complicated example, with an NPC, and various entrypoints used.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;The Starfield Dome&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Far Away by Jon Ingold.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Starfield Dome is a room. &quot;A wide dome, offering a view of the heavens above. The stars are out in all their glory, beautiful and clear[if the glass dome is open]. The open dome gives you an unfiltered view, but with the wind you are shivering[end if][if the player is flying] and close enough to touch[otherwise] - down here on earth, everything's a bit too dark for comfort[end if].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The glass dome is a distant transparent container in the Dome. The glass dome is scenery. It has description &quot;[if open]The glass of the dome has peeled back, to let in the wind and the light[otherwise]The dome is made of geodesic sections, and beyond it are the stars[end if]. A series of pylons form the supports of the dome, and in the apex of these is a small release button.&quot; The glass dome can be open or closed.</font></blockquote>
+<p>
+ The following details are part of the dome. They don't need to be separately declared 'distant' - they adopt this from the glass dome.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> Some heavens are part of the glass dome. Understand &quot;star&quot;, &quot;stars&quot;, &quot;heaven&quot;, &quot;sky&quot;, &quot;up&quot; as the heavens. The description of the heavens is &quot;A million stars, and twice that once you start looking closely. The major constellations are out in force, but have been lost amongst the minor interlopers of the night sky.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The small release button is part of the glass dome.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of touching or pushing the button when the glass dome is open:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the glass dome is closed;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The glass field closes back over. You hear Alf sigh sadly.&quot;<br> Instead of pushing the button when the glass dome is closed:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the glass dome is open;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;In a series of leaps and folds, the glass dome unfolds away to let in the night air.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Yourself can be flying. Yourself is not flying.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Alf is a person in the dome. &quot;Standing with his neck craned is good old Uncle Alf.&quot; Persuasion rule: persuasion succeeds. Alf is carrying a bottle of Mercury's Liquor of Levity. The bottle has description &quot;A curious liquor, made from the fermentation of fireflies.&quot; Understand &quot;drink&quot; as the bottle. The description of Alf is &quot;Alf has followed you through thick and thin. Mostly thick. [if Alf is carrying the bottle]Bulging from his pocket is a bottle of liquor.[end if]&quot;. Instead of opening the bottle, say &quot;It's got one of those sports-caps, so you can drink liquor straight off.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of tasting or drinking the bottle when the player is flying:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Alf's expression is enough to stay your hand.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of tasting or drinking the bottle:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the player is flying;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You take a swig and feel the strangest sensation, a glow from your toes to the tips of your shoulderblades. It's distracting enough for you to miss the fact you're now floating in mid-air.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; the player comes down to earth in two turns from now;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> At the time when the player comes down to earth:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the player is not flying;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;With a sickening rush the ground rises sharply upward. Alf watches as you crumple painfully. 'A night drinking that stuff, and you'll remember it in the morning,' he remarks.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After printing the name of the Starfield Dome when the player is flying, say &quot; (you are flying)&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report Alf trying examining the heavens: say &quot;'They are gorgeous,' Alf ruminates, admiring the view.&quot;</font></blockquote>
+<p>
+ The following rule removal allows giving to occur between people. We can also steal the bottle:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> Procedural rule: ignore block giving rule.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report Alf trying giving the bottle to the player:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;'Here you are. Hairs for your chest.' Alf passes the bottle over.&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of taking the bottle when Alf is carrying the bottle:<br>&nbsp;&nbsp;&nbsp;&nbsp; move bottle to player;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;With Alf's attention still taken by the stars, you slip the bottle from his pocket.&quot;</font></blockquote>
+<p>
+ This rule prevents &quot;Alf, enter stars&quot; not to end up in the rather bland &quot;Alf is unable to do that.&quot;
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> Before asking Alf to try entering the heavens, say &quot;'I wish I could,' he says sadly. 'But there's only so much I can do.'&quot; instead.</font></blockquote>
+<p>
+ This is the rule that allows a flying player to touch the sky:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> distant stuff rule for something (called the item) when the player is flying: if the item is not the heavens, rule succeeds.</font></blockquote>
+<p>
+ This rule provides a custom message for trying to reach the stars while flying:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> Before entering or going the heavens when the player is flying: say &quot;The liquor's not that strong!&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After giving the bottle to Alf when the glass dome is open:<br>&nbsp;&nbsp;&nbsp;&nbsp; end the game in victory;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;'Thanks. That's better without the refraction.' Alf proceeds to swig half the bottle, and blur his vision of the stars that way instead.&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;x dome / enter stars / press button / x alf / alf, give me liquor / x bottle / drink bottle / press button / enter stars / give bottle to alf&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

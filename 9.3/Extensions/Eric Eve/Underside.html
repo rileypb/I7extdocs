@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Underside<font color="#404040"> by </font>Eric Eve</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter: Underside
+<p>
+ Section: The Basics
+<p>
+ The Underside extension defines the Underside kind (a kind of container), which can be used for putting objects under other objects.
+<p>
+ To use it, we need to define an object to be of kind Underside, and then make it a part of the object we want to put things under. For example, if we want to be able to put things under a bed we might define:
+<p>
+<blockquote><font color="#000080"> The bed is an enterable supporter.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An underside called under#bed is part of the bed.</font></blockquote>
+<p>
+ It's a good idea to give the underside object a name the player is unlikely to type, since the player never needs to refer to it directly.
+<p>
+ To have an object start under the bed we can then just write:
+<p>
+<blockquote><font color="#000080"> The slipper is a wearable thing in under#bed.</font></blockquote>
+<p>
+ Then the command LOOK UNDER BED will report &quot;Under the bed is a slipper.&quot;
+<p>
+ The extension also provides the action &quot;placing it under&quot; which matches the grammar &quot;put [things] under [something]&quot;. With the above example, PUT BALL UNDER BED would move the ball to under#bed, although to the player it would appear to be under the bed.
+<p>
+ Section: Hiding and Finding Things Under Other Things
+<p>
+ The extension further provides a pair of useful phrases:
+<p>
+<blockquote><font color="#000080"> move something under something, making it hidden<br> if something is under something</font></blockquote>
+<p>
+ In the above example &quot;the slipper is under the bed&quot; would start out true. We could also use a phrase like &quot;move the ball under the bed&quot; to place the ball in under#bed. The phrase option &quot;making it hidden&quot;, as in &quot;move the ball under the bed, making it hidden&quot; would additionally ensure that the ball (and anything else under the bed) remained hidden from view until the player explicitly looks under the bed.
+<p>
+ This works by making an underside closed by default, so that items in an underside are out of scope. Issuing a LOOK UNDER X command makes the corresponding underside open, so that its contents are now in scope (the player is now aware of everything that's under the bed). The phrase option &quot;making it hidden&quot; simply closes the underside again, concealing its contents from view. It may sometimes be useful to make an underside open or closed in our own code to achieve the effect we want. This is not quite ideal, since it's an all-or-nothing mechanism, that doesn't allow us to let the player be aware of some but not all items placed under something. In practice, if I put a ball under the desk I'll know the ball is there, but I may not know about the pen that's also there until I deliberately look under the bed. One way to handle this situation might be to make the underside open to start with, and only move the pen there before looking under it:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> The desk is a supporter in the Bedroom.<br> An open underside called under#desk is part of the desk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The pen is a thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before looking under the desk when the pen is off-stage:<br> move the pen under the desk.</font></blockquote>
+<p>
+ What we're aiming to do here is to keep items that are meant to be hidden out of scope until the player explicitly finds them, so that they're not accidentally revealed by TAKE ALL, or by a disambiguation prompt (e.g. &quot;Which ball do you mean, the red ball or the blue ball?&quot; when the red ball is meant to be hidden under the bed).
+<p>
+ An alternative approach would be to define the underside as open and use a &quot;rule for deciding the concealed possessions&quot;, e.g.:
+<p>
+<blockquote><font color="#000080"> Rule for deciding the concealed possessions of the under#bed:<br>&nbsp;&nbsp;&nbsp;&nbsp; if we have looked under the bed, decide no;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the particular possession is handled, decide no;<br>&nbsp;&nbsp;&nbsp;&nbsp; decide yes.</font></blockquote>
+<p>
+ Or more generally:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> Rule for deciding the concealed possessions of an underside (called the underpart):<br>&nbsp;&nbsp;&nbsp;&nbsp; if we have looked under the holder of the underpart, decide no;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the particular possession is handled, decide no;<br>&nbsp;&nbsp;&nbsp;&nbsp; decide yes.</font></blockquote>
+<p>
+ One potential downside of this approach, however, is that it may not work so well with Epistemology, which takes a short-cut route to deciding what the player has seen (in the interests of performance).
+<p>
+ Section: Testing for things being under other things
+<p>
+ We can test whether something is under something else with the &quot;under&quot; relation, e.g.
+<p>
+<blockquote><font color="#000080"> if the pen is under the bed...<br> now everything under the bed is carried by the player.<br> say &quot;Under the bed is [a list of things under the bed].&quot;</font></blockquote>
+<p>
+ If Underside is used with the Hiding Under extension, the 'under' relation will include items hidden under the target object as well as items in the target object's underside. Note that &quot;to be under&quot; is a relation that tests a condition, so we can't declare &quot;the pen is under the bed&quot;, neither can we say &quot;now the pen is under the bed&quot;.
+<p>
+ We can use &quot;contained under&quot; to test for something being in another object's underside, e.g.
+<p>
+<blockquote><font color="#000080"> if the pen is contained under the bed...</font></blockquote>
+<p>
+ will be true if the pen is in the bed's underside (but not if the pen is hidden under the bed in the sense that the Hiding Under extension gives to &quot;hidden under&quot;). Note that &quot;contained under&quot; is a to decide phrase, not a relation, so it can only be used in tests, not in descriptions.
+<p>
+ The &quot;to decide&quot; phrase &quot;associated underpart of (obj - a thing)&quot; gives us a convenient method of getting the underside that's attached for a particular object, so, for example, we could write:
+<p>
+<blockquote><font color="#000080"> say &quot;Contained under the bed is [a list of items in the associated underpart of the bed].&quot;</font></blockquote>
+<p>
+ This may be more useful when writing a more general phrase, like:
+<p>
+<blockquote><font color="#000080"> say &quot;Contained under [the obj] is [a list of items in the associated underpart of the obj].&quot;</font></blockquote>
+<p>
+ This needs to be used with caution though; if obj has no underside attached then its associated underside will be nothing.
+<p>
+ Section: Revealing when Taking
+<p>
+ New to Version 4 of Underside, when you take an object that has objects in its underside, these objects are automatically revealed (that is, they're left behind, and a message is displayed saying what objects taking the concealing object has revealed).
+<p>
+ We can tailor the message that's displayed by providing our own version of:
+<p>
+<blockquote><font color="#000080"> To say reveal-hidden-under (obj - a thing):</font></blockquote>
+<p>
+ By default this is defined as follows:
+<p>
+<blockquote><font color="#000080"> To say reveal-hidden-under (obj - a thing):<br>&nbsp;&nbsp;&nbsp;&nbsp; let underpart be a random underside that is part of the obj;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Taking [the obj] reveals [a list of things in the underpart] [previously-hidden-under the noun].&quot;;</font></blockquote>
+<p>
+ Note how we first have to obtain the relevant underside object (here using the underpart variable) before we can list what it contains.
+<p>
+ In turn, previously-hidden-under-under (obj - a thing) is defined as &quot;hidden underneath&quot;
+<p>
+ Together this might give us an exchange like:
+<p>
+<blockquote><font color="#000080"> &gt;TAKE CHAIR<br> Taking the chair reveals a red sock, a blue ball, and a black book hidden underneath.</font></blockquote>
+<p>
+ We can customize either the final phrase (&quot;hidden underneath&quot;) or the entire messaged by providing our versions of one or the other &quot;to say&quot; phrases mentioned above. Our own version could be something like:
+<p>
+<blockquote><font color="#000080"> To say reveal-hidden-under (obj - a thing):<br> let underpart be a random underside that is part of obj;<br> say &quot;On picking up [the obj] you notice [the list of things in the underpart] left behind on the floor.&quot;</font></blockquote>
+<p>
+ Note that this is now similar to what happens with the Hiding Under extension, although the underlying mechanism used there is a little different.
+<p>
+ Section: Underside and Other Extensions
+<p>
+ Underside includes Bulk Limiter, and enforces checks that the total bulk of objects placed under something does not exceed the bulk capacity of its underside. It is compatible with Implicit Actions, insofar as it will use Implicit Actions to generate an implicit take command for PUT X UNDER Y when X is not carried, but it can also be used without Implicit Actions, in which case it will use its own code to perform an implicit take.
+<p>
+ Underside may also be used with the Hiding Under extension (also by Eric Eve), which allows us to use statements like:
+<p>
+<blockquote><font color="#000080"> The pen is hidden under the desk.<br> Hide the pen under the desk.</font></blockquote>
+<p>
+ For the full story, see the documentation for the Hiding Under extension.
+<p>
+ Example: * Lost Sock - Putting and Finding Objects Under Other Objects.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Lost sock&quot; by Eric Eve</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Underside by Eric Eve.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Part 1 - Additional rule for taking</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for deciding whether all includes scenery: it does not.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Part 2 - Scenario</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Bedroom is a room. &quot;There's little room in here for anything but the bed, the desk and a solitary chair.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The bed is an enterable scenery supporter in the Bedroom.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An underside called under#bed is part of the bed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An odd sock is wearable. It is in under#bed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player is holding a red ball.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After dropping the red ball in the Bedroom:<br> move the red ball under the bed, making it hidden;<br> say &quot;The red ball falls to the floor and rolls under the bed.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The chair is an enterable portable supporter in the Bedroom.<br> A red sock is on the chair.<br> The bulk of the chair is 11.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An underside called under#chair is part of the chair.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The book is in under#chair.<br> The scarf is in under#chair.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The desk is a scenery supporter in the Bedroom.<br> An open underside called under#desk is part of the desk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The pen is a thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before looking under the desk when the pen is off-stage:<br> move the pen under the desk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;Drop ball/look under bed/put red sock under bed/look under bed/take odd sock/take ball/take red sock/look under bed/take chair/look/take all/look under desk/take all&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Dice<font color="#404040"> by </font>David A Wheeler</b><p><small></small><p><p><hr><p>
+<p>
+ This is a simple extension to simplify rolling dice and adding them up. Simply use 'd' with the number of dice on the left and the number of sides on the right, as is common convention. You must have whitespace around the 'd'.
+<p>
+ E. g., 3 d 6 totals 3 six-sided dice, while 4 d 8 + 7 totals 4 eight-sided dice (and then adds 7 to that result). The value of 10 d 1 + 2 will be 12 every time, since a 1-sided die always produces 1.
+<p>
+ You may use this extension under the terms of the Creative Commons Attribution 3.0 United States (CC-BY-3.0-US) license, Creative Commons Attribution 4.0 International (CC-BY-4.0), OR the MIT license. See the source code for details.
+<p>
+ Example: * Pest Control - Dice in Action
+<p>
+<blockquote><font color="#000080"> &quot;Pest Control&quot; by David A Wheeler</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Dice by David A Wheeler.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A person has a number called current hit points.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Dragon's Lair is a room. &quot;This is a beautiful airy room.&quot;<br> An animal called Malevilness the Red Dragon is here.<br> The description of Malevilness is &quot;Malevilness the Red Dragon is taller than 3 men, and there's always room in his stomach for one more.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the current hit points of the player is 5 d 8;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the current hit points of Malevilness is 5 d 8;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the left hand status line is &quot;You: [current hit points of player]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the right hand status line is &quot;Dragon: [current hit points of Malevilness]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of attacking someone:<br>&nbsp;&nbsp;&nbsp;&nbsp; let the damage be 3 d 6;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You attack [the noun], causing [damage] points of damage!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; decrease the current hit points of the noun by the damage;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the current hit points of the noun is less than 0:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[line break][The noun] expires!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the noun is nowhere;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end the story finally;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stop the action;<br>&nbsp;&nbsp;&nbsp;&nbsp; let the enemy damage be 2 d 4;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[line break][The noun] attacks you, causing [enemy damage] points of damage!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; decrease the current hit points of the player by the enemy damage;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the current hit points of the player is less than 0:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[line break]You expire!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end the story.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;hit dragon / g / g / g&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

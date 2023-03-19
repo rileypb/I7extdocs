@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Glk Text Formatting<font color="#404040"> by </font>Dannii Willis</b><p><small></small><p><p><hr><p>
+<p>
+ Glk Text Formatting allows you to control text colours and reverse mode at character granularity. Instead of only having one colour per style, you can now manually specify colours for each paragraph, sentence, word, or even single character.
+<p>
+ Glk Text Formatting uses non-standard Glk functions specified at &lt;https://curiousdannii.github.io/if/gargoyle.html&gt;. At present, they are supported only in Windows Glulxe/Git. Gargoyle will support these functions in its next release.
+<p>
+ It is strongly recommended that you test whether these functions are supported before using them. If you do not your interpreter may raise a fatal error.
+<p>
+<blockquote><font color="#000080"> if glk text formatting is supported:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[reverse mode on]Reversed![reverse mode off]&quot;;</font></blockquote>
+<p>
+ Phrases are provided to set the foreground and background colours, as well as turning on and off reverse mode. Colours are specified as CSS colours (just as you would with Glulxe Text Effects).
+<p>
+<blockquote><font color="#000080"> set color/colour &quot;#FF0000&quot;;<br> set background/bg color/colour: &quot;#0000FF&quot;;<br> reset the foreground/fg color/colour;<br> reset the background/bg color/colour;<br> set reverse mode on;<br> set reverse mode off;<br> say reverse mode on;<br> say reverse mode off;</font></blockquote>
+<p>
+ The latest version of this extension can be found at &lt;https://github.com/i7/extensions&gt;. This extension is released under the Creative Commons Attribution licence. Bug reports, feature requests or questions can be made at &lt;https://github.com/i7/extensions/issues&gt;.
+<p>
+ Example: * Rainbow and space invader
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Rainbow and space invader&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Version 1 of Glk Text Formatting by Dannii Willis.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Show Case is a room. &quot;This is the show case for Glk Text Formatting.<br><br>[if glk text formatting is supported]Here is a pretty rainbow:<br><br>[rainbow]<br><br>And here is a space invader:<br><br>[space invader][otherwise]Your interpreter does not support Glk text formatting.[end if]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say rainbow:<br>&nbsp;&nbsp;&nbsp;&nbsp; let the rainbow colours be { &quot;#ff0000&quot;, &quot;#ff3000&quot;, &quot;#ff6000&quot;, &quot;#ff9000&quot;, &quot;#ffc000&quot;, &quot;#fff000&quot;, &quot;#deff00&quot;, &quot;#aeff00&quot;, &quot;#7eff00&quot;, &quot;#4eff00&quot;, &quot;#1eff00&quot;, &quot;#00ff12&quot;, &quot;#00ff42&quot;, &quot;#00ff72&quot;, &quot;#00ffa2&quot;, &quot;#00ffd2&quot;, &quot;#00fcff&quot;, &quot;#00ccff&quot;, &quot;#009cff&quot;, &quot;#006cff&quot;, &quot;#003cff&quot;, &quot;#000cff&quot;, &quot;#2400ff&quot;, &quot;#5400ff&quot;, &quot;#8400ff&quot;, &quot;#b400ff&quot;, &quot;#e400ff&quot;, &quot;#ff00ea&quot;, &quot;#ff00ba&quot;, &quot;#ff008a&quot;, &quot;#ff005a&quot;, &quot;#ff002a&quot; };<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[fixed letter spacing][reverse mode on]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with C running through the rainbow colours:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; set color C;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;  &quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; reset fg color;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[reverse mode off][variable letter spacing]&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say space invader:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[fixed letter spacing]    [reverse on]  [reverse off]          [reverse on]  [reverse off]
+[line break]      [reverse on]  [reverse off]      [reverse on]  [reverse off]
+[line break]    [reverse on]              [reverse off]
+[line break]  [reverse on]    [reverse off]  [reverse on]      [reverse off]  [reverse on]    [reverse off]
+[line break][reverse on]                      [reverse off]
+[line break][reverse on]  [reverse off]  [reverse on]              [reverse off]  [reverse on]  [reverse off]
+[line break][reverse on]  [reverse off]  [reverse on]  [reverse off]          [reverse on]  [reverse off]  [reverse on]  [reverse off]
+[line break]      [reverse on]    [reverse off]  [reverse on]    [reverse off]
+[line break][variable letter spacing]&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

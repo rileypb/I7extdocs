@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Footnotes<font color="#404040"> by </font>Stephen Granade</b><p><small></small><p><p><hr><p>
+<p>
+ This extension lets you add footnotes to your game, similar to those in the Infocom game Hitchhiker's Guide to the Galaxy. Footnotes are numbered beginning with 1, and are only assigned numbers as they are referenced.
+<p>
+ Footnotes are stored in the Table of Footnotes. This extension defines the table; you merely need to continue it:
+<p>
+<blockquote><font color="#000080"> Table of Footnotes (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Name</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Note</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hdtv-footnote</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;The TV is actually HDTV-ready, not fully HDTV capable.&quot;</font></font></td></tr></table></blockquote>
+<p>
+ &quot;Name&quot; is the name of the footnote, while &quot;Note&quot; is the text of the footnote.
+<p>
+ This extension adds the to say phrase
+<p>
+<blockquote><font color="#000080"> note NAME</font></blockquote>
+<p>
+ to give a footnote number. Here NAME is the name of the footnote as given in the Table of Footnotes.
+<p>
+ Footnotes can be given only once or given repeatedly. By default, the footnotes are given only until that note has been read.
+<p>
+<blockquote><font color="#000080"> &gt;x laser<br> It utilizes a flowing gas approach rather than a closed tube and is specially designed to be extremely stable (1).</font></blockquote>
+<p>
+<blockquote><font color="#000080"> &gt;note 1<br> K. M. O'Hara, S. R. Granade, M. E. Gehm, T. A. Savard, S. Bali, C. Freed, and J. E. Thomas, Ultrastable CO2 laser trapping of lithium fermions, Phys. Rev. Lett., vol. 82 (1999), pp. 4204.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> &gt;x laser<br> It utilizes a flowing gas approach rather than a closed tube and is specially designed to be extremely stable.</font></blockquote>
+<p>
+ (Note that footnote numbers are printed inside square brackets rather than parentheses. They are given as parentheses here due to a limitation of extension documentation.) To change this behavior so that footnotes are given over and over, add the line
+<p>
+<blockquote><font color="#000080"> Footnotes are given repeatedly.</font></blockquote>
+<p>
+ to your game. Also by default, the game begins with footnotes turned off. To have them displayed from the beginning of the game, add the line
+<p>
+<blockquote><font color="#000080"> Footnotes are on.</font></blockquote>
+<p>
+ to your game.
+<p>
+ This extension adds four player commands. FOOTNOTES ON or NOTES ON turns on the display of footnotes, while FOOTNOTES OFF or NOTES OFF turns them off again. FOOTNOTE # or NOTE # reads a numbered footnote, while FOOTNOTES or NOTES reports whether or not footnotes are being displayed.
+<p>
+ Example: * Shameless Plug - Adds a footnote to the description of one object in the game.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Shameless Plug&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Footnotes by Stephen Granade. Footnotes are on.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Lab is a room. &quot;Filled with all of the equipment that you need to trap neutral lithium atoms and cool them to just above absolute zero.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The carbon dioxide laser is in the Lab. &quot;On one side of the lab is a carbon dioxide laser.&quot; The description is &quot;It utilizes a flowing gas approach rather than a closed tube and is specially designed to be extremely stable[note laser-ref].&quot; It is fixed in place. Understand &quot;co2&quot; as the laser.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Footnotes (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Name</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Note</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> laser-ref</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;K. M. O'Hara, S. R. Granade, M. E. Gehm, T. A. Savard, S. Bali, C. Freed, and J.E. Thomas, Ultrastable CO2 laser trapping of lithium fermions, Phys. Rev. Lett., vol. 82 (1999), pp. 4204.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;x laser / note 1&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Neutral Standard Responses<font color="#404040"> by </font>Nathanael Nerode</b><p><small></small><p><p><hr><p>
+<p>
+ Every Inform project contains dozens of sentences of text not written by the project's author, which explain the results of actions or refuse to carry out commands that aren't understood or that contradict the world model. The default set of these library messages, which have accumulated like barnacles on the interactive fiction community since its maiden voyages in the 1970s, contains many misleading, distracting, or unhelpful texts that experienced players see past but newcomers stumble over. This extension replaces the worst offenders with more neutral or helpful variations.
+<p>
+ Simply including the extension is all that is necessary. Read on only if you're interested in the gory details.
+<p>
+ Section - Rationale
+<p>
+ The main complaints levied against the standard reponses are:
+<p>
+ They sometimes imply a certain tone of wry amusement which descends from the Infocom/text adventure era, and which is not always appropriate to modern works of IF.
+<p>
+ There is not a clear distinction between messages narrating story world events and those giving parser refusals, leading to a muddying of the difference between the author's voice and the default system messages.
+<p>
+ Error messages often do not contain information instructing players how to better restate their command.
+<p>
+ They can sometimes contradict the story world, as in the assumption &quot;That's plainly inedible,&quot; or mislead the player about a course of action, as in &quot;This dangerous act would achieve little.&quot;
+<p>
+ Inconsistencies in style, such as whether command examples are given in CAPS or 'quotes', or which messages are wrapped in square brackets and what that signifies.
+<p>
+ The extension attempts to address all of these concerns as much as possible. Jokes or insults have been replaced by more neutral responses. Many error messages have been rephrased to more clearly state what confused the parser or instruct the player towards a better command to try. Messages that make assumptions about the player's intentions or the world model have been softened so as not to appear incongruous with the story. All command examples are now given in 'quote' format. And by default, all parser / out-of-world messages are wrapped in brackets and put in italics.
+<p>
+ Section - Noncommittal responses
+<p>
+ Many of the replacement responses in this extension are deliberately noncommittal, in order to be appropriate no matter what the story author is doing. This is in order to deal with commands like &quot;pick up Fred&quot;, where the player may be using it in a metaphorical way and the story author may want the player to go through the steps of seducing Fred. Or &quot;attack box&quot;, where the story author may want the player to be more specific about how to attack the box. These responses in this extension often use the following two phrases:<blockquote><font color="#000080"> To say or that's not the way: say &quot;, or [regarding nothing]that [aren't] the way to do so&quot;.<br> To say or it's the wrong time: say &quot; in these circumstances&quot;.</font></blockquote>
+<p>
+ If you want to be more definite about telling the player that she is unable to do things, you can blank these out:<blockquote><font color="#000080"> To say or that's not the way: do nothing.<br> To say or it's the wrong time: do nothing.</font></blockquote>
+<p>
+ Section - Parser Style versus Story Style
+<p>
+ Whether a message comes from the parser or the story narrator is something of an existential or aesthetic question in some cases: is &quot;But you aren't on the sofa at the moment&quot; a parser objection or a narrator observation?
+<p>
+ The rule in this extension is that only out-of-world, metatextual responses are &quot;parser messages&quot;. This consists of responses which break the fourth wall by talking about the command line, saving, restoring, undoing, or talking about what is permitted in the story. So &quot;You hear nothing unexpected&quot; and &quot;You aren't holding the apple&quot; are both story messages, while &quot;You don't need to use the word 'xxx' in this story&quot; is a parser message.
+<p>
+ Parser messages are styled using a pair of phrases, which must always be used as a pair:<blockquote><font color="#000080"> &quot;[as the parser]I didn't understand that command.[as normal]&quot;</font></blockquote>
+<p>
+ These are the default definitions:<blockquote><font color="#000080"> To say as the parser -- beginning say_as_the_parser: say &quot;[italic type][bracket]&quot;.<br> To say as normal -- ending say_as_the_parser: say &quot;[close bracket][roman type]&quot;.</font></blockquote>
+<p>
+ To override this, use code like the following:
+<p>
+<blockquote><font color="#000080"> To say as the parser -- beginning say_as_the_parser: say &quot;[bold type]The parser says: '&quot;.<br> To say as normal -- ending say_as_the_parser: say &quot;'[roman type]&quot;.</font></blockquote>
+<p>
+ These say statements may be used in your own text to style parser messages. With a bracket following a period at the end of a sentence, Inform's line breaking algorithm gets confused, so it's often necessary to write:<blockquote><font color="#000080"> say &quot;[as the parser]Hi, I'm the parser.[no line break][as normal][line break]&quot;.</font></blockquote>
+<p>
+ Or if you're running the paragraph on:<blockquote><font color="#000080"> say &quot;[as the parser]Hi, I'm the parser.[no line break][as normal]&quot;.</font></blockquote>
+<p>
+ One final subtlety: if you're responding to an action like &quot;take&quot; which has a paragraph break after &quot;take one thing&quot; but not after each line in &quot;take all&quot;, you'll want to use an additional phrase &quot;single action conditional paragraph break&quot; (see the section on line breaking):<blockquote><font color="#000080"> say &quot;[as the parser]You shouldn't try to take that in this story.[as normal][single action conditional paragraph break]&quot;;</font></blockquote>
+<p>
+ Section - Overriding Responses
+<p>
+ If you don't want parser messages to be styled differently from other library messages:<blockquote><font color="#000080"> To say as the parser -- beginning say_as_the_parser: do nothing.<br> To say as normal -- ending say_as_the_parser: do nothing.</font></blockquote>
+<p>
+ Of course, all responses can be individually overridden using the usual responses system.
+<p>
+ Section - Use Different Line Breaking in Multiple Object Lists
+<p>
+ This extension provides several utility phrases to allow you to make the same text line-break correctly both for multiple action reports like:<blockquote><font color="#000080"> the box: (putting the toy in the holdall to make room) Taken.<br> the cat: You can't take the cat.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> &gt;</font></blockquote>
+<p>
+ And on single action reports like:<blockquote><font color="#000080"> (putting the toy in the holdall to make room)<br> Taken.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> &gt;</font></blockquote>
+<p>
+ The say phrases available are:
+<p>
+<blockquote><font color="#000080"> single action line break</font></blockquote>
+<p>
+ This is a line break if doing a single action, and no line break if doing multiple actions. I haven't actually found a use for this:
+<p>
+<blockquote><font color="#000080"> single action conditional paragraph break</font></blockquote>
+<p>
+ This is a conditional paragraph break only if there is a single action. This corrects the report for:<blockquote><font color="#000080"> the box: You can't boil the box.<br> the cat: Boiled.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> single action paragraph break</font></blockquote>
+<p>
+ This is a paragraph break only if there is a single action. I haven't actually found a use for this, as the single action conditional paragraph break is more useful.
+<p>
+<blockquote><font color="#000080"> multiple action run paragraph on</font></blockquote>
+<p>
+ This could be used where Inform really wants to break the paragraph. For multiple actions, it runs the paragraph on; for single actions, it doesn't. I haven't found a use for this either.
+<p>
+<blockquote><font color="#000080"> single action command clarification break</font></blockquote>
+<p>
+ This is one space if doing multiple actions, and otherwise a command clarification break. The purpose of this is specifically to avoid a line break in the following:<blockquote><font color="#000080"> the box: (Putting the toy in the holdall to take room) Taken.</font></blockquote>
+<p>
+ It should generally be used only for such situations.
+<p>
+ Section - You can't see any such thing
+<p>
+ The message &quot;You can't see any such thing.&quot; is traditionally printed in many circumstances. Part of the difficulty is the wide variety of circumstances it can appear under. From the player's perspective, this message appears when she tries to use a verb with<blockquote><font color="#000080"> a) something neither mentioned nor implemented (like the sky)<br> b) something mentioned in descriptive text but not implemented<br> c) something implemented but not given the specific word used as a synonym<br> d) a misspelled word<br> e) a word mistakenly understood as part of the direct object, rather than part of the grammar line, as in &gt;TAKE INVENTORY NOW which is matched as { take | inventory now }.<br> f) something that exists but has never been seen and is not in scope<br> g) something previously seen but no longer in scope, perhaps without the player realizing it's no longer available</font></blockquote>
+<p>
+ In nearly all of these cases, the player believes the object they're referring to should exist, meaning the message is often frustrating.
+<p>
+ Distinguishing between these subtle cases can be difficult. For instance, short of capturing all text output and analyzing it, there is no way to distinguish A from B. Perhaps the easiest distinction to make is between commands containing dictionary words and those that don't, which separates A-D from E-G.
+<p>
+ This extension, by default, explicitly tells the player if a word they typed is not in the story's dictionary. The classic argument against this, that sneaky players can use it to figure out the existence of yet-unseen objects, seems less relevant today than it did when puzzles comprised most IF content (not to mention having something of a nanny-state quality, like a novelist hovering around ensuring readers don't flip ahead and see IMPORTANT NOUNS they aren't supposed to know about yet). Perhaps a more relevant objection is that messages of this sort can make the parser seem primitive (&quot;I don't know the word 'love.'&quot;) I believe the benefit to players of knowing that a command didn't work because a certain word isn't important (rather than wondering if it's just not in scope, or they misspelled it, or they typed it in the wrong spot in the grammar line) outweighs these concerns, and I've attempted to make the message prescriptive rather than expository: &quot;You don't need to use the word 'love' in this story.&quot; However, if you'd like to restore the traditional behavior, you can do so with 'Use traditional can't see any such thing'.
+<p>
+ If the parser fails because it doesn't recognize a word, this extension will give an informative error message like:<blockquote><font color="#000080"> &quot;[You don't need to use the word 'kludge' in this story.]&quot;</font></blockquote>
+<p>
+ You can change this to, for instance, the traditional Infocom-style message as follows:<blockquote><font color="#000080"> The command includes word not in dictionary rule response (A) is &quot;I don't know the word '[word at position N]'&quot;.</font></blockquote>
+<p>
+ In the response's context, &quot;word at position N&quot; is the first non-dictionary word. This helps out players who know not to try the word again.
+<p>
+ If the word is recognized but out of scope, the parser will instead say:<blockquote><font color="#000080"> &quot;You can't see anything called 'kludge' right now.  [Or I misunderstood you.]&quot;</font></blockquote>
+<p>
+ You can change this as follows:<blockquote><font color="#000080"> The command includes word not in scope rule response (A) is &quot;Naughty player, referring to things you can't see such as [the misunderstood word].&quot;</font></blockquote>
+<p>
+ In the response's context, &quot;the misunderstood word&quot; is the first word not understood by the parser; it's the word which will be replaced by &quot;oops&quot;. In certain responses, this isn't valid; use &quot;the extraneous word&quot; instead in those responses.
+<p>
+ If you want to conceal from the player which words are understood, you can restore the default Inform 7 message:<blockquote><font color="#000080"> You can't see any such thing.</font></blockquote>
+<p>
+ by using the option<blockquote><font color="#000080"> Use traditional can't see any such thing.</font></blockquote>
+<p>
+ In addition, the Standard Rules have a bug in the 'remove thing from container' implementation which results in &quot;You can't see any such thing&quot; being printed for items which are visible but not inside the container. This extension fixes this bug and gives the proper responses for that case. This is fixed whether or not you &quot;Use traditional can't see any such thing&quot;.
+<p>
+ Section - Further ideas for 'You can't see any such thing'
+<p>
+ Several additional extensions can help break things down further. &quot;Remembering&quot; carves off G from E-F, while &quot;Poor Man's Mistype&quot; can sometimes address D. &quot;Smarter Parser&quot; can sometimes offer helpful messages for certain types of A command related to body parts and common environmental features like the sky. Eric Eve's Text Capture could be a tool in distinguishing A from B.
+<p>
+ &quot;The word 'sky' doesn't refer to anything right now&quot; is used by TADS3.
+<p>
+ Another option is &quot;Here are some things you can see: [the list of visible things which are not the player].&quot;
+<p>
+ Section - Compatibility with Other Extensions
+<p>
+ This incorporates, and updates, the entirety of Neutral Library Messages by Aaron Reed, Unknown Word Error by Mike Ciel, Unknown Word Error by Neil Cerutti, and Dunno by Neil Cerutti. It is incompatible with all of these extensions; do not include them.
+<p>
+ Some of the response replacements, particularly those where multiple responses were used to build a single sentence, were significantly more difficult to implement than others and involved hacking into I6 code. These are in separate volumes and chapters; these can be individually replaced if they are causing trouble. The &quot;Standard Responses&quot; volume should be safe in any case.
+<p>
+ I strongly recommend the &quot;Tab Removal&quot; extension. This replaces tabs with spaces in commands typed by the player. Without it, error messages for commands containing tabs are quite cryptic.
+<p>
+ The &quot;Compliant Characters&quot; extension depends on Neutral Standard Messages. It enhances error messages for commands given to other characters. With Compliant Characters, if the persuasion rules succeed a command like<blockquote><font color="#000080"> Jane, take blox</font></blockquote>
+<p>
+ will give a response like
+<p>
+ or<blockquote><font color="#000080"> Jane already has that.</font></blockquote>
+<p>
+ or<blockquote><font color="#000080"> Jane can't take that because that seems to belong to you.</font></blockquote>
+<p>
+ instead of the unhelpful default:<blockquote><font color="#000080"> Jane is unable to do that.</font></blockquote>
+<p>
+ Compliant Characters is a separate extension because it is intended for stories where you want the *story* to give responses to mistyped or illogical commands, while some games may prefer that the *character* give responses in character (which is the Inform 7 default assumption).
+<p>
+ Section - Extension History
+<p>
+ This extension is based on Neutral Library Messages by Aaron Reed. Aaron wrote many of the changed responses. Aaron also wrote most of the documentation (athough I have made some substantial edits). However, Neutral Library Messages stopped working when Inform 7 created the &quot;responses&quot; system. Adapting to the responses system required a nearly complete rewrite.
+<p>
+ I (Nathanael Nerode) took the opportunity of the rewrite to do a complete reorganization. The response replacements are now in the source code in the order produced by the &quot;responses 1&quot; command, for ease of updating with future versions of Inform. Additional messages were fixed and some of Aaron's neutral messages were made even more neutral.
+<p>
+ I also made one philosophical design change. Messages are styled &quot;as the parser&quot; if they are metatextual. Discussing save, restore, undo, or command errors is metatextual: these are things which explicitly talk to the player and not to the player character. Telling the player that the player does not need to do something in this story is also metatextual -- giving the player meta-information. Messages are not styled as the parser if they reflect logical errors which the player character might make which are within the world model (such as trying to put a box inside itself), which they were in Aaron's version.
+<p>
+ Section - Changelogs
+<p>
+ Neutral Standard Responses:<blockquote><font color="#000080"> Version 4/210908: in several rule responses, changed &quot;here&quot; to &quot;[here]&quot; (which will only ever matter outside of present tense) -- ZL<br> Version 4/171007:<br>&nbsp;&nbsp;&nbsp;&nbsp; Add line break helper phrases and documentation. Fix several tricky line break errors correctly (including some from the Standard Rules).<br>&nbsp;&nbsp;&nbsp;&nbsp; New and much better I6 method for determining the misunderstood word and for determining whether it is a dictionary word.<br>&nbsp;&nbsp;&nbsp;&nbsp; Major fixes to &quot;You can't see that&quot; responses. Fix error on &quot;take all but (item not in play)&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; Repair bug in the Standard Rules implementation of Remove (which gave misleading error messages).<br>&nbsp;&nbsp;&nbsp;&nbsp; Set oops target on additional errors which didn't set it.<br> Version 3/171002: Line break fix.<br> Version 3/171001: Remove parser voicing from attack, throw, and kiss. Name the unrecognized verb in the error message. Redirect bogus message triggered only on 'get 100 items'.<br> Version 3/170927: Fixes to two bugs reported by Daniel Stelzer.<br> Version 3/170926: Incorporated remaining &quot;difficult&quot; features of Neutral Library Messages.<br> Version 2: Unreleased: complete code rewrite to improve maintainability, included all straightforward message replacements.<br> Version 1: Unreleased: adapted Neutral Library Messages to responses system.</font></blockquote>
+<p>
+ Neutral Library Messages:<blockquote><font color="#000080"> Version 3: Modified NPC action rejections to use the same verb the player typed in cases where this could be confusing (hug mapping to kiss).<br> Version 2: Fixed bug in misc message 72 to use &quot;the person asked&quot; instead of &quot;the noun&quot;; clarified documentation.</font></blockquote>
+<p>
+ Unknown Word Error:<blockquote><font color="#000080"> Version 2 by Mike Ciul corrected a problem with the &quot;undo from&quot; referent.<br> Version 1 by Neil Cerutti was a wrapper of Dunno.</font></blockquote>
+<p>
+ Dunno - A Library Extension by Neil Cerutti (cerutti@together.net) for Inform 6<blockquote><font color="#000080"> Version 1.1 - 2 Apr 2001: Modified by Andrew Plotkin for Glulx compatibility.<br> Version 1.0 - 25 Jun 1999: Initial release.</font></blockquote>
+<p>
+ Example: * The Ringer - An array of different types of messages, both from the parser and the narrator. (From Neutral Library Messages)
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;The Ringer&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Neutral Standard Responses by Nathanael Nerode.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say as the parser -- beginning say_as_the_parser: say &quot;&lt;&lt;&quot;.<br> To say as normal -- ending say_as_the_parser: say &quot;&gt;&gt;&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Stage is a room. A big cat and a small cat and a bat are in Stage. A platform is an enterable supporter in Stage. A box is a closed openable container on platform. In the box is an apple. The player wears an ascot.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To sing is a verb.<br> Singing is an action applying to nothing.<br> Understand &quot;sing&quot; as singing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check singing when player does not hold platform: instead say &quot;[as the parser]You can't sing in this extension demo![no line break][as normal][line break]&quot;.<br> Before jumping when player is on platform: say &quot;Before jumping, you stop and think about something.&quot;.<br> Instead of sleeping when player is on platform: say &quot;You can't.  [as the parser]You might try MOVE or TILT.[no line break][as normal][line break]&quot;.<br> Before listening when player is on platform: say &quot;[as the parser]That's totally impossible.[no line break][as normal]  But you do it anyway.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test me with &quot;get bat / jump / get cat / big / wait / oops / listen to platform now / get on platform / look / remove all from cat / eat platform / open box / eat apple / g / take / bat / drop all but rat / drop all but bat / drop all but / sing / jump / sleep / listen / examine cat and rat / drop ascot / score&quot;.</font></blockquote>
+<p>
+ Example: * Ignorance is Bliss - Test for don't know that word rule (from Unknown Word Error)
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Ignorance is Bliss&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Neutral Standard Responses by Nathanael Nerode.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Conference Chamber is a room. In the Conference Chamber is a table. On the table is a treaty.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;examine non-proliferation treaty&quot;.</font></blockquote>
+<p>
+ Example: ** Oops - Regression test for interaction between don't know that word rule and parser oops (from Unknown Word Error)
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Oops&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Neutral Standard Responses by Nathanael Nerode.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Conference Chamber is a room. In the Conference Chamber is a table. On the table is a treaty.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;put [something preferably held] on top of [something]&quot; as putting it on.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;put treaty on tabl / oops table&quot;.</font></blockquote>
+<p>
+ Example: *** Scenery - Regression test for line break issues with scenery responses
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Scenery&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Neutral Standard Responses by Nathanael Nerode.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The House is a room. &quot;It's the house.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The banana is a thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The furniture is a plural-named scenery thing in the house. The description of the furniture is &quot;The furniture is not meant to be used.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The decorations is a plural-named scenery thing in the house. The description of the decorations is &quot;Decorative.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test scenery with &quot;take furniture/take furniture and decorations&quot;.<br> test cantsee with &quot;take banana/take sdfh/take banana and furniture&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

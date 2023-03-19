@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Reversed Persuasion Correction<font color="#404040"> by </font>Juhana Leinonen</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter: Functionality
+<p>
+ In English it's grammatically acceptable to say either ALICE, GO WEST or GO WEST, ALICE. The latter might even sound more natural in some cases (HELLO, BOB) but Inform accepts only the former NPC, COMMAND syntax. This is unfortunate especially to people new to IF because commanding something like HELLO, BOB always gives the &quot;you seem to want to talk to someone, but I can't see whom&quot; response, which is misleading at best if Bob is standing right there.
+<p>
+ This extension allows the player to give the NPC's name in any order, before or after the comma. Including this extension is all that's needed.
+<p>
+ For the benefit of teaching players the usual IF conventions the extension notifies the player of the correction that was made. If the player types OPEN DOOR, CHARLES the game says (charles, open door). If you don't like this feature you can disable it by adding &quot;Use silent persuasion correction.&quot; to your source code.
+<p>
+ Chapter: Limitations
+<p>
+ Multiple commands given at once are too complex to correct using this extension, so commands like &quot;SIT, BOB. TAKE A CUP OF TEA, BOB&quot; are unfortunately left uncorrected. On the bright side it's probable that a player who knows how to give multiple commands like this already knows the correct syntax for commanding NPCs.
+<p>
+ If the player misspells the name of the NPC the game thinks the player has given two regular commands:
+<p>
+<blockquote><font color="#000080"> &gt;JUMP, BOBB</font></blockquote>
+<p>
+<blockquote><font color="#000080"> You jump on the spot, fruitlessly.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> That's not a verb I recognise.</font></blockquote>
+<p>
+ This is unfortunate but unavoidable without disabling the player's ability to give multiple commands at the same time separated by commas (e.g. GO NORTH, OPEN DOOR, IN.)
+<p>
+ Chapter: Change log
+<p>
+ Version 2 (2010-07-08)
+<p>
+ - Updated the extension to work with deprecated features from I7 build 6E59 onwards
+<p>
+ - Fixed a bug where NPC disambiguation would mess up the reversal (e.g. if there were two Alices in the room HI, ALICE would give the &quot;you seem to want to talk to someone&quot; reply regardless of the player's answer to the disambiguation question.)
+<p>
+ - Added the ability to strip punctuation from the end of the command so that question marks won't confuse the parser (HOW GOES, BOB? is now parsed correctly.)
+<p>
+ - Minor fix to the chained command detection so that commands that just end in a full stop aren't considered chained
+<p>
+ - Added an example to facilitate testing with the future Inform builds
+<p>
+ Version 1 (2009-11-14)
+<p>
+ Initial release.
+<p>
+ Example: * In the Army - A demonstration of the extension's functionality.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;In the Army&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Reversed Persuasion Correction by Juhana Leinonen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Training camp is a room. Private Johnson, Private Smith, Private Stevens and Private Miller are men in the training camp.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Persuasion rule for asking people to try doing something: persuasion succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of an actor jumping:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The person asked] jumps.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;johnson, jump/jump, johnson/private, jump/stevens/jump, private/miller&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

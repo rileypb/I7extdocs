@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Scope Control<font color="#404040"> by </font>Ron Newcomb</b><p><small></small><p><p><hr><p>
+<p>
+ Deciding what a character can interact with at any given moment is determined by her senses and the physical reality of her universe. The complicated reasoning to enforce all this is collectively called &quot;scope&quot;. Chapter 12 of Writing with Inform talks of this at length under the rubrics of reachability and visibility.
+<p>
+ However, both technology and magic can overcome such obstacles. Clairvoyance and cell phones exist in many universes, so player commands such as BOB, REACH OUT AND TOUCH SOMEONE should be possible without undue difficulty.
+<p>
+ While the Deciding the Scope of Something activity can naïvely modify scope this way:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> After deciding the scope of the player while the player calls someone:<br>&nbsp;&nbsp;&nbsp;&nbsp; place the other party of the player in scope.</font></blockquote>
+<p>
+... it causes certain problems, such as the player being able to see, hear, and touch what he should only be able to hear:
+<p>
+<blockquote><font color="#000080"> &gt; JESSE, LOOK<br> &quot;I'm still across town.  I'll call you back when I get close.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> &gt; EXAMINE JESSE<br> She looks exhausted from the confusing drive.</font></blockquote>
+<p>
+ This extension allows four conditions that can be attached to rules in the Deciding the Scope of Something activity. They are:<blockquote><font color="#000080"> while parsing the nouns<br> while parsing for persuasion<br> while looping over scope<br> while testing scope</font></blockquote>
+<p>
+ Hence, we can modify scope correctly:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> After deciding the scope of the player while parsing for persuasion and while the player calls someone:<br>&nbsp;&nbsp;&nbsp;&nbsp; place the other party of the player in scope.</font></blockquote>
+<p>
+ Example: * &quot;Asking for Directions&quot; - A new internet acquaintance needs our help.
+<p>
+ Try the following test both with and without including this extension and its purpose becomes clear.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Asking for Directions&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Scope Control by Ron Newcomb.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Chapter 1 - The Emerald City</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The smell of coffee is a backdrop. A person can be lost in it. Persuasion rule when the actor is lost in it: persuasion succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Pike Place Market is west of Bauhaus Coffeeshop. Bauhaus Coffeeshop is south of your apartment. Yourself is in your apartment.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Some salmon is in Pike Place Market. A salmon dinner is in your apartment.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Coffee is everywhere.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Jesse is a woman in Pike Place Market. Jesse is lost in it.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After looking for the first time: say &quot;Your phone rings.  'Hey, it's Jesse.  How do I get to your place?'&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Chapter 2 - scope changes while we're on the phone</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 1 - the old way (for use without Scope Control by Ron Newcomb)</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After deciding the scope of the player when Jesse is lost in it:<br>&nbsp;&nbsp;&nbsp;&nbsp; place Jesse in scope.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 2 - the new way (for use with Scope Control by Ron Newcomb)</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After deciding the scope of the player while parsing for persuasion and Jesse is lost in it:<br>&nbsp;&nbsp;&nbsp;&nbsp; place Jesse in scope.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Chapter 3 - Maze of Streets</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After anyone going: say &quot;'OK.'&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of Jesse going nowhere: say &quot;'I think I'm lost.  Are you sure you gave me good directions?'&quot;; now Jesse is in Pike Place Market; rule succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After Jesse looking: say &quot;'I think I'm at [the location of Jesse].'&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A description of Jesse is &quot;A brunette in a pullover hoodie and jeans, with legs made for striding up hills, Jesse has finally made it out to visit.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;jesse, look / jesse, e / jesse, s / examine jesse / * She's not in front of me, so I shouldn't be able to examine her right now. / jesse, look / jesse, e / jesse, n / jesse, look / examine jesse &quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

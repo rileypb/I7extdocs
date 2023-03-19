@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Description Decay<font color="#404040"> by </font>Jeff Nyman</b><p><small></small><p><p><hr><p>
+<p>
+ This extension allows for a room description to &quot;decay&quot; in a gradual way, based on how often the player has seen the location.
+<p>
+ How this work is that the first time a room is gone to by the player, they will see the full description of the room. On the next time going to the room, the player will also see the description. However, you can provide a &quot;summary description&quot; for a room and if that is provided, this is what will always be used for the room's description the second time the player visits it.
+<p>
+ The third time the player visits the room, they will see no description at all. (This is akin to &quot;superbrief&quot; mode.)
+<p>
+ Of course, a &quot;LOOK&quot; command will always return the appropriate text of the location. However, the initial full description of the room is gated behind a check for whether the room is visited or unvisited. That means any subsequent looks will always rely on the summary description. You can use this extension with my Contextual Descriptions, which provides an &quot;impressions&quot; action that allows the player to recover the full text of the room.
+<p>
+ Something to note is that the way this logic works, it entirely overrides the description styles that players can usually choose. There are unabbreviated room descriptions (&quot;verbose&quot;, &quot;long&quot;), sometimes abbreviated room descriptions (&quot;brief&quot;, &quot;normal&quot;), and abbreviated room descriptions (&quot;superbrief&quot;, &quot;short&quot;). Using this extension means you want to control the display of descriptions by, in a sense, cycling through those various settings. In other words, by using this extension you are explicitly saying, as a design choice, you want the descriptions to &quot;decay&quot; rather than be in one mode.
+<p>
+ Example: * Description of Diminishing Returns
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Description of Diminishing Returns&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Rideable Vehicles by Graham Nelson.<br> Include Contextual Descriptions by Jeff Nyman.<br> Include Description Decay by Jeff Nyman.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A thing can be examined or unexamined.<br> A thing is usually unexamined.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After examining something:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the noun is examined.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Palace Gate is a room. &quot;Palace Gate is a street running north to south leading up to Kensington Gardens. It was previously part of the Gloucester Road, which is just to the south. According to the guidebook, Gloucester Road was named after Maria, Duchess of Gloucester and Edinburgh who apparently built a house there in 1805.[paragraph break]A tide of baby strollers -- or perambulators, as they call them here -- surges north along what becomes the crowded Broad Walk. Shaded glades stretch away to the northeast and a hint of color marks the western edge of what the guidebook says is the Flower Walk.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The summary description of Palace Gate is &quot;The Palace Gate street, leading into Kensington Gardens, with the north taking you to [summarize the Broad Walk] and east taking you to [summarize the Flower Walk].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The visited summary of Palace Gate is &quot;the Palace Gate entrance to the park&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Broad Walk is a room. &quot;A brooding statue of Queen Victoria faces east, where the waters of the Round Pond sparkle in the afternoon sun. Your eyes follow the crowded Broad Walk north and south until its borders are lost amid the bustle of perambulators. Small paths curve northeast and southeast between the trees.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The summary description of Broad Walk is &quot;The statue of Queen Victoria looks out over the crowds as they bustle to various areas of the park.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The unvisited summary of the Broad Walk is &quot;what appears to be the crowded Broad Walk&quot;.<br> The visited summary of the Broad Walk is &quot;what you have seen is the very crowded Broad Walk&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Flower Walk is a room. &quot;Gaily colored flower beds line the walks bending north and west, filling the air with a gentle fragrance. A little path leads northeast, between the trees.[paragraph break]The spires of the Albert Memorial are all too visible to the south. Passing tourists hoot with laughter at the dreadful sight; nannies hide their faces and roll quickly away.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The summary description of Flower Walk is &quot;The walk lined with flowers. Northwest leads to [summarize the Wabe]. West takes you to [summarize Palace Gate] and north takes you to [summarize Lancaster Walk].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The unvisited summary of the Flower Walk is &quot;what appears to be the slightly less crowded Flower Walk&quot;.<br> The visited summary of the Flower Walk is &quot;what you have seen is the slightly less crowded Broad Walk&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A soccer ball is in Flower Walk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The initial appearance of the soccer ball is &quot;You can see a soccer ball half-hidden among the blossoms.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Lancaster Walk is a room. &quot;An impressive sculpture of a horse and rider dominates this bustling intersection. The Walk continues north and south; lesser paths curve off in many directions.[paragraph break]A broad field of grass, meticulously manicured, extends to the east. Beyond it you can see the Long Water glittering between the trees.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The summary description of Lancaster Walk is &quot;[if the sculpture is proper-named]The[else]An[end if] impressive [sculpture] [if the sculpture is not proper-named]of a horse and rider [end if]is a focal point of the busy walk.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The unvisited summary of Lancaster Walk is &quot;what appears to be a long, crowded walkway&quot;.<br> The visited summary of Lancaster Walk is &quot;the crowded intersection of Lancaster Walk&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A sculpture is in Lancaster Walk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The description of the sculpture is &quot;[if unexamined][paragraph break]According to the plaque, the sculpture is called [italic type]Physical Energy[roman type]. According to the guidebook, it's the work of a British artist named George Frederic Watts. Apparently 'physical energy' is an allegory of the human need for new challenges, of our instinct to always be scanning the horizon, looking towards the future. A quote from the artist says that it's 'a symbol of that restless physical impulse to seek the still unachieved in the domain of material things'.[else]The [italic type]Physical Energy[roman type] sculpture, which is basically a bronze statue of man on horseback.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before examining the sculpture for the first time:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the printed name of the sculpture is &quot;[italic type]Physical Energy[roman type] scultpure&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the sculpture is proper-named;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Looking at the sculpture, you realize it has a plaque in front of it. [run paragraph on]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Wabe is a room. &quot;This grassy clearing is only twenty feet across, and, unless your eyes deceive, almost perfectly circular. Paths wander off in many directions through the surrounding thicket.[if unvisited][paragraph break]Oddly enough, this location doesn't appear in the guidebook at all.[end if]&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The summary description of the Wabe is &quot;The oddly circular clearing that the guidebook most definitely does not mention.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The unvisited summary of the Wabe is &quot;a part of the park that the guidebook doesn't seem to indicate&quot;.<br> The visited summary of the Wabe is &quot;the odd little area with the sundial&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Broad Walk is north of Palace Gate.<br> Flower Walk is east of Palace Gate.<br> Lancaster Walk is north of Flower Walk.<br> The Wabe is northeast of Palace Gate and northwest of Flower Walk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A person called Floyd is in Palace Gate.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A perambulator is in Palace Gate.<br> The perambulator is fixed in place and pushable between rooms.<br> Understand &quot;pram&quot; as the perambulator.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A bicycle is a rideable vehicle in Palace Gate.<br> Understand &quot;bike&quot; as the bicycle.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the location of Floyd is not the location of the player:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let on the path be the best route from the location of Floyd to the location of the player;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try Floyd going on the path.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;north / south / east / west / look / impressions&quot;.</font></blockquote>
+<p>
+ This example provides a lot of material and the raeson for that is try to include as many situations where the room description can change based on how it is setup, what is located in it, how the player gets to the room, and whether another character is tagging along. The best way to see this example in action is to play around with it, noting how the descriptions change.
+<p>
+ This example is also combined with my Contextual Descriptions extension and I did that to make that both can work together.
+<p>
+ The example test provided shows a few aspects. When the story first starts, you see the full description of the initial room (Palace Gate). The summarized aspects are showing the unvisited text.
+<p>
+ Going north then provides the full description of the Broad Walk. There is summarized elements for this room.
+<p>
+ Going south takes you back to Palace Gate and now you see that the summary description (rather than the full description) appears. The locale information continues to generate as expected. You can also note that the summarized text for Broad Walk shows while the summarized text for Flower Talk does not. This is because you have visited Broad Walk but you have not yet visited Flower Walk.
+<p>
+ Going east takes you to the Flower Walk. As normal you get the full description and the locale generates correctly.
+<p>
+ Going west now takes you back once again to Palace Gate. This time, crucially, NO description displays. The description has entirely decayed. This is because you have have seen the full description and the summary description. The locale displays as normal.
+<p>
+ Finally, the last &quot;look&quot; comand shows that the description does display. Here this is the summary description. Notice too that since you have now visited BOTH the Broad Walk and Flower Walk, the summarized descriptions display.
+<p>
+ If you wanted to recover the full description, you could use the &quot;impressions&quot; command. This is provided by Contextual Descriptions and makes sure that the initial impressions of the location can be recovered.
+<p>
+
+<p>
+<p></body></html>

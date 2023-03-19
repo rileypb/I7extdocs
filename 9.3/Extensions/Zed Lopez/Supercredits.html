@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Supercredits<font color="#404040"> by </font>Zed Lopez</b><p><small></small><p><p><hr><p>
+<p>
+ Section Explanation
+<p>
+ Adds a &quot;supercredits&quot; command that lists all included extensions, including those marked with authorial modesty, alphabetized first by author, then by extension name. The whole extension is marked not for release.
+<p>
+ By default, it can work with a list of up to 50 extensions. If you wanted to add 25 more, add this to your story:
+<p>
+ ``` Table of AuthExts (continued) with 25 blank rows. ```
+<p>
+ There isn't catastrophic failure if you exceed the limit; extensions in excess of that will be reported, just not formatted and sorted with the others.
+<p>
+ Section Example
+<p>
+ Example: * Supercredits
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Supercredits&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Supercredits by Zed Lopez.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Lab is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;supercredits&quot;.</font></blockquote>
+<p>
+ produces, e.g.:
+<p>
+ ```
+<p>
+ &gt;test me (Testing.)
+<p>
+ &gt; supercredits * indicates modesty
+<p>
+ Friends of I7 / 6M62 Patches version 2/210913 * Graham Nelson / English Language version 1 * Graham Nelson / Standard Rules version 3/120430 Zed Lopez / Supercredits version 1/211206 * Zed Lopez / Text Loops version 1
+<p>
+ ```
+<p>
+ Section Changelog
+<p>
+ 1/211206: Added paste button; removed some gratuitous use of adaptive text 1/211205: Added specific instructions for continuing table to documentation.
+<p>
+
+<p>
+<p></body></html>

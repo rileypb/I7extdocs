@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Expanded Understanding<font color="#404040"> by </font>Xavid</b><p><small></small><p><p><hr><p>
+<p>
+ This extension makes various tweaks to understand additional variations of commands and have cleverer, more specific error messages in common failure cases.
+<p>
+ It requires and includes the related Small Kindnesses by Aaron Reed. It depends on Snippetage by Dave Robinson and Object Matching by Xavid for implementation details.
+<p>
+ Some enhancements are specific to use with Approaches by Emily Short (including one to improve interaction with Simple Followers by Emily Short).
+<p>
+ Part 1 - Command Tweaks
+<p>
+ Chapter 1 - Aliases
+<p>
+ This extension provides aliases to make commands the player might type work.
+<p>
+ The command &quot;remove&quot; can mean taking something in a container (in addition to taking off something you're wearing).
+<p>
+ &quot;Set fire to&quot; means to burn.
+<p>
+ &quot;Leave [room]&quot; means to go outside, whether or not you actually can; you'll get the same error message as if you typed &quot;outside&quot;.
+<p>
+ Chapter 2 - Remapped Commands
+<p>
+ We interpret &quot;search&quot; as examining a thing or room, on the assumption that this will show something's contents and is more likely to be correctly modified for things with special description rules.
+<p>
+ Chapter 3 - Modified Commands
+<p>
+ Section 1 - Examining Tweaks
+<p>
+ This raises the priority of things when examining so that, in the common case where there's a scenery thing in a room with a similar name, the thing wins. (Examining rooms is enabled by the required Small Kindnesses by Aaron Reed.)
+<p>
+ You can set this for individual things by saying:
+<p>
+<blockquote><font color="#000080"> The river is visible from a distance.</font></blockquote>
+<p>
+ To change the default for, say, scenery:
+<p>
+<blockquote><font color="#000080"> A scenery thing is usually visible from a distance.</font></blockquote>
+<p>
+ Section 2 - Entering
+<p>
+ The Standard Rules defines an enter variation with no object. We get rid of this so that you get the parenthetical message about what you're entering when entering something without specifying it specifically.
+<p>
+ Part 2 - Cleverer Error Messages
+<p>
+ This extension attempts to improve some error messages in a few common cases when players refer to nouns that aren't available.
+<p>
+ Chapter 1 - Examining
+<p>
+ If the player tries to examine something that's not here but they've seen before, this extension reminds them where they last saw it. (This functionality is inspired by Remembering by Aaron Reed but is implemented differently to avoid modifying the understanding of commands that aren't errors.)
+<p>
+ To make natural messages about things being in rooms, we give rooms a property called the &quot;at preposition&quot;. This is &quot;at&quot; by default for messages like &quot;You last saw it at the river.&quot; but can be set to, say, &quot;in&quot; for indoor rooms. In addition, you can have rooms be improper-named for these messages to use lower case and the article &quot;the&quot;.
+<p>
+ In addition, the error messages are reworked to use the specific words typed by the player in some cases.
+<p>
+ Chapter 2 - Taking and Dropping
+<p>
+ We similarly use remembering and specific words for error messages from taking and dropping action.
+<p>
+ Chapter 3 - All
+<p>
+ Section 1 - General
+<p>
+ We have more specific error messages for commands with all where nothing matches (e.g., take all when there's nothing here or drop all when you're not holding anything) to replace the default &quot;There are none at all available!&quot; The new messages are specifically based on the action the player was trying to take.
+<p>
+ Section 2 - Drop All
+<p>
+ By default, the standard rules provide several variations of drop that allow multiple things; in addition to the basic &quot;drop all&quot;, you can also do &quot;drop all into box&quot; or &quot;drop all onto table&quot;. The problem is that if you do &quot;drop all&quot; when you aren't holding anything, you get a clarification message appropriate to one of those unusual variations like &quot;What do you want to drop those things in?&quot;, which is confusing. To avoid this, we disable clarification for dropping all when the actor isn't holding anything.
+<p>
+ Section 3 - Limiting All
+<p>
+ Inform uses &quot;whether all includes&quot; rules to, e.g., include scenery from &quot;take all&quot;. Unfortunately, as defined in the Standard Rules these rules apply just to the player, not other actors. We provide versions of the same rules for any actor.
+<p>
+ Part 3 - Conversation
+<p>
+ We add several variations of &quot;tell someone to do something&quot; as an alternative to &quot;someone, do something&quot;. We also understand a command that starts with someone's name as an order even if the comma is left off (if the name is one word long).
+<p>
+ We add &quot;tell someone that something&quot; as an alternative to &quot;answer&quot;.
+<p>
+ We also understand &quot;remind someone that something&quot; as &quot;someone, remember something&quot;. Remember isn't actually understood by default, but you can either make it a command or handle this with &quot;answer someone that&quot; -based rules.
+<p>
+ Part 4 - Improvements with Approaches by Emily Short
+<p>
+ We allow the player to go to a visited room by going to the name of a fixed in place or scenery thing in that room, using it as a landmark, instead of just the room name.
+<p>
+ We display the direction traveled even when going to an adjacent room to be more explicit.
+<p>
+ We improve error messages to use the &quot;at preposition&quot; property described above.
+<p>
+ We also improve its compatibility with Simple Followers (also by Emily Short), so you don't leave people behind when to travel long distances with &quot;go to&quot;.
+<p>
+ Part 5 - Improvements with Implicit Actions by Eric Eve
+<p>
+ We allow NPCs to implicitly take things, which is normally allowed by the Standard Rules but is disabled with the Implicit Actions extension (which is otherwise great because it improves error messages when you try to implicitly take something but can't).
+<p>
+ In addition, we fix an extra line break that normally shows up after the failure-to-take message when you try and fail to implicitly take something.
+<p>
+ Part 6 - Bugs and Comments
+<p>
+ This extension is hosted in Github at https://github.com/i7/extensions/tree/master/Xavid. Feel free to email me at extensions@xavid.us with questions, comments, bug reports, suggestions, or improvements.
+<p>
+ Example: * Shed - Improved errors.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Shed&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Expanded Understanding by Xavid.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Shed is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A supporter called a table is here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A thing called a hammer is here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> South of Shed is Yard.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A scenery thing called the sunset is here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A fixed in place thing called the stump is here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;drop all / take hammer / s / take all / x table&quot;.</font></blockquote>
+<p>
+ Example: ** Unit Tests
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Unit Tests&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Expanded Understanding by Xavid.<br> Include Command Unit Testing by Xavid.<br> Include Approaches by Emily Short.<br> Include Implicit Actions by Eric Eve.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Shed is an improper-named room. The at preposition is &quot;in&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A scenery thing called a glowing orb is here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A supporter called a table is here. On the table is a saw.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A thing called a hammer is here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A vehicle called a hovercraft is here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A container called a box is here.<br> A thing called an apple is in the box.<br> A thing called a pear is in the box.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A room called In Yard is south of Shed.<br> Inside from In Yard is Shed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A scenery thing called the yard is here. &quot;This is a thing, not a room.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A fixed in place thing called the stump is here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A woman called the girl is here.<br> Persuasion rule for asking someone to try doing something:<br>&nbsp;&nbsp;&nbsp;&nbsp; persuasion succeeds.<br> The block giving rule does nothing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An animal called the penguin is here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Filling it from is an action applying to two things.<br> Understand &quot;fill [something] from [something]&quot; as filling it from.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;put out [something] with [something preferably held]&quot; as putting it on (with nouns reversed).</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;put [something preferably held] in front of [something]&quot; as putting it on.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Zapping is an action applying to one thing.<br> Understand &quot;zap [something]&quot; as zapping.<br> Instead of zapping something:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Zot!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the noun is nowhere.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A room called Roof is up from Shed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Unit test:<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;x here&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;x room&quot; produces &quot;Shed[line break]You can see a table (on which is a saw), a hammer, a hovercraft (empty) and a box (in which are an apple and a pear) here.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;implied preposition grammar&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;fill stump girl&quot; produces &quot;You don't see any stump girl here.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;all&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;drop all&quot; produces &quot;You're not carrying anything to drop.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;take hammer&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;s&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;take all&quot; produces &quot;You don't see anything obvious to take.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;remembered examining&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;x table&quot; produces &quot;You don't see the table here. It was in the shed.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;scenery matches room&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;x yard&quot; produces &quot;This is a thing, not a room.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;examining errors&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;x wombat&quot; produces &quot;You don't see any wombat here.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;Examine wombat.&quot; produces &quot;You don't see any wombat here.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;x orb table&quot; produces &quot;You don't see any orb table here.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;alternate ways of ordering&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;girl jump&quot; produces &quot;The girl jumps on the spot.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;order girl to jump&quot; produces &quot;The girl jumps on the spot.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;girl&quot; produces &quot;That's not a verb I recognise.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;girl,&quot; produces &quot;There is no reply.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;failing to implicitly take&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;put stump on yard&quot; produces &quot;(first trying to take the stump)[line break]That's fixed in place.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;going to&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;go to orb&quot; produces &quot;You go inside to the shed. [paragraph break]Shed[line break]You can see a table (on which is a saw), a hovercraft (empty) and a box (in which are an apple and a pear) here.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;complex taking&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;take hammer from table&quot; produces &quot;The hammer isn't on the table. It's among your possessions.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;take hammer from stump&quot; produces &quot;You don't see the stump here. It was at In Yard.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;take stump yard from table&quot; produces &quot;You don't see any stump yard on the table.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;take off&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;take off stump&quot; produces &quot;You're not wearing any stump.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;take stump off&quot; produces &quot;You're not wearing any stump.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;drop&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;drop stump&quot; produces &quot;You don't have the stump in your possession. It was at In Yard.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;drop stump on table&quot; produces &quot;You don't have the stump in your possession. It was at In Yard.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;drop stump on counter&quot; produces &quot;You don't have the stump in your possession. It was at In Yard.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;drop rock and hammer&quot; produces &quot;You don't have any rock in your possession.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;drop hammer and rock&quot; produces &quot;You don't have any rock in your possession.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;drop rock, hammer&quot; produces &quot;You don't have any rock in your possession.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;drop hammer, rock&quot; produces &quot;You don't have any rock in your possession.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;drop hammer on counter&quot; produces &quot;You don't see any counter here.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;drop onto table&quot; produces &quot;I'm not sure what you want to drop.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;put&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;put stump on table&quot; produces &quot;You don't have the stump in your possession. It was at In Yard.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;give&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;take saw&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;s&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;give all to girl&quot; produces &quot;saw: You give the saw to the girl.[line break]hammer: You give the hammer to the girl.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;girl, give all to me&quot; produces &quot;hammer: The girl gives the hammer to you.[paragraph break]saw: The girl gives the saw to you.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;give girl all&quot; produces &quot;saw: You give the saw to the girl.[line break]hammer: You give the hammer to the girl.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;girl, give me all&quot; produces &quot;hammer: The girl gives the hammer to you.[paragraph break]saw: The girl gives the saw to you.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;take all from girl&quot; produces &quot;You don't see anything obvious to take.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;give hammer girl&quot; produces &quot;You give the hammer to the girl.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;n&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;give saw to girl&quot; produces &quot;You don't see the girl here. You last saw her at In Yard.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;give saw to table&quot; produces &quot;You can only do that to something animate.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;use saw on table&quot; produces &quot;You'll have to try a more specific verb than use.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;complex verb lines&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;drop saw&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;put out stump with saw&quot; produces &quot;You don't see the stump here. It was at In Yard.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;s&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;put out stump with saw&quot; produces &quot;You don't have the saw in your possession. You dropped it in the shed.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;multiword verb messages&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;put out fish with saw&quot; produces &quot;You don't see any fish here.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;put out fish&quot; produces &quot;You don't see any fish here.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;items that aren't where you remember them&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;take saw&quot; produces &quot;You don't see the saw here. You dropped it in the shed.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;n&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;zap saw&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;take saw&quot; produces &quot;You don't see the saw here.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;s&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;take saw&quot; produces &quot;You don't see the saw here.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;held by&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;take stump from girl&quot; produces &quot;The stump isn't held by the girl. It's right here.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;enter&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;enter&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;[location]&quot; substitutes to &quot;Shed&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;enter&quot; produces &quot;(the hovercraft)[line break]You get into the hovercraft.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;empty&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;empty box onto table&quot; produces &quot;(first taking the box)[line break]You put the pear and the apple from the box onto the table.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;empty table onto box&quot; produces &quot;You put the pear and the apple from the table into the box.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;empty box into box&quot; produces &quot;You can't empty something into itself!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;empty box into me&quot; produces &quot;You can't empty something into a person!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;empty box&quot; produces &quot;You put the pear and the apple from the box into the hovercraft.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;put apple on table&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;exit hovercraft&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;empty table&quot; produces &quot;You remove the apple from the table and put it down.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;put apple in hovercraft&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;empty hovercraft&quot; produces &quot;You remove the apple and the pear from the hovercraft and put them down.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;periods&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;take pie. jump&quot; produces &quot;You don't see any pie here.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;take. jump&quot; produces &quot;I'm not sure what you want to take.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;give nonsense&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;s&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;give girl symbol&quot; produces &quot;You don't have any symbol in your possession.&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;unit&quot;.</font></blockquote>
+<p>
+ Example: *** Unit Tests with Unknown Word Error by Mike Ciul
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Unit Tests with Unknown Word Error by Mike Ciul&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Expanded Understanding by Xavid.<br> Include Command Unit Testing by Xavid.<br> Include Unknown Word Error by Mike Ciul.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Shed is an improper-named room. The at preposition is &quot;in&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A scenery thing called a glowing orb is here. It is visible from a distance.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A supporter called a table is here. On the table is a saw.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Unit test:<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;examining errors&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;x wombat&quot; produces &quot;I don't know the word 'wombat'.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;x orb table&quot; produces &quot;You don't see any orb table here.&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;unit&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

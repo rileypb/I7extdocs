@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Mood Variations<font color="#404040"> by </font>Emily Short</b><p><small></small><p><p><hr><p>
+<p>
+ This is quite a light-weight extension, designed to be used with a larger conversation library of your choice. It makes certain assumptions -- namely, that there is some character known as &quot;current interlocutor&quot; (defined as in &quot;current interlocutor is an object that varies&quot;). The current interlocutor might sometimes be nothing. Some of Eric Eve's conversation extensions use this convention, for example.
+<p>
+ We must also define our own spectrum of moods appropriate to the game we're currently writing. If we are using a simple model in which characters can only like, be neutral toward, or dislike the player, we might write:
+<p>
+<blockquote><font color="#000080"> The moods are friendly, neutral, and hostile.</font></blockquote>
+<p>
+... though in a more complicated game we could equally give a much richer range of options.
+<p>
+ Mood Variations tracks two moods for each person: the current mood and the previous mood. This allows for situations where we change the mood, then want to provide some text or some other effect for the transition. (&quot;Alabaster&quot;, for instance, uses mood changes as a trigger to modify the accompanying graphics.)
+<p>
+ We might want to set everyone's moods to start with:
+<p>
+<blockquote><font color="#000080"> The current mood of a person is usually neutral.<br> The previous mood of a person is usually netural.</font></blockquote>
+<p>
+ At the end of each turn sequence, the &quot;previous mood&quot; is updated to match the current one. This is done by the &quot;mood record-keeping rule&quot;.
+<p>
+ The chief purpose of all this is to allow us to write text alternatives that are keyed to the mood of the person to whom we are speaking. So for instance:
+<p>
+<blockquote><font color="#000080"> Instead of asking Pam about &quot;love&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;'It's all right for some,' says Pam[when friendly], winking[or hostile], with a bit of a snarl in her voice. Clearly you've gotten on her bad side[at other times] blandly[end when].&quot;</font></blockquote>
+<p>
+ will select our first option if Pam is friendly; the second if her mood is hostile; and the third if her mood is neutral. The order in which we defined our moods the first time determines the order in which they may be invoked by the textual substitution.
+<p>
+ We will probably also want the ability to set the mood of the current interlocutor in response to what is being said. We may do this with the &quot;set...&quot; token, as in
+<p>
+<blockquote><font color="#000080"> Instead of asking Pam about &quot;chicken&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Pam sighs heavily[set hostile].&quot;.</font></blockquote>
+<p>
+ As long as &quot;set...&quot; is followed by the name of a mood, the current interlocutor will be given that mood. We can also do this outside a say phrase, as in:
+<p>
+<blockquote><font color="#000080"> Carry out attacking the current interlocutor with something:<br>&nbsp;&nbsp;&nbsp;&nbsp; set furious.</font></blockquote>
+<p>
+ A restriction of this system is that it does not offer phrases for setting or checking moods for NPCs other than the current interlocutor. This is because the extension is designed as a fairly streamlined solution for games in which the player is usually talking to one person at a time. It would be more complicated syntactically (to the point of not offering a useful shortcut) if we were to require the author to say *whose* moods were being checked during print options.
+<p>
+ Example: * Don't Mention The Chicken - A character who has moody reactions to certain conversation triggers, and displays her mood changes in her speech and behavior.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Don't Mention The Chicken&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Mood Variations by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The current interlocutor is an object that varies. The current interlocutor is Pam.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The moods are friendly, neutral, and hostile. The current mood of a person is usually neutral.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The House is a room. Pam is a woman in the House. The current mood of Pam is friendly.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of asking Pam about &quot;love&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;'It's all right for some,' says Pam[when friendly], winking[or hostile], with a bit of a snarl in her voice. Clearly you've gotten on her bad side[at other times] blandly[end when].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of asking Pam about &quot;chicken&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Pam sighs heavily[set hostile]. 'I hate poultry!'&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out waiting:<br>&nbsp;&nbsp;&nbsp;&nbsp; set neutral.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn (this is the show mood-shifts rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the current mood of Pam is not the previous mood of Pam:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; repeat through the Table of Mood Changes:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the last entry is the previous mood of Pam and the new entry is the current mood of Pam:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[description entry][paragraph break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Mood Changes</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> last</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> new</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> description</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> neutral</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hostile</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Pam is looking a lot less friendly now.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> neutral</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> friendly</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Pam seems to have relaxed a bit and is warming towards you.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hostile</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> friendly</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;You've completely turned around Pam's attitude.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> friendly</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hostile</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Whoa, you clearly said the wrong thing there!&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hostile</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> neutral</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Pam doesn't look really friendly, but she's no longer red with anger.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> friendly</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> neutral</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Pam crosses her arms, looking more guarded.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;ask pam about love / wait / ask pam about love / ask pam about chicken / ask pam about love / wait / ask pam about love&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

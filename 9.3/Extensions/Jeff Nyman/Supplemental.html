@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Supplemental<font color="#404040"> by </font>Jeff Nyman</b><p><small></small><p><p><hr><p>
+<p>
+ This extension is in place so that the main source file does not get cluttered by what is effectively supporting material. If there are defined aspects of related functionality, that functionality should go in a separate extension.
+<p>
+ Section: Text Breaks
+<p>
+ Inform allows paragraph breaks, line breaks, and paragraph runs to be specified as text substitutions. This extension allows you shorten the wording:
+<p>
+<blockquote><font color="#000080"> say &quot;Here is a line break.[br]&quot;<br> say &quot;Here is a paragraph break.[p]&quot;<br> say &quot;Here is running the next paragraph into this one. [r]&quot;</font></blockquote>
+<p>
+ Section: Text Formatting
+<p>
+ Inform allows bold and italic text substitutions. This extension allows you to shorten the wording as well as provide the substitutions as related opening and closing terms:
+<p>
+<blockquote><font color="#000080"> say &quot;[i]Here is a sentence in italics.[/i]&quot;<br> say &quot;[b]Here is a sentence in bold.[/b]&quot;</font></blockquote>
+<p>
+ It's also possible to use names that are used in HTML for these purposes:
+<p>
+<blockquote><font color="#000080"> say &quot;[em]Here is a sentence in italics.[/em]&quot;<br> say &quot;[strong]Here is a sentence in bold.[/strong]&quot;</font></blockquote>
+<p>
+ This extension also allows you to specify the true type font style in a slightly shorter format:
+<p>
+<blockquote><font color="#000080"> say &quot;[tt]This is a true type font.[/tt]&quot;</font></blockquote>
+<p>
+ Note that the above is equivalent to &quot;font off&quot; and &quot;font on&quot; which is also essentially equivalent with &quot;fixed letter spacing&quot; and &quot;variable letter spacing&quot;.
+<p>
+ Section: Symbols
+<p>
+ You can use text subsitutions for dashes as well:
+<p>
+<blockquote><font color="#000080"> say &quot;Display an em-dash: [--]&quot;<br> say &quot;Display an en-dash: [-]&quot;</font></blockquote>
+<p>
+ You can also apply the copyright symbol:
+<p>
+<blockquote><font color="#000080"> say &quot;Copyright [copyright symbol]&quot;</font></blockquote>
+<p>
+ Whether the above substitutions work or not will depend on whether the interpreter the story file is running on supports Unicode character display.
+<p>
+
+<p>
+<p></body></html>

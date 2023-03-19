@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Dynamic Rooms<font color="#404040"> by </font>Aaron Reed</b><p><small></small><p><p><hr><p>
+<p>
+ With this extension, you can easily create and destroy new rooms during play. While this is also possible with Jesse McGrew's &quot;Dynamic Objects,&quot; the method here is a little easier for authors, customized for rooms, and available for both z-code and Glulx.
+<p>
+ The extension works by creating a reserve of empty rooms when the game first begins and swapping them in and out as needed. The author must declare the maximum number of dynamic rooms that will be needed:
+<p>
+<blockquote><font color="#000080"> There are 50 dynamic rooms.</font></blockquote>
+<p>
+ This statement should appear *after* you define your initial starting room (unless you explicitly move the player when play begins). Also note that you can only define 100 duplicates at once; so if you needed 200 dynamic rooms, you'd need something like this (note, however, that performance may suffer with large numbers of dynamic rooms):
+<p>
+<blockquote><font color="#000080"> There are 100 dynamic rooms. There are 100 dynamic rooms.</font></blockquote>
+<p>
+ Before creating a new room, you need to check whether there are any unused rooms left. You can use the phrase:
+<p>
+<blockquote><font color="#000080"> if out of dynamic rooms:</font></blockquote>
+<p>
+ Or perform more elaborate calculations by checking the number of:
+<p>
+<blockquote><font color="#000080"> available dynamic rooms<br> used dynamic rooms</font></blockquote>
+<p>
+ To create a new room, you must give it a printed name and assign it to an object variable:
+<p>
+<blockquote><font color="#000080"> let excavation be a newly created room with name &quot;Cave&quot;;</font></blockquote>
+<p>
+ To destroy a dynamic room:
+<p>
+<blockquote><font color="#000080"> dissolve excavation;</font></blockquote>
+<p>
+ This will remove any map connections to or from the room, un-name it, and return it to the pool of available dynamic rooms.
+<p>
+ By default, a newborn dynamic room will have no entrances or exits. For convenience, you can instead create a room with a reciprocal exit connecting to any existing location via the shortcut phrase:
+<p>
+<blockquote><font color="#000080"> let excavation be a newly created room east of location with name &quot;Cave&quot;;</font></blockquote>
+<p>
+ Note that Inform's concept of rooms does not position them in a spatial grid; it's perfectly possible to make a hallway that loops back on itself or other spatial impossibilities. If you want to limit newly created rooms to a standard grid system and avoid allowing new rooms to be placed at the same spatial location as existing rooms, you can use the variation:
+<p>
+<blockquote><font color="#000080"> let excavation be a newly created positioned room east of location with name &quot;Cave&quot;;</font></blockquote>
+<p>
+ You'll also need to establish grid coordinates for any rooms your dynamic rooms can connect to:
+<p>
+<blockquote><font color="#000080"> When play begins: locate End of the Tunnel at xyz { 0, 0, 0 }.</font></blockquote>
+<p>
+ Now the extension can automatically track the X/Y/Z coordinates of new dynamic rooms (where the x-axis is east/west, y is north/south, and z is up/down) and prevent them from overlapping each other. Note that you should probably disallow rooms created in &quot;inside&quot; or &quot;outside&quot; directions for this to work, and if your game features non-standard directions you'll have to extend the Table of Direction Map Positioning (open up the extension code to see how to do this).
+<p>
+ As a shortcut to defining coordinates for multiple existing rooms, you can simply give a single seed location a coordinate and then relatively position all connected rooms:
+<p>
+<blockquote><font color="#000080"> When play begins: locate End of the Tunnel at xyz { 0, 0, 0 }; assign xyz coordinates based on End of the Tunnel.</font></blockquote>
+<p>
+... which would locate a room south of End of the Tunnel at { 0, -1, 0 }, and so on. This works best with relatively small areas; with larger maps this might cause the z-machine to run out of memory. Switching to Glulx should solve the problem.
+<p>
+ A few other points about positioned rooms: you can set numerical edges for how far they can extend along certain directions by setting the values of the minimum-map-x and maximum-map-x variables (and their y and z counterparts). You can add more complicated restrictions on when new connections can be made by adding rules to the &quot;validating a map connection&quot; rulebook, which should fail if the connection is disallowed or decide on an existing room if it should connect to it.
+<p>
+ Finally, if any of the newly created room phrases are unable to assign a new room for whatever reason, they will return the room you requested the connection to be made from instead-- in some cases it might be useful to check that these values are not the same before proceeding.
+<p>
+ Example: * Frobozz Magic Excavator - Allow the player to create new rooms.
+<p>
+ Shows how to use positioned rooms, including simulating an implied spatial infrastructure (the maximum-map options prevent the player from digging east of or above the starting location, near a cliff) and creating a series of rooms within the cliff that the player can discover and connect to.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Frobozz Magic Excavator&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Dynamic Rooms by Aaron Reed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Near the Cliff is a room. &quot;Ah, a fresh cliff face to the west, just ready for new excavation!&quot; There are 50 dynamic rooms. When play begins: locate Near the Cliff at xyz { 10, 0, 0 }. The maximum-map-x is 9. The minimum-map-x is 0. The maximum-map-z is 0.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Anteroom is a room. Down from Anteroom is Treasure Chamber. Some precious jewels are in Treasure Chamber. &quot;There are precious jewels here!&quot; When play begins: locate Anteroom at xyz { 8, -1, -3 }; assign xyz coordinates based on Anteroom.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player holds a Frobozz Magic Excavator. Instead of examining Excavator, say &quot;Try DIG (a direction).&quot; Instead of dropping Excavator, say &quot;Better not, at least if you want your deposit back.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;dig [a direction]&quot; as excavating. Excavating is an action applying to one visible thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check excavating:<br>&nbsp;&nbsp;&nbsp;&nbsp; let way be noun;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the room way from location is a room, instead say &quot;You've already excavated in that direction.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if out of dynamic rooms, instead say &quot;Your Frobozz Magic Excavator seems to be out of juice.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if noun is inside or noun is outside, instead say &quot;You can only tunnel up, down, or in a cardinal direction.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out excavating:<br>&nbsp;&nbsp;&nbsp;&nbsp; let ctr be available dynamic rooms;<br>&nbsp;&nbsp;&nbsp;&nbsp; let rm be a newly created positioned room noun of location with name &quot;Cave&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You power up your Frobozz Magic Excavator&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if available dynamic rooms &lt; ctr:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot; and tunnel out a passage to the [noun]. As you finish, the charge indicator drops to ([available dynamic rooms] out of [the number of dynamic rooms]).&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; else if the rule failed:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;, but the mass meter indicates insufficient stable rock in that direction to make an excavation.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; else:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot; and begin tunneling to the [noun], but soon break through into an open space.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Definition: a direction (called thataway) is viable if the room thataway from the location is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After looking:<br>&nbsp;&nbsp;&nbsp;&nbsp; let count of exits be the number of viable directions;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the count of exits is 0, say &quot;There are no useful exits.&quot; instead;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the count of exits is 1, say &quot;From here, the only way out is to [a list of viable directions].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise say &quot;From here, the viable exits are to [a list of viable directions].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test me with &quot;dig e / dig u / dig w / w / dig w / w/ dig s / s / dig d / d / dig d / d / dig d / d / d / get jewels&quot;.</font></blockquote>
+<p>
+ Example: ** Cave-In - A randomly generated map.
+<p>
+ In this example, we'll generate a random map of ten rooms, and also add the possibility for the floor to collapse and new rooms to be created below the current location.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Cave-In&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Dynamic Rooms by Aaron Reed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins: say &quot;Stunned, you brush yourself off and stand to your feet. It looks like you fell quite a way through that cave in. Let's hope you can find another way to the surface-- and that the floor is more solid on this level.&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Cave-In is a room. Daylit Passage is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> There are 15 dynamic rooms.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The viable cave directions list is a list of objects that varies. The viable cave directions list is { northeast, northwest, southeast }.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The cave room names list is a list of texts that varies. The cave room names list is { &quot;Passage&quot;, &quot;Cavern&quot;, &quot;Tunnel&quot;, &quot;Hallway&quot;, &quot;Maze&quot;, &quot;Scramble&quot;, &quot;Jumble&quot; }.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; let current room be Cave-In;<br>&nbsp;&nbsp;&nbsp;&nbsp; let cave name be text;<br>&nbsp;&nbsp;&nbsp;&nbsp; let new room be Cave-In;<br>&nbsp;&nbsp;&nbsp;&nbsp; let dir be north;<br>&nbsp;&nbsp;&nbsp;&nbsp; while available dynamic rooms &gt; 5:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now dir is entry (a random number from 1 to the number of entries in the viable cave directions list) in the viable cave directions list;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the room dir from current room is a room, now current room is the room dir from current room;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now cave name is entry (a random number from 1 to the number of entries in cave room names list) in cave room names list;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now new room is a newly created room dir of current room with name cave name;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if a random chance of 1 in 3 succeeds, now current room is new room;<br>&nbsp;&nbsp;&nbsp;&nbsp; change up exit of current room to Daylit Passage.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn when location is Daylit Passage: end the story finally.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> fall count is a number that varies.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn when we are going and a random chance of 1 in 4 succeeds:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the room down from location is nowhere and the printed name of location is not &quot;Pit&quot; and available dynamic rooms &gt; 0:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let collapse be a newly created room down from location with name &quot;Pit&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Suddenly, the floor gives way underneath you and you fall, adding to your injuries!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; increase fall count by 1;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if fall count &gt; 3:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[line break]The fall proves fatal!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end the story saying &quot;You have died.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try going down.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Definition: a direction (called thataway) is viable if the room thataway from the location is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After looking:<br>&nbsp;&nbsp;&nbsp;&nbsp; let count of exits be the number of viable directions;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the count of exits is 0:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The fresh sunlight shines on your face.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; else if the count of exits is 1:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;From here, the only way out is to [a list of viable directions].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; else:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;From here, the viable exits are to [a list of viable directions].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; continue the action.</font></blockquote>
+<p>
+ Example: *** Generating Grids of Rooms - Some utility code.
+<p>
+ This code is useful to produce large grids of interconnected rooms for testing purposes. Run this code to generate Inform 7 code instantiating an interconnected map of dimensions specified in the gridsize variable. Then copy and paste the output into another project to test map-related code.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Generating Grids of Rooms&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> x is room.<br> gridsize is a number variable. gridsize is 8.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with x running from 1 to gridsize * gridsize:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Room[x] is a room. [if the remainder after dividing x by gridsize is not 0]East is room[x + 1]. [end if][if x + gridsize &lt;= gridsize * gridsize and the remainder after dividing x by gridsize is not 0]Southeast is room[x + gridsize + 1]. [end if][if x + gridsize &lt;= gridsize * gridsize]South is room[x + gridsize]. [end if][if x + gridsize &lt;= gridsize * gridsize and the remainder after dividing x - 1 by gridsize is not 0]Southwest is room[x + gridsize - 1]. [end if][line break]&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

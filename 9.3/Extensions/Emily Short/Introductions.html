@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Introductions<font color="#404040"> by </font>Emily Short</b><p><small></small><p><p><hr><p>
+<p>
+ Introductions allows the author to write introductions that will appear the first time the player sees certain items and rooms, and also to create segues drawing two passages of introductory text together.
+<p>
+ Chapter: Things
+<p>
+ Section: Introductory text for things
+<p>
+ Introductions allows us to write special introductory text that will appear the first time the player sees an object in a room description, like this:
+<p>
+<blockquote><font color="#000080"> The introduction of the table is &quot;In the corner is the table your aunt bought from the thrift store. The top surface of it is decoupaged with newspaper advertisements for organic produce. You can't eat a bowl of macaroni without being chided by images of alfalfa and bran.&quot;</font></blockquote>
+<p>
+ This text will appear in place of the initial appearance property or any other similar text that might otherwise introduce the table.
+<p>
+ Section: Segues between object introductions
+<p>
+ We can also write segues to be shown between two specific items being introduced.
+<p>
+ If Introductions introduces one item, and a second, segue-related item is scheduled to be introduced later in the room description, it will change the order in which it produces output in order to use the segue.
+<p>
+ To create new segues, we must add to the Table of Segues, thus:
+<p>
+<blockquote><font color="#000080"> Table of Segues (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> first</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> second</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> segue</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> orange</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> apple</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;And speaking of fruit... &quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> apple</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> orange</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;You've never really cared for fruits, though. &quot;</font></font></td></tr></table></blockquote>
+<p>
+ Section: Segues that completely replace existing introductions
+<p>
+ There may be times when we want our segue to completely override the introduction of the second item, rather than merely adding text to the beginning of it. In that case, we can override the introduction entirely, like this:
+<p>
+<blockquote><font color="#000080"> Table of Segues (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> first</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> second</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> segue</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> apple</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> mare</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[override intro for the mare]The apple was probably brought here as a bribe for the mare in the corner, but it doesn't look as though she was interested.&quot;</font></font></td></tr></table></blockquote>
+<p>
+ Section: Spacing introductions and segues
+<p>
+ The segue text will be printed after the introduction of the first item and before the introduction of the second; by default, there is no paragraph break anywhere here, which gives us maximum freedom to add our own. If, for instance, we wanted to produce the text
+<p>
+<blockquote><font color="#000080"> Fred is prowling near the fireplace, looking morose. He's an old friend of yours, but lately you've found him more and more difficult to take: all his little tics -- impatience, rudeness, tendency to interrupt -- have grown more pronounced since Lisa left. Some of your social circle now act as though he weren't there at all, as though his stammered, tactless commentary were no more than background noise from a radio.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Fred is no favorite with Doctor Pearson, either, which is why you're surprised to see the old man sitting serenely in the leather recliner, sipping a vodka gimlet.</font></blockquote>
+<p>
+ we could create this effect by putting the paragraph break inside the segue, thus:
+<p>
+<blockquote><font color="#000080"> Table of Segues (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> first</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> second</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> segue</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Fred</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Doctor Pearson</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[paragraph break][override intro for Pearson]Fred is no favorite with Doctor Pearson, either, which is why you're surprised to see the old man sitting serenely in the leather recliner, sipping a vodka gimlet. &quot;</font></font></td></tr></table></blockquote>
+<p>
+ Chapter: Rooms
+<p>
+ Section: Introductions
+<p>
+ Finally, we can provide introductions for a whole room, and that text will appear as a final item in the room description, after the objects there, as in
+<p>
+<blockquote><font color="#000080"> Pipe Crossing<br> This is a meeting of several pipes: one leads abruptly down and to the north, while gently upward-sloping pipes lead southeast and southwest. A cold and murky white liquid flows from both southern pipes into the northern one.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A licorice gum drop has been caught by one of the seams of metal, doubtless the only reason it has not been swept away by the current.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> It smells like almonds in here. &lt;-- this is the room introduction.</font></blockquote>
+<p>
+ Section: Adding one-time text elsewhere in a room description
+<p>
+ This is hardly the only place where we might want to add special text to a room description, but most other places are easier to add to using existing entry points. For instance, if we wanted
+<p>
+<blockquote><font color="#000080"> You catch a whiff of almonds as you splash downstream... &lt;-- this is the new text</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Pipe Crossing<br> This is a meeting of several pipes: one leads abruptly down and to the north, while gently upward-sloping pipes lead southeast and southwest. A cold and murky white liquid flows from both southern pipes into the northern one.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A licorice gum drop has been caught by one of the seams of metal, doubtless the only reason it has not been swept away by the current.</font></blockquote>
+<p>
+ we would instead write
+<p>
+<blockquote><font color="#000080"> After going to Pipe Crossing:<br>&nbsp;&nbsp;&nbsp;&nbsp; if Pipe Crossing is not visited, say &quot;You catch a whiff of almonds as you splash downstream.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; continue the action.</font></blockquote>
+<p>
+ Or if we wanted that one-time text to appear just before or after the main room description paragraph, like this
+<p>
+<blockquote><font color="#000080"> Pipe Crossing<br> The smell of almonds is overpowering when you enter. &lt;-- this is the one-time text</font></blockquote>
+<p>
+<blockquote><font color="#000080"> This is a meeting of several pipes: one leads abruptly down and to the north, while gently upward-sloping pipes lead southeast and southwest. A cold and murky white liquid flows from both southern pipes into the northern one.</font></blockquote>
+<p>
+ we might write
+<p>
+<blockquote><font color="#000080"> The description of Pipe Crossing is &quot;[if unvisited]The smell of almonds is overpowering when you enter. [paragraph break][end if]This is a meeting of several pipes: one leads abruptly down and to the north, while gently upward-sloping pipes lead southeast and southwest. A cold and murky white liquid flows from both southern pipes into the northern one.&quot;</font></blockquote>
+<p>
+ or similarly
+<p>
+<blockquote><font color="#000080"> Pipe Crossing<br> This is a meeting of several pipes: one leads abruptly down and to the north, while gently upward-sloping pipes lead southeast and southwest. A cold and murky white liquid flows from both southern pipes into the northern one.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The smell of almonds is overpowering when you enter. &lt;-- this is the one-time text</font></blockquote>
+<p>
+ we might write
+<p>
+<blockquote><font color="#000080"> The description of Pipe Crossing is &quot;This is a meeting of several pipes: one leads abruptly down and to the north, while gently upward-sloping pipes lead southeast and southwest. A cold and murky white liquid flows from both southern pipes into the northern one.[if unvisited][paragraph break]The smell of almonds is overpowering when you enter. [end if]&quot;</font></blockquote>
+<p>
+ Chapter: Troubleshooting and Compatibility
+<p>
+ Section: Introductions don't appear for objects in the room
+<p>
+ Introductory text will appear for an object that is in a room for description, unless we have explicitly written a writing a paragraph about rule that is more specific and takes precedence over the default rule.
+<p>
+ For instance, the following would prevent the appearance of the table's introduction:
+<p>
+<blockquote><font color="#000080"> Rule for writing a paragraph about the table:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;A TABLE IS HERE.&quot;</font></blockquote>
+<p>
+ Section: Introductions don't appear for objects on supporters
+<p>
+ Introductions relies on the writing a paragraph about activity, which, by default, is activated for objects appearing in the room, but not for those which are visibly set on supporters. We can explicitly override this if we want to.
+<p>
+ One way to do this is demonstrated in the &quot;Kill Doctor Pearson&quot; example, below. It works best, though, if the supporters in question are not scenery.
+<p>
+ Note that this is a complication that arises with the default behavior of Inform; the replacement room description extensions Tailored Room Description and Ordinary Room Description are more customizable.
+<p>
+ Section: Using with alternative room description extensions
+<p>
+ Introductions can be used on its own, or in combination with the extensions Tailored Room Description or Ordinary Room Description.
+<p>
+ Ordinary Room Description emulates the default output of Inform, and is useful primarily because it allows us to use the base extension Room Description Control: we get the same type of output as usual, but with increasing control over the order in which items are printed within the description, and more ability to omit our chosen objects from the description entirely.
+<p>
+ Tailored Room Description provides an alternate type of output, which gets rid of parenthetical remarks such as &quot;(on which are a bone and a piece of dried grass)&quot; in favor of full sentences describing contents and supported objects.
+<p>
+ To use Introductions with one of these extensions, we should install Room Description Control and either Ordinary Room Description or Tailored Room Description; include the extension of our choice; and then add
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; change fake-paragraph-break to &quot;[line break][line break][run paragraph on]&quot;.</font></blockquote>
+<p>
+ This latter portion is necessary because there are slight differences in the way the extensions handle paragraph breaking, and without it the spacing will look wrong in some circumstances.
+<p>
+ Introductions is *not* compatible with the Single Paragraph Description extension.
+<p>
+ Example: * Marzipan Sea - Several objects with introductions and segues flowing together.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Marzipan Sea&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Introductions by Emily Short. Include Ordinary Room Description by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Pipe Crossing is a room. &quot;This is a meeting of several pipes: one leads abruptly down and to the north, while gently upward-sloping pipes lead southeast and southwest. A cold and murky white liquid flows from both southern pipes into the northern one.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The introduction of Pipe Crossing is &quot;There is a strange smell of almonds here.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of smelling Pipe Crossing:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Definitely almonds, sweet and bitter at once.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The licorice gum drop is in Pipe Crossing.<br>&nbsp;&nbsp;&nbsp;&nbsp; The introduction is &quot;[A licorice gum drop] has been caught by one of the seams of metal, doubtless the only reason it has not been swept away by the current.&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp; The initial appearance is &quot;The licorice gum drop is still lodged in place.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The walnut shell boat is a vehicle in Pipe Crossing.<br>&nbsp;&nbsp;&nbsp;&nbsp; The introduction is &quot;A hollowed walnut shell, just large enough for you to ride inside, spins in an eddy of the current.&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp; The initial appearance is &quot;The walnut shell bobs on the surface of the water, ready for you to ride.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The paper is in Pipe Crossing. &quot;A bit of paper bobs on the waves.&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp; The introduction is &quot;Some paper bobs on the surface of the water, reminding you of a small boat.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Segues (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> first</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> second</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> segue</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> licorice gum drop</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> walnut boat</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;The gum drop is not the only bit of detritus from above, either. &quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> walnut boat</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> paper</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[override intro for paper]Swirling into the same vortex is a small bit of paper. &quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;look&quot;.</font></blockquote>
+<p>
+ Example: ** Kill Doctor Pearson - A slightly more complex example where NPCs are scattered around at the beginning of play. Demonstrates how to handle introductions of objects that start on supporters, which might not otherwise get their own paragraphs.
+<p>
+ In this scenario, we are going to randomize where the characters start at the beginning of play in order to demonstrate a slightly more complex treatment of introductions. We'll also have one character who starts out on a supporter, rather than in a room: this needs special treatment because, under normal circumstances, the paragraph would be written about the supporter rather than about the supported object.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Kill Doctor Pearson&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Introductions by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with pawn running through people who are not the player<br>&nbsp;&nbsp;&nbsp;&nbsp; begin;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; move pawn to a random room;<br>&nbsp;&nbsp;&nbsp;&nbsp; end repeat;<br>&nbsp;&nbsp;&nbsp;&nbsp; move Doctor Pearson to a random enterable supporter.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Doctor Pearson is a man.<br>&nbsp;&nbsp;&nbsp;&nbsp; The introduction is &quot;Doctor Pearson is resting in [the holder of Pearson]. He winks at you as you walk in: the man has never mastered the concept of discretion, and at 65 he apparently thinks you still cherish hopes of reliving the affair you had twenty years ago, when you were a vulnerable seventeen.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Fred is a man.<br>&nbsp;&nbsp;&nbsp;&nbsp; The introduction is &quot;[initial appearance of Fred] He's an old friend of yours, but lately you've found him more and more difficult to take: all his little tics -- impatience, rudeness, tendency to interrupt -- have grown more pronounced since Lisa left. Some of your social circle now act as though he weren't there at all, as though his stammered, tactless commentary were no more than background noise from a radio.&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp; The initial appearance is &quot;Fred is prowling near [the random scenery thing which is in the location], looking morose. &quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Annie is a woman.<br>&nbsp;&nbsp;&nbsp;&nbsp; The introduction is &quot;It's a relief to see Annie: solid and dependable, Annie keeps secrets and acts sensible.&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp; The initial appearance is &quot;Annie stands nearby. Only someone well-acquainted with her would be able to see how tense she feels.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for writing a paragraph about a supporter which supports Pearson when Pearson is not mentioned:<br>&nbsp;&nbsp;&nbsp;&nbsp; carry out the writing a paragraph about activity with Pearson instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for writing a paragraph about an enterable supporter (called target):<br>&nbsp;&nbsp;&nbsp;&nbsp; now the target is mentioned;<br>&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Library is a room. The fireplace is scenery in the Library. The leather recliner is an enterable supporter in the Library.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> North of the Library is the Home Theater. The comfy chair is an enterable supporter in the Home Theater. The screen is scenery in the Home Theater.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Segues (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> first</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> second</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> segue</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Fred</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Doctor Pearson</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[paragraph break][override intro for Pearson]Fred is no favorite with Doctor Pearson, either, which is why you're surprised to see the old man sitting serenely in [the holder of Pearson], sipping a vodka gimlet. &quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Fred</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Annie</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[paragraph break][override intro for Annie]Annie gives you a kind of wry look: solid, sensible Annie, she is kinder to Fred than most others, but that's because she practices a disciplined sort of kindness, not because she doesn't find him irritating.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Annie</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Fred</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;She will have had plenty of chance to practice, too: &quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;look / north / look&quot;.</font></blockquote>
+<p>
+ The &quot;rule for writing a paragraph about an enterable supporter&quot; is designed to keep Inform from mentioning the chairs unless someone is sitting in them. Note that this rule won't work with Tailored Room Description because there are already other, more complex rules about supporters that will take priority through normal rule-ordering.
+<p>
+ On the other hand, with TRD we could use a description-concealing rule to omit any mention of those supporters anyway.
+<p>
+
+<p>
+<p></body></html>

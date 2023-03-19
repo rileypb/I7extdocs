@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Checkpoints<font color="#404040"> by </font>Peter Orme</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter: The idea
+<p>
+ One idea is that we want to write a &quot;test me&quot; script for our story, but also have that test script actually perform 'unit testing'-type assertions along the way.
+<p>
+ Another idea is to have known &quot;checkpoints&quot; in our story that you can get to, and you want to test that the state of the world is as you think it is at these points.
+<p>
+ Chapter: Using the Table of Checkpoints
+<p>
+ To write assertions, you create a table called Table of Checkpoints (continued) which has exactly three columns: &quot;topic&quot;, &quot;assertion&quot; and &quot;message&quot;.
+<p>
+ The first column, &quot;topic&quot;, is a topic column. The easiest thing here is just to type in a single keyword in quotes. Consult section 16.13 in the documentation to read up on more fun you can do with topic columns. You can have the same value in multiple rows of your column, and use these as a way to group test.
+<p>
+ The second columnt, &quot;assertion&quot;, is a little special. It contains a double-quoted string that should be empty for the assertion to succeed. Just typing in an empty string (just two quotes) will work, but it's not really testing anything, is it. So what we typically do is use bracketed expressions like &quot;[if the ball is red]fail[end if]&quot;
+<p>
+ It does not need to say &quot;fail&quot; on failure, it can say anything.
+<p>
+ The third column, &quot;message&quot;, is just any text that will be shown on failure.
+<p>
+ Chapter: running assertions
+<p>
+ To trigger running all the assertions that match the topic column while playing a game, type in &quot;checkpoint assert xxx&quot; where xxx matches the topic. See example A.
+<p>
+ If we must, we can also make in-world games that trigger assertions using something like this:
+<p>
+ The button is a thing in the football field.
+<p>
+ instead of pushing the button:<blockquote><font color="#000080"> try checkpoint-asserting &quot;baller&quot;.</font></blockquote>
+<p>
+ Example: * Bring your own ball - Using checkpoints assertion in a test script.
+<p>
+ Write an assertion in a table, and use the 'checkpoint assert' command while playing or in a test script. For the sake of clarity: the &quot;topic&quot; does not need to match an actual object, it can be any string. When you run the test script it will first show you that the
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Bring your own ball&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Checkpoints by Peter Orme.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Football field is a room. The Locker room is a room. It is north from the Football field.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The ball is a thing in the Locker room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Checkpoints (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> assertion</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> message</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;baller&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[unless the player is in the Football field]fail[end if]&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;You should be in the football field.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;baller&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[unless the player has the ball]fail[end if]&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;You should have the ball.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> test me with &quot;checkpoint assert baller / n / take ball / s /checkpoint assert baller&quot;.</font></blockquote>
+<p>
+ Example: ** How to Fix an Airlock - Using both checkpoint assertions and a checkpoint script
+<p>
+ In this example we have a very silly puzzle indeed. We have a person in a spacesuit, and he or she needs to get inside an airlock. To get inside, the solution is just to identify the part that's acting up, and hit it. Then we can close the outer door, open the inner door, walk inside, and take off the space suit.
+<p>
+ We can thing of this as a &quot;checkpoint&quot;. While we're developing a game, this etensions let's us do two things: assert that the world state is as it should be, and provide a framework for writing rules that set the game state to some defined state.
+<p>
+ So in this case we make up a &quot;checkpoint&quot; and call it &quot;airlock&quot;. Typing in &quot;checkpoint assert airlock&quot; (or just &quot;cpa airlock&quot; for short will run the assertions in the Table of Checkpoints). If everything is as it should be (the spring is fixed, the door is closed, the player is inside, and the space suit is removed) everything checks out and we get a friendly &quot;Assertions OK&quot; message. If any of these things are wrong, the command will tell us. This is a contrived example, but in a larger game keeping track of the state of affairs is perhaps not so obvious.
+<p>
+ The other thing is that maybe we just want to fast-forward to a good &quot;checkpoint&quot; and continue the game from there. Here we create a rule for this, just out of the blue, just declare it: &quot;this is the checkpoint airlock rule&quot;. Remember to put that into the Table of Checkpoint scripts, and then you can just type in &quot;checkpoint go airlock&quot; (or &quot;cpg airlock&quot; for short) to execute the fast-forward script. Sure you can do this with regular &quot;test&quot; scripts, but then you can only enter a list of player commands, in a rule like this you can do anything you can do from Inform code.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;How to Fix an Airlock&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Checkpoints by Peter Orme</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Chapter - Example airlock</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section - World</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Planetside is a room. &quot;Nothing but bare rock under a darkening sky.[first time] You'd better get inside before dark falls. It gets cold on this planet. Colder than your what suit can protect you from.[only]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player is wearing a space suit. The description of the space suit is &quot;It's just like any other space suit you've worn.&quot;. Understand &quot;spacesuit&quot; as the space suit.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> check taking off the space suit:<br>&nbsp;&nbsp;&nbsp;&nbsp; unless the air is breathable:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Not until you're safely inside.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stop the action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To decide whether the air is breathable:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the player is in Planetside, no;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the player is in the Airlock and the outer door is open, no;<br>&nbsp;&nbsp;&nbsp;&nbsp; yes;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Airlock is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The outer door is a door. It is inside from Planetside and outside from Airlock. The description is &quot;The outer door is solid and sturdy, made to isolate from cold and wind. You pull the door down to close it. There's a large spring that makes sure it opens and closes automatically as it should. The door is currently [if the outer door is open]open[otherwise]closed[end if].&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The spring is a fixed in place thing in the airlock. It is scenery. The spring can be fixed. The description of the spring is &quot;It's a large and slightly rusty spring, clearly not part of the original design of the door, but something somebody added as a quick fix.[if the spring is fixed] It looks straighter now that you gave it a whack.[otherwise] It looks a bit crooked. Nothing a good blow won't fix.[end if]&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> instead of pulling the outer door: try closing the noun.<br> instead of pushing the outer door: try opening the noun.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> instead of attacking the fixed spring:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You've already done that.&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> instead of attacking the spring:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You give the spring a good blow.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the spring is fixed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> after going inside from Planetside:<br>&nbsp;&nbsp;&nbsp;&nbsp; unless the spring is fixed:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The outer door closes automatically behind you with a hiss. And then it opens again. That's not supposed to happen!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The door closes behind you, as it should.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the outer door is closed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The inner door is a door. It is inside from Airlock and outside from Decontamination Zone.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> check opening the inner door:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the outer door is open:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You can't open the inner door while the outer door is open. That's how an airlock works, you know.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stop the action;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> after closing the outer door when the spring is not fixed:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You pull the door down, but it just hisses and opens again. How annyoing!&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the outer door is open.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section - Checkpoints - Not for release</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of checkpoints (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> assertion</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> message</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;airlock&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[unless the outer door is closed]fail[end if]&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;The outer door should be closed&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;airlock&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[unless the player is in decontamination zone]fail[end if]&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;You should be in the decontamination zone&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;airlock&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[if the player is wearing the space suit]fail[end if]&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;You should have taken off the space suit&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;airlock&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[unless the spring is fixed]fail[end if]&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;You need to fix the spring&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> test airlock with &quot;open outer / in / close outer / in / take off space suit / checkpoint assert airlock&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test solution with &quot;hit spring / close outer / open inner / in / close inner / remove suit&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test me with &quot;test airlock&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Checkpoint scripts (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> topic</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> name</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> rule</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;airlock&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;airlock&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> checkpoint airlock rule</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> this is the checkpoint airlock rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the outer door is closed;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the inner door is closed;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the spring is fixed;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the player is in the Decontamination zone;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the player is carrying the space suit;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You figured out that you need to hit the spring to fix the outer door. After that you just needed to close the outer door, open the inner door, walk inside and take off the space suit.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; try checkpoint-asserting &quot;airlock&quot;;</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Actions on Groups<font color="#404040"> by </font>Matt Weiner</b><p><small></small><p><p><hr><p>
+<p>
+ PURPOSE OF EXTENSION
+<p>
+ Ordinarily in Inform 7, once we have specified that &quot;marry [things]&quot; is to be understood as marrying, the command &quot;MARRY DOMINIQUE AND DEVIN&quot; would produce an output somewhat like this:
+<p>
+<blockquote><font color="#000080"> Dominique: Married.<br> Devin. Married.</font></blockquote>
+<p>
+ If the player is officiating at a wedding ceremony rather than practicing plural marriage, we might want an output more like:
+<p>
+<blockquote><font color="#000080"> You marry Dominique and Devin to each other.</font></blockquote>
+<p>
+ And we would like the effects of this action to operate on Dominique and Devin as a pair rather than first on Dominique and then on Devin; they should wind up related by marriage, rather than each of them acquiring a separate &quot;married&quot; property.
+<p>
+ Actions on Groups allows us to make certain actions apply to an entire player-specified group all at once, rather than applying serially to each member of the group. To do this we use a kind of action, groupable action, and a special rulebook, the Action on Groups rules. When groupable action is run on more than one object at once, the Action on Groups rules are checked. If any of the Action on Groups rules are run, then any further processing of the action is halted; the game will not print announcements such as &quot;Dominique:&quot; and will not run the normal Before-Instead-Check-Carry Out-After-Report rules for the action.
+<p>
+ BASIC USE OF EXTENSION
+<p>
+ To set up action on groups for an action, we must declare it as groupable action:
+<p>
+<blockquote><font color="#000080"> Examining is groupable action.</font></blockquote>
+<p>
+ We must create an Understand token to allow it to apply to multiple things, if it is not already so defined in the Standard Rules:
+<p>
+<blockquote><font color="#000080"> Understand &quot;examine [things]&quot; as examining.</font></blockquote>
+<p>
+ And we must create one or more Action on Groups rules for the action:
+<p>
+<blockquote><font color="#000080"> Action on groups rule for examining:</font></blockquote>
+<p>
+ The Action on Groups rulebook has default outcome success, so if one Action on Groups rule runs, no other such rules will run; unless we tell the rule to allow the rulebook to continue by invoking a &quot;make no decision&quot; phrase at the appropriate point. If the Action on Groups rulebook ends in success or failure, then the &quot;multiple actions already taken&quot; truth state will be set to true; this will suppress all further processing of actions that turn and will prevent the announcements of the individual items from the multiple object list from printing.
+<p>
+ The list of items specified by the player is the multiple object list (see 21.6 of Writing with Inform). If we want to write rules that apply only when a given list has been specified, we can use the phrase &quot;when dealing with&quot;; &quot;dealing with L&quot; is true when L is a list that contains all and only the objects in the multiple object list. So a rule beginning:
+<p>
+<blockquote><font color="#000080"> Action on groups rule for marrying when dealing with { Dominique, Devin }:</font></blockquote>
+<p>
+ would fire in response to &quot;MARRY DOMINIQUE AND DEVIN&quot; but not in response to &quot;MARRY DOMINIQUE, DEVIN AND ALEX.&quot; See Example C below for examples of &quot;dealing with&quot; rules.
+<p>
+ We can also write rules that fire whenever the multiple object list contains anything meeting a certain description, so that:
+<p>
+<blockquote><font color="#000080"> Action on groups rule for putting something on the table when dealing with a glass:</font></blockquote>
+<p>
+ will fire when we put multiple things on the table, and at least one is a glass.
+<p>
+ And we can write rules that fire whenever the multiple object list contains only items meeting a certain description, so that:
+<p>
+<blockquote><font color="#000080"> Action on groups rule for putting something on the table when dealing only with glasses:</font></blockquote>
+<p>
+ will fire when we put multiple glasses on the table, but nothing else. (The difference between this and &quot;...when dealing with the list of glasses&quot; is that this rule will fire even if we are not putting every glass on the table.)
+<p>
+ It is important to write &quot;Action on groups rule for putting something on the table when dealing with a glass&quot; rather than &quot;Action on groups rule for putting a glass on the table&quot;; the latter rule will only fire if the first object in the multiple object rule is a glass. When you want a rule heading to specify something about the multiple objects being acted on, always use one of the &quot;dealing with&quot; phrases or something that directly refers to the multiple object list.
+<p>
+ GROUP-ONLY ACTION
+<p>
+ We can specify a groupable action as group-only action:
+<p>
+<blockquote><font color="#000080"> Quizzing it about is group-only action.</font></blockquote>
+<p>
+ The Action on Groups rulebook for group-only actions is backstopped by the can't use undesignated groups rule, which prints a refusal to act on multiple objects. The idea is that a group-only action does not work on arbitrary groups, but only when the group the player's command picks out is a group ithatf the author has written a rule for dealing with. If the player's command picks out a different group, so that none of the author's Action on Groups rules fires, then the extension will print a refusal to act on multiple objects and stop all further processing of the actions. See &quot;Sword Talk&quot; for an example of group-only action.
+<p>
+ REDIRECTING ACTIONS
+<p>
+ The multiple object list governs whether or not we are acting on groups, and what groups we are acting on. If we wish to invoke a group action from within another rule, we must first alter the multiple object list to the list we wish to act on, and then try the action we wish on some entry of that list. Example C below demonstrates this; when searching a supporter that supports multiple items, we redirect the action to examining the contents of the supporter.
+<p>
+ If we wish to invoke a non-group action from within a group action, we must first empty out the multiple object list. Example A below demonstrates this; when quizzing the swordsmith about the list of swords, we redirect the action to quizzing the swordsmith about the ideal sword. We must first empty the multiple object list, or Inform will treat &quot;try quizzing the swordsmith about the ideal sword&quot; as if it were an action on the list of swords, and we will enter an infinite loop.
+<p>
+ A custom phrase is provided for emptying the multiple object list:
+<p>
+<blockquote><font color="#000080"> clear the multiple object list.</font></blockquote>
+<p>
+ If we wish to modify the multiple object list and then continue processing the action using the normal multiple object machinery, we should do this:
+<p>
+<blockquote><font color="#000080"> prepare to act on (whatever the new list is);<br> continue the action.</font></blockquote>
+<p>
+ The &quot;prepare to act&quot; phrase changes the multiple object list to the new list, and also changes the noun and the current item from the multiple object list to the first item of the new list, so that Inform is ready to begin processing the multiple actions normally. Simply changing the multiple object list would lead to undesirable behavior. Example C demonstrates these kinds of redirection.
+<p>
+ If the multiple object list is in the second noun place (for instance, if we had written &quot;SHOW JEWEL TO AISHA, BARRY, AND CLEON&quot;), then we should use the phrase option &quot;as second nouns&quot;:
+<p>
+<blockquote><font color="#000080"> prepare to act on (new list), as second nouns;<br> continue the action.</font></blockquote>
+<p>
+ CAUTIONS
+<p>
+ As mentioned above, do not try to write a rule beginning &quot;Action on groups rule for taking a rock:&quot;; write &quot;Action on groups rule for taking when dealing with a rock:&quot;. The first rule would only apply when the first item in the multiple object list is a rock.
+<p>
+ Do not use &quot;stop the action&quot; or &quot;...instead&quot; in an Action on Groups rule, unless you want to proceed with the standard way of processing the action serially for each object in the multiple object list; use &quot;rule fails&quot; instead. In order for the multiple actions already taken flag to be set, the Action on Groups rulebook must end in success or failure. &quot;Stop the action&quot; and &quot;...instead&quot; cause the specific rule that is running to end in failure, but terminate the rulebook with no decision. &quot;Rule fails&quot; ends both the specific rule and the rulebook in failure, which will cause the flag to be set properly and will terminate any further action processing that turn.
+<p>
+ If you are trying another action from within an Action on Groups rule, be very careful to properly prepare the multiple object list! If your new action is an action on a single object, clear the multiple object list before trying it; otherwise the new action will be processed as a multiple action (which could well cause an infinite loop). If the new action is a multiple action, prepare to act on the new list; simply changing the multiple object list could have strange results if the action being tried gets out of sync with the multiple object list.
+<p>
+ If you wish more than one Action on Groups rule to run in a turn, for instance to check the group action in one rule and carry it out in another rule, then the first rules must end in &quot;make no decision&quot; in order to allow the next rule to run. But some rule must end in a decision, or the multiple actions already taken flag will not be set and normal action processing will not be preempted. Since Action on Groups rules have default success, it should be enough to ensure that some rule that does not contain the &quot;make no decision&quot; phrase runs if the rulebook is not cut off earlier with &quot;rule fails.&quot;
+<p>
+ Some of the more complicated things that one might wish to try with Actions on Groups can require very delicate handling of the success and failure of the rulebooks. See the implementation of &quot;The Facts Were These, Refactored&quot; (at http://www.intfiction.org/forum/viewtopic.php? f=7&amp;t=19285) for an example. Use with care. This is a reimplementation of the example &quot;The Facts Were These&quot; from the Inform documentation, using Actions on Groups to handle the new multiple actions.
+<p>
+ ACKNOWLEDGMENTS
+<p>
+ Thanks to Björn Paulsen, bg, and Daniel Stelzer for advice, suggestions, and encouragement, and to Björn and bg for some of the example code. Comments and suggestions can be sent to matt@mattweiner.net.
+<p>
+ EXAMPLES
+<p>
+ Example A, &quot;Sword Talk,&quot; demonstrates a simple case of group only action. We would like the swordsmith to respond to &quot;ask smith about swords&quot; with chat about the ideal sword, but
+<p>
+<blockquote><font color="#000080"> Understand &quot;swords&quot; as the ideal sword.</font></blockquote>
+<p>
+ will not work; the parser will understand &quot;swords&quot; as the plural of sword anyway. We define quizzing as a groupable action, so that &quot;ask smith about swords&quot; will result in quizzing the smith about the list of swords, and write a rule for dealing with quizzing when dealing with the list of swords. (Note that we must clear the multiple object list so this action is not itself treated as multiple.) We also define quizzing as group-only action, so any other attempt to ask about multiple things will fail. (Since there is no &quot;[any things]&quot; token as of Inform 6L38, we have to engage in a bit of trickery to add the off-stage things to scope when quizzing; the &quot;[any things]&quot; token is planned for future releases.) Most of the code for &quot;Sword Talk&quot; is by Björn Paulsen.
+<p>
+ Example B, &quot;Matrimony,&quot; allows us to marry two people at a time to each other. We write a series of Action on Groups rules to check that we are only marrying people, that we are marrying exactly two people, and so on. As discussed above, the initial rules must invoke &quot;rule fails&quot; when they fail, and must end with &quot;make no decision&quot; in order to allow the rulebook to proceed to the next rule; but the final rule must not end in &quot;make no decision.&quot; Every rule is marked &quot;Last&quot; to ensure that they run in source code order (which is the order we want).
+<p>
+ Example C, &quot;Glasses,&quot; demonstrates a way of consolidating some of the actions and processing the rest normally. The action on groups rule for dealing with a glass first puts all the glasses on the table, counts how many there were, and prints an appropriate message for them. Anything else in the multiple object list is collated in Extras. If there is one such item, we print the name of the item and then try putting it on the table (first clearing the multiple object list so it is not processed as a multiple action). If there is more than one such item, we invoke the phrase &quot;prepare to act on Extras&quot; before continuing the action, so the rest of the action will be processed as a normal multiple action on Extras. IMPORTANT: This style of example only works if there is no way to fail to put a glass on the table. If a glass could fail to be put on the table, then we would have to know the result of the action before we knew whether to report the glass as part of the original group or put it in Extras. This extension provides no facility for doing that.
+<p>
+ Example: * Sword Talk - Allowing a response to &quot;ask smith about swords&quot; while blocking any other attempt to ask about multiple things.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Sword Talk&quot; by Björn Paulsen with modifications by Matt Weiner</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Actions on Groups by Matt Weiner.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 1 - Swords and the Ideal Sword</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A sword is a kind of thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;blade/edge/sword&quot; as &quot;[blade]&quot;.<br> Understand &quot;[blade]&quot; as sword.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Definition: a thing is perfect if it is nowhere.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The ideal sword is a sword.<br> Understand &quot;blades/edges&quot; as the ideal sword.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 2 - Quizzing</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand the command &quot;ask&quot; as something new.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Quizzing it about is an action applying to one thing and one visible thing.<br> Understand &quot;ask [someone] about [things]&quot; as quizzing it about.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Does the player mean quizzing about a perfect thing: it is very likely.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To decide what action name is the action-to-be: (-  action_to_be  -).<br> After deciding the scope of the player when the action-to-be is the quizzing it about action:<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with item running through things:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; place item in scope.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 3 - Setting Action on Groups for Quizzing</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Quizzing is groupable action.<br> Quizzing is group-only action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Action on groups for quizzing when dealing with the list of swords:<br>&nbsp;&nbsp;&nbsp;&nbsp; clear the multiple object list;<br>&nbsp;&nbsp;&nbsp;&nbsp; try quizzing the noun about the ideal sword.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The can't use undesignated groups rule response (A) is &quot;'Sorry, one question at a time!'&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 4 - Scenario</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The swordsmith is a man. &quot;The swordsmith wears a button that reads 'ASK me ABOUT swords, or about a particular sword!'&quot; Understand &quot;smith&quot; as the swordsmith. The swordsmith wears a button. The description of the button is &quot;'ASK me ABOUT swords, or about a particular sword!'&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The rakish fop is a man. The fop holds a sword called the wicked needle.<br> The dolorous monk is a man. The monk carries a sword called the keen instrument of DEATH.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After quizzing the swordsmith about the ideal sword, say &quot;'Yes, swords are the best!'&quot;<br> After quizzing the swordsmith about a sword (called blade), say &quot;'Hmm, [the blade]... not my best work, to be honest.'&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The forge is a room. All men are here. The player is the monk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;ask smith about sword/ask smith about my sword/ask smith about swords/ask smith about needle and instrument&quot;.</font></blockquote>
+<p>
+ Example: * Matrimony - Allowing the player to perform marriages between any two people, setting a relation between those two people.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Matrimony&quot; by Matt Weiner</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Actions on Groups by Matt Weiner.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Registry is a room. &quot;Here people wait for you to marry them. To each other.&quot; Alex, Devin, Dominique, Casey, and Jordan are people in Registry. A lectern is in Registry.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Marrying is an action applying to one thing. Understand &quot;marry [things]&quot; as marrying.<br> Marrying is groupable action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Marriage relates one person to another (called the spouse). The verb to be married to means the marriage relation.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Definition: A person is married if it is married to someone.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Last action on groups rule for marrying (this is the can only marry people rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with item running through the multiple object list:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if item is not a person:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Only people can be married.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule fails;<br>&nbsp;&nbsp;&nbsp;&nbsp; make no decision.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Last action on groups rule for marrying (this is the two at a time rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the number of entries in the multiple object list is not 2:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You only have the power to marry two people to each other at once.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule fails;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; make no decision.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Last action on groups rule for marrying (this is the can't marry yourself to anyone rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the player is listed in the multiple object list:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You are not here to marry anyone yourself, only to officiate at marriages.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule fails;<br>&nbsp;&nbsp;&nbsp;&nbsp; make no decision.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Last action on groups rule for marrying (this is the can't marry what's already married rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with celebrant running through the multiple object list:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if celebrant is married:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[Celebrant] is already married.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule fails;<br>&nbsp;&nbsp;&nbsp;&nbsp; make no decision.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Last action on groups rule for marrying (this is the perform marriage rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; let first party be entry 1 of the multiple object list;<br>&nbsp;&nbsp;&nbsp;&nbsp; let second party be entry 2 of the multiple object list;<br>&nbsp;&nbsp;&nbsp;&nbsp; now first party is married to second party;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You join [the first party] to [the second party] in matrimony.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check marrying (this is the block marrying rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You are not here to marry anyone yourself, only to officiate at marriages.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn:<br>&nbsp;&nbsp;&nbsp;&nbsp; if someone is married:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; repeat with celebrant running through married people:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[Celebrant] is married to [Spouse of celebrant].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;No one is married yet.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test me with &quot;marry all/marry all people/marry dominique and devin/marry alex/marry me and alex/marry alex, casey and jordan/marry alex and alex/marry alex and lectern/marry alex and devin/marry alex and casey&quot;.</font></blockquote>
+<p>
+ Example: ** Glasses - When putting items on the table, performs a group action on any glasses in the multiple object list, and passes the rest to normal multiple action handling.
+<p>
+<blockquote><font color="#000080"> * &quot;Glasses&quot; by bg with modifications by Matt Weiner</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Actions on Groups by Matt Weiner.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 1 - Grouping Rules</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Putting something on something is a groupable action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Action on groups rule for putting something on the table when dealing with the list of glasses:<br>&nbsp;&nbsp;&nbsp;&nbsp; now every glass is on the table;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You haphazardly set every glass on the table.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Action on groups rule for putting something on the table when dealing with a glass:<br>&nbsp;&nbsp;&nbsp;&nbsp; let G be a number;<br>&nbsp;&nbsp;&nbsp;&nbsp; let Extras be a list of things;<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with item running through the multiple object list:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if item is a glass:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; increment G;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the item is on the table;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; add item to Extras;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You carefully set [if G is 1]one glass[otherwise][G in words] glasses[end if] on the table.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the number of entries in Extras is 0:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the number of entries in Extras is 1:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let item be entry 1 in Extras;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; clear the multiple object list;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if G &gt; 0:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[line break][item]: [run paragraph on]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try putting item on the table;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise if the number of entries in Extras &gt; 1:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prepare to act on Extras;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; continue the action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 2 - Scenario</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A glass is a kind of thing.<br> The player carries a pitcher, six glasses, and a vase of flowers.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Dining Area is a room.<br> A table is a supporter in Dining Area.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;put two glasses on the table / look / put three glasses and the pitcher on the table / look / take all / put four glasses and the vase and the pitcher on the table / look / take all / put the vase and the pitcher and four glasses on the table / look / take all glasses / put all glasses on table / take all/ put all glasses and vase on table&quot;.</font></blockquote>
+<p>
+ Example: ** The Left Hand of Autumn, Refactored - The example &quot;The Left Hand of Autumn&quot; from the Inform documentation, refactored so as to use the Actions on Groups extension.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;The Left Hand of Autumn, Refactored&quot; by Emily Short with modifications from Matt Weiner</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Actions on Groups by Matt Weiner.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 1 - General Code from &quot;The Left Hand of Autumn&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After reading a command:<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat through the Table of Collective Names:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let N be &quot;[the player's command]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let Y be relevant list entry;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while N matches the regular expression &quot;[name-text entry]&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; replace the regular expression &quot;(.*)[name-text entry](.*)&quot; in N with &quot;\1[Y]\2&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; change the text of the player's command to N.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report taking something:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You pick up [the noun].&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 2 - Scenario</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Eight-Walled Chamber is a room. &quot;A perfectly octagonal room whose walls are tinted in various hues.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The display table is a supporter in the Chamber. A twig of rowan wood is on the table.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player carries an apple and a pear.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A glove is a kind of thing. A glove is always wearable. Understand &quot;glove&quot; as a glove. The player carries a left glove and a right glove. The left glove and the right glove are gloves.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Fruit list is a list of things which varies. Fruit list is { apple, pear }.<br> Glove list is a list of things which varies. Glove list is { right glove, left glove }.<br> Arcane list is a list of things which varies. Arcane list is { left glove, twig, pear }.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Collective Names</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> name-text</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> relevant list</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;left hand of autumn&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[arcane list]&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;gloves&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[glove list]&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;pair of gloves&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[glove list]&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;x apple and pear / x left and right / put pear on table / put left glove on table / x all on table / put all on table / examine all on table / get apple, twig, pear / x all on table / search table&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 3 - Handling the Scenario with Action on Groups</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;examine [things]&quot; as examining.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Examining it from is an action applying to two things.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;examine [things inside] in/on [something]&quot; or &quot;look at [things inside] in/on [something]&quot; as examining it from.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Examining is groupable action. Examining something from something is groupable action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An action on groups rule for examining something from something:<br>&nbsp;&nbsp;&nbsp;&nbsp; try examining the noun.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out examining it from: try examining the noun instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An action on groups rule for examining when dealing with the fruit list:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Just a couple of fruits.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An action on groups rule for examining when dealing with the glove list:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;It's a matched pair of fuzzy blue gloves.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An action on groups rule for examining when dealing with the arcane list:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;To anyone else it might look like a random collection of objects, but these three things -- [multiple object list with definite articles] -- constitute a mystic key known as the Left Hand of Autumn. They practically hum with power.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Last action on groups rule for examining:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You see [multiple object list with indefinite articles].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;look on [something]&quot; as searching.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of searching something which supports at least two things:<br>&nbsp;&nbsp;&nbsp;&nbsp; let L be the list of things supported by the noun;<br>&nbsp;&nbsp;&nbsp;&nbsp; alter the multiple object list to L;<br>&nbsp;&nbsp;&nbsp;&nbsp; try examining entry 1 of L.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of searching something which contains at least two things:<br>&nbsp;&nbsp;&nbsp;&nbsp; let L be the list of things contained by the noun;<br>&nbsp;&nbsp;&nbsp;&nbsp; alter the multiple object list to L;<br>&nbsp;&nbsp;&nbsp;&nbsp; try examining entry 1 of L.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

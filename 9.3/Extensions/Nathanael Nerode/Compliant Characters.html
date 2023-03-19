@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Compliant Characters<font color="#404040"> by </font>Nathanael Nerode</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter - Why to use
+<p>
+ Suppose you're writing an IF story with several compliant characters who do whatever you tell them to. (Such as Infocom's Suspended.)
+<p>
+ When writing an IF story with compliant characters who generally do what they're told, it is somewhat frustrating to type<blockquote><font color="#000080"> John, get the hat and get the response:<br> There is no reply. When the reason is that there is no hat object.</font></blockquote>
+<p>
+ Inform 7 normally redirects parser errors from commands like this to 'answer &lt;topic&gt;' so that the character can respond to arbitrary statements. But in an story -- such as Infocom's &quot;Suspended&quot; -- which features compliant characters who the player orders around a lot, this is simply frustrating to a player who has made a typo or conceptual error.
+<p>
+ This extension instead reports those parser errors. It uses variants of the messages from Neutral Standard Responses, adapted to the context of giving other characters orders. (It depends on Neutral Standard Responses partly because the default responses in the Standard Rules don't work very well for a Suspended-style game focused on ordering other characters around, and partly to use the low-level code there.)
+<p>
+ This extension produces the sort of parser errors which would be given to the player by Neutral Standard Responses if she had tried to 'get the hat' herself:
+<p>
+ For the same reason, it is frustrating in a game with compliant characters to type<blockquote><font color="#000080"> John, wear the white socks And get the rather useless response:<br> John is unable to do that.</font></blockquote>
+<p>
+ This extension provides default unsuccessful attempt responses for various actions to give more informative responses similar to those given to the player, such as:<blockquote><font color="#000080"> John can't wear the socks.<br> John isn't holding the socks.<br> John is already wearing the socks.</font></blockquote>
+<p>
+ So far, &quot;take&quot;, &quot;remove&quot;, &quot;drop&quot;, &quot;put on (supporter)&quot;, &quot;insert into (container)&quot;, &quot;wear&quot;, &quot;take off (clothes)&quot;, and &quot;give&quot; actions are implemented. This is because I was writing a dress-up game where characters can be ordered to change clothes.
+<p>
+ I haven't finished the rest of the verbs yet, though I plan to.
+<p>
+ Chapter - How to Use
+<p>
+ First, download:<blockquote><font color="#000080"> Parser Error Number Bugfix by Nathanael Nerode<br> Neutral Standard Responses by Nathanael Nerode<br> and this extension</font></blockquote>
+<p>
+ Then add to your story file:<blockquote><font color="#000080"> Include Compliant Characters by Nathanael Nerode.</font></blockquote>
+<p>
+ You will still have to write a persuasion rule (as documented in Writing With Inform), such as:<blockquote><font color="#000080"> Persuasion rule for asking John to try taking or removing or dropping or putting on or inserting into:<br>&nbsp;&nbsp;&nbsp;&nbsp; persuasion succeeds.<br> Persuasion rule for asking John to try wearing or taking off or giving:<br>&nbsp;&nbsp;&nbsp;&nbsp; persuasion succeeds.</font></blockquote>
+<p>
+ You'll also still need to write an implementation for the verbs which aren't implemented in the standard rules; but many are implemented in the Standard Rules.
+<p>
+ Chapter - Notable restrictions
+<p>
+ One additional restriction has been added. A character can't pick up an enterable container which contains a person. This is to avoid certain rather tricky situations where a person is inside a container carried by another person, which requires a complicated implementation to work right.
+<p>
+ Chapter - Additional Ways To Give Orders
+<p>
+ If the characters in your story are mostly there to be ordered around, it's nice if several ways of giving orders work. While &quot;character, command&quot; has been the standard for a long time, Zork II used a completely different syntax -- 'tell robot &quot;command&quot; ', which is perhaps more natural.
+<p>
+ This extension translates<blockquote><font color="#000080"> say &quot;command&quot; to person<br> tell person &quot;command&quot;<br> order person to command<br> instruct person to command<br> tell person to command</font></blockquote>
+<p>
+ Into the standard form:<blockquote><font color="#000080"> person, command</font></blockquote>
+<p>
+ It also catches and rejects<blockquote><font color="#000080"> person, order/instruct/tell other person to command<br> tell person to tell other person to command</font></blockquote>
+<p>
+ It won't catch<blockquote><font color="#000080"> tell person &quot;other person, command&quot;<br> say &quot;other person, command&quot; to person</font></blockquote>
+<p>
+ These will turn into<blockquote><font color="#000080"> person, other person, command</font></blockquote>
+<p>
+ And then fail with the usual error for that.
+<p>
+ You can disable all of these with:<blockquote><font color="#000080"> Volume - Disabled (in place of Volume - Additional Ways To Give Orders in Compliant Characters by Nathanael Nerode)</font></blockquote>
+<p>
+ Chapter - Holdall Enhancements
+<p>
+ This extension makes sure a message is emitted for an actor putting something in the actor's holdall, which it isn't in the Standard Rules.
+<p>
+ It also allows the actor to put things in the holdall to make room for clothes being removed, which was previously a missing implicit action. (This is out of scope for this extension, perhaps, but I did it anyway.) Likewise, someone can now put things in their holdall to make room for gifts.
+<p>
+ Chapter - Giving
+<p>
+ As you might expect, compliant characters accept gifts and give gifts when ordered to. This extension eliminates the &quot;block giving&quot; rule and gives parser error feedback for all other gifts.
+<p>
+ However, to avoid some real complications, a character cannot give an enterable containing a person to another person. This is usually impossible because the character couldn't take the enterable in the first place, but if the author has overridden that, the giving rules still prohibit it.
+<p>
+ Chapter - How to change and extend the extension's behavior
+<p>
+ Section - Getting in before the parser errors are printed
+<p>
+ This sort of rule is where the parser messages are printed:<blockquote><font color="#000080"> Check an actor answering something (called commandee) that when the latest parser error is the can't see any such thing error:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The commandee] can't see any such thing.&quot;;</font></blockquote>
+<p>
+ This also short-circuits the answering process; no carry out answering or report answering rules will be run.
+<p>
+ If you make your own check answering rules, they will go before the rules in this extension and can overrride them. If your own check answering rule returns success, it will allow the carry out answering and report answering rules to take place.
+<p>
+ By default the report answering rulebook contains one rule, the &quot;block answering rule&quot;, which simply says &quot;You speak.&quot; But if you write your own rules, you can use this technique to allow a character to respond to one specific arbitrary topic which isn't a command (such as &quot;veronica, 17&quot;) -- while still using this extension to check for parser errors all other commands given to veronica.
+<p>
+ Section - Making your own unsuccessful attempt rules
+<p>
+ Unsuccessful attempt rules are the way to get helpful &quot;John can't wear the refrigerator&quot; messages rather than generic &quot;John can't do that&quot; messages.
+<p>
+ You may have to do this for additional verbs which I have not implemented, especially for verbs which you have given a lot of custom behavior.
+<p>
+ There are several undocumented gotchas in doing this relating to default rulebook behavior.
+<p>
+ Unsuccessful attempt rules which return *no decision* will pass along to the next rule, and will eventually pass through to the default &quot;Jane can't do that&quot; response. (&quot;rfalse&quot; in I6.)<blockquote><font color="#000080"> make no decision; But if the rule succeeds it will suppress the default response. (&quot;rtrue&quot; in I6.)<br> rule succeeds; And if the rule fails it will ALSO suppress the default response! (&quot;rtrue&quot; in I6.)<br> rule fails;</font></blockquote>
+<p>
+ Extremely unfortunately, the default outcome for an unsuccessful attempt rule is success. (This was checked by reading I6 generated source code). This means that the default response is suppressed by the mere existence of a rule, even if it does nothing. So this code doesn't work:<blockquote><font color="#000080"> if the reason the action failed is:<br>&nbsp;&nbsp;&nbsp;&nbsp; -- the can't take off what's not worn rule:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The actor] [aren't] wearing [the noun].&quot; (A); Instead, it will end action processing completely, and give no output if the action failed for any reason other than the can't take off what's not worn rule -- not desirable.</font></blockquote>
+<p>
+ So whenever you don't match your special cases and want to pass along to the default rule, you must EXPLICITLY &quot;make no decision&quot;.
+<p>
+ It gets worse if you use a switch statement, like this (using an explict make no decision):<blockquote><font color="#000080"> if the reason the action failed is:<br>&nbsp;&nbsp;&nbsp;&nbsp; -- the can't take off what's not worn rule:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The actor] [aren't] wearing [the noun].&quot; (A);<br> make no decision;</font></blockquote>
+<p>
+ The compiler adds an implicit otherwise which ends the rule.<blockquote><font color="#000080"> if the reason the action failed is:<br>&nbsp;&nbsp;&nbsp;&nbsp; -- the can't take off what's not worn rule:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The actor] [aren't] wearing [the noun].&quot; (A);<br>&nbsp;&nbsp;&nbsp;&nbsp; -- otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule fails;<br> make no decision;</font></blockquote>
+<p>
+ This breaking your fallback to the default! So you must explicitly write this:<blockquote><font color="#000080"> if the reason the action failed is:<br>&nbsp;&nbsp;&nbsp;&nbsp; -- the can't take off what's not worn rule:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The actor] [aren't] wearing [the noun].&quot; (A);<br>&nbsp;&nbsp;&nbsp;&nbsp; -- otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; make no decision;</font></blockquote>
+<p>
+ This actually works and is the form you should use. The actual code in this extension is:<blockquote><font color="#000080"> Unsuccessful attempt by an actor taking off (this is the actor failed to take off rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the reason the action failed is:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- the can't take off what's not worn rule:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The actor] [aren't] wearing [the noun].&quot; (A);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- the can't exceed carrying capacity when taking off rule:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The actor] [are] carrying too many things already.&quot; (B);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; make no decision;</font></blockquote>
+<p>
+ If you've already printed a failure message in a check rule, you'll need to suppress the unsuccessful attempt message, such as this example:<blockquote><font color="#000080"> Check an actor giving something enterable to (this is the don't accept things with people in them rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the noun contains a person:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the second noun is the player:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The noun] [look] too heavy for [us] to carry.&quot; (A);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise if the actor is the player:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[We] [offer] [the noun] to [the second noun], but [the second noun] [decline], saying '[The noun] [look] too heavy to carry.'&quot; (B);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise if actor is visible:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The actor] [offer] [the noun] to [the second noun], but [the second noun] [decline], saying '[The noun] [look] too heavy to carry.'&quot; (C);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stop the action;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Unsuccessful attempt by someone trying giving something enterable to:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the reason the action failed is the don't accept things with people in them rule:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; do nothing;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; make no decision.</font></blockquote>
+<p>
+ If you want to override the rules in this extension, make sure your rules are listed earlier in the unsuccessful attempt rulebook.
+<p>
+ Chapter - Say, Tell, Answer, etc.
+<p>
+ In addition to the usual &quot;Jane, go north&quot;, several other ways to issue orders are implemented for player convenience:
+<p>
+<blockquote><font color="#000080"> tell Jane to go north<br> instruct Jane to go north<br> order Jane to go north</font></blockquote>
+<p>
+ These all pass through the &quot;ordering it to&quot; action in the Check stage, which rewrites it as &quot;Jane, go north&quot; and tells it to reparse. You can intercept it first if you like:<blockquote><font color="#000080"> Check ordering something (called target) to (this is the new ordering rule):<br>&nbsp;&nbsp;&nbsp;&nbsp;...<br> The new ordering rule is listed before the reparse as command rule in the ordering it to rulebook.</font></blockquote>
+<p>
+ Several other methods of talking are also rewritten as commands:<blockquote><font color="#000080"> say go north to Jane<br> speak go north to Jane<br> answer go north to Jane<br> shout go north to Jane</font></blockquote>
+<p>
+ These, however, are first run through the &quot;speaking it to&quot; action, which redirects to the &quot;ordering it to&quot; action. So you can intercept only these if you like; perhaps you don't want these to be processed as orders:<blockquote><font color="#000080"> Check speaking to something (called target) (this is the new speaking rule):<br>&nbsp;&nbsp;&nbsp;&nbsp;...<br> The new speaking rule is listed before the redirect speaking to ordering rule in the speaking it to rulebook.</font></blockquote>
+<p>
+ The reparse as command rule will also strip quotation marks from the topic, so it can successfully handle:<blockquote><font color="#000080"> tell Jane to &quot;go north&quot;<br> instruct Jane to 'go north'<br> say &quot;go north&quot; to Jane<br> answer 'go north' to Jane<br> shout &quot;go north&quot; to Jane</font></blockquote>
+<p>
+... et cetera.
+<p>
+ Section - Stripping quotation marks from a topic
+<p>
+ In addition to its use within the reparse as command rule, stripping quotation marks from &quot;the topic understood&quot; may be a generally useful thing to do. Accordingly, it is provided as a say-phrase:
+<p>
+ This will turn all of the following:<blockquote><font color="#000080"> &quot;foo bar&quot;<br> 'foo bar'<br> foo bar into the same &quot;foo bar&quot; (without quotation marks).</font></blockquote>
+<p>
+ Section - Non-Commands
+<p>
+ Even in a game with a lot of commands, you may want to handle some things not as commands. Note that the following will not be handled as commands; this extension does not change their behavior at all:<blockquote><font color="#000080"> ask Jane about topic<br> tell Jane about topic</font></blockquote>
+<p>
+ More interesting are these cases:<blockquote><font color="#000080"> say password to Jane<br> tell Jane password<br> Jane, password</font></blockquote>
+<p>
+ These will all end up in the &quot;answering it that&quot; action, and will be processed by this extension as a command, finally coming up with a parser error (assuming password isn't a verb!). You can deal with this in one of three ways.
+<p>
+ First, you could make password a verb.
+<p>
+ Second, you can intercept &quot;answering it that&quot; before this extension gets to it, just for the word &quot;password&quot;. Note the British spelling of recognise in the error name:<blockquote><font color="#000080"> Check an actor answering something (called the commandee) that when the latest parser error is the not a verb I recognise error (this is the divert the password rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; let tmp be a text;<br>&nbsp;&nbsp;&nbsp;&nbsp; now tmp is &quot;[quote-stripped topic understood]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if tmp exactly matches the text &quot;password&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try passing the test with the commandee instead;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Passing the test with is an action applying to one thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report passing the test with something (called the commandee):<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[Commandee] accepts your password!&quot;;</font></blockquote>
+<p>
+ Third, you could intercept &quot;answering it that&quot; for all unknown verbs. Again, remember the British spelling of recognise:<blockquote><font color="#000080"> Check an actor answering something (called the commandee) that when the latest parser error is the not a verb I recognise error (this is the divert the password rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; let tmp be a text;<br>&nbsp;&nbsp;&nbsp;&nbsp; now tmp is &quot;[quote-stripped topic understood]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if tmp exactly matches the text &quot;password&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try passing the test with the commandee instead;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try giving incorrect password the topic understood to the commandee instead;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Passing the test with is an action applying to one thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Giving incorrect password it to is an action applying to one topic and one thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report passing the test with something (called the commandee):<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[Commandee] accepts your password!&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report giving incorrect password to something (called the commandee):<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[Commandee] says, 'Sorry, ['][the quote-stripped topic understood]['] is not the right password.'&quot;;</font></blockquote>
+<p>
+ Note that in this context, the topic understood is the entire statement given to the commandee. So if you write &quot;Jane, alpha beta gamma&quot;, the topic understood will be &quot;alpha beta gamma&quot;. So you can check for multi-word passwords.
+<p>
+ Section - Disabling rules
+<p>
+ Obviously, you can also turn off or replace the enhanced holdall rules or the rules prohibiting taking enterables containing people, by the usual methods described in Writing With Inform: &quot;not listed in any rulebook&quot; or &quot;listed instead of&quot;.
+<p>
+ The additonal ways to give orders can be disabled as noted above.
+<p>
+ Chapter - Interactions with other Extensions
+<p>
+ This extension depends on Parser Error Number Bugfix by Nathanael Nerode, which fixes a bug in the Standard Rules which left two parser errors misnamed. This extension depends on version 4 or later Neutral Standard Responses by Nathanael Nerode; it uses low-level code from that extension and reuses some of those responses (so that the story author only has to override the response in one place).
+<p>
+ Chapter - Changelog
+<p>
+ 4/210328 - Slicker handling for &quot;say take box to jane&quot;. - Much slicker and faster handling for &quot;say 'x' to jane&quot; and other quotation marks typed by the player. - Documentation of ways to handle passwords and similar special cases. - More Chapters, Volumes, Parts, etc. for better overriding. 3/210313 - Additional handling for &quot;say 'x' to jane&quot;, &quot;tell jane 'x'&quot; - Additional handling for indirect orders - Additional handling for &quot;jane, take all&quot; - Additional handling for other corner cases 2/171007 - Update in association with version 4 of Neutral Standard Responses - Fix misunderstood word reporting. - Fix several tricky paragraph break errors. 1/171003 - Fix line break issue in scenery message. 1/171002 - First version.
+<p>
+ Example: *** Jane - Regression test
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Jane&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Neutral Standard Responses by Nathanael Nerode.<br> Include Compliant Characters by Nathanael Nerode.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Jane's house is a room. &quot;It's Jane's house.&quot;<br> Jane is a person in the house. The description of Jane is &quot;It's Jane!&quot;<br> Persuasion rule for asking Jane to try doing something:<br>&nbsp;&nbsp;&nbsp;&nbsp; persuasion succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The furniture is a plural-named scenery thing in the house. The description of the furniture is &quot;The furniture is not meant to be used.&quot;<br> The decorations is a plural-named scenery thing in the house. The description of the decorations is &quot;Decorative.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A banana is a thing.<br> A red dress is a thing in the house.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test scenery with &quot;jane, take furniture/jane, take furniture and decorations&quot;.<br> test cantsee with &quot;jane, take banana/jane, take asdf/jane, take dress&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Subcommands<font color="#404040"> by </font>Daniel Stelzer</b><p><small></small><p><p><hr><p>
+<p>
+ This extension exposes the snippet which refers to each individual object, as its 'subcommand'.
+<p>
+<blockquote><font color="#000080"> the subcommand of (object) -&gt; snippet</font></blockquote>
+<p>
+ If the player types &quot;take the wand&quot;, referring to the black rod with a rusty star on the end, then the subcommand of the rod is &quot;wand&quot;. This can be useful in disambiguation, or in adapting a description to use the player's phrasing.
+<p>
+ Example: ** Subcommand Laboratory - A simple demonstration of how subcommands affect the parser.
+<p>
+ Include Subcommands by Daniel Stelzer.
+<p>
+ Before doing anything:<blockquote><font color="#000080"> if the noun is not nothing:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Noun subcommand: [the subcommand of the noun].&quot;;<br> if the second noun is not nothing:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Second noun subcommand: [the subcommand of the second noun].&quot;;<br> continue the action.</font></blockquote>
+<p>
+ The Laboratory is a room. A red apple, a green apple, a red pear, and a green pear are in the Laboratory. A shiny wooden box is a container in the Laboratory. It is closed and locked. The player carries a silver metal key.
+<p>
+ Does the player mean taking the red apple when the subcommand of the red apple includes &quot;red&quot;: it is very likely. Does the player mean taking the green apple when the subcommand of the green apple includes &quot;apple&quot;: it is very likely.
+<p>
+ Test fruit with &quot;get red / drop it / get apple / get pear&quot;. Test box with &quot;unlock the shiny wooden box with the silver key&quot;.
+<p>
+
+<p>
+<p></body></html>

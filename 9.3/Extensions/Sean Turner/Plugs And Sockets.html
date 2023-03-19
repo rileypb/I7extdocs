@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Plugs and Sockets<font color="#404040"> by </font>Sean Turner</b><p><small></small><p><p><hr><p>
+<p>
+ This extension provides a mechanism to add plugs and sockets of various kinds to things to allow objects to attach to one another. For example, one could create a TV with a (male) plug attached. Additionally a wall point with a (female) socket could be created thereby allowing the TV to be plugged into it. This could be coded like so:
+<p>
+<blockquote><font color="#000080"> Test Lab is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A wall point is here. It is fixed in place. Incorporated by it is a PS-socket.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A TV is here. It is fixed in place. Incorporated by it is a PS-plug.</font></blockquote>
+<p>
+ This allows the TV to be plugged into the wall point. Naturally, the TV can be unplugged from the wall point. The additional grammar &quot;PLUG something into something&quot; and &quot;UNPLUG something FROM something&quot; have been provided for this.
+<p>
+ Things can have both plugs and sockets. For example:
+<p>
+<blockquote><font color="#000080"> A power board is here. Incorporated by it is a PS-plug and four PS-sockets.</font></blockquote>
+<p>
+ This allows up to four things that have plugs to be plugged into the power board, whilst it itself can be plugged into something with a socket, such as the wall point. Note that when plugging, a specific plug and/or socket can be nominated. This is not permitted when unplugging, but more on this later.
+<p>
+ One point about multiple plugging: a thing cannot be plugged into something more than once. So, for example, if we have a cable defined thusly:
+<p>
+<blockquote><font color="#000080"> A cable is here. Incorporated by it are two PS-plugs.</font></blockquote>
+<p>
+ we cannot &quot;PLUG CABLE INTO THE POWER BOARD&quot; twice. The first time is okay but the second will be rejected, even though we could, in the real world, plug a both ends of male-male power cable into a power board.
+<p>
+ Plugs and sockets have a text property called &quot;PS-type&quot;. By default, the PS-type of sockets and plugs provided - PS-socket and PS-plug - is &quot;standard&quot;. If you use these kinds only, then everything will work nicely as expected. However we may want to create plugs and sockets of different kinds. For example:
+<p>
+<blockquote><font color="#000080"> An S-Video plug is a kind of PS-plug. The PS-type of an S-Video Plug is &quot;S-Video&quot;.<br> An S-Video socket is a kind of PS-socket. The PS-type of an S-Video Socket is &quot;S-Video&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An S-Video cable is here. Incorporated by it are two S-Video plugs.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An amplifier is here. Incorporated by it is an S-Video socket.<br> A DVD player is here. Incorporated by it is an S-Video socket.</font></blockquote>
+<p>
+ creates an S-Video cable that can connect between an amplifier and a DVD player. Plugs and sockets of differing types cannot be plugged into each other.
+<p>
+ It becomes more complex when considering some things may contain several different types of sockets. For example:
+<p>
+<blockquote><font color="#000080"> An HDMI socket is a kind of PS-socket. The PS-type of an HDMI socket is &quot;HDMI&quot;.<br> An HDMI plug is a kind of PS-plug. The PS-type of an HDMI plug is &quot;HDMI&quot;.<br> An HMDI cable is here. Incorporated by it are two HDMI plugs.<br> The amplifier incorporates an HDMI socket.</font></blockquote>
+<p>
+ The amplifier now has two different types of socket. This isn't so bad because if we try &quot;PLUG HDMI CABLE INTO AMPLIFIER&quot; the game will know, without ambiguity, which socket to use.
+<p>
+ Similarly, we could define an adapter cable that has a 3.5mm audio plug at one end and a pair of RC audio connectors at the other. If we attempted to plug this into something with only one type of socket (say an iPhone), it would automatically plug in the correct matching plug.
+<p>
+ Things can have any number of plugs and sockets of any type attached.
+<p>
+ It can become too complicated to figure out which cable end to plug into which socket. For example, if we had an adapter cable with an HDMI plug at one end and an S-Video plug at the other, we would have trouble with &quot;PLUG CABLE INTO THE AMPLIFIER&quot; (assuming the sockets of the amplifier were all free). This is because the code doesn't know which end to plug in - either would be valid. In this case, the solution is to name the plugs and/or the sockets. Then the player can specify which end is to be plugged into the amplifier.
+<p>
+<blockquote><font color="#000080"> A complex cable is here. The description is &quot;An HDMI to S-Video adapter cable (which is probably not possible!)&quot;.<br> The HDMI end of the cable is an HDMI plug. It is part of the complex cable.<br> The S-Video end of the cable is an S-Video plug. It is part of the complex cable.</font></blockquote>
+<p>
+ Now the player can type &quot;PLUG THE HDMI END OF THE CABLE INTO THE AMPLIFIER&quot; which will work as expected. Or even &quot;PLUG THE HDMI END OF THE CABLE INTO THE HDMI-IN SOCKET&quot; (if the sockets were appropriately named) would work if you wanted to be more specific still.
+<p>
+ Similarly, &quot;UNPLUG CABLE FROM THE AMPLIFIER&quot; performs as expected. If the cable is only plugged into the amplifier, just &quot;UNPLUG CABLE&quot; would be sufficient.
+<p>
+ The synonyms &quot;INSERT&quot; and &quot;ATTACH&quot; work for &quot;PLUG&quot;, likewise &quot;DETACH&quot; and &quot;REMOVE&quot; work for &quot;UNPLUG&quot;. Note these synonyms work when the attempt is made for plugs or sockets or things containing plugs or sockets. Otherwise the existing behaviour for the synonym (if it exists) will take place. For example, if &quot;ATTACH&quot; is attempted for a non-plug or something not containing a plug, the command will revert to being understood as &quot;TIE&quot;. All of this behaviour can be changed with appropriate manipulation of the listed rules.
+<p>
+ The extension does support plural items with appropriate messages. So &quot;PLUG TV INTO SOME BANANAS&quot; will give the message &quot;The bananas have no socket&quot; rather than &quot;The bananas has no socket&quot;.
+<p>
+ The extension also supports actors other than the player. For example, &quot;GEORGE, PLUG THE CORD INTO THE POWER POINT&quot; will work correctly (as long as George is willing).
+<p>
+ There are currently three major limitations to the extension: 1) You cannot plug an item into another item multiple times. There is a rule which explicitly forbids it (although it could be delisted). It creates problems with listing attachments and ambiguity and wasn't really necessary. 2) You cannot name a plug or socket when unplugging. Once again, it would have added complexity and I didn't believe it is needed. 3) Plugs and sockets has not been tested for multi-layered situations. That is, a plug or socket must be a part of a parent object, not a part of a part. For example, lets say we have an &quot;entertainment system&quot; which has a &quot;DVD player&quot; as a part. The &quot;DVD player&quot; could then have a plug as a part of it. However this may cause problems when trying to &quot;PLUG&quot; it into things.
+<p>
+ One final point: a value called PS-leaving can be either PS-denied or PS-allowed. It is PS-denied by default. When it is PS-denied and the player attempts to leave a location whilst carrying something attached to something not carried, a message will be displayed and the action prevented. If this variable is set to PS-allowed, the action will be okay but all the relevant connections for those things carried will be broken.
+<p>
+ Example: ** Home Theatre - Plugging a variety of components with different connections together to watch a DVD.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Home Theatre&quot; by Sean Turner</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Plugs and Sockets by Sean Turner</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 1 - New plug and socket kinds</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An HDMI-plug is a kind of PS-plug. The PS-type of an HDMI-plug is &quot;HDMI&quot;.<br> An HDMI-socket is a kind of PS-socket. The PS-type of an HDMI-socket is &quot;HDMI&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A DVI-plug is a kind of PS-plug. The PS-type of a DVI-plug is &quot;DVI&quot;.<br> A DVI-socket is a kind of PS-socket. The PS-type of a DVI-socket is &quot;DVI&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A power-plug is a kind of PS-plug. The PS-type of a power-plug is &quot;power&quot;. A power-plug has a truth state called searched state. The searched state of a power-plug is usually false.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A power-socket is a kind of PS-socket. The PS-type of a power-socket is &quot;power&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A double-adapter is a kind of thing. Every double-adapter incorporates a power-plug and two power-sockets.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A hifi-gadget is a kind of thing. Every hifi-gadget incorporates a power-plug.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 2 - A few decisions</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To decide if the (test-item - a thing) is powered:<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with item running through the power-plugs:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the searched state of the item is false;<br>&nbsp;&nbsp;&nbsp;&nbsp; let forever be true;<br>&nbsp;&nbsp;&nbsp;&nbsp; while forever is true:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the test-item is the power point:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; decide yes;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; let test-plug be a random power-plug which is part of the test-item;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the test-plug is nothing, or the attachment of the test-plug is nothing:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; decide no;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the searched state of the test-plug is true:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; decide no;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the searched state of the test-plug is true;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the test-item is the holder of the attachment of the test-plug.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To decide if the audio is connected:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the HDMI cable is inserted into the receiver, and the HDMI cable is inserted into the DVD player, and the holder of the attachment of the HDMI-IN socket is HDMI cable:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; decide on true;<br>&nbsp;&nbsp;&nbsp;&nbsp; decide on false.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To decide if the video is connected:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the video converter is inserted into the TV, and the video converter is inserted into the receiver, and the attachment of the HDMI-OUT socket is the green plug:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; decide on true;<br>&nbsp;&nbsp;&nbsp;&nbsp; decide on false.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 3 - Scenario</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Home Theatre is a room. &quot;This softly lit and richly carpeted homage to 1970's decor is the perfect place to relax and watch a movie. A store room is to the south.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A big screen TV is a hifi-gadget. It is here. &quot;A huge 150cm Plasma TV dominates the north wall.&quot;. It is fixed in place.<br> The description is &quot;Tastelessly huge. The TV is [if the TV is powered]on although nothing is showing.[else]off.&quot;.<br> Incorporated by it is a DVI-socket.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A power point is here. It is fixed in place. &quot;Unfortunately the room has only one single power point tucked away in the corner farthest from the TV.&quot;<br> Incorporated by it is a power-socket.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check plugging a PS-inserter into the power point (this is the power-point-too-far rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the noun is fixed in place, say &quot;The plug of [the noun] will not reach to [the power point].&quot; instead;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the noun is not the extension cord, say &quot;It would be useless to plug [the noun] into [the power point] when it is so far from the TV.&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The power-point-too-far rule is listed last in the check plugging it into rulebook.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A Blu-ray DVD player is a hifi-gadget. It is here. The description is &quot;A state of the art DVD player. In the player is a movie waiting to be watched. The DVD player is [if the DVD is powered]on and the movie is playing.[else]off.&quot;<br> Incorporated by it is an HDMI-socket.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A digital receiver is a hifi-gadget. It is here. It is fixed in place.<br> The description is &quot;A complex switching mechanism routing various audio visual inputs to the TV and speakers. The speakers are hard-wired into the back of the receiver. On the back of the receiver are two HDMI sockets labeled HDMI-IN and HDMI-OUT.<br><br>The receiver is [if the receiver is powered]on and hums slightly.[else]off.&quot;.<br> Incorporated by the receiver is an HDMI-socket called the HDMI-OUT socket.<br> Incorporated by the receiver is an HDMI-socket called the HDMI-IN socket.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Some speakers are scenery. They are here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Store room is south of the Home Theatre.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An extension cord is here. The description is &quot;5 metres of sturdy electrical cord.&quot;. The indefinite article is &quot;an&quot;.<br> Incorporated by it is a power-plug and a power-socket.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A video converter cable is here. The description is &quot;It converts from an HDMI source to a DVI destination - useful when only the video component of the signal is required. The male DVI plug is red and the male HDMI plug is green.&quot;.<br> Incorporated by the cable is a DVI-plug called the red plug.<br> Incorporated by the cable is an HDMI-plug called the green plug.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An HDMI cable is here. Incorporated by it are two HDMI-plugs. The indefinite article is &quot;an&quot;. The description is &quot;Connects two HDMI devices for video and sound. The two male connectors are indistinguishable.&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A cream double adapter is a double-adapter. It is here.<br> A white double adapter is a double-adapter. It is here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 4 - Victory condition</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn:<br>&nbsp;&nbsp;&nbsp;&nbsp; let power flowing be true;<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with item running through hifi-gadgets:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unless the item is powered:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now power flowing is false;<br>&nbsp;&nbsp;&nbsp;&nbsp; if power flowing is true, and the audio is connected, and the video is connected:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Ahh. Now you can relax and watch the movie.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end the story saying &quot;You have won.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; else:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the receiver is powered, and the DVD is powered, and the audio is connected:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You can hear the movie but you can't see any picture!&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 5 - Testing</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test me with &quot;s/get all/n/plug tv into white/plug dvd into white/plug white into cream/plug receiver into cream/plug cream into cord/plug cord into point/plug hdmi into receiver/plug hdmi into dvd/plug video into receiver/x green/x red/plug video into tv/unplug video from receiver/unplug hdmi from receiver/plug hdmi into hdmi-in/plug video into hdmi-out&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test errors with &quot;plug tv into point/plug tv into receiver/s/get all/n/plug cord into point/s/plug hdmi into cream/unplug cord from point/plug cord into cord/unplug cord/plug tv into white/plug receiver into white/ plug cream into white/unplug tv/plug red plug into receiver/plug green plug into receiver/plug video cable into tv&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

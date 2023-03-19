@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Flexible Action Requirements<font color="#404040"> by </font>Mike Ciul</b><p><small></small><p><p><hr><p>
+<p>
+ Section: Altering Action Requirements
+<p>
+ Some actions in the Standard Rules are described as acting on &quot;one carried thing.&quot; If we want to waive those requirements, our only option is to create a new action that doesn't have them. This extension removes that problem by making the carrying requirements more flexible.
+<p>
+ In addition, we can now specify touchability requirements in the same level of detail as with carrying requirements. We can also use it to make fine-tuned tests in our own accessibility rules.
+<p>
+ Section: Carrying Requirements
+<p>
+ To waive the carrying requirements for an action, we can designate it as either of the &quot;flexible about carrying the noun&quot; or &quot;flexible about carrying the second noun&quot; kinds of action.
+<p>
+<blockquote><font color="#000080"> Eating is flexible about carrying the noun.<br> Unlocking something with the Force is flexible about carrying the second noun.</font></blockquote>
+<p>
+ If that's not fine enough detail, we can add rules to the &quot;custom carrying requirements&quot; rulebook, which is an object-based rulebook. The rulebook has two outcomes, &quot;it must be carried,&quot; and &quot;it may be merely visible.&quot; If the rulebook makes no decision, we assume there are no carrying requirements.
+<p>
+<blockquote><font color="#000080"> Custom carrying requirements for the speck of dust:<br>&nbsp;&nbsp;&nbsp;&nbsp; if taking, make no decision;<br>&nbsp;&nbsp;&nbsp;&nbsp; If the current action involves the speck of dust, it must be carried.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Custom carrying requirements for the Force:<br>&nbsp;&nbsp;&nbsp;&nbsp; it may be merely visible.</font></blockquote>
+<p>
+ To test the carrying requirements, we can use the &quot;only available when carried&quot; adjective.
+<p>
+<blockquote><font color="#000080"> Before doing something when the noun is only available when carried:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the noun is not carried:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Sorry, you can't do that when you're not carrying [the noun].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stop the action;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;(Good thing you're carrying [the noun] now)[command clarification break]&quot;</font></blockquote>
+<p>
+ All of the built-in custom carrying requirements rules test if the item is &quot;involved,&quot; i.e. it is the noun or the second noun. If you create custom carrying requirements rules that decide &quot;it must be carried&quot; for any other objects, you might get unexpected results when using the &quot;only available when carried&quot; adjective. If you must be absolutely sure that the item is both involved AND required for its role in the current action, you can use this to-decide-whether phrase:
+<p>
+<blockquote><font color="#000080"> if the golden plough must be carried:</font></blockquote>
+<p>
+ A note on the use of &quot;involved:&quot; If you make use of the phrase &quot;an involved thing,&quot; you will be executing a loop over all objects in the game to see which things are involved. To avoid this, you can use the phrase &quot;a (description of objects) must be used&quot; instead, which will be true for all matching items that are involved. You can also obtain &quot;the (description of objects) that must be used,&quot; which will return the noun if it matches, or the second noun if it matches but the noun doesn't.
+<p>
+ Section: Touchability Requirements
+<p>
+ Two similar kinds of action are defined so we can waive touchability requirements for objects: &quot;flexible about touching the noun&quot; and &quot;flexible about touching the second noun.&quot;
+<p>
+ The adjective &quot;only available when touchable&quot; will tell us if an object is subject to touchability requirements of the current action. And we can make sure it is also involved in the current action using the to-decide-whether phrase &quot;must be touched.&quot;
+<p>
+ Some phrases to help us are:
+<p>
+<blockquote><font color="#000080"> (the item) must be touched</font></blockquote>
+<p>
+ This phrase workes on individual objects as well as descriptions of objects:
+<p>
+ e.g.<blockquote><font color="#000080"> if the top of the flagpole must be touched:</font></blockquote>
+<p>
+ or:
+<p>
+<blockquote><font color="#000080"> if a container must be touched:</font></blockquote>
+<p>
+ We can also use a description of objects to identify a particular thing that must be touched:
+<p>
+<blockquote><font color="#000080"> the (item) that must be touched</font></blockquote>
+<p>
+ Finally, there is an adjective, &quot;required to be touched&quot; that means the same thing. Be careful about using this, though - although it's more flexible than using one of the above phrases, it will loop over all objects in the game every time it is used. If you do that in the preamble of an accessibility rule, that will happen at least once every turn!
+<p>
+ A warning about this, though: If you regularly use this adjective or phrase in rule conditions, you're going to spend a lot of time looping over every object in the game just to see if it's involved in the action. Consider looping explicitly over the noun and the second noun instead.
+<p>
+ To meddle with touchability requirements further, we may create &quot;custom touchability requirements&quot; rules. The outcomes are called &quot;it must be touchable,&quot; and again, &quot;it may be merely visible.&quot;
+<p>
+ Unlike the carrying requirements modifications, though, there are no built-in changes to accessibility rules. Declaring that
+<p>
+<blockquote><font color="#000080"> listening is flexible about touching the noun</font></blockquote>
+<p>
+ will not allow us to listen to things that are out of reach. We'd have to define our own rules, perhaps like this:
+<p>
+<blockquote><font color="#000080"> Reaching outside (this is the can always reach available when merely visible objects rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; unless something must be touched, allow access;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The can always reach available when merely visible objects rule is listed before the can't reach outside closed containers rule in the reaching outside rules.</font></blockquote>
+<p>
+ Even then, we would still need additional grammar lines or &quot;try&quot; statements to enable the player to perform actions on things that are not in scope.
+<p>
+ The main value of the touchability requirements, then, is so we can designate some objects in scope as &quot;too far away&quot; or &quot;too high up:&quot;
+<p>
+<blockquote><font color="#000080"> Accessibility rule when the fans must be touched:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The fans are too far away.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; stop the action;</font></blockquote>
+<p>
+ Section: Notes
+<p>
+ Thanks to Troy Jones III and Matt Weiner for inspiring this extension. You may contact Mike Ciul at captainmikee@yahoo.com with bug reports and feedback.
+<p>
+ Example: * &quot;Mange Tout&quot; - A blancmange that can't be taken but can be eaten, and tennis fans who can't be touched but can be heard.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Mange Tout&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Flexible Action Requirements by Mike Ciul.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Wimbledon Stadium is a room. A giant blancmange is a fixed in place edible thing in Wimbledon Stadium.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The fans are a plural-named person in Wimbledon.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Accessibility rule when the fans must be touched:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The fans are too far away.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; stop the action;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of listening to the fans when the blancmange is off-stage:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;A tremendous roar of jubilation washes over you.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; end the story finally saying &quot;You have won the match.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of listening to the fans:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The crowd is hushed with terror and anticipation.&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Eating is flexible about carrying the noun;<br> Listening is flexible about touching the noun;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;listen to fans/eat fans/take blancmange/eat blancmange/listen to fans&quot;</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

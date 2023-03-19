@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Vorple Modal Windows<font color="#404040"> by </font>Juhana Leinonen</b><p><small></small><p><p><hr><p>
+<p>
+ A modal window is a screen that pops up on top of the interpreter with text content and a button that closes the modal.
+<p>
+ Chapter: Simple modals
+<p>
+ A modal window with plain text content can be created with:
+<p>
+<blockquote><font color="#000080"> show a modal window reading &quot;Hello World!&quot;;</font></blockquote>
+<p>
+ The modal pops up with the text and an OK button and waits for the player to either click on the button, press enter, space or esc, or click somewhere outside the modal window.
+<p>
+ By default the game will pause to wait for the user to dismiss the modal window. This behavior can be switched off with a &quot;without pausing&quot; option:
+<p>
+<blockquote><font color="#000080"> show a modal window reading &quot;Merry Christmas!&quot;, without pausing;<br> say &quot;And a happy new year!&quot;;</font></blockquote>
+<p>
+ In the above example the modal doesn't pause the game, so the player can see the text &quot;And a happy new year&quot; printed immediately in the game's normal text flow below the modal window. Without the &quot;without pausing&quot; option the text would appear only after dismissing the modal.
+<p>
+ Chapter: Modals with styled content
+<p>
+ The &quot;show a modal window reading ...&quot; lets us show only plain text, but if we want more complex content, we can open the modal without any content and then redirect all following output to it. Anything between phrases &quot;set output focus to the modal window&quot; and &quot;set output focus to the main window&quot; is printed inside the modal.
+<p>
+<blockquote><font color="#000080"> show a modal window;<br> set output focus to the modal window;<br> say &quot;[bold type]Welcome![roman type]&quot;;<br> place the image &quot;Cover.jpg&quot; with description &quot;Cover page&quot;, centered;<br> set output focus to the main window;<br> wait for any key;</font></blockquote>
+<p>
+ (&quot;Place the image&quot; phrase is from the Vorple Multimedia extension.)
+<p>
+ Note that when creating a modal window this way we should &quot;wait for any key&quot; after creating the modal so that the game pauses to wait for the player to act.
+<p>
+ Example: * The Greeter - Showing a modal at the start of the play
+<p>
+ This basic example pops up the modal when the play begins and displays the story title and some basic gameplay instructions.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;The Greeter&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Vorple Modal Windows by Juhana Leinonen.<br> Release along with the &quot;Vorple&quot; interpreter.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> There is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; show a modal window reading &quot;Welcome to [story title]! Use LOOK to look around, EXAMINE what you see, and TAKE what you can!&quot;.</font></blockquote>
+<p>
+ Example: ** Version Popup - Show the version information in a modal window
+<p>
+ We have two rules here that cause the normal banner to show in a modal instead of in the story text. The first check rule shows a modal window and sets the output focus to it. From then on everything that the game prints (the banner, in this case) will be printed inside the modal. The second report rule runs after the banner has been printed, resuming output back to the normal flow of the game text.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Version Popup&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Vorple Modal Windows by Juhana Leinonen.<br> Release along with the &quot;Vorple&quot; interpreter.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> There is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check requesting the story file version:<br>&nbsp;&nbsp;&nbsp;&nbsp; show a modal window;<br>&nbsp;&nbsp;&nbsp;&nbsp; set output focus to the modal window.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report requesting the story file version:<br>&nbsp;&nbsp;&nbsp;&nbsp; set output focus to the main window.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;version&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

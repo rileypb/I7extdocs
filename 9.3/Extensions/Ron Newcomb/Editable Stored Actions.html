@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Editable Stored Actions<font color="#404040"> by </font>Ron Newcomb</b><p><small></small><p><p><hr><p>
+<p>
+ This extension allows us to directly change the parts of a stored action.
+<p>
+<blockquote><font color="#000080"> The standing orders are a stored action that varies.<br> The soldier on point is a person that varies.<br> Guarding it from is an action applying to one room and one direction.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> change the action name part of the standing orders to the guarding it from action;<br> change the actor part of the standing orders to the soldier on point;<br> change the noun part of the standing orders to the battlefield;<br> change the second noun part of the standing orders to north;</font></blockquote>
+<p>
+ This extension also exposes a few new parts of a stored action. The request and numerical parts can be changed in the same way as the earlier four. The rest can only be read.
+<p>
+<blockquote><font color="#000080"> request part of S<br> text part of S<br> preposition part of S<br> participle part of S<br> number part of S<br> second number part of S</font></blockquote>
+<p>
+ The request part is an either/or property that differentiates between &quot;Bob jumping&quot; and &quot;asking Bob to try jumping&quot;. (The latter rule, if executed, would first consult the persuasion rules. It is not referring to either of the asking actions in the Standard Rules &quot;asking it for&quot; nor &quot;asking it about&quot;.)
+<p>
+ The text part is only of interest to actions which apply to a topic. The text part stores the player's entire command, not just the topic part. If the action name part of a stored action is changed, this obviously invalidates the text part.
+<p>
+ The preposition part returns the preposition used between the two nouns, for those actions that apply to two nouns. For example, the &quot;telling it about&quot; action has &quot;about&quot; as its preposition. Similarly, the participle part would be &quot;telling&quot;. These two parts may be used on just the action name (such as &quot;the giving it to action&quot;) in addition to a stored action.
+<p>
+ The number and second number part are for actions that apply to a number or kind of value. Actions can only apply to a single number or kind of value, never two, but if an action also applies to an object, the number part may be first or second. We can test if a noun or second noun is an object by the phrases.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> if the noun part of (a stored action) is an object,<br> if the second noun part of (a stored action) is an object,</font></blockquote>
+<p>
+ For the phrases that return the participle, preposition, or whether or not a noun is an object, we may also use an action name instead of a stored action. This is because the returned information is constant, not depending upon a particular instance. For example:<blockquote><font color="#000080"> say &quot;[the preposition of the asking it for action]&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> unless the second noun part of the dialing it for action is an object:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[the second number part of the current action]&quot;;</font></blockquote>
+<p>
+ A final, small feature: we may ask if a stored action involves a particular action name (i.e., if it involves a particular verb). There are easier, more direct ways to do this, except if the action name is in a variable.
+<p>
+<blockquote><font color="#000080"> let the possibility be a random action name;<br> if the best idea yet involves the possibility:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;And suddenly, a hope; a connection.  [The best idea yet] may fall within your realm of possibilities.&quot;;</font></blockquote>
+<p>
+ The phrasebook of the index lists these phrases succinctly.
+<p>
+ Example: * The Ultimate Puzzle Solution - A kind of value's not-so-kind example
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;The Ultimate Puzzle Solution&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Editable Stored Actions by Ron Newcomb.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The backyard is room. A Rubik's cube is a thing carried by the player.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Feet are a kind of value. 10' specifies feet.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Throwing it is an action applying to one object and one feet.<br> Understand &quot;throw [something] [feet]&quot; as throwing it.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Pent-up frustration is a stored action that varies.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report throwing it:<br>&nbsp;&nbsp;&nbsp;&nbsp; now pent-up frustration is the current action;<br>&nbsp;&nbsp;&nbsp;&nbsp; change the second feet part of pent-up frustration to the feet understood plus 10';<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Although [the current action] was all you intended, you find yourself [pent-up frustration] instead.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;throw rubik's cube 30['] &quot;</font></blockquote>
+<p>
+ Example: *** Editable Stored Actions - Allowing our player a CHANGE command similar to the author's
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Editable Stored Actions&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Editable Stored Actions by Ron Newcomb.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 1 - Basic setup</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The best idea yet is a stored action that varies.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Place is a room. Bob and Joe are men in place. A rock is in place. Persuasion: rule succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins, now the best idea yet is the action of Bob giving the rock to Bob.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of looking, say &quot;You see an action here: [bold type][the best idea yet][roman type].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;change the second noun to joe/do it/change the request to true/do it/change the second noun to me/l/change the action to jumping/jump/do it/eh/l/change the request to false/do it/l/x joe/do it/tell joe about stuff/do it/ask joe for rock/l/change the noun to rock/x noun/x second noun/do it/change second noun to rock/do it/x preposition/x participle/eh&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 2 - The verbs DO IT, EXAMINE, and CHANGE</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;do it&quot; as executing. Executing is an action applying to nothing. Carry out executing: try the best idea yet.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;examine [text]&quot; or &quot;x [text]&quot; as inspecting. Inspecting is an action applying to one topic.<br> Carry out inspecting &quot;prep/preposition&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The preposition is [bold type][preposition part of the best idea yet][roman type].&quot;<br> Carry out inspecting &quot;participle/name/action-name/action&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The participle part is [bold type][participle part of the best idea yet][roman type].&quot;<br> Carry out inspecting &quot;topic/topical/text/textual&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The topic part is [bold type][text part of the best idea yet][roman type].&quot;<br> Carry out inspecting &quot;actor&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The actor part is [bold type][actor part of the best idea yet][roman type].&quot;<br> Carry out inspecting &quot;noun&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The noun part is [bold type][noun part of the best idea yet][roman type].&quot;<br> Carry out inspecting &quot;second noun&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The second noun part is [bold type][second noun part of the best idea yet][roman type].&quot;<br> Carry out inspecting &quot;request&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The request part is [bold type][if request part of the best idea yet]true[else]false[end if][roman type].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;change [text] to [any thing]&quot; as changing it to. Changing it to is an action applying to one topic and one visible thing.<br> Check changing &quot;actor&quot; to:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the second noun is not a person, say &quot;Actors must be people.&quot; instead.<br> Carry out changing &quot;actor&quot; to:<br>&nbsp;&nbsp;&nbsp;&nbsp; change the actor part of the best idea yet to the second noun.<br> Carry out changing &quot;noun&quot; to:<br>&nbsp;&nbsp;&nbsp;&nbsp; change the noun part of the best idea yet to the second noun.<br> Carry out changing &quot;second noun&quot; to:<br>&nbsp;&nbsp;&nbsp;&nbsp; change the second noun part of the best idea yet to the second noun.<br> Carry out changing &quot;request&quot; to truth:<br>&nbsp;&nbsp;&nbsp;&nbsp; change the request part of the best idea yet to true.<br> Carry out changing &quot;request&quot; to falsehood:<br>&nbsp;&nbsp;&nbsp;&nbsp; change the request part of the best idea yet to false.<br> Report changing it to:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The best idea yet has been changed to [bold type][The best idea yet][roman type].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 3 - CHANGE an action name</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;change action/name/action-name [text]&quot; as a mistake (&quot;To change the stored action's action name, try to do that action.  For example, JUMP will change the action name part to the jumping action.  (Sorry, parser difficulty.)&quot;).</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of doing something except executing, inspecting, or looking when the current action is not changing to:<br>&nbsp;&nbsp;&nbsp;&nbsp; change the action name part of the best idea yet to the action name part of the current action;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The action name part (only!) has been changed, yielding [bold type][the best idea yet][roman type].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 4 - Niceties, workarounds, and debugging</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The block giving rule is not listed in any rulebook.<br> Instead of someone jumping, say &quot;[Actor] leaps high into the air.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Truth and falsehood are things. Understand &quot;true/yes&quot; as truth. Understand &quot;false/no&quot; as falsehood.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After reading a command when the player's command includes &quot;the&quot;, cut the matched text.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;eh&quot; as a mistake (&quot;actor: [actor part of the best idea yet][line break]action name: [action name part of the best idea yet][line break]noun: [noun part of the best idea yet][line break]second noun: [second noun part of the best idea yet][line break]request? [if request part of the best idea yet]yes[else]no[end if][line break]topic: [the text part of the best idea yet][line break]participle: [the participle part of the best idea yet][line break]preposition: [preposition part of the best idea yet][line break]&quot;).</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

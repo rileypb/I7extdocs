@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Glimmr Graphic Hyperlinks<font color="#404040"> by </font>Erik Temple</b><p><small></small><p><p><hr><p>
+<p>
+ Glimmr Graphic Hyperlinks allows us to identify any number of rectangular areas of a Glulx graphic window as &quot;hotlinked&quot;. When the player clicks within one of these zones, a command will be entered on behalf of the player, or we can specify some appropriate response of our own. Graphic links (&quot;graphlinks&quot;) can be defined in any number of graphics windows simultaneously. At minimum, the extension requires Jon Ingold's Flexible Windows extension, which is used to define and manage the windowing system. It can also be used with Glimmr Canvas-Based Drawing to fully automate the maintenance of the list of graphlinks.
+<p>
+ Glimmr Graphic Hyperlinks (GGH) is an adaptation and amplification of Jeff Sheets' Graphic Links extension to the framework provided by Jon Ingold's Flexible Windows. Like the original Graphic Links, it is not really intended to be complete in itself, but rather to be a relatively flexible template for more specific applications. The major limitation of both extensions is their reliance on the coordinate system of the window itself to define links; an image that has been scaled and centered in a window will move relative to the window coordinates any time the window is resized. For nearly all purposes, then, authors will want to provide a conversion from a more stable coordinate system to the window's system. The Glimmr Canvas-Based Drawing extension does just this, while also providing completely automated updating of links by binding them to graphic elements.
+<p>
+ Section: Basic usage
+<p>
+ In order to use graphic hyperlinks in a window, we must identify that window as receptive to links. This is as simple as writing:
+<p>
+<blockquote><font color="#000080"> The graphics-window is g-graphlinked.</font></blockquote>
+<p>
+ Alternatively, we can define our window as of the kind &quot;graphlink g-window&quot;. This will automatically set the g-graphlinked property:
+<p>
+<blockquote><font color="#000080"> The graphics-window is a graphlink g-window.</font></blockquote>
+<p>
+ Note that Glimmr Graphic Hyperlinks only works with graphics windows. A text hyperlinking solution, such as Inline Hyperlinks or the system built into Flexible Windows, is needed for text windows.
+<p>
+ The list of rectangular areas that are to be hyperlinked, regardless of how many windows are represented, are stored in a single table, the Table of Graphlink Glulx Replacement Commands. These hotlinked rectangular zones are called graphic hyperlinks or &quot;graphlinks,&quot; and they can be identified in one of two ways: If we are using Glimmr Canvas-Based Drawing (GCBD), they are identified with the name of an object (usually a g-element); if we are not, we identify them using a text. While manually interacting with the graphlink list is rarely required in GCBD, it is a must for any other project. We add a link to the table using the phrase:
+<p>
+<blockquote><font color="#000080"> set a graphlink in the graphics-window identified as &quot;undo button&quot; from 0 by 0 to 10 by 10 as &quot;Undo&quot;</font></blockquote>
+<p>
+ This adds a graphlink called &quot;undo button&quot; to the Table of Graphlink Glulx Replacement Commands. When the link is clicked it will--if we use the default rules--enter &quot;Undo&quot; on the command line on behalf of the player. Note the string of coordinates, which are entered LEFT by UPPER to RIGHT by LOWER.
+<p>
+ There are two phrases that can be used to remove links from the table. To clear a single link:
+<p>
+<blockquote><font color="#000080"> clear the graphlink identified as &quot;undo button&quot;</font></blockquote>
+<p>
+ Or we can clear the whole table at once with:
+<p>
+<blockquote><font color="#000080"> zero the link-table</font></blockquote>
+<p>
+ Note that the graphlink identifier we use should--at least generally--be unique. This is simply because a request to clear a graphlink would otherwise be ambiguous (the clear command only clears the first graphlink it encounters). By default, the &quot;set a graphlink&quot; phrase will not allow us to have more than one row in the table with the same identifier. If we set a second graphlink using an identify that is already in the table, the original will be overwritten. To avoid this, add the &quot;ignoring redundant links&quot; phrase option:
+<p>
+<blockquote><font color="#000080"> set a graphlink in the graphics-window identified as &quot;undo button&quot; from 0 by 0 to 10 by 10 as &quot;Undo&quot;, ignoring redundant links.</font></blockquote>
+<p>
+ The Table of Graphlink Glulx Replacement Commands starts with 120 entries, which is likely to be sufficient for nearly all purposes. We can expand the table if need be, of course. To add another 50 rows, for example:
+<p>
+<blockquote><font color="#000080"> Table of Graphlink Glulx Replacement Commands (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> linkid</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> g-win</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> p-top</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> p-bottom</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> p-left</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> p-right</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> replacement</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> alt</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> action</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> with 50 blank rows</font></font></td></tr></table></blockquote>
+<p>
+ Section: Advanced usage
+<p>
+ There may be times where what we want from a graphlink is something other than that it enter a command on the player's behalf. For these cases, we need to write new one or more new &quot;graphlink processing&quot; or &quot;clicking graphlink rules&quot;.
+<p>
+ The &quot;clicking graphlink rules&quot; are triggered when a graphlinked window receives mouse input. The rule should test to see whether the mouse input hit a graphlink, and then instruct Inform what to do about it. We can test whether a graphlink was clicked on by using the phrase &quot;if the click hit a hot link&quot;. Here is the default rule:
+<p>
+<blockquote><font color="#000080"> A clicking graphlink rule (this is the default command replacement by graphlinks rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the click hit a hot link:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; follow the graphlink processing rules;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now glulx replacement command is &quot;&quot;.</font></blockquote>
+<p>
+ We look through the table for entries that apply to the window that was clicked (the &quot;current graphlink window&quot;), and when we find one, we test whether the click was within the bounds of that entry's rectangle. If it was, the player has successfully hit a graphlink: we pass handling off to the graphlink processing rules. Note that, when a hot link is detected, the &quot;candidate replacement command&quot; variable is set to the command provided when the graphlink was set up, and the &quot;current graphlink&quot; is set to the identifier (these are assigned within the decide phrase).
+<p>
+ If the click failed to hit a link, we simply set the glulx replacement command to null. Glulx Entry Points handles the transformation of the glulx replacement command into a &quot;typed&quot; command. If there is any text at all in the variable, then that text will be pasted as a command. If the glulx replacement command is null, nothing will happen except that the window will once again become receptive to input.
+<p>
+ We will rarely need to adjust the clicking graphlink rules--most often, we would adjust them when we want to bypass the Table of Glulx Graphlink Replacement Commands altogether. More often, we will want to intervene in the graphlink processing rules. The graphlink processing rules is a rulebook that runs only after a graphlink has definitively been clicked. (Note: If we are using GGH with Glimmr Canvas-Based Drawing, the graphlink processing rules will be an object-based rulebook, with the object generally being the g-element that was clicked on to trigger the graphlink.)
+<p>
+ The default graphlink processing rule changes the glulx replacement command to the candidate replacement command (which was set in the clicking graphlink rules):
+<p>
+<blockquote><font color="#000080"> A graphlink processing rule (this is the default graphlink processing rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; cancel input in main window;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the glulx replacement command is the candidate replacement command;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the candidate replacement command is &quot;&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds.</font></blockquote>
+<p>
+ Because this will result in the command being printed to the window, we need to cancel input in the window (a requirement of Glk, the interface layer of Glulx). We also reset the candidate replacement command.
+<p>
+ There may be times when we do not want to use the glulx replacement command to communicate the outcome of a graphlink, and we do have two other options. Neither of these, however, will have any effect unless we write our own graphlink processing rule. We use variants of the &quot;set graphlink&quot; phrase to prepare these alternate outcomes:
+<p>
+<blockquote><font color="#000080"> set a graphlink in the graphics-window identified as &quot;undo button&quot; from { 10, 10 } to { 40, 25 } as 2.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> set a graphlink in the graphics-window identified as &quot;jump button&quot; from { 10, 10 } to { 40, 25 } as the action of jumping.</font></blockquote>
+<p>
+ The first phrase sets the &quot;alt&quot; entry in the table to the number 2. We can later read this number and make an appropriate decision about how to respond (perhaps looking up the result in a separate table). The second phrase sets the &quot;action&quot; entry to a stored action (jumping, in this case), which allows us to specify an action without specifying the text of the command. This means that we can fire the command &quot;silently,&quot; without printing the command to the screen.
+<p>
+ Again, we need to write our own graphlink processing rules to deal with such alternatives. Here's how we might write a rule to execute a stored action:
+<p>
+<blockquote><font color="#000080"> First graphlink processing rule (this is the direct action firing rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; choose row (current graphlink row) from the Table of Graphlink Glulx Replacement Commands;<br>&nbsp;&nbsp;&nbsp;&nbsp; if there is an action entry:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try the action entry;<br>&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds.</font></blockquote>
+<p>
+ Note the use of the &quot;current graphlink row&quot; variable. This is set when a graphlink is clicked and can be used to quickly and accurately refer to the row containing the graphlink (from the Table of Graphlink Glulx Replacement Commands). If our linkid entries are not unique, this allows us to avoid difficulties in reselecting the proper graphlink.
+<p>
+ Section: Using GGH with Glimmr Canvas-Based Drawing
+<p>
+ When used with Glimmr Canvas-Based Drawing, GGH becomes almost fully automatic. The only time we will manually need to set graphlinks is when we are creating a new type of element, or writing a custom window-drawing rule. (Only if we are seriously hacking the extension will ever need to clear a graphlink.) When we do set graphlinks, it is important to be aware that, when Glimmr Canvas-Based Drawing is included, the link identifier is an *object* (usually this will be a g-element) rather than a text as it is in the absence of GCBD. Here are the three graphlink-setting phrases mentioned above as they might be entered in the Canvas-Based Drawing context:
+<p>
+<blockquote><font color="#000080"> set a graphlink in the graphics-window identified as the undo-button from 0 by 0 to 10 by 10 as &quot;Undo&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> set a graphlink in the graphics-window identified as the undo-button from { 10, 10 } to { 40, 25 } as 2.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> set a graphlink in the graphics-window identified as the jump-button from { 10, 10 } to { 40, 25 } as the action of jumping.</font></blockquote>
+<p>
+ The other major change is that, under Canvas-Based Drawing, the graphlink processing rules are an object-based rulebook. This rule header, for example, will allow us to treat the undo-button g-element differently from the others:
+<p>
+<blockquote><font color="#000080"> A graphlink processing rule for the undo-button:<br>&nbsp;&nbsp;&nbsp;&nbsp; (etc.)</font></blockquote>
+<p>
+ Without GCBD, we would need to write this as &quot;A graphlink processing rule when the current graphlink is 'undo button'&quot;.
+<p>
+ Section: Debugging
+<p>
+ When used with either Glimmr Drawing Commands or Glimmr Canvas-Based Drawing, GGH will be able to generate Glimmr log messages. These generally identify the window and coordinates clicked, as well as the graphlink or g-element involved. As with all Glimmr log messages, logging must be enabled with the use option:
+<p>
+<blockquote><font color="#000080"> Use Glimmr debugging.</font></blockquote>
+<p>
+ If we are not using these Glimmr extensions (and even if we are), we can access the same information by entering coordinate-trace mode. To do this, we just type COORDINATES at the command line (typing the command again turns coordinate-trace off again).
+<p>
+ Another debugging command available to us is the GRAPHLINKS command. This will provide a summary of the current state of the graphlinks table. Sample output:
+<p>
+<blockquote><font color="#000080"> Table of Graphlink Glulx Replacement Commands (presented in reverse order)</font></blockquote>
+<p>
+<blockquote><font color="#000080"> There are 2 entries in the table.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> undo button (graphics-window): (0,0) - (100,100): &quot;Undo&quot;</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> transcript button (graphics-window): (100,100) - (200,200): &quot;Transcript&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Last window to be clicked: graphics-window</font></blockquote>
+<p>
+ Chapter: Change Log
+<p>
+ Version 2: Updated for 6M62 by Dannii Willis
+<p>
+ Version 1: Initial release.
+<p>
+ Section: Contact info
+<p>
+ This extension is released under the Creative Commons Attribution licence. Bug reports, feature requests or questions should be made at &lt;https://github.com/i7/extensions/issues&gt;.
+<p>
+ For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the intfiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others.
+<p>
+
+<p>
+<p></body></html>

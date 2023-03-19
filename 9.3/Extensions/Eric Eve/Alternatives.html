@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Alternatives<font color="#404040"> by </font>Eric Eve</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter: Alternatives
+<p>
+ Section: The Basics
+<p>
+ This extension adds a number of conditions that can be used with IF, WHEN and the like:
+<p>
+<blockquote><font color="#000080"> X is either A or B<br> X is either A or B or C<br> X is either A or B or C or D<br> X is either A or B or C or D or E<br> X is either A or B or C or D or E or F</font></blockquote>
+<p>
+<blockquote><font color="#000080"> X is neither A nor B<br> X is neither A nor B nor C<br> X is neither A nor B nor C nor D<br> X is neither A nor B nor C nor D nor E<br> X is neither A nor B nor C nor D nor E nor F</font></blockquote>
+<p>
+ For this to work, either A, B, C, D, E and F must all be the same kind of value as X. Thus, for example, if X is an object, A, B, C etc. must all be objects or if X is a number then A, B, C etc. must all be numbers. Apart from this restriction, these phrases can be used with any kind of value, including new kinds defined by a game author. This allows us to use tests like:
+<p>
+<blockquote><font color="#000080"> if the colour of the noun is either red or blue...</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of eating the noun when the colour of the noun is neither blue nor orange nor green...</font></blockquote>
+<p>
+ (Assuming, of course, that we have defined colour as a kind of value which includes red, blue, green and orange among its possible values). Note in this case that we must test &quot;the colour of the noun&quot; not just the &quot;noun&quot;; the following condition will not compile:
+<p>
+<blockquote><font color="#000080"> If the noun is either red or blue,</font></blockquote>
+<p>
+ Instead we must write:
+<p>
+<blockquote><font color="#000080"> if the colour of the noun is either red or blue...</font></blockquote>
+<p>
+ The reason is that the phrase is testing for literal equality, and a thing can never be equal to a colour.
+<p>
+ Section: Other Restrictions and Workarounds
+<p>
+ Note that Alternatives only works for comparisons, that is for testing whether one value is equal to one of up to six other values, or unequal to all of six other values. Although it might be useful to be able to do so, Alternatives does not allow us to write, for example:
+<p>
+<blockquote><font color="#000080"> After taking either the bucket or the spade:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You pick up [the noun] with gusto.&quot;</font></blockquote>
+<p>
+ It is, however, often possible to achieve the desired effect with a slight rephrasing. We can, for example, write:
+<p>
+<blockquote><font color="#000080"> After taking when the noun is either the bucket or the spade:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You pick up [the noun] with gusto.&quot;</font></blockquote>
+<p>
+ And this will have the desired effect.
+<p>
+ A similar technique can be used to handle numerical values input by the player, for example:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> Guessing is an action applying to one number.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;guess [number]&quot; as guessing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After guessing when the number understood is either 2 or 3 or 5 or 7 or 11 or 13:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Ah, a prime number less than 17!&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report guessing: Say &quot;[the number understood] doesn't interest me much.&quot;</font></blockquote>
+<p>
+ Section: Changes in Version 2
+<p>
+ The number of items that can appear on the right hand side of the comparison has been increased from five to six. This is probably more than enough for most purposes, but should several users wish this to be extended further that is something I could consider for a future version.
+<p>
+ Version 1 allowed objects and numbers to be compared with these phrases, and tentatively allowed other types of value. Version 2 is no longer tentative about comparing other types of value with these phrases. On the other hand Version 2 enforces stricter type checking at compilation time. Version 1 would allow:
+<p>
+<blockquote><font color="#000080"> if the noun is either the ball or 2 or red or &quot;fred&quot;,...</font></blockquote>
+<p>
+ Which was hardly useful, and which will no longer compile in Version 2.
+<p>
+ These changes employ features of Inform 7 that are new to Release 6E59.
+<p>
+ Example: * Paintshop Blues - Experimenting with the actions the player is prepared to perfom on differently coloured objects.
+<p>
+ This is something of a toy example, and there's nothing it does that couldn't be done some other (and often better) way in Inform; nonetheless it serves to illustrate how this extension can be used.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Paintshop Blues&quot; by Eric Eve</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Book 1 - World Model</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Alternatives by Eric Eve.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> colour is a kind of value. The colours are red, orange, yellow, green, turquoise, blue, purple, black and white.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A chromatinon is a kind of thing. A chromatinon has a colour.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> before printing the name of a chromatinon:<br> say &quot;[colour of the item described] &quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand the colour property as describing a chromatinon.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Painting is an action applying to one thing and one colour.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;paint [something] [colour]&quot; as painting.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check painting something when the noun is not a chromatinon:<br> say &quot;I'm afraid that can't be recoloured.&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check painting a chromatinon when the colour of the noun is the colour understood:<br> say &quot;But [the noun] is already [the colour understood]!&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out painting a chromatinon:<br> Now the colour of the noun is the colour understood.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report painting a chromatinon:<br> say &quot;Okay -- it's now [a noun].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Book 2 - Scenario</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Part 1 - Objects</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Experimental Paintshop is a room.<br> &quot;This is where you can test the effect of colour on your highly colour-sensitive mind.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The ball is a blue chromatinon in the Experimental Paintshop.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The pencil is a black chromatinon in the Experimental Paintshop.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The pen is a red chromatinon in the Experimental Paintshop.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The table is a supporter in the Experimental Paintshop.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The china cup is an orange chromatinon on the table.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The china plate is a white chromatinon on the table.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Part 2 - Rules</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After taking something when the noun is either the pencil or the pen:<br> say &quot;You pick up a writing implement ([a noun], to be precise).&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After taking the ball when the colour of the ball is either blue or green:<br> say &quot;You pick up [the ball].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of dropping something when the noun is either the china cup or the china plate:<br> say &quot;But it might break if you drop it!&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After taking inventory when the number of things carried by the player is either 1 or 3 or 5:<br> say &quot;You seem to be holding an odd number of things.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After taking inventory when the number of things carried by the player is neither 0 nor 1 nor 3 nor 5:<br> say &quot;You are carrying an even number of objects.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of dropping something when the colour of the noun is either turquoise or blue or purple:<br> say &quot;But it's so pretty -- [the colour of the noun] is one of your favourite colours!&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of taking something when the colour of the noun is either black or white:<br> say &quot;But it's so plain!&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before eating something when the colour of the noun is neither red nor orange nor green nor white:<br> say &quot;Whoever heard of [colour of the noun] food? [A noun] can't possibly be edible!&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;eat ball/take plate/paint plate red/eat plate/drop plate/take pencil/paint pencil orange/take pencil/i/take ball/drop ball/i/take pen/paint pen purple/eat pen/drop pen/i&quot;</font></blockquote>
+<p>
+ Note once again what we must test &quot;the colour of whatever&quot; and not just &quot;whatever&quot; with these phrases. It would be pointless to have a clause like &quot;when the noun is either red or blue&quot; since this condition would not compile (and could not be met even if it did compile).
+<p>
+ Although this is a toy example it does illustrate one or two situations where this extension might be useful. For example we could have achieved the same effect as the &quot;Instead of dropping rule&quot; for the cup and plate above with:
+<p>
+<blockquote><font color="#000080"> Definition: a thing is breakable if it is the china cup or if it is the china plate.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of dropping something breakable:<br> say &quot;But it might break if you drop it!&quot;</font></blockquote>
+<p>
+ But this extension would save us the extra step of defining the breakable adjective, which might be useful if this were the only such case we wanted to catch.
+<p>
+
+<p>
+<p></body></html>

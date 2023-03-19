@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Autotaking<font color="#404040"> by </font>Mike Ciul</b><p><small></small><p><p><hr><p>
+<p>
+ Derived from (and largely copied and pasted from) Emily Short's extension &quot;Locksmith,&quot; Autotaking provides a convenient way for any action to ensure that the noun or the second noun is held before being carried out. It also provides for the &quot;sequential action&quot; output style to be used instead of the default &quot;(first taking the noun)&quot; message.
+<p>
+ Whenever we create an action that involves a noun or second noun that must be held, we can invoke the &quot;must hold the noun&quot; rule or the &quot;must hold the second noun&quot; rule:
+<p>
+<blockquote><font color="#000080"> Attacking it with is an action applying to two things.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The must hold the second noun rule is listed first in the check attacking it with rulebook.</font></blockquote>
+<p>
+ This will generate an automatic take if the actor doesn't have the second noun, and the action will be stopped if the autotake fails.
+<p>
+ We can also invoke the &quot;noun autotaking&quot; and &quot;second noun autotaking&quot; rules explicitly:
+<p>
+<blockquote><font color="#000080"> Check an actor attacking something with something (this is the weapons must be held rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the actor does not hold the second noun, follow the second noun autotaking rule;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the actor does not hold the second noun, stop the action.</font></blockquote>
+<p>
+ By default, automatic taking actions are described as other automatic actions usually are in Inform: the player sees something like &quot;(first taking...)&quot; before he takes an object used in an action. The &quot;Use sequential action&quot; mode is provided for the case where we would prefer to see &quot;Taken.&quot; instead.
+<p>
+ Example: * Butterfingers - Making sure the &quot;attacking it with&quot; action always uses a held weapon.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Butterfingers&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Autotaking by Mike Ciul.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Attacking it with is an action applying to two things.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;attack [something] with [something]&quot; as attacking it with.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The must hold the second noun rule is listed first in the check attacking it with rulebook.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check attacking something with something:<br>&nbsp;&nbsp;&nbsp;&nbsp; If the noun is not a person:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You do very little damage to [the noun].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stop the action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check attacking the player with something:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You wound yourself slightly, but the pain causes you to stop.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; stop the action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out attacking something with something:<br>&nbsp;&nbsp;&nbsp;&nbsp; Now the second noun is in the location.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report attacking something with something:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;With a mighty yell, you swing [the second noun] at [the noun]. Unfortunately, it slips from your sweaty fingers and falls to the ground.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Arena is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The gladiator is a man in Arena.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> There is a sword in Arena. There is a big rock in Arena.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of taking the big rock, say &quot;You strain to lift the rock, but it's too heavy for you.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test me with &quot;i/attack rock with sword/i/attack me with sword/attack gladiator with sword/g/attack gladiator with rock&quot;</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

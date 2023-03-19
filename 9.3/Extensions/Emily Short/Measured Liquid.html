@@ -1,0 +1,495 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Measured Liquid<font color="#404040"> by </font>Emily Short</b><p><small></small><p><p><hr><p>
+<p>
+ Measured Liquid provides a concept of volume, kinds for fluid containers and liquid sources, and actions for pouring, drinking, and swimming. It handles mixture recipes and allows players to combine liquids to produce new ones. It also provides full support for non-player characters to use the same actions.
+<p>
+ Measured Liquid can be used with the Metric Units extension by Graham Nelson, or on its own, in which case it will assume the use of Imperial units. (Note that Metric Units requires Glulx.)
+<p>
+ The inclusion of Assorted Text Generation by Emily Short will add some additional detail to the description of partially-filled containers, but that extension is not required.
+<p>
+ Chapter: New Units
+<p>
+ Section: Volumes
+<p>
+ Volumes are by default measured in fl oz, fluid ounces; but should we prefer metric measurement, including Metric Units by Graham Nelson will handle all volumes in milliliters/cubic centimeters instead.
+<p>
+ In the event that neither fluid ounces nor milliliters are suitable for a project, or we want to use mL but without committing to Glulx as Metric Units requires, we may safely alter the units of volume however we wish by replacing the relevant section of this extension.
+<p>
+ For instance, if we wanted to go a bit cookery-crazy and use nothing but teaspoons for measurement, we might write:
+<p>
+<blockquote><font color="#000080"> Section 1 - Definition (in place of Section 1I - Definition (for use without Metric Units by Graham Nelson) in Measured Liquid by Emily Short)</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A volume is a kind of value. 1 tsp specifies a volume.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A fluid container has a volume called a fluid capacity. A fluid container has a volume called fluid content. The fluid capacity of a fluid container is usually 50 tsp. The fluid content of a fluid container is usually 0 tsp.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The sip size is a volume that varies. The sip size is usually 1 tsp.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The max volume is a volume that varies. The max volume is 2147483647 tsp.</font></blockquote>
+<p>
+ (Note that our max volume should be 2147483647 of the base unit if we are compiling for Glulx, or 32767 if compiling for the Z-machine, as these are the maximum possible values.)
+<p>
+ Chapter: New Kinds
+<p>
+ Section: Liquids
+<p>
+ Liquids are a kind of value in the present system. By default, only water and a null value, &quot;nonliquid&quot;, are defined, but we may revise the list by adding entries to the Table of Liquids, like this:
+<p>
+<blockquote><font color="#000080"> Table of Liquids (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> liquid</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> potable</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> flavor</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> absinthe</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It tastes bitter.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> motor oil</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font></font></td></tr></table></blockquote>
+<p>
+ The potable entry indicates whether the liquid can be drunk.
+<p>
+ The flavor sentence is optional, but is used to construct more interesting results for tasting and drinking, as demonstrated below. Providing a flavor sentence for a non-potable liquid will never have any interesting effect.
+<p>
+ Section: Fluid containers and their descriptions
+<p>
+ A fluid container is assigned a liquid and two volumes.
+<p>
+ The liquid is whatever the container contained last (or perhaps still contains).
+<p>
+ The volumes are the fluid capacity (how much it could possibly contain at maximum) and the fluid content (how much it does contain at the moment).
+<p>
+ Like regular containers, fluid containers respond to examination by adding a line of text about their contents, as in:
+<p>
+<blockquote><font color="#000080"> &gt;EXAMINE TUMBLER<br> A heavy tumbler with gold flecks in the glass.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The tumbler is about half full of scotch.</font></blockquote>
+<p>
+ For the purpose of puzzles involving measurement, a fluid container can be &quot;graduated&quot; or &quot;ungraduated&quot;. Containers are ungraduated by default, and will only declare proportional information about the amount they contain, as in
+<p>
+<blockquote><font color="#000080"> The pitcher is full of absinthe.<br> The pitcher is mostly full of absinthe.<br> The pitcher is about half full of absinthe.<br> The pitcher is mostly empty of absinthe.</font></blockquote>
+<p>
+ Including Assorted Text Generation by Emily Short will make this proportional information more detailed, as in
+<p>
+<blockquote><font color="#000080"> The cup is approximately three quarters full of water.</font></blockquote>
+<p>
+ Graduated fluid containers always give the exact measurement of their content, thus:
+<p>
+<blockquote><font color="#000080"> The pitcher contains 8.8 fl oz of absinthe.</font></blockquote>
+<p>
+ If we want to make more substantial changes to the way a fluid container is described with respect to its contents, we may do this with the describing the fullness activity. This activity should print only the text that comes after the name of the object, and should end with no line break.
+<p>
+ For instance, one of the describing fullness rules currently is
+<p>
+<blockquote><font color="#000080"> Rule for describing the fullness of a non-empty graduated emptyable fluid container (called the sample cup) (this is the describe graduated containers rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;contain[s] [the fluid content of the sample cup] of [the liquid of the sample cup].[no line break]&quot;;</font></blockquote>
+<p>
+ This produces the text that is shown on examining a fluid container, and sometimes after pouring.
+<p>
+ We can also remove the entire rule that prints this content, as in
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> The examining fluid containers rule is not listed in any rulebook.</font></blockquote>
+<p>
+... but this approach should be handled with caution. If we take this rule out and also do not define any description text for the fluid container, the Standard Rules' &quot;examining containers&quot; rule will run and print something like &quot;The pitcher is empty&quot; because the pitcher contains no solid objects, even if the pitcher is in fact brimming with Belgian ale at the time.
+<p>
+ Section: Fluid containers and solid objects
+<p>
+ By default the player is prevented from putting solid objects into any fluid container. This prevents many complicated situations where part of the volume of a glass might be displaced by a a metal cube, where a cork might float on the surface of some wine, where a handwritten note might be put into a coffee cup and rendered illegible, where a scrap of cloth might be discolored by its contact with red fruit punch, and so on.
+<p>
+ If we want to remove this constraint, we can unlist it by writing
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> The can't put solids into a fluid container rule is not listed in any rulebook.</font></blockquote>
+<p>
+... but then it's up to us to deal with the implications, whatever those might be.
+<p>
+ Section: Inserting fluid containers
+<p>
+ By default, we are not allowed to put an open, non-empty fluid container into another portable container, because it's likely to spill. (Fixed in place or scenery containers are exempt, to allow for refrigerators, cabinets, and similar installations.) This gets around the nonsensical situation of stowing a vase full of water into a backpack and then coming back later to find that the water all stayed in.
+<p>
+ If we do want to allow this after all, we can unlist the relevant rule thus:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> The can't stash full cups rule is not listed in any rulebook.</font></blockquote>
+<p>
+ If Measured Liquid is used alongside Jon Ingold's Considerate Holdall extension, it will provide holdall a rule so that the game does not even attempt to stash an open non-empty container. The rule in question is the don't try to stash full cups rule.
+<p>
+ Section: Cleaning fluid containers
+<p>
+ By default, when we drink from something, even an empty cup retains a trace amount of the liquid it used to contain. This information is used in descriptions of the cup, and is also used to determine reactions if we try to DRINK JUICE after the juice cup is already emptied. Further, the game will assume we want to fill the container with more of whatever it previously contained, if that option is available.
+<p>
+ Only an explicit command to RUB (or CLEAN, which is the same action) the cup will remove this trace; if we do that, however, its liquid is changed back to the null value, nonliquid.
+<p>
+ To remove this behavior, add:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> Use no trace amounts.</font></blockquote>
+<p>
+ whereupon drinking or pouring will always leave vessels empty and the behavior of RUB will not be interfered with.
+<p>
+ Section: Liquid Sources
+<p>
+ Fluid containers have a sub-kind called a liquid source. Liquid sources are supplies of water that flow eternally and never run out; it doesn't matter how much we take from this source.
+<p>
+ Yet further sub-kinds are the liquid lake and the liquid stream.
+<p>
+ The liquid lake represents a body of water large enough to swim in, and into which we can safely empty smaller containers without significantly diluting the content. Lakes are also relevant to the swim verb (see below).
+<p>
+ The liquid stream is better used for fountains, faucets, and other flows of liquid that provide a constant supply but no standing body of liquid.
+<p>
+ Chapter: New Actions
+<p>
+ Section: Drinking
+<p>
+ The player is allowed to drink liquids from a fluid container, assuming those liquids have not been defined to be not potable.
+<p>
+ By default, the output is one of the following, depending on whether the supply is depleted as a result:
+<p>
+<blockquote><font color="#000080"> You take a sip of (the liquid).<br> You take a sip of (the liquid), leaving (the container) empty.</font></blockquote>
+<p>
+ If we have defined a flavor sentence for that liquid, that is added as the next sentence, as in:
+<p>
+<blockquote><font color="#000080"> You take a sip of fruit punch, leaving the glass empty. The flavor is exceptionally cloying.</font></blockquote>
+<p>
+ The amount of liquid swallowed by a sip is determined by the sip size. By default the sip size is 2.0 fl oz, or (with Metric Units) 55 mL. These are not exactly equal volumes, but each is 1/6 the size of a standard-volume soda can, 12 fl oz or 330 mL, in the US and Britain respectively.
+<p>
+ Sometimes liquid measurement may be used as part of a puzzle in which we want the player to be compelled to measure things precisely. In this case, it might be desirable to make sips non-uniform in size so that the player cannot safely quantify liquids by sipping them. To do this, we have the option to
+<p>
+<blockquote><font color="#000080"> Use variable sip size.</font></blockquote>
+<p>
+ When using variable sip size, the sip is subject to a variation of up to 2/3 the standard size of a sip. (So, for instance, if the sip size is set at 0.3 fl oz, the possible variation is up to 0.2 fl oz, with the result that any given sip might range in volume from 0.1 fl oz to 0.5 fl oz.)
+<p>
+ It will not be possible to have a sip size of 0 as a result of random variation.
+<p>
+ Finally, a fluid container can be &quot;preferred for drinking&quot;. We can set this with, for instance:
+<p>
+<blockquote><font color="#000080"> The cocktail glass is preferred for drinking.</font></blockquote>
+<p>
+ This indicates that, in any ambiguous case, the game should try to drink from that vessel rather than from something else. This makes it easier to implement polite player characters who prefer to drink from glasses rather than from the carton, even though both may contain the same kind of liquid.
+<p>
+ The drinking action has a liquid that varies, called &quot;the liquid drunk&quot;.
+<p>
+ Section: Pouring and Filling
+<p>
+ This extension supports a wide range of pouring and filling grammar, including
+<p>
+<blockquote><font color="#000080"> fill something with/from something<br> pour something in/into/on/onto something<br> mix something in/with something<br> empty something into something</font></blockquote>
+<p>
+ By default, if the player types only
+<p>
+<blockquote><font color="#000080"> FILL CUP</font></blockquote>
+<p>
+ the game will attempt to find a source that provides the same kind of liquid already in the cup in order to fill it back up; then it will default to some other liquid source, if no matching liquid source is available.
+<p>
+ The player is prohibited from pouring a container into itself, overfilling a container that is already full, or filling from an empty container.
+<p>
+ The pouring action has a liquid that varies, called &quot;the liquid poured&quot;, and a volume that varies, called &quot;the amount poured&quot;. These values can be used in constructing our own report rules to describe the action differently; for instance, we might write
+<p>
+<blockquote><font color="#000080"> Report pouring something into a graduated container:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You pour [the amount poured] of [the liquid poured] into [the second noun].&quot; instead.</font></blockquote>
+<p>
+ if we wished to describe pouring more precisely in the context of volume-marked containers.
+<p>
+ Section: Simple Mixing
+<p>
+ By default, the player is not allowed to mix liquids of different types, since such mixtures make extra work for the author and may not always be desirable. Moreover, there is a text that varies which contains the refusal the player will receive, defined as follows:
+<p>
+<blockquote><font color="#000080"> The liquid-mixture refusal is some text that varies. The liquid-mixture refusal is &quot;That would mix [the liquid of the noun] with [the liquid of the second noun].&quot;</font></blockquote>
+<p>
+ If we want to keep the default behavior but change the message, we should alter the liquid-mixture refusal, as in
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the liquid-mixture refusal is &quot;[The person asked] dare not mix liquids!&quot;</font></blockquote>
+<p>
+... or some similar message, bearing in mind that if characters other than the player can be persuaded to pour liquids, their responses as well as the player's will be handled by the liquid-mixture refusal.
+<p>
+ If we do want to mix liquids, we may write
+<p>
+<blockquote><font color="#000080"> Use mixed liquids.</font></blockquote>
+<p>
+ With this use option enabled, we allow the player to mix together liquids to produce new ones. In order to indicate how drinks should work, we must include all the liquids that can be mixed, as well as all their components, in our Table of Liquids, like so:
+<p>
+<blockquote><font color="#000080"> Table of Liquids (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> liquid</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> potable</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> flavor</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> cranberry juice</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It tastes deliciously tangy.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> vodka</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It doesn't taste like much except alcohol.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> crantini</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It's cranberry juice, but with more of a kick.&quot;</font></font></td></tr></table></blockquote>
+<p>
+ And we must also provide an exhaustive collection of recipes in the form
+<p>
+<blockquote><font color="#000080"> Table of Liquid Mixtures (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> mix-list</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> result</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> { cranberry juice, vodka }</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> crantini</font></font></td></tr></table></blockquote>
+<p>
+ If the player combines two liquids in any proportion, they create a third liquid as determined by a list of mixture components.
+<p>
+ Section: Mixing with Quantified Ingredients
+<p>
+ By default, there is no attempt to determine whether the mixture involves precise quantities of elements; if we want that, we should provide our own, more precise specification of how mixture components are to behave.
+<p>
+ We can do this by meddling with the liquid-mixing rulebook, which currently contains two rules: &quot;keep same recipe as before rule&quot;, which makes no change if we're pouring more of a component into a recipe that already contains that component, and the &quot;create mixtures&quot; rule, which applies the rather simple criteria we currently use. De-listing those and replacing them with more exacting rules will alter the behavior of mixture.
+<p>
+ The following rulebook variables may be useful:
+<p>
+<blockquote><font color="#000080"> The liquid-mixing rulebook has a fluid container called the destination container.<br> The liquid-mixing rulebook has a list of liquids called the recipe contents.</font></blockquote>
+<p>
+ The recipe contents are always sorted when they're created, so that they can be reliably checked against other liquid lists.
+<p>
+ The liquid-mixing rulebook is called during the phase of setting action variables for pouring, which means that if it has results, the choice of result will be saved as &quot;the resulting liquid&quot;.
+<p>
+ The example &quot;Exactitude&quot;, below, shows off one possible way to edit this rulebook to provide stricter kinds of mixing simulation.
+<p>
+ Section: Swimming
+<p>
+ By default, the player is not allowed to swim, but the verb is implemented in order to provide sensible responses in a range of situations. The command to swim will produce the message
+<p>
+<blockquote><font color="#000080"> There's nothing sensible to swim in.</font></blockquote>
+<p>
+ unless the player can see a liquid lake, in which case he'll be told
+<p>
+<blockquote><font color="#000080"> You don't feel like a dip in (the liquid lake) just now.</font></blockquote>
+<p>
+ SWIM IN (some specific item) will also be understood, though again there will be a default refusal in all cases.
+<p>
+ If we want to allow swimming in liquid lakes, we should begin by unlisting the block swimming rule, as in
+<p>
+<blockquote><font color="#000080"> The block swimming in liquid lakes rule is not listed in any rulebook.</font></blockquote>
+<p>
+... and then supplying some carry out rules for swimming.
+<p>
+ Example: * Lakeshore - A lakeshore with a lake as a liquid source, an openable graduated flask that can be used to drink from it, and examples of attempted swimming.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Lakeshore&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Measured Liquid by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Lakeside is a room. Inside from Lakeside is a Shack.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The lake is a liquid lake in Lakeside. The liquid of the lake is water.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player carries a graduated closed openable fluid container called a flask. The fluid capacity of the flask is 10.0 fl oz.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;swim / swim in flask / fill flask / x flask / close flask / drink from flask / x flask / in / swim / drink from flask / x flask / swim in the water&quot;.</font></blockquote>
+<p>
+ Example: * Lakeshore Swim - A lakeshore where the player can swim successfully.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Lakeshore Swim&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Measured Liquid by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Lakeside is a room. Inside from Lakeside is a Shack.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The lake is a liquid lake in Lakeside. The liquid of the lake is water.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player carries a graduated closed openable fluid container called a flask. The fluid capacity of the flask is 10.0 fl oz.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The block swimming in liquid lakes rule is not listed in any rulebook.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report swimming in the lake:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You go for a swim in the lake and come out much refreshed.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;swim&quot;.</font></blockquote>
+<p>
+ Example: * Metric Lakeshore - As above, but in cubic centimeters. Note that this example will compile only if our settings panel is set to Glulx.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Metric Lakeshore&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Metric Units by Graham Nelson. Include Measured Liquid by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Lakeside is a room. Inside from Lakeside is a Shack.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The lake is a liquid lake in Lakeside. The liquid of the lake is water.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player carries a graduated closed openable fluid container called a flask. The fluid capacity of the flask is 300 mL.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;swim / swim in flask / fill flask / x flask / close flask / drink from flask / x flask / in / swim / drink from flask / x flask / swim in the water&quot;.</font></blockquote>
+<p>
+ Example: ** Chemist's Lakeshore - Now we let the player type POUR 1.0 FL OZ OF LAKE WATER INTO FLASK, using measurements whenever the target vessel is graduated.
+<p>
+ In a more deluxe simulation, we might want to let the player specify quantities less than the total volume of the recipient vessel when pouring into a graduated container than can measure amounts.
+<p>
+ This feature isn't built into the body of the extension because it's likely to be counterproductive in the majority of cases, as it would actually oversimplify puzzles that deal in working out how to transfer the right amount of liquid. All the same, it may be useful for some.
+<p>
+ While the example uses a slightly fiddly parsing trick to handle the three-variable input line (as in &quot;POUR [some volume] OF [some liquid] INTO [some container]&quot;), the trick does work even in commands to other characters, as in &quot;CLARK, POUR 1.3 FL OZ OF LAKE WATER INTO FLASK.&quot;
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Chemist's Lakeshore&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Measured Liquid by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The set volume is a volume that varies.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After reading a command:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the player's command includes &quot;pour [a volume] of &quot; or the player's command includes &quot;pour [a volume] from &quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the set volume is the volume understood;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; replace the matched text with &quot;pour&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check an actor pouring something into something when the set volume is not null volume:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the second noun is ungraduated:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the player is the actor:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[We] [have] no way to measure precisely [set volume] of anything	 while pouring into an ungraduated receptacle.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the set volume is the null volume;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule fails;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the set volume is greater than the fluid capacity of the second noun:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the player is the actor:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The second noun] [don't] measure that high.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the set volume is the null volume;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule fails;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the set volume is greater than the fluid content of the noun:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the player is the actor:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[There's] not that much liquid in [the noun].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the set volume is the null volume;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule fails.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out an actor pouring something into something when the set volume is not null volume:<br>&nbsp;&nbsp;&nbsp;&nbsp; increase the fluid content of the second noun by set volume;<br>&nbsp;&nbsp;&nbsp;&nbsp; decrease the fluid content of the noun by set volume;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the noun is empty and the no trace amounts option is active:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the liquid of the noun is nonliquid;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the set volume is null volume;<br>&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Lakeside is a room. Inside from Lakeside is a Shack.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The lake is a liquid lake in Lakeside. The liquid of the lake is water.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player carries a graduated closed openable fluid container called a flask. The fluid capacity of the flask is 3.0 fl oz. The pitcher is a fluid container carried by the player. The fluid capacity of the pitcher is 20.0 fl oz.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;pour 1.0 fl oz of lake into pitcher / pour 1.0 fl oz from lake into flask / x flask / pour 2.0 fl oz of lake into flask / x flask / pour 0.3 fl oz of lake into flask / pour flask into lake / pour 1.0 fl oz of lake water into flask / pour flask into pitcher / pour 2.5 fl oz of pitcher into flask&quot;.</font></blockquote>
+<p>
+ Example: * Poisons - A drink that has a strong effect on the drinker.
+<p>
+ The main thing to note about this is that we want to make the poison count as potable, so that the player will be able to drink it -- and then intervene after the foolish swallow, to make something interesting happen next.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Poisons&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Measured Liquid by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Room of Doom is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The vial is a fluid container. The fluid capacity of the vial is 1.0 fl oz. The fluid content of the vial is 1.0 fl oz. The liquid of the vial is poison. The vial is carried by the player.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Liquids (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> liquid</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> potable</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> flavor</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> poison</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It makes you ill.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> After drinking something:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the liquid drunk is poison:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end the story saying &quot;You have died in agony&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; make no decision.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;drink vial&quot;.</font></blockquote>
+<p>
+ Example: * Guzzle and Gulp - Adding GULP and GUZZLE verbs alongside DRINK to allow the player to take different sizes of sip at will. GULP drinks a very large sip, while GUZZLE consumes all the liquid in a container in a single move. Demonstrates the use of sip size.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Guzzle and Gulp&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Measured Liquid by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Lakeside is a room. The lake is a liquid lake in Lakeside. The liquid of the lake is water.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player carries a closed openable fluid container called a flask.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;gulp [something]&quot; as gulping. Understand &quot;gulp [a fluid container]&quot; as gulping.<br> Gulping is an action applying to one thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out gulping:<br>&nbsp;&nbsp;&nbsp;&nbsp; let old sip size be the sip size;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the sip size is 5.0 fl oz;<br>&nbsp;&nbsp;&nbsp;&nbsp; try drinking the noun;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the sip size is the old sip size.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report drinking something when the sip size is greater than 2.0 fl oz:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[We] [take] a long drink of [the liquid of the noun].&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;guzzle [something]&quot; as guzzling. Understand &quot;guzzle [a fluid container]&quot; as guzzling. Guzzling is an action applying to one thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out guzzling:<br>&nbsp;&nbsp;&nbsp;&nbsp; let old sip size be the sip size;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the sip size is the fluid content of the noun;<br>&nbsp;&nbsp;&nbsp;&nbsp; try drinking the noun;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the sip size is the old sip size.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To toss is a verb. To finish is a verb.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report drinking something when the sip size is greater than 5.0 fl oz and the noun is empty:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[We] [toss] back all the [liquid of the noun] at once.&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Report drinking something when the sip size is greater than 2.0 fl oz and the noun is empty:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[We] [finish] off the [liquid of the noun] in one long swig.&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;fill flask / sip flask / g / g / g / g / g / fill flask / gulp flask / g / g / fill flask / guzzle flask / g&quot;.</font></blockquote>
+<p>
+ Example: * Cranvodka - An example of liquids that cannot be mixed.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Cranvodka&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Measured Liquid by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Liquids (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> liquid</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> potable</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> flavor</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> cranberry juice</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It tastes deliciously tangy.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> vodka</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It doesn't taste like much except alcohol.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> The Verandah is a room. The table is a supporter in the verandah. The table supports a cocktail glass, a bottle, and a pitcher. The cocktail glass, the bottle, and the pitcher are fluid containers.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The cocktail glass is preferred for drinking.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The fluid capacity of the cocktail glass is 4.0 fl oz.<br> The fluid capacity of the bottle is 33.8 fl oz. The fluid content of the bottle is 33.8 fl oz. The liquid of the bottle is vodka.<br> The fluid capacity of the pitcher is 28.0 fl oz. The fluid content of the pitcher is 10.0 fl oz. The liquid of the pitcher is cranberry juice.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;pour vodka in glass / drink vodka / fill glass / pour cranberry juice in glass / drink cranberry juice / drink vodka / pour cranberry juice in glass&quot;.</font></blockquote>
+<p>
+ Example: * Crantini - An example of liquids that can be mixed, producing new liquids.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Crantini&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Measured Liquid by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Liquids (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> liquid</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> potable</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> flavor</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> cranberry juice</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It tastes deliciously tangy.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> vodka</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It doesn't taste like much except alcohol.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> crantini</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It's a feisty cranberry beverage.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Use mixed liquids.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Liquid Mixtures (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> mix-list</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> result</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> { cranberry juice, vodka }</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> crantini</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> The Verandah is a room. The table is a supporter in the verandah. The table supports a cocktail glass, a bottle, and a pitcher. The cocktail glass, the bottle, and the pitcher are fluid containers.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The cocktail glass is preferred for drinking.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The fluid capacity of the cocktail glass is 4.0 fl oz.<br> The fluid capacity of the bottle is 33.8 fl oz. The fluid content of the bottle is 33.8 fl oz. The liquid of the bottle is vodka.<br> The fluid capacity of the pitcher is 28.0 fl oz. The fluid content of the pitcher is 10.0 fl oz. The liquid of the pitcher is cranberry juice.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;pour vodka in glass / drink vodka / fill glass / pour cranberry juice in glass / drink cranberry juice / drink vodka / pour cranberry juice in glass / drink crantini / pour cranberry juice in glass&quot;.</font></blockquote>
+<p>
+ Example: * Clarktini - The same as before, but this time with our servant Clark doing all the mixing and drinking.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Clarktini&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Measured Liquid by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Liquids (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> liquid</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> potable</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> flavor</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> cranberry juice</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It tastes deliciously tangy.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> vodka</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It doesn't taste like much except alcohol.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> crantini</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It's a feisty cranberry beverage.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Use mixed liquids.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Liquid Mixtures (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> mix-list</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> result</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> { cranberry juice, vodka }</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> crantini</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> The Verandah is a room. The table is a supporter in the verandah. The table supports a cocktail glass, a bottle, and a pitcher. The cocktail glass, the bottle, and the pitcher are fluid containers.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The cocktail glass is preferred for drinking.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The fluid capacity of the cocktail glass is 4.0 fl oz.<br> The fluid capacity of the bottle is 33.8 fl oz. The fluid content of the bottle is 33.8 fl oz. The liquid of the bottle is vodka.<br> The fluid capacity of the pitcher is 28.0 fl oz. The fluid content of the pitcher is 10.0 fl oz. The liquid of the pitcher is cranberry juice.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Clark is a man in the Verandah. Persuasion rule for asking Clark to try doing something: persuasion succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;clark, pour vodka in glass / clark, drink vodka / clark, fill glass / clark, pour cranberry juice in glass / clark, drink cranberry juice / clark, drink vodka / clark, pour cranberry juice in glass / clark, drink crantini / g / g&quot;.</font></blockquote>
+<p>
+ Example: * Crashtini - A pyrotechnic variation in which the wrong mixture of liquids explodes both containers entirely. Demonstrates using the &quot;resulting liquid&quot; variable in the pouring it into action.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Crashtini&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Measured Liquid by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Liquids (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> liquid</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> potable</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> flavor</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> gunpowder juice</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It has a sultry, smoky flavor, and makes you think of cannons and siege warfare.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> fire vodka</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;It's hot, gaggingly hot, all the way down your esophagus.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> exploding crantini</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> false</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Use mixed liquids.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Liquid Mixtures (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> mix-list</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> result</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> { gunpowder juice, fire vodka }</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> exploding crantini</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> The Verandah is a room. The table is a supporter in the verandah. The table supports a cocktail glass, a bottle, and a pitcher. The cocktail glass, the bottle, and the pitcher are fluid containers.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The cocktail glass is preferred for drinking.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The fluid capacity of the cocktail glass is 4.0 fl oz.<br> The fluid capacity of the bottle is 33.8 fl oz. The fluid content of the bottle is 33.8 fl oz. The liquid of the bottle is fire vodka.<br> The fluid capacity of the pitcher is 28.0 fl oz. The fluid content of the pitcher is 10.0 fl oz. The liquid of the pitcher is gunpowder juice.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Last check pouring something into something:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the resulting liquid is exploding crantini:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; remove the noun from play;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; remove the second noun from play;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;When the liquids touch, there is an enormous BANG!, destroying 	both vessels and leaving you with soot all over your face.&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;pour fire vodka in glass / drink fire vodka / fill glass / pour gunpowder juice in glass / drink gunpowder juice / drink fire vodka / pour gunpowder juice in glass / drink crantini / pour cranberry juice in glass&quot;.</font></blockquote>
+<p>
+ Example: *** Exactitude - Requiring the player to use precise quantities of liquids to attain mixture results. Mixtures that are not included in the recipe book are rejected, so that the player can't make arbitrary combinations. Demonstrates using the liquid-mixture rulebook.
+<p>
+ We want to let the player specify exact amounts of liquid, so we build on &quot;Chemist's Lakeshore&quot;, above, to include precise measurements with graduated containers. We also add to the liquid-mixture rulebook to supply a more demanding set of criteria for how recipes are matched.
+<p>
+ WARNING: Please note that this example works only under Glulx. It should not be compiled for the Z-machine, or it will produce a programming error on the startup of the game.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Exactitude&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 1 - Parsing POUR 1.0 FL OZ OF JUICE INTO JIGGER</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Measured Liquid by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The set volume is a volume that varies.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After reading a command:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the set volume is null volume;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the player's command includes &quot;pour [a volume] of &quot; or the player's command includes &quot;pour [a volume] from &quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the set volume is the volume understood;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; replace the matched text with &quot;pour&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check an actor pouring something into something when the set volume is not null volume:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the second noun is ungraduated:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the player is the actor:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[We] [have] no way to measure precisely [set volume] of anything	 while pouring into an ungraduated receptacle.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the set volume is the null volume;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule fails;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the set volume is greater than the fluid capacity of the second noun:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the player is the actor:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[The second noun] [don't] measure that high.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the set volume is the null volume;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule fails;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the set volume is greater than the fluid content of the noun:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the player is the actor:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;There [aren't] that much liquid in [the noun].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the set volume is the null volume;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule fails.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out an actor pouring something into something when the set volume is not null volume:<br>&nbsp;&nbsp;&nbsp;&nbsp; increase the fluid content of the second noun by set volume;<br>&nbsp;&nbsp;&nbsp;&nbsp; decrease the fluid content of the noun by set volume;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the noun is empty and the no trace amounts option is active:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the liquid of the noun is nonliquid;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the set volume is null volume;<br>&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Use mixed liquids.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 2 - Restricting recipe matching</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The liquid-mixing rulebook has a list of volumes called the recipe quantities.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The assign amounts rule is listed after the assign quantities while mixing rule in the liquid-mixing rules.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A liquid-mixing rule for a volume (called the poured volume) (this is the assign amounts rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with item running through the recipe contents:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the item is the liquid of the noun:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; add the poured volume to the recipe quantities;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; add the fluid content of the second noun to the recipe quantities.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The picky drink rule is listed before the keep the same recipe as before rule in the liquid-mixing rules.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the picky drink rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat through the Table of Fussy Mixtures:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the recipe contents is the mix-list entry:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the recipe quantities is the quantity-list entry:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds with result result entry;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check pouring something into something when the liquid of the noun is not the liquid of the second noun and the second noun is non-empty:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the resulting liquid is not a result listed in the Table of Fussy Mixtures:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[regarding the noun]That recipe [aren't] in [our] bartending book.&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 3 - Scenario</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Verandah is a room. The table is a supporter in the verandah. The table supports a cocktail glass, a bottle, and a pitcher. The cocktail glass, the bottle, and the pitcher are fluid containers.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The cocktail glass is preferred for drinking.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The fluid capacity of the cocktail glass is 4.0 fl oz.<br> The fluid capacity of the bottle is 33.8 fl oz. The fluid content of the bottle is 33.8 fl oz. The liquid of the bottle is vodka.<br> The fluid capacity of the pitcher is 28.0 fl oz. The fluid content of the pitcher is 10.0 fl oz. The liquid of the pitcher is cranberry juice.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The jigger is a graduated fluid container. The fluid capacity of the jigger is 2.0 fl oz. The player carries the jigger.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the sip size is 0.5 fl oz.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Liquids (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> liquid</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> potable</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> flavor</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> cranberry juice</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[regarding the noun][They] [taste] deliciously tangy.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> vodka</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[regarding the noun][They] [don't] taste like much except alcohol.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> correct crantini</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[regarding the noun][They're] a feisty cranberry beverage.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> watery crantini</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> true</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[regarding the noun][They're] a bland cranberry beverage.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;crantini&quot; as correct crantini. Understand &quot;crantini&quot; as watery crantini.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Fussy Mixtures</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> mix-list</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> quantity-list</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> result</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> { cranberry juice, vodka }</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> { 1.0 fl oz, 1.2 fl oz }</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> correct crantini</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> { cranberry juice, vodka }</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> { 1.2 fl oz, 1.0 fl oz }</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> watery crantini</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;pour 1.0 fl oz of vodka into jigger / pour jigger into glass / pour 1.2 fl oz of cranberry juice into jigger / pour jigger into glass / drink watery crantini / g / g / g / g / g / pour 1.2 fl oz of vodka into jigger / pour jigger into glass / pour 1.0 fl oz of cranberry juice into jigger / pour jigger into glass / drink glass / pour vodka in glass&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

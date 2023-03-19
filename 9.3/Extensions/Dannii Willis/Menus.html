@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Menus<font color="#404040"> by </font>Dannii Willis</b><p><small></small><p><p><hr><p>
+<p>
+ Section: Basic Use
+<p>
+ &quot;Menus&quot; provides a table-based way to display menus to the player. The menu takes over the main screen of the game and prevents parser input while it is active.
+<p>
+ &quot;Menus&quot; is not suitable for contexts where we want the player to be able to choose a numbered option during regular play (such as a menu of conversation choices when talking to another character). It is intended rather for situations where we wish to give the player optional instructions or hints separated from the main game.
+<p>
+ Any given menu option may do one (and only one) of the following three things:
+<p>
+ 1) display some text to players, after which they can press a key to return to the menu. This tends to be useful for such menu options as &quot;About this Game&quot; and &quot;Credits&quot;, where we have a few paragraphs of information that we would like to share.
+<p>
+ 2) trigger a secondary menu with additional options. The player may navigate this submenu, then return to the main menu. Submenus may be nested.
+<p>
+ 3) carry out a rule. This might perform any action, including making changes to the game state.
+<p>
+ Menus are specified by tables, in which each row contains one of the menu options, together with instructions to Inform about how to behave when that option is selected.
+<p>
+ Each menu table should have columns called &quot;title&quot;, &quot;text&quot;, &quot;submenu&quot;, &quot;rule&quot;, and &quot;hidden-row&quot;.
+<p>
+ &quot;Title&quot; should be the name of the option we want the player to see: &quot;Credits&quot;, &quot;Hints&quot;, &quot;About This Game&quot;, and so on.
+<p>
+ &quot;Text&quot; is the text that will be printed when the option is selected. We can fill it in with as much information as we like.
+<p>
+ &quot;Submenu&quot; is used to create a submenu; this column holds the name of the table that specifies the menu. For instance:
+<p>
+<blockquote><font color="#000080"> Table of Options</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> text (some text)</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> submenu (a table-name)</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> rule (a rule)</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hidden-row (a truth state)</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Settings&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Table of Setting Options</font></font></td></tr></table></blockquote>
+<p>
+ would create an option entitled &quot;Settings&quot;, which the player could select to view a submenu of setting options. That submenu would in turn need its own table, thus
+<p>
+<blockquote><font color="#000080"> Table of Setting Options</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> text (some text)</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> submenu (a table-name)</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> rule (a rule)</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hidden-row (a truth state)</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;&quot;</font></font></td></tr></table></blockquote>
+<p>
+ If we do not want a given option to trigger a new submenu, we can leave it as &quot;--&quot;.
+<p>
+ The &quot;rule&quot; column contains the rule carried out when this option is chosen. In theory, this rule could be absolutely anything. In practice, the feature is mostly useful for giving the player a table of setting options which he can toggle on and off: for instance, we might provide the option &quot;use verbose room descriptions&quot;, and then have the toggle rule change the game's internal settings about how room descriptions are displayed. (See the example attached for further guidance.)
+<p>
+ It is only useful for a given option to have one of these three features -- text or a submenu or a rule. In the event that more than one column is filled out, the game will obey the rule in preference to creating a submenu, and create a submenu in preference to displaying text.
+<p>
+ The &quot;hidden-row&quot; column can be used if we want to hide a given option. To hide the menu option, we mark this column &quot;true&quot;. If we want the option visible, we can either leave the column empty, or mark it &quot;false&quot;.
+<p>
+ To display our menu to the player, we can write
+<p>
+<blockquote><font color="#000080"> display the Table of Options menu with title &quot;Instructions&quot;</font></blockquote>
+<p>
+ where &quot;Table of Options&quot; is the name of our table, and &quot;Instructions&quot; is the heading we'd like to appear above the menu.
+<p>
+ Section: Optional Glulx Features
+<p>
+ This extension offers a few additional features for Glulx projects: a popover window, and menu hyperlinks.
+<p>
+ A popover window will temporarily hide (rather than permanently clear) the visible story text when the player opens a menu. When players exit the menu, they will be able to see their previous actions in scrollback.
+<p>
+ The popover window feature requires the extension Flexible Windows by Jon Ingold. We will need to include Flexible Windows before Menus in our project. So long as we do this, the popover window will be used by default.
+<p>
+ If we've included Flexible Windows but don't want the popover window, we can disable this feature as follows:
+<p>
+<blockquote><font color="#000080"> disable the popover menu window is true</font></blockquote>
+<p>
+ Menu hyperlinks require the extension Glulx Entry Points by Emily Short, which must be included before Menus.
+<p>
+ Menu hyperlinks are disabled by default. We can enable them as follows:
+<p>
+<blockquote><font color="#000080"> enable menu hyperlinks is true</font></blockquote>
+<p>
+ Example: * Tabulation - A simple table of hints and help (see also Basic Help Menu).
+<p>
+ For instance our Table of Options might look like this:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Tabulation&quot; by Secretive J.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Menus by Dannii Willis.<br> Use scoring.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Options</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> text (some text)</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> submenu (a table-name)</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> rule (a rule)</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hidden-row (a truth state)</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Introduction to [story title]&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;This is a simple demonstration [story genre] game.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Settings&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> Table of Setting Options</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;About the Author&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[story author] is too reclusive to wish to disseminate any information. Sorry.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Setting Options</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> text (some text)</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> submenu (a table-name)</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> rule (a rule)</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> hidden-row (a truth state)</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;[if notify mode is on]Score notification on[otherwise]Score notification off[end if]&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> switch notification status rule</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> To decide whether notify mode is on:<br>&nbsp;&nbsp;&nbsp;&nbsp; (-  notify_mode  -);</font></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the switch notification status rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; if notify mode is on, try switching score notification off;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise try switching score notification on.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;help&quot; or &quot;hint&quot; or &quot;hints&quot; or &quot;about&quot; or &quot;info&quot; as asking for help.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Asking for help is an action out of world.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out asking for help:<br>&nbsp;&nbsp;&nbsp;&nbsp; display the Table of Options menu with title &quot;Instructions&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Cranial Capacity Calculation Chamber is a room. Leaky is a man in the Chamber. Leaky wears a pair of overalls and some muddy boots. He is carrying a fishing rod.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

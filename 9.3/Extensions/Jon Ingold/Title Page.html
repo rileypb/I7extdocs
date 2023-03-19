@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Title Page<font color="#404040"> by </font>Jon Ingold</b><p><small></small><p><p><hr><p>
+<p>
+ Title Page inserts a intro page to your project. This prints the name and by-line of the game, followed by a quotation - by default this is the game's &quot;headline&quot;, but you can change it by declaring:
+<p>
+<blockquote><font color="#000080"> To say quotation:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;....&quot;</font></blockquote>
+<p>
+ This needs to come after the extension is included. (Note: you must declare exactly &quot;To say quotation&quot;, with no &quot;the&quot;).
+<p>
+ If you're compiling a Glulx project, Title Page can also display the cover.jpg file as stored in the &quot;Materials&quot; folder of the project. To include this feature, add
+<p>
+<blockquote><font color="#000080"> Use cover art title display.</font></blockquote>
+<p>
+ It then provides a menu of options: start a new game, restore a saved game and quit. You can also make it display a &quot;show menu&quot; option by setting the menus option and setting the intro menu.
+<p>
+<blockquote><font color="#000080"> Use menus.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the set intro rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the intro menu is the Table of Introductory Information.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The set intro rule is listed before the title screen rule in the when play begins rules.</font></blockquote>
+<p>
+ Note that the extension always includes the extension Menus that ships with Inform, and so this framework should be used for writing Menu tables.
+<p>
+ If we want to change the phrasing of the menu, we can do so by setting responses A through D of the title screen rule. The only challenge here is that this response has to be set before the title screen runs, so just &quot;when play begins&quot; won't do -- again, we need to change this response before the title screen rule fires, thus:
+<p>
+<blockquote><font color="#000080"> This is the set response rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the title screen rule response (A) is &quot;   Show me introductory text                      :       M[line break]&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The set response rule is listed before the title screen rule in the when play begins rules.</font></blockquote>
+<p>
+ Since the letters for selecting particular outcomes are hard-coded, we can't change these letter options at the moment.
+<p>
+ Finally, for debug project (specifically, those in the testing panel) it can be tedious to start the game with an intro panel every time (and indeed, the &quot;restore&quot; option doesn't work in the test pane of the I7 application). Therefore an option is provided to skip the intro on debug versions, but still include it on released versions.
+<p>
+<blockquote><font color="#000080"> Use skip intro.</font></blockquote>
+<p>
+ Example: * Extra Info - Adding an informational section for the player to read before play.
+<p>
+ Sometimes we want to offer the player advice about how to play or provide some content warnings about the story they're about to experience.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Extra Info&quot; by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Limbo is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Title Page by Jon Ingold.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Use menus.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the set intro rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the intro menu is the Table of Introductory Information;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the title screen rule response (A) is &quot;Introduction (recommended to new players)  :       M[line break]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The set intro rule is listed before the title screen rule in the when play begins rules.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Introductory Information</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> title</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> subtable</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> description</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> toggle</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Special Commands&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;This game has a VERBS command. At any time, VERBS will list verbs that you could use in play.&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Warnings&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;This game contains Strong Language and Graphic Violence. It may not be suitable for younger audiences. Please use your own discretion in deciding whether this is right for you.&quot;</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> --</font></font></td></tr></table></blockquote>
+<p>
+
+<p>
+<p></body></html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Assorted Text Generation<font color="#404040"> by </font>Emily Short</b><p><small></small><p><p><hr><p>
+<p>
+ Assorted Text Generation supplies routines for producing prose in various common situations.
+<p>
+ Section: Overview
+<p>
+ Phrases defined by Assorted Text Generation Include:
+<p>
+<blockquote><font color="#000080"> selection of (superset - a description) conforming to the description (subset - a description) is-are</font></blockquote>
+<p>
+<blockquote><font color="#000080"> none of (superset - a description) is-are<br> explicit none of (superset - a description) is-are<br> explicit both (superset - a description)<br> explicit both (superset - a description) is-are<br> explicit (superset - a description) is-are both/all<br> (superset - a description) is-are both/all</font></blockquote>
+<p>
+<blockquote><font color="#000080"> ordinal of (N - a number)<br> numerical ordinal of (N - a number)<br> (N - a number) to the nearest (A - a number)<br> (N - a number) in ballpark terms</font></blockquote>
+<p>
+<blockquote><font color="#000080"> in-on (item - a thing)<br> placement of (item - a thing)</font></blockquote>
+<p>
+<blockquote><font color="#000080"> you or (culprit - a person)<br> me or (culprit - a person)<br> (culprit - a person) or I</font></blockquote>
+<p>
+ By default, all phrases produce output in lower case. If we want to change to another casing (sentence case will probably be most common), we can always write, e.g.:
+<p>
+<blockquote><font color="#000080"> let N be indexed text;<br> let N be &quot;[selection of the visible doors conforming to the description open visible doors is-are]&quot;;<br> say &quot;[N in sentence case]&quot;.</font></blockquote>
+<p>
+ This removes the need for numerous variant phrases for capitalized output.
+<p>
+ Section: Selection
+<p>
+<blockquote><font color="#000080"> After looking:<br>&nbsp;&nbsp;&nbsp;&nbsp; let N be &quot;[selection of the visible doors conforming to the description open visible doors is-are]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[N in sentence case] open.&quot;.</font></blockquote>
+<p>
+ to produce such phrases as &quot;Neither of them is open.&quot;, &quot;All three of them are open.&quot;, &quot;The black door is open.&quot;, and so on. It is necessary to give both descriptions in full and not to take a shortcut such as &quot;selection of the visible doors which are open&quot;. It is the author's responsibility to ensure that the subset description is really a subset of the superset description. (It would be possible to check for this within Inform, but at some runtime performance cost if the sets are complicated; so we preferred the speedier option.)
+<p>
+ Along the same lines, we can write
+<p>
+<blockquote><font color="#000080"> describe which visible doors are open visible doors with members being &quot;open&quot;;</font></blockquote>
+<p>
+ which will produce the entire sentence as given above, followed by a full stop and a space but no line break. Sometimes we may want to suppress this sentence if no members belong to the relevant set, in which case we may write
+<p>
+<blockquote><font color="#000080"> describe which visible doors are open visible doors with members being &quot;open&quot;, when necessary;</font></blockquote>
+<p>
+ which will print no sentence in the case that no open visible doors exist.
+<p>
+ Note that this isn't a say phrase, and the reason is that we need to be able to pass those bits of text such as &quot;open&quot; that could not be embedded within a larger phrase.
+<p>
+ A slighly more sophisticated option is:
+<p>
+<blockquote><font color="#000080"> describe which visible doors are open visible doors rather than closed visible doors with members being &quot;open&quot; and nonmembers being &quot;closed&quot;;</font></blockquote>
+<p>
+ to generate text such as &quot;The green door is closed.&quot; or &quot;The green door and the blue door are open.&quot; This phrase produces a sentence that ends with a full stop and a space but does not conclude the paragraph, so it is suitable for including in longer paragraphs.
+<p>
+ This phrase will always choose to write the sentence that requires the least enumeration, so if there are five doors in a room and all but the red one are open, it will say &quot;The red door is closed.&quot; rather than &quot;The green door, the blue door, the yellow door, and the pink door are open.&quot;
+<p>
+ Section: Numbers
+<p>
+<blockquote><font color="#000080"> say &quot;[ordinal of N]&quot;</font></blockquote>
+<p>
+ will produce output such as &quot;first,&quot; &quot;second,&quot; &quot;tenth,&quot; &quot;twenty-first,&quot; and so on. It should be reliable up through quite high numbers, and has been tested up to a thousand. &quot;numerical ordinal of N&quot; produces 1st, 2nd, 3rd, and so on.
+<p>
+<blockquote><font color="#000080"> (N - a number) to the nearest (A - a number)</font></blockquote>
+<p>
+ allows us to write, e.g.
+<p>
+<blockquote><font color="#000080"> say &quot;[N to the nearest 5 in words]&quot;</font></blockquote>
+<p>
+ in a way that is uniform with Inform's built in
+<p>
+<blockquote><font color="#000080"> say &quot;[the time of day to the nearest five minutes in words]&quot;</font></blockquote>
+<p>
+ and may be useful for approximations.
+<p>
+<blockquote><font color="#000080"> say &quot;[N in round numbers]&quot;<br> say &quot;[adjectival N in round numbers]&quot;</font></blockquote>
+<p>
+ produces textual output in a way similar to that shown in the manual example Ballpark; the adjectival form is to print text like &quot;no&quot; or &quot;a couple of&quot;, while the bare form would print &quot;zero&quot; or &quot;a couple&quot; for the same numbers. Thus
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with N running from 0 to 4<br>&nbsp;&nbsp;&nbsp;&nbsp; begin;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You see [adjectival N in round numbers] [if N is 1]person[otherwise]people[end if] here; that's right, [N in round numbers].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; end repeat.</font></blockquote>
+<p>
+ would produce the output
+<p>
+<blockquote><font color="#000080"> You see no people here; that's right, zero.<br> You see one person here; that's right, one.<br> You see a couple of people here; that's right, a couple.<br> You see several people here; that's right, several.<br> You see a few people here; that's right, a few.</font></blockquote>
+<p>
+ Section: Locational phrases
+<p>
+<blockquote><font color="#000080"> say &quot;[in-on the item]&quot;</font></blockquote>
+<p>
+ produces &quot;in the item&quot; or &quot;on the item&quot; depending on whether or not the item is a container; in-on item and in-on an item work in the expected way.
+<p>
+<blockquote><font color="#000080"> say &quot;[placement of item]&quot;</font></blockquote>
+<p>
+ produces &quot;on the ground&quot;, &quot;carried by the vicar&quot;, &quot;worn by the vicar&quot;, &quot;in the box&quot;, or &quot;on the shelf&quot;, depending on the nature of the containment involved. If the person in question is the player, the result will be &quot;carried by you&quot; or &quot;worn by you&quot;.
+<p>
+ Section: Referring to someone who might be the player
+<p>
+ Quite often we need to refer to a person who might be the player, in contexts where the default &quot;yourself&quot; would look awkward. For these purposes we have
+<p>
+<blockquote><font color="#000080"> you or vicar<br> you or a/an vicar<br> you or the vicar</font></blockquote>
+<p>
+ And (for use in first-person contexts) there is also
+<p>
+<blockquote><font color="#000080"> me or vicar<br> me or a/an vicar<br> me or the vicar<br> vicar or I<br> a/an vicar or I<br> the vicar or I</font></blockquote>
+<p>
+ As usual, these should be explicitly sentence-cased if necessary, with the exception that &quot;I&quot; is always printed in the upper case by default.
+<p>
+ Example: * Door Count - A dynamic description of doors
+<p>
+ Here we use the selection feature to describe which doors are open out of a group. Different rooms have different numbers of doors that could be open or closed, and we want our description to be as succinct as possible.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Door Count&quot; by Emily Short</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Assorted Text Generation by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Reading Room is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The arched door is a door. It is west of the Reading Room and east of the Rare Book Room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The solid door is a door. It is south of the Reading Room and north of the Circulation Desk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The flimsy door is a door. It is north of the Reading Room and south of the Supply Closet. The flimsy door is locked.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The green door is a door. It is east of the Reading Room and west of the Library Garden.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The felt covered door is a door. It is north of the Rare Book Room and south of the Restoration Room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The flimsy key unlocks the flimsy door. The player carries the flimsy key.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To lead is a verb.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for writing a paragraph about a door:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[A list of visible doors] [lead] out of this room. &quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; describe which visible doors are open visible doors rather than closed visible doors with members being &quot;[one of]standing open[or]ajar[or]open[at random]&quot; and nonmembers being &quot;[one of]shut[or]closed[or]firmly shut[at random]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; describe which visible doors are locked visible doors with members being &quot;locked&quot;, when necessary;<br>&nbsp;&nbsp;&nbsp;&nbsp; say paragraph break.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;open arched door / look / open green door / look / open solid door / look / unlock flimsy door with flimsy key / look / close green door / look / open flimsy door / look / open green door / look / go through the arched door / open the felt door / look / close felt door / close arched door / look / open felt / go through felt / look / close felt / look&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

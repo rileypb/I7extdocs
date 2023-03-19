@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Regional Travel<font color="#404040"> by </font>Juhana Leinonen</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter: Usage
+<p>
+ The Regional Travel extension adds a new action, traveling regionally to, that allows the player to travel between different regions with the command TRAVEL TO. This kind of technique is sometimes used in games where the player can travel between distant locations, for example between cities or between separate locations inside a city. The extension can also be used when the player needs a vehicle for traveling to certain areas (see example B for a demonstration).
+<p>
+ The minimal setup is to group rooms into regions (see chapter 3.4 in Inform 7 (5Z71) documentation) and define what is the &quot;travel entry point&quot; of each region. The travel entry point is the room where the player will end up when traveling to that region. Note that the travel entry point doesn't actually have to be inside the region. Example A demonstrates a basic setup.
+<p>
+ By default the player can't travel to any region that is unvisited. If we want the player to be able at any point of the game to travel somewhere they haven't visited yet it's recommended to include another extension, Epistemology by Eric Eve. When we're using Epistemology we can make a room 'familiar' which allows traveling there. See Epistemology's documentation for more information or example B for another method for granting travel access to an unvisited location.
+<p>
+ Chapter: Version history
+<p>
+ Version 2 (April 2014): Modified the extension for compatibility with the new release of Inform. Message variables are now removed and changing messages is handled through means provided by Inform itself. The travel destination announcements option is removed and removing the announcement is done by removing the rule that prints it.
+<p>
+ Example: * East Side West Side - A bare minimum example of setting up Regional Travel
+<p>
+ In this example we set up the rooms in chapter 1 as we normally would and divide them into two regions. In chapter 2 we add travel entry points to both regions and allow traveling to &quot;west bank&quot; and &quot;east bank&quot; by making &quot;bank&quot; a synonym for the entry points.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> Include Regional Travel by Juhana Leinonen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Use travel destination announcements.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Chapter 1 - Setting up the world</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The West Bank is a region. The East Bank is a region.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> West end of the bridge is a room. Western Main Road is west of the West end of the bridge. Market Square is north of the Western Main Road. The Church is south of the Western Main Road.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> East end of the bridge is east of West end of the bridge. Eastern Main Road is east of the East end of the bridge. The Inn is southeast of the Eastern Main Road. The Blacksmith is south of the Eastern Main Road.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> West end of the bridge, Western Main Road, Market Square, and the Church are in the West Bank.<br> East end of the bridge, Eastern Main Road, the Inn and the Blacksmith are in the East Bank.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Chapter 2 - Travel entry points</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The travel entry point of the West Bank is the West end of the bridge.<br> The travel entry point of the East Bank is the East end of the bridge.<br> Understand &quot;bank&quot; as the West end of the bridge. Understand &quot;bank&quot; as the East end of the bridge.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;e/e/s/travel to church/travel to foobar/travel to eastern main road/travel to blacksmith/travel to west bank/w/s/travel to blacksmith/e/travel to church/travel to east bank&quot;.</font></blockquote>
+<p>
+ Example: ** The Detective - Driving around the city in a car
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> Include Regional Travel by Juhana Leinonen.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Chapter Setup</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Understand &quot;drive to [any room]&quot; as traveling regionally to.<br> Understand &quot;drive to [text]&quot; as a mistake (&quot;That's not a place you could drive to.&quot;).</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The can only travel to visited rooms rule response (A) is &quot;That's not a place you could drive to.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A room can be known or unknown. A room is usually unknown.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The can only travel to visited rooms rule is not listed in any rulebook.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check traveling regionally to an unknown room (this is the can travel to unvisited but known rooms rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;That's not a place you can drive to.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check traveling regionally to when the player is not in a vehicle (this is the can only travel in a vehicle rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You need to be in a car before you can drive anywhere.&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before traveling regionally to when the player is not in a vehicle and the player can see a vehicle (called the transportation method):<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;(first entering [the transportation method])[command clarification break]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; silently try entering the transportation method.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Does the player mean traveling regionally to a known room: it is very likely.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The car is a vehicle.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A road is a kind of room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check going when the player is in a vehicle:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the room noun of the location is a room and the room noun of the location is not a road:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You can't drive there!&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Chapter Setting</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Mansion is a room. Rule for printing the name of the mansion while asking which do you mean: say &quot;inside the mansion&quot;. Understand &quot;inside&quot; as the mansion.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A body is in the mansion. The description is &quot;The corpse is clutching something in its hand.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The hand is a part of the body. The description is &quot;[if the business card is in the hand]There's a business card in the victim's hand.[otherwise]There's nothing there anymore.[end if]&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The business card is in the hand. The description is &quot;'Bob's Auto Repairs and Garage.'&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After examining the business card:<br>&nbsp;&nbsp;&nbsp;&nbsp; now Bob's Garage is known.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Mansion driveway is a road. It is outside of the mansion.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The car is a vehicle in the mansion driveway.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The murder scene is a region. The mansion and mansion driveway is in the murder scene.<br> The travel entry point of the murder scene is the mansion driveway.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Bob's Garage is a room. Understand &quot;bob&quot; and &quot;auto&quot; and &quot;repairs&quot; and &quot;and&quot; as Bob's Garage.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Entrance to Garage is a road. It is outside of Bob's Garage.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Maple Street is a road. &quot;Bob's Auto Repairs and Garage is to the south.&quot;<br> Maple Street is north of Bob's Garage.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The garage area is a region. Bob's Garage, Maple Street, and Entrance to Garage are in the garage area.<br> The travel entry point of the garage area is the Maple Street.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;x body/x hand/read card/drive to bob's garage/out/drive to bob's garage/s/out/in&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

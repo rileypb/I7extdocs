@@ -1,0 +1,875 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Threaded Conversation<font color="#404040"> by </font>Chris Conley</b><p><small></small><p><p><hr><p>
+<p>
+ NOTE: This extension depends upon the extension Conversation Framework by Eric Eve. The latest version should be available for download from the Inform website.
+<p>
+ Chapter: What's new in Version 8
+<p>
+<blockquote><font color="#000080"> Rewrote documentation explaining weakly-phrased quips to emphasize they are only for use with queued quips</font></blockquote>
+<p>
+ Chapter: What's new in Version 5
+<p>
+ The only change authors should need to make for their old games to be compatible with this version is to replace all instances of the word &quot;response&quot; with &quot;reply&quot;. I apologize, but 6L02 introduced a lot of new syntax, and 'responses' are a new central feature of the language. Otherwise:
+<p>
+<blockquote><font color="#000080"> Compatibility with I7 6L02 (and 6L38)<br> Responses made adaptive<br> Cleaned up extensions, main code</font></blockquote>
+<p>
+ Chapter: Introduction to Conversation in Interactive Fiction
+<p>
+ Section: The challenge of context
+<p>
+ Traditionally, conversation is one of the more difficult things to program in interactive fiction: while it's acceptable for &gt;EXAMINE POT to produce the same reply every time the player types it, it's a bit less acceptable for &gt;ASK JOE ABOUT HIS ADULTERY to make Joe react the same way every time. Conversation implementations often need to keep track of a lot of information: what else is going on in the model world, what the character knows, what plot phase we've reached, what mood the character is in, what else we've recently been talking about, whether we've said the same thing before (and how many times); and so on.
+<p>
+ Threaded Conversation provides ways to keep track of conversation context: the person we're talking to, what he knows, what we've said to him most recently, what we've said to him in the more distant past.
+<p>
+ TC also makes some abstract calculations -- based on the structure of the conversation we've designed -- about whether a new comment or question relates to the things we were already talking about, or whether they constitute a change of subject.
+<p>
+ This contextual information means that TC can have the parser sensibly guess which of several things the player wants to say, based on the current state of the conversation; let the player review what he already knows and which things he's already said during the course of the game; and give the player clues about what he might want to say next.
+<p>
+ It also gives us the means to implement some special effects easily:
+<p>
+<blockquote><font color="#000080"> - vary the exact text of conversation, depending on the mood that the character is in<br> - block off certain topics of conversation until a certain point in the plot<br> - have a character get distracted and refuse to answer questions some of the time<br> - have characters ask questions that the player must answer before moving on<br> - give a character things to say when the player stops moving the conversation forward<br> - have a character react when the player changes the subject<br> - allow a character to draw conclusions from the facts that have come up in conversation</font></blockquote>
+<p>
+ Section: Types of interface; ASK/TELL, menus, and hybrid systems
+<p>
+ Another challenge of conversation design is creating an interface that is both easy for the player to use and expressive enough to be interesting. Two common approaches are ASK/TELL conversation, where the player can ask or tell characters about keywords, as in
+<p>
+<blockquote><font color="#000080"> &gt;ask Jill about Jack<br> &gt;tell farmer about chicken coop</font></blockquote>
+<p>
+ and menu-based conversation, where the player is offered a list of things to say and must pick one (often by number), as in
+<p>
+<blockquote><font color="#000080"> 1) Ask Jill where Jack went.<br> 2) Tell Jill that the chicken coop was robbed.</font></blockquote>
+<p>
+ or, sometimes,
+<p>
+<blockquote><font color="#000080"> 1) &quot;Jill, have you seen your no-good layabout brother Jack anywhere?&quot;<br> 2) &quot;Look, Farmer Jill, I think a fox got into the chickens.&quot;</font></blockquote>
+<p>
+ The problem with ASK/TELL conversation is that it can feel undirected -- if the player doesn't know which keywords to ask or tell about next, he gets stuck. It also doesn't always provide much sense of ongoing context or conversational flow, since the player can ask lots of unrelated questions and jump around a lot. What's more, sometimes the thing the player character asks isn't quite the question the player had in mind. If we type
+<p>
+<blockquote><font color="#000080"> &gt;ask Jill about Jack</font></blockquote>
+<p>
+ Jill could wind up answering any of a number of questions -- where Jack is, how old Jack is, whether Jack committed the recent murder, and so on. The player doesn't have much fine control over the conversation.
+<p>
+ Menu-based conversation solves most of these problems, but introduces another: it doesn't allow for very many surprises. The player can see all the conversation the game has to offer by working methodically through all the menu branches. (This problem is sometimes referred to as the &quot;lawnmower effect&quot;, since the process of seeing all the conversation is like the process of running a lawnmower over every inch of the lawn.)
+<p>
+ Since about 2001, more and more IF has used a sort of compromise method: the player is allowed to ask or tell about keywords, but he's sometimes given prompts about things to say that follow naturally on the conversation he was just having, as in
+<p>
+<blockquote><font color="#000080"> You could ask where Jack is.</font></blockquote>
+<p>
+ Moreover, when he asks about a topic where many comments are possible, he'll be allowed to clarify, as in
+<p>
+<blockquote><font color="#000080"> &gt;ask Jill about Jack<br> Do you want to ask where Jack is, how old Jack is, or whether Jack committed the recent murder?</font></blockquote>
+<p>
+ There are quite a few minor variations in how these options are presented; for instance, sometimes the player is given a menu of options after selecting his keyword, rather than a disambiguation question as shown. Nonetheless, the basic structure remains the same: there are keywords to talk about, but there are multiple things to say about each keyword (for greater expressiveness) and the player is guided (but not forced) into a conversation structure that flows naturally.
+<p>
+ Threaded Conversation supports this kind of conversation interface, though there are also ways to alter its output to produce something closer to bare ASK/TELL or a menu system.
+<p>
+ Section: Writing a conversation with Threaded Conversation
+<p>
+ We start writing a conversation with Threaded Conversation by writing a number of quip objects. A quip is a thing which represents both halves of an exchange with a character: what the player says, and what the other character says back. For example, a rudimentary quip might look something like
+<p>
+<blockquote><font color="#000080"> whether the moon is made of green cheese is a questioning quip.<br> The comment is &quot;'Do you think the moon is really made of cheese?' you ask.&quot;.<br> The reply is &quot;'Of course!' exclaims [the current interlocutor].&quot;.</font></blockquote>
+<p>
+ This isn't quite complete, though, because we need to tell Inform what keywords to associate this quip with. For this, we use the &quot;mentions&quot; relation:
+<p>
+<blockquote><font color="#000080"> whether the moon's made of green cheese is a questioning quip.<br> It mentions the moon, cheese.<br> The comment is &quot;'Do you think the moon is really made of cheese?' you ask.&quot;.<br> The reply is &quot;'Of course!' exclaims [the current interlocutor].&quot;.</font></blockquote>
+<p>
+ Now we've established that the quip has to do with the moon and cheese objects elsewhere in the game. If the moon and the cheese are not represented physically in the game at all, we can make them abstract subjects, as in
+<p>
+<blockquote><font color="#000080"> The moon is a subject.</font></blockquote>
+<p>
+ Now if the player types
+<p>
+<blockquote><font color="#000080"> &gt;ASK ABOUT THE MOON</font></blockquote>
+<p>
+ Threaded Conversation looks at its available quips that have to do with the moon, or have &quot;moon&quot; in their name, and picks the most relevant one (or asks the player which he'd like to use).
+<p>
+<blockquote><font color="#000080"> &gt;ASK ABOUT CHEESE</font></blockquote>
+<p>
+ would turn up this same quip, but probably not any other quips that we might have written about the moon. The player can also be more specific; in this case, he could type
+<p>
+<blockquote><font color="#000080"> &gt;ASK WHETHER THE MOON'S MADE OF GREEN CHEESE</font></blockquote>
+<p>
+ and make sure he gets this question rather than any other.
+<p>
+ When we have some quips written, we add a bunch of rules about which quips the player may say under which circumstances. For instance, we may very often want to restrict quips to conditions such as
+<p>
+<blockquote><font color="#000080"> - the player is talking to a specific person<br> - the player has recently said another quip, and is now following up on it<br> - the player has learned a particular fact<br> - the player has never said this quip before<br> - a particular scene is in progress</font></blockquote>
+<p>
+... and so on. Threaded Conversation provides shortcuts for writing many of the most common restrictions we might want to put into a conversation, but it also allows us to write our own, arbitrarily complex rules about when the player can say what.
+<p>
+ This may be a good time to play with the first example below, labeled &quot;Very Simple&quot;, which shows some quips in action and demonstrates what the default output of Threaded Conversation looks like.
+<p>
+ Section: Using this extension efficiently
+<p>
+ One of the essential features of detailed character conversation is that one has to generate quite a large amount of text to arrive at remotely interesting or convincing results. To that end, the extension Conversation Builder provides some auto-code-generation facilities, producing source that compiles alongside the material provided in this extension.
+<p>
+ A reasonable way to learn Threaded Conversation would be to read through the Basic Structure and Concepts chapter, looking at the recommended examples along the way; then to try building on these with Conversation Builder; and only coming back to study the advanced features once familiar with the basic mechanisms.
+<p>
+ Section: Related extensions
+<p>
+ It may be fruitful to include Mood Variations by Emily Short: Mood Variations allows us to tag text alternatives so that the correct alternative will be chosen depending on the mood of the current interlocutor; it also has a &quot;[set mood]&quot; token that can be used to mark up quips to reflect the mood of the listener. The same things can be achieved in other ways more laboriously, but this shortcut may prove handy.
+<p>
+ Chapter: Basic Structure and Concepts
+<p>
+ Section: Quips
+<p>
+ As we saw above, most important components of a conversation system built with TC are quips. Quips come in three kinds, the informative, the questioning, and the performative, depending on whether they are associated with TELL commands, with ASK commands, or stand on their own. A plausible quip of each kind:
+<p>
+<blockquote><font color="#000080"> Lily looks well is an informative quip.<br> The comment is &quot;'You look very well, Lily,' you say, winking.&quot;.<br> The reply is &quot;'Why, thank you!' Lily replies.&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> whether it will rain is a questioning quip.<br> The comment is &quot;'What do you think of the weather?' you ask. 'Will it rain?'&quot;<br> The reply is &quot;'I really don't know,' says [the current interlocutor].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> curse the fates is a performative quip.<br> The comment is &quot;Drawing on your prodigious knowledge of ancient norse profanities, you express your feelings about the whole cast of the universe that brought your life to this point.&quot;<br> The reply is &quot;The turtle does not reply.&quot;</font></blockquote>
+<p>
+ Notice that quips should always be proper named, without an article preceding. Declaring &quot;A silly digression is an informative quip&quot; (for example) will result in the quip's name being improperly displayed during play.
+<p>
+ Note also that the name of the quip should be something that could sensibly follow &quot;say&quot; (for an informative quip) or &quot;ask&quot; (for a questioning quip), or, in the case of the performative quip, stand on its own as a unique command:
+<p>
+<blockquote><font color="#000080"> &gt;say lily looks well<br> &gt;ask whether it will rain<br> &gt;curse the fates</font></blockquote>
+<p>
+ If we want to ASK LILY ABOUT WEATHER, though, we'll also need the mentioning relation.
+<p>
+ Section: The mentioning relation; subjects
+<p>
+ Threaded Conversation defines a &quot;mentioning&quot; relation:
+<p>
+<blockquote><font color="#000080"> mentioning relates various quips to various things.</font></blockquote>
+<p>
+ A quip can mention one or more characters, props, or abstract subjects of conversation. Though it's not absolutely required, it is usually most convenient to explicitly make such abstract subjects belong to the &quot;subject&quot; kind, as in
+<p>
+<blockquote><font color="#000080"> The weather is a subject. Understand &quot;rain&quot; or &quot;sun&quot; or &quot;sunshine&quot; or &quot;clouds&quot; or &quot;cloudy&quot; or &quot;storms&quot; as the weather.</font></blockquote>
+<p>
+ Then, we could write
+<p>
+<blockquote><font color="#000080"> whether it will rain is a questioning quip.<br> It mentions the weather.<br> The comment is &quot;'What do you make of the weather?' you ask. 'Will it rain?'&quot;<br> The reply is &quot;'I really don't know,' says [the current interlocutor].'&quot;</font></blockquote>
+<p>
+ And now (assuming that the quip is otherwise an appropriate thing to say at this juncture) the player can invoke this quip with any of
+<p>
+<blockquote><font color="#000080"> &gt;ask fred about the weather<br> &gt;ask fred about rain<br> &gt;ask fred about storms<br> &gt;ask whether it will rain<br> &gt;a clouds</font></blockquote>
+<p>
+ Making quips mention the objects they refer to means that all the alternative names of those objects will be recognized as ways to invoke the quip -- so we don't have to write lots of extra Understand rules for every quip we write about the weather.
+<p>
+ Ensuring quips are well-stocked with all the appropriate nouns is also a courtesy to the player. It can provide redundancy in synonyms, helping prevent gaps in defining quips themeselves. Mentioning topics also allows players to reference quips by various topics they only tangentially reference: with appropriate subjects defined, for example, the quip &quot;which artist might recieve royal favor&quot; could be invoked (besides with any of the words constituting the name) by the player asking about 'the Queen', 'patronage', or 'art'.
+<p>
+ Section: Directly-following and indirectly-following; restrictive quips and nags; the immediately condition
+<p>
+ Quite frequently, the player will fall into a chain of conversation where each quip naturally follows on from the one previous; there may be opportunities for the conversation to split a bit, or for the player to go back and pick up a topic from earlier in this same thread of conversation.
+<p>
+ TC defines two kinds of threading relations for controlling which quips are available to the player at any given moment. A quip may be defined to directly-follow another quip, meaning it is available and suggested to the player *only* immediately after that quip; or to indirectly-follow another quip, which means that it becomes available for discussion at *any* time after the quip it follows. Note that a quip may follow or be followed by -- directly or indirectly -- any number of quips.
+<p>
+ We generally want to use &quot;indirectly-follows&quot; when one quip pursues a line of thought introduced in another. We are more likely to want &quot;directly-follows&quot; if, for example, one quip answers a question asked in another, so that the follow-up would make no sense unless spoken in reply, immediately after the first, with no conversation intervening.
+<p>
+ Often, when writing an indirectly-following quip, we want to vary the text depending on whether this quip has been chosen as soon as it was made available, or after some other topics of conversation have intervened. This is when the condition &quot;immediately&quot; proves useful: it is true when the current quip indirectly-follows the most recently discussed quip. For example:
+<p>
+<blockquote><font color="#000080"> how to find the castle is a questioning quip. It indirectly-follows where she hath come from.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'[if immediately]How can I find it[otherwise]And how might I locate your castle[end if]?'&quot;</font></blockquote>
+<p>
+ If a character has nothing to say, the game will try the &quot;expressing ignorance by&quot; activity with that character. Thus, we could write
+<p>
+<blockquote><font color="#000080"> Rule for expressing ignorance by Joe:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;'Uh,' says Joe, scratching his head.&quot;</font></blockquote>
+<p>
+ By default, this rule doesn't describe any behavior at all for the other character; instead, it says that the player can't come up with any appropriate comment. This allows the conversation to go on as though nothing has happened.
+<p>
+ There are times when we want to narrow the player's choice so that he can *only* say one of a handful of things in reply to a question asked in the previous turn. If we declare a quip to be &quot;restrictive&quot;, that means that the player's next comment in that conversation must be a quip that directly-follows it. (It would also be possible for the player simply to walk away or ignore the character at this point; if we want to prevent that as well, we must add additional rules barring movement or doing other things while the current quip is restrictive.)
+<p>
+ A related feature of quips is the &quot;nag&quot;. This is some text printed on a turn when the player has not said anything to the interlocutor. Since a nag usually implies that the character is insistent on hearing some kind of reply from the player, it is most often defined for restrictive quips. Only the nag of the most recent quip will be printed on any given turn.
+<p>
+<blockquote><font color="#000080"> request-help is a restrictive quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'Wilt thou accept this quest, hero?'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The nag is &quot;'Thou must!'&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> yes to the quest is an informative quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'Yes.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'Truly, thou art brave!'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It directly-follows request-help and no to the quest.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> no to the quest is an informative quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'No.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'But thou must!'&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp; The nag is &quot;'Thou must!'&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp; It directly-follows request-help and no to the quest.</font></blockquote>
+<p>
+ This basic framework of linking quips using the directly- and indirectly-following relations, combined with the ability to define quips as one-time/repeatable and restrictive/unrestrictive, can provide a structure robust enough for the conversational needs of many works.
+<p>
+ Section: Quips for one person and quips for many people; quip-supplying relation
+<p>
+ By default, there are no limits determining to whom we may say a given quip. If we want to go all around town asking everyone we meet about a topic, we might write a quip like
+<p>
+<blockquote><font color="#000080"> how to get to Carnegie Hall is a questioning quip.<br> The comment is &quot;'Do you know how to get to Carnegie Hall?' you ask [the current interlocutor].&quot;<br> The reply is &quot;[one of]'No,'[or]'Practice!'[or]'Leave me alone, weirdo,'[or]'Walk north about three blocks,'[as decreasingly likely outcomes] says [the current interlocutor].&quot;</font></blockquote>
+<p>
+ The use of text variations means that the reply will vary a bit from person to person as we go around asking, and sooner or later someone is likely to give us the useful advice. Obviously, we could also just have every single person who answers reply in exactly the same words, but that's likely to become dull.
+<p>
+ More often, though, we want to write a lot of dialogue just for a single person. For this scenario, TC defines the &quot;quip-supplying&quot; relation -- a quip is said to quip-supply a given person if it provides that person with something to say.
+<p>
+<blockquote><font color="#000080"> Lily looks well is an informative quip.<br> The comment is &quot;'You look very well, Lily,' you say, winking.&quot;.<br> The reply is &quot;'Why, thank you!' Lily replies.&quot;.<br> It quip-supplies Lily.</font></blockquote>
+<p>
+ Or, if we want to be able to say the same quip to several specific people in the game:
+<p>
+<blockquote><font color="#000080"> Lily looks well is an informative quip.<br> The comment is &quot;'Lily is looking pretty good these days, isn't she?' you say.&quot;.<br> The reply is &quot;'[if the current interlocutor admires Lily]Yeah, she's turned into a real babe[otherwise]I guess[end if],' says [the current interlocutor].&quot;.<br> It quip-supplies Lucas, Peter, and Fred.</font></blockquote>
+<p>
+ This might be a good time to look at the second example, &quot;Slightly Less Simple&quot;.
+<p>
+ Section: Recollecting; repeatable and one-time quips
+<p>
+ TC defines a recollecting relation. When the player says a quip to another character, that character thereafter recollects that quip; so we could write conditions such as
+<p>
+<blockquote><font color="#000080"> if Lisa recollects whether it will rain,...<br> if someone recollects curse the fates,...</font></blockquote>
+<p>
+ and so on.
+<p>
+ By default, quips are defined to be &quot;one-time&quot;, meaning that the player can only say them once to any given character. (He might say the same quip to *different* characters, if the quip is not defined to apply to a single character only; but the same exchange of words would only happen once with each person to whom it was said.)
+<p>
+ If we'd like to be able to say the same quip many times to the same character, we must instead make the quip &quot;repeatable&quot;. If we do this, we may also want to take advantage of text variations to print something new the second and subsequent times he says the quip:
+<p>
+<blockquote><font color="#000080"> where the treasure lies is a repeatable questioning quip.<br> It mentions the Incan gold.<br> The comment is &quot;'Do you know where the treasure lies, Long John?' you ask [one of]brightly[or]again[or]yet again[stopping].&quot;<br> The reply is &quot;[one of]'[or]'Ye make an 'orrible pirate. I told you already. [or]Long John merely sighs. '[stopping]It be buried under the crossed palms,' he replies.&quot;</font></blockquote>
+<p>
+ The most common use for repeatable quips is when the player has a chance to ask a character for some really vital piece of information -- something that he might forget and need to ask again in order to solve the game. We don't want to force him to take notes while he plays, so we don't want to lock that information away after the first time he asks. On the other hand, if we want to prevent characters sounding mechanical, it's good to vary their replies when they're asked more than once (as shown above), or else have repeated replies provide a summary form, like
+<p>
+<blockquote><font color="#000080"> where the treasure lies is a repeatable questioning quip.<br> It mentions the Incan gold.<br> The comment is &quot;'Do you know where the treasure lies, Long John?' you ask [one of]brightly[or]again[or]yet again[stopping].&quot;<br> The reply is &quot;[one of]'Aye, it be buried under the crossed palms,' he replies[or]Long John reminds you, a little impatiently, that the treasure is buried under the crossed palms[stopping].&quot;</font></blockquote>
+<p>
+ (For another variation on this, see the &quot;King of Everything&quot; example below; or to simply get a look at the behavior of repeatable quips, see &quot;Not So Simple&quot;.)
+<p>
+ &quot;Recollecting&quot; would also allow us to write actions which let the player review what he's already talked about. For instance, suppose we wanted to add a &quot;remember&quot; action, so that remembering any conversation topic would list the quips that we've used that apply to that subject, and with whom we've discussed them. (This might come in handy in, say, a mystery game, in which we need to make sure that we ask all the suspects certain basic questions.)
+<p>
+ We might implement such a system like this:
+<p>
+<blockquote><font color="#000080"> Understand &quot;remember [any subject]&quot; or &quot;remember [something]&quot; as remembering. Remembering is an action applying to one visible thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check remembering:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the number of quips which are recollected by someone is 0, say &quot;You have not yet had any conversations to remember.&quot; instead.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out remembering:<br>&nbsp;&nbsp;&nbsp;&nbsp; let N be 0;<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with item running through quips which mention the noun:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if someone recollects the item:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You have discussed '[the item]' with [the list of other people who recollect the item].&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; increment N;<br>&nbsp;&nbsp;&nbsp;&nbsp; if N is 0, say &quot;You haven't discussed [the noun] with anyone yet.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Definition: a person is other if he is not the player.</font></blockquote>
+<p>
+ With only those features that have been presented so far, we could already write a game in which the player can ask various characters about a wide range of topics, follow up with further quips, and review important questions that he's already asked. But there is much more that we can do by keeping track of the context of the conversation.
+<p>
+ Chapter: Advanced Features for Customizing Conversation Flow
+<p>
+ Section: Facts
+<p>
+ Facts are used to track abstract information that might be conveyed by one or more quips. Unlike subjects and quips, facts are not things; they're values, defined by the grandiosely-titled Table of All Known Facts. To add our own facts, we might write
+<p>
+<blockquote><font color="#000080"> Table of All Known Facts (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> fact</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> summary</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> footprints-found</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Size 12 footprints were found outside the library.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> bob-shoe-size</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Bob's shoe size is 8.&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080">...</font></font></td></tr></table></blockquote>
+<p>
+ Every character in the game is able to know or not know every fact. To start characters out with a base of knowledge, we might write
+<p>
+<blockquote><font color="#000080"> The player knows bob-shoe-size.</font></blockquote>
+<p>
+ or similarly
+<p>
+<blockquote><font color="#000080"> Bob knows bob-shoe-size.</font></blockquote>
+<p>
+ Moreover, facts don't have to be tied to quips. Characters might also find things out by seeing an event unfold in front of them:
+<p>
+<blockquote><font color="#000080"> After opening the secret door:<br>&nbsp;&nbsp;&nbsp;&nbsp; now every person who can see the player knows secret-door-in-shelves;<br>&nbsp;&nbsp;&nbsp;&nbsp; continue the action.</font></blockquote>
+<p>
+ But quite often, facts will be communicated in the flow of conversation. If we want to indicate that a given quip communicates a given fact, we simply include the fact in brackets in the quip text, like so:
+<p>
+<blockquote><font color="#000080"> The reply is &quot;Bob holds up his shoe for you to see. [bob-shoe-size]'Eight, like I told you, inspector,' he says grumpily.&quot;</font></blockquote>
+<p>
+ Whenever someone says a quip with an embedded fact, everyone who is listening -- that is, the player, the current interlocutor, and any other characters in scope -- overhear the fact and come to know it as well. Conversely, &quot;[forget bob-shoe-size]&quot; will make everyone in scope stop knowing the fact any longer. (This is useful at those moments when some piece of popularly-believed information turns out to be false.)
+<p>
+ See the example 'Conferences' for a demonstration of how other characters might respond to facts revealed during play.
+<p>
+ TC provides a rule that will list off whatever the player knows at the moment; it is up to us to decide when and how to invoke that rule. If we wanted to let the player retrieve all his facts by thinking, we might write
+<p>
+<blockquote><font color="#000080"> Instead of thinking, follow the recap of known facts rule.</font></blockquote>
+<p>
+ Note that there is no enforced requirement in TC that someone know a fact before they say a quip with that fact embedded in it; if we wish, it's up to us to add such availability rules closing off certain quips as needed. This is because, in practice, many games will not involve large transfers of factual information between characters; it is not worth burdening all other authors with the added complexity.
+<p>
+ This brings us to the idea of the availability rules, which allow us to place arbitrarily complex restrictions on which quips are available under which conditions.
+<p>
+ Section: The availability rules
+<p>
+ The availability rules are an object-based-rulebook, consulted any time we want to decide whether something can possibly be said, no matter how likely. It has two possible outcomes: &quot;it is available&quot; and &quot;it is off-limits&quot;. (If rulebooks and outcomes are unfamiliar, see the Rulebooks chapter of the Inform documentation.)
+<p>
+ In fact, all the restrictions detailed so far in this documentation are enforced by the availability rulebook. The default set of availability rules includes these:
+<p>
+<blockquote><font color="#000080"> don't talk to no one rule<br> generic-quip<br> restriction of quips to scenes rule<br> player can't say NPC-directed quips rule<br> prevention of off-topic answers for restrictive quips rule<br> restriction of quips to special people rule<br> restriction of one-time quips rule<br> restriction by indirect-following rule<br> restriction of quips to appropriate previous quips rule<br> generic availability rule</font></blockquote>
+<p>
+ The don't talk to no one rule protects against bugs (though it ideally shouldn't arise anyway) by forbidding any quips at all when there is no current interlocutor defined.
+<p>
+ The availability rule for the generic-quip means that the (single, boring) quip defined by this extension is never available. It is useful to define this quip so that the extension will compile even when the author has not yet written any quips; but then we don't want the generic-quip to appear in any actual games.
+<p>
+ The restriction of quips to scenes rule prevents a quip from appearing outside of the scene defined as its &quot;proper scene&quot;. By default, this is the 'entire game'.
+<p>
+ The player can't say NPC-directed quips rule prevents the player from accessing quips that we have defined as &quot;NPC-directed&quot;: that is, they exist purely for other characters to bring up in conversation, not the player.
+<p>
+ The prevention of off-topic answers... rule checks that, if the current quip is restrictive, the player is using one of the answers that directly follows it.
+<p>
+ The restriction of quips to special people rule enforces the quip-supplying relation.
+<p>
+ The restriction of one-time quips rule checks whether the current interlocutor recollects the quip, and if so, forbids using the quip unless it is marked as repeatable.
+<p>
+ The restriction by indirect-following rule enforces indirect-following; the restriction of quips to appropriate previous quips enforces direct-following.
+<p>
+ Finally, the generic availability rule is the last rule in the rulebook, and simply returns &quot;it is available&quot;.
+<p>
+ There are, as usual with rulebooks, numerous ways to tamper with all this. We may write our own availability rules applying only to a single quip or group of quips. For example, to offer a quip only when the player holds a vital item,
+<p>
+<blockquote><font color="#000080"> An availability rule for accuse Lily:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the incriminating letter is not held, it is off-limits.</font></blockquote>
+<p>
+... to use a quip only if the player knows a specific fact,
+<p>
+<blockquote><font color="#000080"> An availability rule for what was cost of building ark:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the player does not know flood-imminent, it is off-limits.</font></blockquote>
+<p>
+... to make a whole thread of quips -- everything following from a significant remark -- off-limits *after* the player has learned some other fact,
+<p>
+<blockquote><font color="#000080"> An availability rule for a quip which indirectly-follows how he healed Lily:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the player knows prince-gave-blood, it is off-limits.</font></blockquote>
+<p>
+... and so on. We might also selectively disable or entirely remove rules from the availability rulebook if we wish to alter the normal behavior of Threaded Conversation; see the section of the Inform documentation on listing rules explicitly.
+<p>
+ A quip is defined to be &quot;available&quot; if it passes the availability rules, so we can use &quot;an available quip&quot; to assemble these quips in brief. This is used in the parsing rules of Threaded Conversation, which defines many of its commands in a structure such as
+<p>
+<blockquote><font color="#000080"> Understand &quot;discuss [any available quip] with [someone]&quot; as discussing it with.</font></blockquote>
+<p>
+ Section: The plausibility rules
+<p>
+ In addition to knowing which quips *can* be said at any given time, TC also keeps track of which quips are *likely* to be said at any given time. The plausibility rules are used for hinting to the player and for resolving parser ambiguities.
+<p>
+ For instance, the player is allowed to change the subject and ask about something new that isn't part of the current thread of discussion, but at any given time, he will only be encouraged to talk about plausible quips; all his other options will not be suggested. Similarly, if the player makes an ambiguous command that could be resolved either as a quip in this thread of conversation or as something totally unrelated, the in-thread quip will be chosen.
+<p>
+ To decide these things, TC uses the plausibility rules, another object-based-rulebook, though this time with three possible outcomes: it is plausible, it is dubious, and it is implausible. By default, the plausibility rules are
+<p>
+<blockquote><font color="#000080"> implausible to repeat yourself rule<br> mid-thread plausibility rule<br> avoid topic-change where possible rule<br> generic plausibility rule</font></blockquote>
+<p>
+ The implausible to repeat yourself rule says that, even if a quip happens to be repeatable, the player is unlikely to ask the same person the same question over again.
+<p>
+ The mid-thread plausibility rule checks whether a quip falls outside the current thread, and, if so, marks it implausible. The criteria it follows are somewhat complex, but in brief:
+<p>
+<blockquote><font color="#000080"> If the most recently discussed quip indirectly-follows other quips, we're construed to be in the middle of a thread. If not, anything goes, so we skip the rest of the criteria. But if so:</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Any quip that belongs to the same thread -- that indirectly-follows one of the things we've just been talking about -- is not a change of subject. Such a quip is said to be &quot;quippishly-relevant&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Any quip that doesn't indirectly-follow any other quips (defined as &quot;shallowly-buried&quot;) is considered the start of its own new thread, so that's not necessarily marked as implausible, either.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> But we do mark as implausible a quip that indirectly-follows other quips -- in other words, it is deep in its own thread -- but that is not part of the thread we're currently on.</font></blockquote>
+<p>
+ The avoid topic-change where possible rule checks to see whether we're in the middle of a thread (as defined above) and whether there is more to be said following on from the current quip. If so, then &quot;shallowly-buried&quot; quips (quips that start their own threads) are considered to be &quot;dubious&quot;. The idea is that we should not clue the player about how to change the subject while he's in the middle of a thread. If he does come to the end of what can be said about (for example) the weather, then it becomes reasonable to remind him of other conversation threads he might pursue.
+<p>
+ Finally, the generic plausibility rule returns &quot;it is plausible&quot; for any quips that have made it this far.
+<p>
+ The plausibility rules, like the availability rules, give us a lot of room for refinement and special casing. For example, say we have a puzzle where the player has to draw some inferences in order to ask a specific question. We want to let him ask this as soon as he thinks of it, but we don't want to suggest it to him before that point. We might then write
+<p>
+<blockquote><font color="#000080"> A plausibility rule for whether Mr Hannigan eats people:<br>&nbsp;&nbsp;&nbsp;&nbsp; it is implausible.</font></blockquote>
+<p>
+ As a result, this quip will never be suggested to the player in any &quot;You could...&quot; statement.
+<p>
+ A quip is defined to be &quot;plausible&quot; if it passes both the availability rulebook and the plausibility rulebook, in that order. Nothing can be plausible to say that cannot be said at all; moreover, the plausibility rules are the more computation intensive of the two, since they at some points involve tracing paths through the indirectly-follows relation. It is best to perform such checks only when we must, in the interests of optimizing run-time speed.
+<p>
+ Chapter: Customizing the Player Interface
+<p>
+ As we've seen, by default, Threaded Conversation uses a conversation interface in which the player may ASK or TELL about topics of interest, but if there is more than one thing to be said on that topic, he will be asked to clarify which of several remarks he would like to make. He will also receive cues every turn about what conversation quips are particularly appropriate at this juncture. This is not our only option, however; if we wish, we can implement other forms of interaction.
+<p>
+ Section: Switching to other forms of ask/tell or menu-based interface
+<p>
+ This behavior can be adjusted. If we want to achieve something more like an old-style ASK/TELL interface -- that is to say, one in which there are no cues, and the player is left to pick conversation clues out of the character's speech -- we can simply turn off the rule that supplies the cues. To do this, we would write
+<p>
+<blockquote><font color="#000080"> The offer hint quips rule is not listed in any rulebook.</font></blockquote>
+<p>
+ We could also substitute in its place a rule that offers hints only under specific conditions, or only suggests certain types of hints.
+<p>
+ More ambitiously, we could allow the player to determine for himself which play style he prefers, as a setting of the game. If we choose to do this, we must be sure to play-test all the options carefully. Performative quip commands, in particular, are not at all likely to be obvious to players unless we offer some other way of hinting at the special phrasing required.
+<p>
+ Section: Modifying the &quot;you could...&quot; line; changing the subject
+<p>
+ On a smaller scale, we can modify the output of the offer hint quips rule on a case by case basis. TC defines the activities
+<p>
+<blockquote><font color="#000080"> listing matched quips<br> listing plausible quips<br> listing peripheral quips</font></blockquote>
+<p>
+ Listing matched quips constructs the question Inform asks when disambiguating between several quips the player might have wanted to say.
+<p>
+ Listing plausible quips constructs the &quot;You could...&quot; suggestion paragraph.
+<p>
+ Listing peripheral quips is a rarer item that responds to the command &gt;CHANGE THE SUBJECT, and lists those quips that start new conversation threads, if the player wants to know.
+<p>
+ Of these, listing plausible quips is the one that most obviously lends itself to frequent use, whenever we want to direct the flow of conversation unusually.
+<p>
+ For instance, suppose that in one unusual circumstance we actually want to discourage the player from pursuing the thread he's on -- though he can if he wants to. We might write:
+<p>
+<blockquote><font color="#000080"> Rule for listing plausible quips when lily looks well is the current quip and it was horrible finding Lily poisoned is plausible:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;It's on the tip of your tongue to tell her: it was horrible finding her poisoned. But you needn't. You could turn the conversation: &quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; prepare a list of peripheral quips which are not it was horrible finding Lily poisoned;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[prepared list delimited in disjunctive style]. Something along those lines.&quot;</font></blockquote>
+<p>
+ Less particularly, we might make an &quot;unhinted&quot; attribute identifying all the quips that we don't want to follow with conversation cues, and then write
+<p>
+<blockquote><font color="#000080"> Rule for listing plausible quips when the current quip is unhinted:<br>&nbsp;&nbsp;&nbsp;&nbsp; do nothing instead.</font></blockquote>
+<p>
+ If we just want to change the words &quot;You could &quot; into something else (for example, in order to change the person, tense, or narrative language of the game), we can modify the text variable quip-suggestion-phrase, like so:
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the quip-suggestion-phrase is &quot;I could &quot;.</font></blockquote>
+<p>
+ Chapter: Character Initiative and Action Queuing
+<p>
+ Section: Overview of character actions under Threaded Conversation
+<p>
+ So far we've talked entirely about a framework in which the player speaks and a character replies. This is not a bad system for the most part, but there are times when we want characters to be a bit more proactive.
+<p>
+ The way the exchange of conversation currently works is as follows:
+<p>
+ 1) When the player asks a question, the player's comment is printed immediately as part of the &quot;discussing&quot; action, but nothing is printed for the current interlocutor.
+<p>
+ 2) Instead, we add this same quip to a list of things that the current interlocutor wants to talk about. It is queued &quot;immediately&quot; -- that is, it has priority over everything else in that character's queue -- so if the character was also waiting to say something, he will first reply to the player.
+<p>
+ 3) The player's discussing action finishes; then an every turn rule fires (the &quot;active conversation rule&quot;), triggering the conversation-reply rules. The conversation-reply rulebook has four entries by default:
+<p>
+<blockquote><font color="#000080"> the everyone speaks if queued rule<br> the character pursues own ideas rule<br> the characters remind you if you are ignoring them rule<br> the free to speak again rule</font></blockquote>
+<p>
+ The everyone speaks if queued rule simply discusses the next queued topic for every character in the game. In a turn during which the player has spoken, the result is typically that the current interlocutor now discusses the current quip, completing the exchange. In a turn where the player has *not* spoken, but the character has something more in his queue to say, he will go ahead and do this.
+<p>
+ The character pursues own ideas rule now considers whether the current interlocutor has something *more* to say and whether the thread we were on has come to a halt. If we are indeed at the end of a thread -- the current quip is &quot;dead-ended&quot;, with nothing following it -- then the current interlocutor gets another turn: we run the avoiding talking heads activity, then perform the *next* queued conversation for the current interlocutor.
+<p>
+ The avoiding talking heads activity is meant to be used to print out some sort of interstitial text -- whatever the author would like, really -- to indicate a pause between the current interlocutor's reply to the player's quip and the new thing that the current interlocutor says on his own.
+<p>
+ The characters remind you if you are ignoring them rule is used to print the &quot;nag&quot; text of the current quip on any turn when the player has not said anything.
+<p>
+ Finally, the free to speak again rule simply marks everyone as no longer speaking, to prepare for the next turn.
+<p>
+ This structure means that most of the time the current interlocutor will not change the subject of conversation on his own, but he can do so if the current conversation is pretty much tapped out. Experiment suggests that this is about the level of initiative that players like in a character: if a character talks too often and directs the conversation too much, the player may feel that he's not really in control, but is merely watching a pre-programmed narrative unfold. If the character *never* takes the initiative, though, he starts to seem implausibly passive.
+<p>
+ But if this mechanic doesn't work for a specific game, it can easily be changed by modifications to the conversation-reply rules.
+<p>
+ Very often, in the course of the conversation, we will want to add new items to a character's queue, to make him follow up a turn or two later on something the player has said. This helps give him a sense of agency and self-direction. To accomplish this, we can write
+<p>
+<blockquote><font color="#000080"> queue (some quip)</font></blockquote>
+<p>
+ for the character to say it at the next opportunity (equivalently, the quip may be queued &quot;as immediate obligatory&quot;);
+<p>
+<blockquote><font color="#000080"> queue (some quip) as immediate optional</font></blockquote>
+<p>
+ to say it as soon as possible, but only if the player does not respond with another quip -- so it is a fleeting, off-hand remark;
+<p>
+<blockquote><font color="#000080"> queue (some quip) as postponed obligatory</font></blockquote>
+<p>
+ to say it after all the other things that may already be in the queue; or
+<p>
+<blockquote><font color="#000080"> queue (some quip) as postponed optional</font></blockquote>
+<p>
+ to say it after all the other things that may already be in the queue, but discard it if the player changes the subject; it is an unimportant add-on.
+<p>
+ Often, in the middle of a thread, we want to have the current interlocutor make a brief comment in reply to player speech, but only if certain conditions are met:
+<p>
+<blockquote><font color="#000080"> the current quip is not restrictive,<br> the character has not already discussed the quip under consideration, and<br> the quip under consideration quip-supplies the character.</font></blockquote>
+<p>
+ As a shortcut, then, we may write
+<p>
+<blockquote><font color="#000080"> casually queue (some quip)</font></blockquote>
+<p>
+ to queue it as immediate optional, or
+<p>
+<blockquote><font color="#000080"> follow-up queue (some quip)</font></blockquote>
+<p>
+ to queue it as postponed optional -- but only if the above conditions hold. (The standard queue phrases do not check for any conditions before adding to a character's queue.)
+<p>
+ All of these queue phrases can also be used within say tokens, as in
+<p>
+<blockquote><font color="#000080"> say &quot;'The weather is fine,' says Captain Hook. [queue picnic-proposal]&quot;.</font></blockquote>
+<p>
+ By default, the character's collection of optional quips to discuss is cleared when the player changes the subject, by moving to a new conversation thread that isn't quippishly-relevant. This behavior is controlled by the following rules:
+<p>
+<blockquote><font color="#000080"> Carry out someone discussing something which is not quippishly-relevant (this is the mark changes of subject rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; carry out the subject-changing activity.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Subject-changing is an activity.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rule for subject-changing (this is the default changing of subject rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; delete purgeable conversation for the current interlocutor;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the grandparent quip is the noun.</font></blockquote>
+<p>
+ (The grandparent quip is used to keep track of where the player entered a thread, if re-entering a thread somewhere other than at the thread's natural beginning.)
+<p>
+ This default behavior keeps a character from stubbornly reverting to earlier topics once the conversation has definitely moved on; but there may be times when this is not desirable, so we may wish to turn off the mark changes of subject rule or to write our own subject-changing rules.
+<p>
+ Section: Adding dramatic grounding beats
+<p>
+ Reading a series of plain alternating quotations can quickly become dull. An effective way to break up such monotony is to insert a short description, to describe a minor action, or even to convey important non-verbal information, either between two parts of an exchange or in the middle of one character's monologue.
+<p>
+ The beat-producing activity exists for exactly this purpose. It is called by the default rule in the avoiding talking heads rulebook; or we may call it explicitly, by using the &quot;beat&quot; text substitution, like so:
+<p>
+<blockquote><font color="#000080"> the reply is &quot;'So it is true, then.' [beat] 'But it doesn't change how I feel.'&quot;</font></blockquote>
+<p>
+ By default, the beat-producing rulebook contains only a single rule, which merely prints &quot;There's a brief pause.&quot; We may add as many and as complex rules as we like. For example:
+<p>
+<blockquote><font color="#000080"> rule for beat-producing when the current interlocutor is Hook:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[one of]Hook gingerly scratches his nose[or]He twirls his moustache[at random]. [run paragraph on]&quot;</font></blockquote>
+<p>
+ Section: Interrupting between the comment and the reply
+<p>
+ Because the current interlocutor's speech comes as a separate action after the player's speech, we have the opportunity to describe physical action between the question and the answer; to build special cases where a third party interrupts, if present; or to replace the standard reply under certain unusual circumstances.
+<p>
+ If we want a character to respond atypically -- for instance, by ignoring all of the player's remarks and relentlessly pursuing his own line of thought -- we can intervene in the way that the replies are queued or in the way that they're carried out. One of many possibilities, for a scene where the character will talk about a specific thread but refuses to be gotten to talk about anything else:
+<p>
+<blockquote><font color="#000080"> The distracted reply rule is listed instead of the prepare a reply rule in the carry out discussing rulebook.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the distracted reply rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; if Shadows is happening:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the person asked is not the player, make no decision;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the noun is not quippishly-relevant,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; queue act-distracted as immediate obligatory;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; otherwise queue noun as immediate obligatory;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; queue noun as immediate obligatory.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> act-distracted is a weakly-phrased NPC-directed performative quip. To continue is a verb. To ignore is a verb. To show is a verb.<br> The reply is &quot;[Regarding the person asked][They] [one of][continue] [possessive] own line of thought[or][ignore] your remark[or][are] looking somewhat past your head[or][don't] [show] signs of following what you just said[at random]. [run paragraph on][awkward segue]&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say awkward segue:<br>&nbsp;&nbsp;&nbsp;&nbsp; if any conversation is queued for the person asked,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; perform the next queued conversation for the person asked.</font></blockquote>
+<p>
+ The possibilities are numerous, so we should check out the fuller examples to explore this further.
+<p>
+ Section: Giving a character a whole script of things to discuss
+<p>
+ We may particularly want to intervene and prevent subject-change from happening if we have a scene in which the character is meant to tell the player a certain number of things before moving on.
+<p>
+ We can set such a scene up by queueing a whole list of character comments at once, as in
+<p>
+<blockquote><font color="#000080"> When Shadows begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[pause]It is dangerous to give your frank opinion about a lady's fiancé, especially if you are yourself wildly in love with the lady in question. So you do not immediately speak.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; queue Lily finds herself crying;<br>&nbsp;&nbsp;&nbsp;&nbsp; queue prince acts creepy.</font></blockquote>
+<p>
+ (Note that because the default quip precedence is immediate obligatory, these quips will be said in the reverse order of how they are added!)
+<p>
+ If we do this -- and prevent the player from changing the subject away from this thread -- we'll have a scene in which the player can ask as many or as few on-topic questions as he wants, but the important information the character needs to convey should always reach him, sooner or later.
+<p>
+ Section: Affecting the state of the world
+<p>
+ For simplicity, TC exists as a standalone, verbal system, with little to tie any given conversation to the greater world model. Performative quips, for instance, are more often used for conversational effect rather than to induce some physical change. Any systematic link, so that conversation alters the state of things in the world model (or vice versa), would best be accomplished by crafting general-purpose rules governing this behavior, adding exceptions as necessary.
+<p>
+ However, if there will be only a few of these events, an ad hoc approach may suffice:
+<p>
+<blockquote><font color="#000080"> for the idol is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions the idol.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'Give me the idol!' you yell.&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'Uh, no problem.' Eli hands it over, eyes wide.&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp; It quip-supplies Eli.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After Eli discussing for the idol:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the player carries the idol;<br>&nbsp;&nbsp;&nbsp;&nbsp; continue the action.</font></blockquote>
+<p>
+ We must continue the action there, to allow the report discussing rules to print Eli's reply as usual.
+<p>
+ Or, if the player will be making many such item requests:
+<p>
+<blockquote><font color="#000080"> to buy Park Place is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions Park Place.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'I'd like to buy Park Place.'&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'Here you go,' Eli says.[give the player Park Place]&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It quip-supplies Eli.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> to say give the player (item - a thing):<br>&nbsp;&nbsp;&nbsp;&nbsp; if the current interlocutor has the item,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the player holds the item.</font></blockquote>
+<p>
+ Note also that the system does not check to ensure that the characters remain present all throughout the conversation. If the player or the other person may be moving around somehow during a conversation, we might want to set up an every turn rule to check this condition, and reset the interlocutor if it does not hold.
+<p>
+<blockquote><font color="#000080"> Last every turn when the current interlocutor is a person and the current interlocutor is not in the location:<br>&nbsp;&nbsp;&nbsp;&nbsp; reset the interlocutor.</font></blockquote>
+<p>
+ Section: Advanced beat and formatting control
+<p>
+ By default, when the conversational thread has been exhausted and the current interlocutor has something in her queue to say, the prevent talking heads activity will be called. This will print a grounding &quot;[beat]&quot; and a paragraph break before she discusses this new quip.
+<p>
+ There are a few properties of quips we can define to control this behavior. By default, a quip is considered &quot;strongly-phrased&quot;; we may mark it &quot;weakly-phrased&quot; instead if its reply text is merely a transitional phrase or minor comment, before the character then moves on to her topic of interest, so that the reply text from both quips can be combined into a single paragraph. The weakly-phrased property generally works best if the reply itself is not written with a grounding beat of its own at the end. (Note that if a weakly-phrased, dead-ended quip is followed by a character's queued change of subject, the prevent talking heads activity will be bypassed entirely.) However, this means that weakly-phrased quips should only be used when the interlocutor has a queue stocked with quips (and probably NPC-directed ones) of her own that she is itching to get to.
+<p>
+ Similarly, a quip may be defined as &quot;beat-opened&quot; rather than (the default) &quot;speech-opened&quot; when we want to craft a unique conversational beat at the start of this particular quip, rather than using the standard beat-producing rules. This property indicates that the quip's reply text begins with a grounding beat, rather than quoted speech. It is most useful for NPC-directed quips, as it does not affect text formatting unless the character has chosen the quip from her queue.
+<p>
+ There is some random variation, but this system ensures that two instances of quoted speech will never be printed side by side without an intervening beat or a paragraph break. Of course, we can alter or expand this behavior by changing the prevent talking heads activity. Or, if we ignore both of these properties entirely, the system will still function well.
+<p>
+ See the Blackened Blue example, below, for a demonstration of how the formatting of these types of quips may interact in printing NPC dialog.
+<p>
+ Chapter: Trouble-shooting
+<p>
+ Section: Debugging actions
+<p>
+<blockquote><font color="#000080"> QUEUE (someone)</font></blockquote>
+<p>
+ will produce a list of the quips that person has queued, along with their quip-precedences. This is useful when an NPC seems not to be discussing the things planned for him to say.
+<p>
+ Section: Built-in debugging functions
+<p>
+ TC runs some checks at the beginning of any game compiled in debug mode.
+<p>
+ First, it checks for quips that mention themselves. This happens most often when a quip is defined along the lines of...
+<p>
+<blockquote><font color="#000080"> where her stepmother went is a repeatable questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions stepmother.</font></blockquote>
+<p>
+... when &quot;stepmother&quot; has not been previously defined as a subject. Quips that mention themselves cause the game to hang at runtime, so it is important to catch these; if TC finds such a cycle, it will list the violations and then quit without going further.
+<p>
+ TC then checks for items that are probably subjects, but which are not declared to belong to the subject kind. It detects all items that are mentioned by quips but are not in a location (that is, not part of the game world at the start of play) and are not already of the subject kind. In the event that a character can talk about an object that starts the game out of play, TC may identify these falsely. All the same, it's good to catch things that are probably subjects, for two reasons:
+<p>
+ 1) this helps to identify cases in which Inform has accidentally duplicated an existing subject, through misspelling or other similar error, and the subjects should be consolidated into one;
+<p>
+ 2) it encourages the author to make any appropriate free-floating conversation objects into subjects and perhaps, in the process, to generate additional understand rules and vocabulary for them. TC does not absolutely depend on objects being declared as subjects, but add-on extensions may do so.
+<p>
+ Section: Caching
+<p>
+ TC fills out some relations and properties automatically when the game begins, to reduce the number of complex calculations that must be carried out every turn. However, in especially large projects, even this startup time may prove prohibitive. In that case, we need only add the line
+<p>
+<blockquote><font color="#000080"> Use hard cache.</font></blockquote>
+<p>
+ to generate this hard-coded cache automatically, which can then be pasted back into the source. To rebuild the cache in the future, simply delete the old cache.
+<p>
+ Rebuilding needs to happen every time we add new quips or change the way quips relate to one another, so it's kind of tedious to wait on during serious development; but once we approach release and the content becomes fairly stable, we're going to want the cache in place, even if we still have to regenerate it sometimes.
+<p>
+ Chapter: Release Notes
+<p>
+ Section: Version 8
+<p>
+<blockquote><font color="#000080"> Fix the recap of known facts rule, response (C), to make it labelled (C) properly<br> Explain weakly-phrased quips a bit better in the documentation</font></blockquote>
+<p>
+ Section: Versions 6/7
+<p>
+<blockquote><font color="#000080"> Fixing a few parser error issues<br> (date 180807: corrected invalid extension ending line)</font></blockquote>
+<p>
+ Section: Versions 4/5
+<p>
+<blockquote><font color="#000080"> Compatibility with I7 6L02 (and 6L38)<br>&nbsp;&nbsp;&nbsp;&nbsp; 'response' of quips renamed to 'reply', to avoid collision with the new I7 responses system<br> TC responses are now adaptive<br> Cleaned up extensions and main code</font></blockquote>
+<p>
+ Section: Version 3
+<p>
+<blockquote><font color="#000080"> Minor comment cleanup and clarification throughout</font></blockquote>
+<p>
+ Section: Version 2
+<p>
+<blockquote><font color="#000080"> Backdrops no longer trigger the &quot;X is a subject.&quot; notification at startup<br> Corrected a syntax error in a rule name preventing compilation (oops!)</font></blockquote>
+<p>
+ Section: Version 1
+<p>
+<blockquote><font color="#000080"> Implicit greeting finally fully functional<br> Documentation reworked<br> Smarter Parser no longer accommodated for or against; all necessary code absorbed (mainly for implicit greeting handling) or altered</font></blockquote>
+<p>
+ Chapter: Pre-Release Notes
+<p>
+ Section: New in Beta Versions 5/6
+<p>
+<blockquote><font color="#000080"> Discussing a quip with a non-interlocutor mistake message disabled when TC is used with Aaron Reed's Smarter Parser<br> Bug fix: discussing it with (with nouns reversed) understand code now working as intended<br> Reformatted, renumbered, and renamed many headings</font></blockquote>
+<p>
+ Section: New in Beta Version 4
+<p>
+<blockquote><font color="#000080"> Bug fixes<br> Replaced the &quot;context&quot; error with one more appropriate when trying to discuss quips<br> Correcting spacing of distracted reply sample code<br> Change discussing action to handle only relevant quips, without using &quot;[any]&quot; token and provoking the &quot;context&quot; error<br> Subjectifying action implemented to catch and process discussions before an interlocutor has been greeted<br> &quot;Obstinance&quot; example replaced with &quot;Blackened Blue&quot; to demonstrate dialog queue and advanced quip formatting features</font></blockquote>
+<p>
+ Chapter: Testers
+<p>
+<blockquote><font color="#000080"> Matt Weiner<br> Dannii Willis<br> Björn Paulsen<br> Melvin Rangasamy<br> Johan Paz<br> Hanon Ondricek<br> Jason Ermer<br> Susan Douglas<br> Joseph Limbaugh<br> David White<br> Justin de Vesine<br> Steve Robotnik<br> Konstantin Koss<br> John Large<br> Amy Lear<br> Matthew Stallter<br> Blecki</font></blockquote>
+<p>
+ Example: * Very Simple - A simple example to start with.
+<p>
+ In this example, quips mention both things in the real world (the barmaid) and concepts (immortality, rumors, and old Garrick, who is theoretically a person but not one who is physically represented in our story). We are also careful to declare all these entities before we write the quips that involve them. This is not absolutely always required, but there are cases in which it avoids compiler confusions, so it is a good rule of thumb to follow: create objects and subjects first, then the quips that talk about them.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Very Simple&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Threaded Conversation by Chris Conley.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 1 - Model world</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;It is a long and riotous evening, full of unlikely stories and tall tales. But now most of the patrons have gone away to their rooms to sleep, or have passed out before the fire. Even the two black bitch pups are curled on the hearth-stone, snuffling through tiny wet noses, and pawing the air in sleep. Now is the time to find out whether the rumors that brought you to this neighborhood are true.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Inn is a room. &quot;The light is low and red. Above the fireplace hangs a map of this part of the Empire, and on the adjacent wall is the crimson and silver banner of Richard the Rose.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The barmaid is a woman in the Inn. &quot;The barmaid works her way from table to table, clearing away dishes and mugs.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 2 - Subjects</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Immortality is a subject. Understand &quot;eternal life&quot; and &quot;immortal&quot; as immortality.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rumors are a subject. Understand &quot;stories/legends/story/legend/rumor/gossip&quot; as rumors.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Old Garrick is a subject. Understand &quot;codger&quot; as Old Garrick.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 3 - Quips</font></blockquote>
+<p>
+<blockquote><font color="#000080"> whether the rumors tell truly is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions immortality, rumors.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'Where I come from, over the black hills there, they say that men this side of the mountain live as old as Methuselah,' you remark. 'They say the secret of eternal life is here.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'Oh, do they?' she says, sweeping crumbs of cheese and crusty bread into her hand. 'The oldest codger around these parts is old Garrick, and I wouldn't put him beyond his four-score and ten.'&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> where Garrick lives is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions Old Garrick.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'Where does this old Garrick live?' you ask, trying not to seem too eager.&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'Down at the pig farm,' she says. 'The turn-off is just before you come to the river, on the main road west. You can find it by the smell.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It indirectly-follows whether the rumors tell truly.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> where the barmaid comes from is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions the barmaid.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'What about yourself?' you ask. 'Are you from around these parts?'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'If by these parts you mean between the black hills and the river, no,' she says. 'I was born just at the far side of the ford. But I came over here to work.'&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> whether she's heard the stories is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions immortality, rumors.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'Have you heard any stories of long-living men?' you press her.&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;She purses her lips and scrubs at a circle-shaped stain on the table before her. 'If you're a fool come looking for a spring of life or a vein of immortal gold buried in the black hills, you'd do better to go back home where you come from.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It indirectly-follows whether the rumors tell truly.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;talk to barmaid / ask the barmaid about herself / ask the barmaid about stories / g&quot;.</font></blockquote>
+<p>
+ Example: * Slightly Less Simple - The same inn as the previous example, but introducing a second character to talk to.
+<p>
+ Now we add a second character, a wanderer who has stopped at the inn for the evening:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Slightly Less Simple&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Threaded Conversation by Chris Conley.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 1 - Model world</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;It is a long and riotous evening, full of unlikely stories and tall tales. But now most of the patrons have gone away to their rooms to sleep, or have passed out before the fire. Even the two black bitch pups are curled on the hearth-stone, snuffling through tiny wet noses, and pawing the air in sleep. Now is the time to find out whether the rumors that brought you to this neighborhood are true.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Inn is a room. &quot;The light is low and red. Above the fireplace hangs a map of this part of the Empire, and on the adjacent wall is the crimson and silver banner of Richard the Rose.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The barmaid is a woman in the Inn. &quot;The barmaid works her way from table to table, clearing away dishes and mugs.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The wanderer is a man in the Inn. &quot;A wanderer in grubby trousers slouches at the seat nearest the fire.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now left hand status line is &quot;Talking to [the current interlocutor]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now right hand status line is &quot;[location]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 2 - Subjects</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Immortality is a subject. Understand &quot;eternal life&quot; and &quot;immortal&quot; as immortality.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rumors are a subject. Understand &quot;stories&quot; and &quot;legends&quot; and &quot;story&quot; and &quot;legend&quot; and &quot;rumor&quot; and &quot;gossip&quot; as rumors.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Old Garrick is a subject.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 3 - Quips</font></blockquote>
+<p>
+<blockquote><font color="#000080"> whether the rumors tell truly is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions immortality, rumors.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'Where I come from, over the black hills there, they say that men this side of the mountain live as old as Methuselah,' you remark. 'They say the secret of eternal life is here.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;[if the current interlocutor is the barmaid]'Oh, do they?' she says, sweeping crumbs of cheese and crusty bread into her hand. 'The oldest codger around these parts is old Garrick, and I wouldn't put him beyond his four-score and ten.'[otherwise]'That's true enough,' says [the current interlocutor]. 'Though there are plenty around here that will deny it.'[end if]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> where Garrick lives is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions Old Garrick.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'Where does this old Garrick live?' you ask, trying not to seem too eager.&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'Down at the pig farm,' [the current interlocutor] says. 'The turn-off is just before you come to the river, on the main road west. You can find it by the smell.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It indirectly-follows whether the rumors tell truly.<br>&nbsp;&nbsp;&nbsp;&nbsp; It quip-supplies the barmaid.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> where the barmaid comes from is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions barmaid.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'What about yourself?' you ask. 'Are you from around these parts?'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'If by these parts you mean between the black hills and the river, no,' she says. 'I was born just at the far side of the ford. But I came over here to work.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It quip-supplies the barmaid.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> whether she's heard the stories is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions immortality, rumors.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'Have you heard any stories of long-living men?' you press her.&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;She pinches her lips and scrubs at a circle-shaped stain on the table before her. 'If you're a fool come looking for a spring of life or a vein of immortal gold buried in the black hills, you'd do better to go back home where you come from.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It indirectly-follows whether the rumors tell truly.<br>&nbsp;&nbsp;&nbsp;&nbsp; It quip-supplies the barmaid.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;talk to the barmaid / ask the barmaid about rumors / ask about garrick / talk to the wanderer / ask him about the rumors&quot;.</font></blockquote>
+<p>
+ Notice how both the barmaid and the wanderer can answer the first quip (and, using text variations, answer it in different ways); but only the barmaid knows about the last three quips, thanks to the quip-supplying relation.
+<p>
+ Example: * Not So Simple - The inn example a third time, now with an example of a repeatable quip.
+<p>
+ Here we're going to let the player ask the wanderer the same question several times, in case he forgets the answer the first time. We're also going to give the wanderer a prop, a miniature.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Not So Simple&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Threaded Conversation by Chris Conley.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 1 - Model world</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;It is a long and riotous evening, full of unlikely stories and tall tales. But now most of the patrons have gone away to their rooms to sleep, or have passed out before the fire. Even the two black bitch pups are curled on the hearth-stone, snuffling through tiny wet noses, and pawing the air in sleep. Now is the time to find out whether the rumors that brought you to this neighborhood are true.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Inn is a room. &quot;The light is low and red. Above the fireplace hangs a map of this part of the Empire, and on the adjacent wall is the crimson and silver banner of Richard the Rose.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The barmaid is a woman in the Inn. &quot;The barmaid works her way from table to table, clearing away dishes and mugs.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The wanderer is a man in the Inn. &quot;A wanderer in grubby trousers slouches at the seat nearest the fire.&quot; The wanderer carries a miniature.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now left hand status line is &quot;Talking to [the current interlocutor]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now right hand status line is &quot;[location]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 2 - Subjects</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Immortality is a subject. Understand &quot;eternal life&quot; and &quot;immortal&quot; as immortality.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Rumors are a subject. Understand &quot;stories&quot; and &quot;legends&quot; and &quot;story&quot; and &quot;legend&quot; and &quot;rumor&quot; and &quot;gossip&quot; as rumors.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Old Garrick is a subject.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 3 - Quips</font></blockquote>
+<p>
+<blockquote><font color="#000080"> whether the rumors tell truly is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions immortality, rumors.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'Where I come from, over the black hills there, they say that men this side of the mountain live as old as Methuselah,' you remark. 'They say the secret of eternal life is here.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;[if the current interlocutor is the barmaid]'Oh, do they?' she says, sweeping crumbs of cheese and crusty bread into her hand. 'The oldest codger around these parts is old Garrick, and I wouldn't put him beyond his four-score and ten.'[otherwise]'That's true enough,' says [the current interlocutor]. 'Though there are plenty around here that will deny it.'[end if]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> where Garrick lives is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions Old Garrick.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'Where does this old Garrick live?' you ask, trying not to seem too eager.&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'Down at the pig farm,' [the current interlocutor] says. 'The turn-off is just before you come to the river, on the main road west. You can find it by the smell.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It indirectly-follows whether the rumors tell truly.<br>&nbsp;&nbsp;&nbsp;&nbsp; It quip-supplies the barmaid.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> where the barmaid comes from is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions barmaid.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'What about yourself?' you ask. 'Are you from around these parts?'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'If by these parts you mean between the black hills and the river, no,' she says. 'I was born just at the far side of the ford. But I came over here to work.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It quip-supplies the barmaid.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> whether she's heard the stories is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions barmaid, immortality, rumors.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'Have you heard any stories of long-living men?' you press her.&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;She pinches her lips and scrubs at a circle-shaped stain on the table before her. 'If you're a fool come looking for a spring of life or a vein of immortal gold buried in the black hills, you'd do better to go back home where you come from.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It indirectly-follows whether the rumors tell truly.<br>&nbsp;&nbsp;&nbsp;&nbsp; It quip-supplies the barmaid.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> what he knows is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions rumors, wanderer.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;[one of]'What do you know about those who live forever?' you ask[or]'Tell me more about the secrets of eternal life concealed here,' you plead[stopping].&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;[one of]'I met last month a man that used to be a friend of my grandfather. My grandfather's long dead and in the ground, and this man looks younger than myself. I have a miniature painting of them two together, and I tell you he has not aged a moment.'[or]'I myself do not know how it is done,' he responds. 'They guard the secret carefully in these parts, as well they should.'[or]'I've told you all I know -- which is almost nothing,' he says. 'Only that I've met a man that has not aged since my grandfather's day, and maybe longer than that.'[or]He tells you again about his encounter with this implausibly young man, embellishing the story a little -- though not with any details that would help you find the fellow.[stopping]&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It quip-supplies the wanderer.<br>&nbsp;&nbsp;&nbsp;&nbsp; It indirectly-follows whether the rumors tell truly.<br>&nbsp;&nbsp;&nbsp;&nbsp; It is repeatable.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> whether you may see the miniature is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; Understand &quot;I&quot; as whether you may see the miniature.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions miniature, yourself.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'May I see this miniature? I'm curious to see the man who has lived without aging.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'Why not?' He searches through the pockets of his coat, and then the pockets of his trousers, and finally -- looking surprised and much relieved -- finds what he was looking for tucked away in his boot. 'Here it is: have a look.' [paragraph break]And he extends for view an old-fashioned locket: painted on an ivory rectangle are the images of two young men. They are painted so small that it would be hard to guarantee that you would recognize them again.&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It quip-supplies the wanderer.<br>&nbsp;&nbsp;&nbsp;&nbsp; It indirectly-follows what he knows.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;talk to the wanderer / ask him about the rumors / ask what he knows / g / g / g / ask whether I may see the miniature&quot;.</font></blockquote>
+<p>
+ Notice that we are allowed to ask the &quot;what he knows&quot; quip a number of times, but that after the first time of asking, it stops being suggested to the player: the &quot;you could ask...&quot; sentence does not suggest things that the player has already tried. This is one of several reasons why we shouldn't hide new information in the later stages of the same quip. If we want to give the player more information about a subject, we should make separate quips. Having a repeatable quip is useful mostly in that it lets the player again hear information that he might have forgotten and that is vital to the progress of the game.
+<p>
+ Note also that &quot;whether you may see the miniature&quot; becomes available after the first time we use the repeatable quip. &quot;Indirectly-follows&quot; (or its more fussy relative, &quot;directly-follows&quot;) only require that the prerequisite quip has been used once, not that all of its text variations have been exhausted.
+<p>
+ Example: ** The King of Everything - An example in which the player can re-ask all questions, but on the second and subsequent askings, the game replays the literal text of the first question.
+<p>
+ Here let's say we want to modify Threaded Conversation to produce a conversation a bit more like older-style ASK/TELL conversations. The player is allowed to re-ask the same questions more or less as many times as he likes, though on the second time of asking he gets a reply like
+<p>
+<blockquote><font color="#000080"> You remember your conversation as follows:</font></blockquote>
+<p>
+<blockquote><font color="#000080"> &quot;I was born on the underbelly of the moon,&quot; he replies. &quot;But, growing tired of living there, and constantly able to see the beautiful colors of the earth, I took wing and flew down here.&quot;</font></blockquote>
+<p>
+ We also do not provide any cues about special things to say, and we avoid using performative quips.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;The King of Everything&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Threaded Conversation by Chris Conley.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Black Palace is a room. The King of Everything is here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Quips are usually repeatable. The offer hint quips rule is not listed in any rulebook.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of discussing something which is recollected by the current interlocutor:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You remember your conversation as follows:<br><br>[italic type][the reply of the noun][roman type][line break]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Who is a subject.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> who he seems is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; The printed name is &quot;who he is&quot;. The true-name is &quot;who he seems&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; Understand &quot;is&quot; as who he seems.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions king, who.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'Just who are you?' you ask, your pen poised over your notepad. 'We want to know everything.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'I was born on the underbelly of the moon,' he replies. 'But, growing tired of living there, and constantly able to see the beautiful colors of the earth, I took wing and flew down here.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It quip-supplies King.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;talk to king / ask the king about the king / g&quot;.</font></blockquote>
+<p>
+ We will, of course, want to add many more quips after this one.
+<p>
+ Example: ** Conferences - An example in which eavesdropping third parties will react if they hear anything in the conversation that they find upsetting.
+<p>
+ To keep this example simple, we will have just one piece of information that could be upsetting to the third-party listener, but we want him to react to it immediately, regardless of whether it is revealed by the player's speech or by the current interlocutor's reply.
+<p>
+ To do this, we add a &quot;characters think rule&quot;, which we call once before the active conversation rule (that is, before the current interlocutor has a chance to respond to us), and once at the end of the conversation-reply rules (after the current interlocutor has said anything she is going to say). We could write any amount of reasoning into the characters think rule, even allowing them to infer complex conclusions from facts.
+<p>
+ The specific quips are once again generated by Conversation Builder.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Conferences&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Threaded Conversation by Chris Conley.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Conference Chamber is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Thurg is a man in the Conference Chamber. Lavine is a woman in the Conference Chamber.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The characters think rule is listed before the active conversation rule in the every turn rules.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the characters think rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; repeat with item running through people who are not the player:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; follow the thinking rules for the item.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A conversation-reply rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; follow the characters think rule.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The thinking rules are an object-based rulebook.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of All Known Facts (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> fact</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> summary</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> elf-human alliance</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;Elves and humans are allying against the trolls.&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> A thinking rule for Thurg:<br>&nbsp;&nbsp;&nbsp;&nbsp; if Thurg knows elf-human alliance and the player can see Thurg:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Thurg roars in fury and begins to choke the life out of you, shouting 'NO ELF-HUMAN ALLIANCE' again and again.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end the story saying &quot;You have died&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Meeting is a subject.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> why she hath come is a questioning quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; The printed name is &quot;why she has come&quot;. The true-name is &quot;why she hath come&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; Understand &quot;have&quot; or &quot;has&quot; as why she hath come.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions Lavine, meeting.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'Why have you come?' you demand of Lavine urgently. You keep your voice as low as you are able, but Thurg nonetheless watches you with obvious comprehension.&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'Why, to see what it was you were saying to the trolls, of course,' she answers in a clear, bell-like tone. 'Our alliance [elf-human alliance]is still young, eh?'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It quip-supplies Lavine.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> this alliance will be a happy one is an informative quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions Lavine, meeting.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'I am so glad to see you,' you tell Lavine. 'I am sure the alliance of our two peoples [elf-human alliance]will be a long and happy one.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'That is my hope as well,' she says musically.&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It quip-supplies Lavine.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;talk to Lavine / ask why she has come&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test again with &quot;talk to Lavine / t alliance&quot;.</font></blockquote>
+<p>
+ Example: *** Blackened Blue - An example that demonstrates conversation queueing, self-directed NPC conversation, and advanced quip formatting features.
+<p>
+ This example demonstrates more advanced control of conversation formatting through various combinations of weakly- and strongly-phrased player-directed quips and beat- and speech-opened NPC-directed quips.
+<p>
+ Character conversation queueuing and intentional conversation is also displayed, as well as some manipulation of physical objects through dialog.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Blackened Blue&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Threaded Conversation by Chris Conley.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 1 - Scene</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Chief's Office is a room. &quot;Morning sunlight through the windows cuts yellow daggers across the Chief's desk. A single ceiling fan spins lazily, useless in the already mounting heat. Across from the door, a dart board is surrounded by newspaper clippings, and a clock ticks loudly from the wall behind you.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Chief is a man in the Office. &quot;The Chief [one of]nods as you enter[or]is seated behind his desk[stopping].&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp; The description is &quot;Worn down and worn out. Two decades in the city have not been kind to him.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For beat-producing when the current interlocutor is Chief:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[one of][The Chief] leans back in his chair[or][The Chief] rubs his chin[or][The Chief] stands, then thinks better of it and sits back down[or][The Chief] squints at you[or][The Chief] glances at some papers on his desk[at random].[run paragraph on]&quot;.<br> For beat-producing when the current interlocutor is nothing and Chief is in the location:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[one of][The Chief] clears his throat[or][The Chief] raises an eyebrow[at random].[run paragraph on]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For printing the name of the Chief while saying hello to: say &quot;the Chief&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Name printed is a truth state that varies. Every turn: now name printed is false.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> For printing the name of the Chief while an actor discussing, beat-producing:<br>&nbsp;&nbsp;&nbsp;&nbsp; if a random chance of 1 in 2 succeeds and name printed is false:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The Chief&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now name printed is true;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;He&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The office door is an open scenery door, outside from the Office, inside from the Hall.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of going to Hall:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;'We're not finished here, McGorsky.' [run paragraph on]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; carry out the avoiding talking heads activity;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A scenery supporter called his desk is in the Office. Some papers are on the desk. A phone is fixed in place, on the desk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The window, a ceiling fan, the dart board, some newspaper clippings, and a clock are scenery in the office. Understand &quot;morning/sunlight/daggers/yellow/dust/dusty/air&quot; as the window.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 2 - Quips</font></blockquote>
+<p>
+<blockquote><font color="#000080"> first spiel is an NPC-directed beat-opened quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; the reply is &quot;The Chief [unless we have closed the office door]shuts the door and [end if]sits down. 'Look, McGorsky. You're a good cop but you got a bad break. I'm moving you to North Division until things calm down in Chinatown.'&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After Chief discussing first spiel:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the office door is closed;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the office door is locked;<br>&nbsp;&nbsp;&nbsp;&nbsp; continue the action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> about his family is a questioning quip, quip-supplying Chief.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'How's your family, Bob?'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;He shrugs. 'Can't complain, really.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; it mentions Chief.<br>&nbsp;&nbsp;&nbsp;&nbsp; An availability rule for about his family:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the player recollects first spiel, it is off-limits.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> what's up is a weakly-phrased questioning quip, quip-supplying Chief.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;You decide to cut to the chase. 'So what's the damage, Chief?'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'Bad. Real bad.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It mentions Chief.<br>&nbsp;&nbsp;&nbsp;&nbsp; An availability rule for what's up:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the player recollects first spiel, it is off-limits.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> protest is a performative quip, quip-supplying the Chief.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'There must be some other way!'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;He shakes his head. 'No. It's too hot right now, McGorsky.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It directly-follows first spiel.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> argue further is a weakly-phrased performative quip, quip-supplying the Chief.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'Just give me another chance. I won't let you down again.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'Not happening.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It directly-follows protest.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> you understand is a weakly-phrased informative quip, quip-supplying the Chief.<br>&nbsp;&nbsp;&nbsp;&nbsp; The comment is &quot;'Yes, sir. I understand.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'Right. Glad to hear it, McGorsky. You're a good egg.'&quot;.<br>&nbsp;&nbsp;&nbsp;&nbsp; It indirectly-follows first spiel and protest.<br>&nbsp;&nbsp;&nbsp;&nbsp; Understand &quot;I&quot; or &quot;I understand&quot; as you understand.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> second spiel is an npc-directed quip.<br>&nbsp;&nbsp;&nbsp;&nbsp; The reply is &quot;'Now, McGorsky. I want you to meet your new partner.' [The Chief] picks up the phone and says 'Send her in.'&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Section 3 - Plot</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;What went down at the quay was harrowing. You were lucky to get out alive.<br><br>So you weren't surprised when the Chief called you in to his office first thing Monday morning.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After saying hello to Chief:<br>&nbsp;&nbsp;&nbsp;&nbsp; we stock Chief's queue in 0 turns from now;<br>&nbsp;&nbsp;&nbsp;&nbsp; continue the action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> At the time when we stock Chief's queue:<br>&nbsp;&nbsp;&nbsp;&nbsp; queue first spiel as postponed obligatory;<br>&nbsp;&nbsp;&nbsp;&nbsp; queue second spiel as postponed obligatory;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn when Chief is not the current interlocutor:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the current interlocutor is Chief;<br>&nbsp;&nbsp;&nbsp;&nbsp; queue second spiel;<br>&nbsp;&nbsp;&nbsp;&nbsp; queue first spiel.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Endgame is a scene. Endgame begins when the player recollects second spiel.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When Endgame begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The door opens...&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; end the story finally saying &quot;To be continued&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;greet Chief / ask about family / protest / argue&quot;.<br> Test again with &quot;greet Chief / ask what's up / say I understand&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

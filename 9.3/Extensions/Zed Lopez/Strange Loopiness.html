@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Strange Loopiness<font color="#404040"> by </font>Zed Lopez</b><p><small></small><p><p><hr><p>
+<p>
+ This is experimental and mostly made out of the undocumented features in the Standard Rules the docs call on us not to use.
+<p>
+ Adds while and until loops. Among other things, this makes it easy to loop indefinitely until a condition is met, which comes in handy sometimes. On the other hand, this makes it easy to loop indefinitely.
+<p>
+ Inform 7's existing repeat statements make it hard to infinitely loop, which I'm guessing was a deliberate design decision. So be warned that these loops are powerful tools whose power is by default pointed at your foot: make sure your loop incrementally approaches its exit condition.
+<p>
+ If you Include If True by Zed Lopez, then while and until will be able to take plain truth states instead of full conditionals.
+<p>
+ Infinitely loop (your obligation to break out):
+<p>
+ ``` repeat while true: ```
+<p>
+ Repeat down across a range:
+<p>
+ ``` repeat with x running from 12 down to 2: ```
+<p>
+ ``` repeat with hue running from indigo down to orange: ```
+<p>
+ For all of the loops, you can also provide a loop index variable. Don't alter the loop index variable manually or it'll cease being a useful loop index variable.
+<p>
+ Enumerated values in a specified range:
+<p>
+ ``` repeat with the-color running from red to blue with index i: ```
+<p>
+ Descriptions of objects:
+<p>
+ ``` repeat with closed-thing running through closed things with index i: ```
+<p>
+ Lists:
+<p>
+ ``` repeat with item running through L with index i: ```
+<p>
+ To save you the trouble of reversing a list you want to iterate through, you can specify backwards.
+<p>
+ ``` repeat for item in L backwards: ```
+<p>
+ or
+<p>
+ ``` repeat for item in L in reverse: ```
+<p>
+ Tables with row number:
+<p>
+ ``` repeat through Table of Regrets with row number row-id; ```
+<p>
+ But when you're going through a table backwards or sorting by a column, the row number will typically be different from a count of iterations through the loop, so if you really want the latter, too:
+<p>
+ ``` repeat through Table of Regrets with row number row-id and index i; ```
+<p>
+ (There isn't a provided option for just the index without the row number.)
+<p>
+ The compiler does magic I can't reproduce to let the same phrase preamble work for descriptions of objects and descriptions of enumerated values. So the loop over a description of values with index case only works for objects. If you're working with enumerated values and you want the index, do your choice of the following:
+<p>
+ ``` repeat with the-color running through colors: let index be the-color cast as a number; ```
+<p>
+ or:
+<p>
+ ``` repeat for the-color from the first value in colors to the last value in colors with index: ```
+<p>
+ or: ``` repeat for the-color from red to yellow with index i begin;
+<p>
+ Definition: a color (called C) is infragreen if C &lt; green.
+<p>
+ let i be 0; repeat for c in infragreen colors begin; increment i; ```
+<p>
+ Reserve this form for descriptions of objects:
+<p>
+ ``` repeat with drafty running through open containers with index i: ```
+<p>
+ Be warned that if you do try using it with enumerated values, there *won't* be an error: the body of the loop won't be executed; it will just return immediately.
+<p>
+ Also modifies existing syntax:
+<p>
+ &quot;repeat running through&quot; and &quot;repeat through&quot; are interchangeable (i.e., &quot;running&quot; is permissible while looping through tables, and omitting it is permissible everywhere)
+<p>
+ &quot;for&quot; may replace &quot;with&quot;
+<p>
+ &quot;in&quot; may replace &quot;from&quot;
+<p>
+ &quot;in&quot; may replace &quot;through&quot;
+<p>
+ So all of the following are equivalent:
+<p>
+ Repeat with i running from 1 to 10 Repeat with i from 1 to 10 Repeat for i in 1 to 10
+<p>
+ And these are equivalent:
+<p>
+ Repeat running through the Table of Regrets: Repeat through the Table of Regrets: Repeat in the Table of Regrets:
+<p>
+ other examples:
+<p>
+ repeat through the table of regrets backwards by decision-badness using row number row-id
+<p>
+ Section Changelog
+<p>
+ 1/211027 Added repeat n times loop. Improved documentation. Added looping through lists backwards.
+<p>
+ 1/210930 Add separate case for repeat through list of text with index case, which had been failing. Any list of a block-valued kind other than text will still fail.
+<p>
+ 1/210928 Use I6-native do-until loop; prior implementation could break with multiple until loops
+<p>
+
+<p>
+<p></body></html>

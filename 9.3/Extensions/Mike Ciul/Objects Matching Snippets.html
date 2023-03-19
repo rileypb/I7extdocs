@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Objects Matching Snippets<font color="#404040"> by </font>Mike Ciul</b><p><small></small><p><p><hr><p>
+<p>
+ Objects Matching Snippets is a very simple extension that provides a convenient way to search for names of objects within a snippet such as the player's command or the topic understood.
+<p>
+ There are two relations that can be used for this: snippet-matching (&quot;O is identified with S&quot;) and snippet-inclusion (&quot;O is named in S&quot;). These correspond to the built-in phrases &quot;S matches O&quot; and &quot;S includes O.&quot;
+<p>
+ Snippet-matching tests whether the name of object O matches the snippet S:
+<p>
+<blockquote><font color="#000080"> say &quot;[The list of things identified with the topic understood] all match the phrase '[the topic understood]' in your command.&quot;;</font></blockquote>
+<p>
+ Snippet-inclusion tests whether the name of object O appears in the snippet S:
+<p>
+<blockquote><font color="#000080"> say &quot;The rooms [list of rooms named in the player's command] are all mentioned in your command.&quot;</font></blockquote>
+<p>
+ Note that these are both object-to-snippet relations, so you can test them on rooms, directions, and regions as well as things.
+<p>
+ If you just want to pick an object, you can use the phrase &quot;the most likely O&quot;:
+<p>
+<blockquote><font color="#000080"> say &quot;You probably meant [the most likely thing identified with the topic understood].&quot;</font></blockquote>
+<p>
+ This phrase will return an object if there is exactly one match, otherwise it will return nothing, even if there were multiple matches.
+<p>
+ To control what objects match, you can use a scoring system similar to the Does the Player Mean rules. This is managed using the &quot;Did the Player Choose&quot; rulebook. The difference is that the Did the Player Choose rules are object based, so you need to pass a description of the object you're testing:
+<p>
+<blockquote><font color="#000080"> Did the player choose an exclamation when answering someone that: It is very likely.</font></blockquote>
+<p>
+ The &quot;most likely&quot; phrase will reject any objects that score lower than the best choice. But if there are two or more objects that score equally high, it will still return nothing. To find out whether the phrase failed because nothing match or because of multiple matches, you can test &quot;if nothing matched,&quot; &quot;if something matched,&quot; and which objects were &quot;likeliest&quot; immediately after calling the phrase:
+<p>
+<blockquote><font color="#000080"> Let the choice be the most likely thing named in the player's command;<br> if the choice is nothing:<br>&nbsp;&nbsp;&nbsp;&nbsp; if nothing matched, say &quot;You didn't mention any things I recognize.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if something matched, say &quot;You mentioned [the list of likeliest things named in the player's command] in your command.&quot;;</font></blockquote>
+<p>
+ Remember that the &quot;likeliest&quot; adjective merely runs the &quot;did the player choose&quot; rulebook on the item described - it doesn't test whether that object was part of the &quot;most likely&quot; test just performed, so you must reiterate any other conditions used to invoke the phrase.
+<p>
+ To test what objects match any snippet, you can use the &quot;objmatch&quot; testing command:
+<p>
+<blockquote><font color="#000080"> &gt;objmatch me<br> &quot;list of things identified with the topic understood&quot; = list of things: { yourself }<br> &quot;list of rooms identified with the topic understood&quot; = list of rooms: { }<br> &quot;list of directions identified with the topic understood&quot; = list of directions: { }<br> &quot;list of regions identified with the topic understood&quot; = list of regions: { }</font></blockquote>
+<p>
+ Example: * Exclamations - Creates a new action that can be parsed from the command &quot;[someone], [something]&quot;
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Exclamations&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Objects Matching Snippets by Mike Ciul.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Exclaiming it to is an action applying to two visible things.<br> Report exclaiming it to: say &quot;You say '[noun]' to [the second noun].&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An exclamation is a kind of thing. Hello is an exclamation.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Check answering someone that:<br>&nbsp;&nbsp;&nbsp;&nbsp; Let item be the most likely thing identified with the topic understood;<br>&nbsp;&nbsp;&nbsp;&nbsp; If item is a thing:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; instead try exclaiming item to the noun;<br>&nbsp;&nbsp;&nbsp;&nbsp; Let item be the most likely thing named in the topic understood;<br>&nbsp;&nbsp;&nbsp;&nbsp; if something matched:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Your command did not exactly match anything you can say, but [the list of likeliest things named in the topic understood] matched part[if item is nothing]s[end if] of it.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stop the action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test is a room. Bob is a man in Test.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;say hello to bob/bob, hello how are you Bob&quot;</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

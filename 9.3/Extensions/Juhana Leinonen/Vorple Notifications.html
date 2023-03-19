@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Vorple Notifications<font color="#404040"> by </font>Juhana Leinonen</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter: Notifications
+<p>
+ Notifications are messages that show briefly in the top right corner of the page and then fade away. A notification can be displayed with:
+<p>
+<blockquote><font color="#000080"> display a notification reading &quot;Hello World!&quot;;</font></blockquote>
+<p>
+ Notifications can have a title that's shown in bold type above the notification text:
+<p>
+<blockquote><font color="#000080"> display a notification with title &quot;Welcome&quot; reading &quot;Have fun!&quot;;</font></blockquote>
+<p>
+ The notification is shown for seven seconds before it disappears. The duration can be changed per notification:
+<p>
+<blockquote><font color="#000080"> display a notification reading &quot;Time passes...&quot; for 10 seconds;</font></blockquote>
+<p>
+ or globally by changing the &quot;default notification duration&quot; number variable:
+<p>
+<blockquote><font color="#000080"> now the default notification duration is 10;</font></blockquote>
+<p>
+ There are four different notification types that have different background colors and icons: info, success, warning and error. The default notification type is info.
+<p>
+<blockquote><font color="#000080"> display a warning notification reading &quot;Tread carefully!&quot;;<br> display a success notification with title &quot;Achievement unlocked&quot; reading &quot;You found the secret passage&quot;;</font></blockquote>
+<p>
+ Chapter: Fallback
+<p>
+ If Vorple isn't available, the fallback is to display the notifications at the end of turn as plain text. The feature can be overridden by checking Vorple's availability:
+<p>
+<blockquote><font color="#000080"> if Vorple is available:<br>&nbsp;&nbsp;&nbsp;&nbsp; display a notification reading &quot;Click on your inventory items to examine them more closely&quot;;<br> otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Type EXAMINE followed by an inventory item's name to examine them more closely.&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> if Vorple is available:<br>&nbsp;&nbsp;&nbsp;&nbsp; display a notification reading &quot;Welcome to Vorple-enhanced [story title]!&quot;;</font></blockquote>
+<p>
+ The default fallback can also be turned off completely:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> The print notifications fallback rule is not listed in any rulebook.</font></blockquote>
+<p>
+ Example: * How To I - Showing small tips to new players who might not be familiar with the standard IF conventions.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;How To I&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Vorple Notifications by Juhana Leinonen.<br> Release along with the &quot;Vorple&quot; interpreter.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Lab is a room. &quot;You're in a fancy laboratory.&quot;<br> Corridor is north of lab.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A test tube is in the lab.<br> A trolley is in the lab. It is pushable between rooms.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; display a notification reading &quot;Type LOOK (or just L) to see the room description again&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After taking something for the first time:<br>&nbsp;&nbsp;&nbsp;&nbsp; display a notification reading &quot;Type INVENTORY (or just I) to see a list of what you're carrying&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; continue the action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After examining the trolley for the first time:<br>&nbsp;&nbsp;&nbsp;&nbsp; display a notification reading &quot;You can push the trolley between rooms by commanding PUSH TROLLEY followed by a compass direction&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After reading a command when the player's command includes &quot;examine&quot;:<br>&nbsp;&nbsp;&nbsp;&nbsp; display a notification reading &quot;Tip: You can abbreviate EXAMINE to just X&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;take test tube / examine test tube / x trolley&quot;.</font></blockquote>
+<p>
+ Example: ** Score Notifications - A visual notification when the player is awarded points.
+<p>
+ We'll create a rule that will show the score change as a Vorple notification, or use the original score notification rule if the game is being played in a non-Vorple interpreter.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Score Notifications&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Vorple Notifications by Juhana Leinonen.<br> Release along with the &quot;Vorple&quot; interpreter.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Use scoring. The maximum score is 5.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Chapter 1 - New score notifications</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say score notification message:<br>&nbsp;&nbsp;&nbsp;&nbsp; (-  NotifyTheScore();  -).</font></blockquote>
+<p>
+<blockquote><font color="#000080"> This is the enhanced notify score changes rule:<br>&nbsp;&nbsp;&nbsp;&nbsp; if Vorple is supported:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the last notified score is not the score:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; display a notification reading &quot;[score notification message]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the last notified score is the score;<br>&nbsp;&nbsp;&nbsp;&nbsp; otherwise:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; follow the notify score changes rule.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The enhanced notify score changes rule is listed instead of the notify score changes rule in the turn sequence rulebook.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Chapter 2 - Treasure chamber</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Treasure Chamber is a room. &quot;Wealth beyond your dreams is piled all over this room.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A valuable is a kind of thing. The pearls, gold coins, diamonds, rubies and emeralds are plural-named valuables in the Treasure Chamber.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out taking a valuable when the noun is not handled (this is the award points for finding valuables rule):<br>&nbsp;&nbsp;&nbsp;&nbsp; increase the score by one.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;take coins / take diamonds and rubies / take all&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

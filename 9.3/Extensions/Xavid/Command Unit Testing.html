@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Command Unit Testing<font color="#404040"> by </font>Xavid</b><p><small></small><p><p><hr><p>
+<p>
+ Suppose you've put great effort into making sure that a given series of commands responds a certain way. You're now ready to work on the rest of your game, but you want to make sure that nothing you do breaks what you just set up. You can have &quot;test&quot; commands to check this, but you have to manually verify that the output is correct each time. This extension provides another option: the ability to create 'unit tests' that run a series of commands and make assertions about the output of some of them.
+<p>
+ Chapter 1 - Writing Tests
+<p>
+ Unit tests are very similar conceptually to the Inform built-in &quot;test&quot; command, in that they run a series of user commands, but they're defined differently, in unit test rules. A basic example would be:
+<p>
+<blockquote><font color="#000080"> Unit test:<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;dropping&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;take fish&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;drop fish&quot; produces &quot;Dropped.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;[the fish]&quot; substitutes to &quot;the dirty fish&quot;.</font></blockquote>
+<p>
+ The &quot;start test&quot; instruction just prints a message to make it easier to tell where one test ends and another begins. There's also a &quot;start suite&quot; which works in the same way. (Because tests need to set up a series of commands and later execute them, normal &quot;say&quot; won't work well, but you can use &quot;echo&quot; to schedule other messages in the output.)
+<p>
+ The &quot;do&quot; instruction just executes a command without doing anything special with it.
+<p>
+ The &quot;assert that ... produces&quot; instruction is the real powerhouse; it runs a command, capturing the output text, and then compares it to the expected output. If they don't match, the extension reports an assertion failure. Ordinary newlines are removed from the end of the output.
+<p>
+ You can also do &quot;assert that ... substitutes to ...&quot; to test the value an expansion produces without running any particular command.
+<p>
+ Chapter 2 - Running Tests
+<p>
+ You can run tests manually with the &quot;unit&quot; command. You could also run them automatically (on startup, say) with &quot;try running the unit tests&quot;, but given that this extension currently doesn't support restoring the original game state this is probably not recommended.
+<p>
+ Chapter 3 - Caveats
+<p>
+ Section 1 - Unit Test Commands Are Delayed
+<p>
+ The way unit tests work, we queue up a bunch of commands during the unit test rules and then run them afterwards. Thus, most non-unit-test specific things you might want to do in a unit test rule won't work, because the commands will happen too late. For example, if you do something like:
+<p>
+<blockquote><font color="#000080"> Unit test:<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;x apple&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the player holds the apple;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;x apple&quot;.</font></blockquote>
+<p>
+ The now line will take effect before either of the examine commands.
+<p>
+ Section 2 - Clarification Questions
+<p>
+ Inform doesn't give Inform 7 code easy full control over clarification questions. Assertions work properly when a clarification question is passed, but the unit testing will pause there. To let the test continue, you'll be asked to type the &quot;z&quot; (&quot;wait&quot;) command to get out of the &quot;waiting for clarification question answer&quot; state.
+<p>
+ (We could potentially improve this by basing the extension off of the Inform 6 implementation of the &quot;test&quot; command instead of a &quot;reading a command&quot; rule, which would let us also script answers to clarification questions, but that'd make the extension much more complicated/brittle for a pretty minor benefit.)
+<p>
+ Section 3 - Text Capture
+<p>
+ Assertion instructions rely on text capture (based on Text Capture by Eric Eve). On the Z-machine, if the underlying action also uses text capture (for example, it involves Implicit Actions by Eric Eve), then this won't work properly. (On Glulx, we add a second text capture implementation that can co-exist with the normal one.)
+<p>
+ Text capture has a 256-character limit on the length of captured text; for commands with longer expected output, you might want to increase this with something like:
+<p>
+<blockquote><font color="#000080"> Use maximum unit-capture buffer length of at least 512.</font></blockquote>
+<p>
+ or, on the Z-machine:
+<p>
+<blockquote><font color="#000080"> Use maximum capture buffer length of at least 512.</font></blockquote>
+<p>
+ Chapter 4 - Bugs and Comments
+<p>
+ This extension is hosted in Github at https://github.com/i7/extensions/tree/master/Xavid. Feel free to email me at extensions@xavid.us with questions, comments, bug reports, suggestions, or improvements.
+<p>
+ Example: * Unit 1 - A basic unit test.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Unit 1&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Command Unit Testing by Xavid.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Facility is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A thing called an apple is here.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Unit test:<br>&nbsp;&nbsp;&nbsp;&nbsp; start test &quot;taking a possession&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; do &quot;take apple&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;take apple&quot; produces &quot;You already have that.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; assert that &quot;[a apple]&quot; substitutes to &quot;an apple&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;unit&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

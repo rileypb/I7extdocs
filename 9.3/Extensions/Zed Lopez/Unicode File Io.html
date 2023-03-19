@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Unicode File IO<font color="#404040"> by </font>Zed Lopez</b><p><small></small><p><p><hr><p>
+<p>
+ To treat a file as unicode:
+<p>
+ The file of reference is called &quot;ref&quot;. The output-mode of the file of reference is unicode-mode.
+<p>
+ Glk has separate *_uni functions for several file and stream handling calls.
+<p>
+ For the non-uni ones, it's definitive that a character is one byte long, and a byte is the fundamental unit. In text mode, you may only output the values 10, 32 to 126, 160 to 255: linefeed, space, and the printable Latin-1 characters. (Behavior is undefined, hence implementation dependent, if you try to output an illegal character). In binary mode, you may output any value 0-255.
+<p>
+ With the uni calls, binary mode uses the UTF-32 encoding form: every character is a 4-byte word. In text mode, version 0.7.5 of the Glk spec calls for UTF-8; in 0.7.4 and prior versions, the spec defined the behavior as implementation dependent. (Note that any implementation will be able to read the files it itself wrote; where there could be an issue is reading a file a different terp wrote, or wanting some external application to read the file.)
+<p>
+ Glk implementations that use UTF-8 for unicode text include:
+<p>
+ - Glkote 2.20+ - WindowsGlk 1.47+ - cheapglk 1.05+ - remglk 0.2.5+ - garglk 2022.1+
+<p>
+ Glk implementations that use UTF-32 for unicode text include:
+<p>
+ - glkterm - glktermw - CocoaGlk
+<p>
+ The only IDE available that uses UTF-8 for unicode text is the beta release of the Windows IDE.
+<p>
+ Some interpreters that use UTF-8 for unicode text (which is to say that come bundled with Glk libraries that do so):
+<p>
+ - Gargoyle 2022.1 - Quixe 2.1.3+ - Lectrote (since the earliest)
+<p>
+ If you would prefer to test for the Glk library's unicode capabilities at runtime you could do:
+<p>
+ When play begins: if unicode is supported, now the output-mode of the file of reference is unicode-mode.
+<p>
+ But if you wanted a Latin-1 fallback if unicode was unavailable, you'd probably be better off with:
+<p>
+ The file of ref-uni is called &quot;refuni&quot;. The output-mode of the file of ref-uni is unicode mode. The file of ref-latin is called &quot;reflatin&quot;.
+<p>
+ The output-file is initially the file of ref-latin.
+<p>
+ When play begins: if unicode is supported, now the output-file is the file of ref-uni.
+<p>
+ Beyond the ``if unicode is supported`` phrase, this extension adds:
+<p>
+ ``if &lt;external file&gt; is in/-- text mode`` ``if &lt;external file&gt; is in/-- binary mode``
+<p>
+ Otherwise, the extension only modifies functions from FileIO. i6t to use Glk unicode library functions for files whose output-mode is unicode-mode.
+<p>
+ Chapter Changelog
+<p>
+ 2/220219 updated documentation
+<p>
+ 2/220218 changed ascii-mode -&gt; latin1-mode, output_mode -&gt; extf_output_mode added some documentation
+<p>
+
+<p>
+<p></body></html>

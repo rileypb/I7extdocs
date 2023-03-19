@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Simple Spelling<font color="#404040"> by </font>Alice Grove</b><p><small></small><p><p><hr><p>
+<p>
+ Thanks to Neil Butters for the code feedback!
+<p>
+ Section: Basic Use
+<p>
+ Punctuation, words that sound like other words, and made-up words aren't always clear when spoken by a screen reader. Nevertheless, parser IF requires players to spell the names of things in order to refer to them. This extension aims to make stories more screen-reader-friendly by allowing players to request the spelling of any visible thing.
+<p>
+ This extension adds two actions: &quot;listing visible items for spelling&quot; and &quot;spelling the numbered word.&quot;
+<p>
+ The command SPELL leads to the &quot;listing visible items for spelling&quot; action. This action will automatically display a list of visible things, numbering them for the player's reference. This list is made only after clearing any numbers that have previously been assigned to things in the story.
+<p>
+ To request the spelling of an item, the player can then type SPELL followed by the item's number on the list.
+<p>
+ Section: Options
+<p>
+ By default, players will be asked at the start of play if they are using a screen reader. Then if the player answers YES, the spelling features will be briefly explained. To turn off this opening question and introduction (for instance, if we want to introduce the spelling features elsewhere) we can set &quot;introduce simple spelling features&quot; to &quot;false&quot;:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> introduce simple spelling features is false.</font></blockquote>
+<p>
+ If we do want the question and introduction, but only in a released version of the story, we can put the above code in a section marked &quot;Not for release&quot;:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png><br> Section - Introducing spelling features - Not for release</font></blockquote>
+<p>
+<blockquote><font color="#000080"> introduce simple spelling features is false.</font></blockquote>
+<p>
+ By default, this extension will check for duplicates when making a spelling list so as not to include the same entry twice. This is helpful if we have duplicate items in our story and want to avoid, for instance, listing twenty identical coins as twenty separate items on the list. If we want to skip the check-for-duplicates step, we can set &quot;inspect simple spelling list for duplicates&quot; to &quot;false&quot;:
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> inspect simple spelling list for duplicates is false.</font></blockquote>
+<p>
+ Example: * Simple Spelling Lab - A room with some spellable items and characters.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Simple Spelling Lab&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Simple Spelling by Alice Grove.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A dictionary is a kind of thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Spelling Lab is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Donna Hopkins-Brown is a woman in Spelling Lab. Donna Hopkins-Brown carries 4 dictionaries.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An inspection table is a supporter in Spelling Lab. A perse purse is on the inspection table. A pale pail is on the inspection table. A piece of Pete's pizza is on the inspection table.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player carries a xyzzifier.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;spell / spell 1 / spell 2 / spell 3 / spell 4 / spell 5 / spell 6 / spell 7 / spell 8&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

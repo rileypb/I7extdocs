@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Achievements<font color="#404040"> by </font>Mikael Segercrantz</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter: Introduction
+<p>
+ The Achievements extension allows for ease of scoring in a game. It allows for different achievements to be scored, as well as finding certain items and rooms. All the achievements, items, and rooms for scoring are managed through tables; the Table of Achievements, the Table of Scored Objects, and the Table of Scored Places respectively.
+<p>
+ The extension replaces the score and the full score handling of Inform 7, including the final score displaying, to manage the listing of scores from the tables, and, as of version 4, does not contain any Inform 6 code anymore, thanks to the new end of game handling in Inform 7 5T18.
+<p>
+ Section: 6L02 Compatibility Update
+<p>
+ This extension differs from the author's original version: it has been modified for compatibility with version 6L02 of Inform. The latest version of this extension can be found at &lt;https://github.com/i7/extensions&gt;.
+<p>
+ This extension is released under the Creative Commons Attribution licence. Bug reports, feature requests or questions should be made at &lt;https://github.com/i7/extensions/issues&gt;.
+<p>
+ Chapter: Definitions
+<p>
+ Section: Global Variables
+<p>
+ The extension defines some global variables:<blockquote><font color="#000080"> 1. a number which varies called Achievement-Init. This is used for the extension to know if it has been initialized or not, since it needs to initialize itself when beginning the description of the first location in the game (when play begins does not work, unfortunately, since the location of the player during it is the dark room, not the real location). Initialization grants the points from the start room, if it has any, as well as of any objects enclosed by the player at the beginning of the game, if any have scores defined on them. The name has been chosen to minimize the risk of clashing with a variable in user code.<br> 2. a number which varies called the achievement maximum score, which is automatically calculated at initialization time.<br> 3. a ton of text variables to allow for the modification of the messages by this extension. For more information, see the chapter on Modification.</font></blockquote>
+<p>
+ Chapter: Using Achievements
+<p>
+ To use the extension, you need to continue the tables you want to use.
+<p>
+ Section: Table of Scored Objects
+<p>
+ The Table of Scored Objects is defined as follows:
+<p>
+<blockquote><font color="#000080"> Table of Scored Objects</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> object</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> points</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> used</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a thing</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a number</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a number</font></font></td></tr></table></blockquote>
+<p>
+ The Table of Scored Objects contain the objects for which a score will be given. The object column is the name of the object, the points column the value of the object, and the used column (which will be initialized to 0 at the start of the game) marks the fact of having received the points from the object.
+<p>
+ Section: Table of Scored Places
+<p>
+ The Table of Scored Places is defined as follows:
+<p>
+<blockquote><font color="#000080"> Table of Scored Places</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> loci</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> points</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> used</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a room</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a number</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a number</font></font></td></tr></table></blockquote>
+<p>
+ As with the Table of Scored Objects, the Table of Scored Places has the same function. The loci column defining the room to be scored replaces the object column. The used column will be initialized to 0 automatically.
+<p>
+ Section: Table of Achievements
+<p>
+ The Table of Achievements is defined as follows:
+<p>
+<blockquote><font color="#000080"> Table of Achievements</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> message</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> points</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> used</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> text</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a number</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a number</font></font></td></tr></table></blockquote>
+<p>
+ Again, the table looks like the previous tables, and again, the used column will be initialized to 0 automatically. The message contains the text which will be shown while listing the full score.
+<p>
+ Section: Table of Achievement Ranking
+<p>
+ The Table of Achievement Ranking is defined as follows:
+<p>
+<blockquote><font color="#000080"> Table of Achievement Rankings</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> minimum</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> rank</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> a number</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> text</font></font></td></tr></table></blockquote>
+<p>
+ The Table of Achievement Rankings is used to replace the Table of Rankings (see the chapter on Time, subchapter Introducing tables: Rankings in the Inform 7 documentation).
+<p>
+ Section: Scoring an Achievement
+<p>
+ To score an achievement, you need to use the following syntax:
+<p>
+<blockquote><font color="#000080"> score the achievement with message &quot;the message entry&quot;;</font></blockquote>
+<p>
+ and the points will be added to the score.
+<p>
+ Section: Testing for Achievements
+<p>
+ It is possible to test if an achievement, an object or a room has been scored, using the phrases
+<p>
+<blockquote><font color="#000080"> the achievement &quot;&lt;message&gt;&quot; is scored<br> the item &lt;object&gt; is scored<br> the room &lt;room&gt; is scored</font></blockquote>
+<p>
+ where &lt;message&gt; is the message entry used to score the achievement, &lt;object&gt; is the item tested for and &lt;room&gt; is the room tested for.
+<p>
+ Section: Scoring of rooms and objects
+<p>
+ If needed, you may override the every turn rule, &quot;scoring of rooms and objects&quot;.
+<p>
+ Chapter: Modification
+<p>
+ As mentioned earlier, this extension comes with a few text variables to ease the customization of the text it can display. The following variables are defined:
+<p>
+<blockquote><font color="#000080"> Achievement in-that-game-you-scored-unranked - &quot;In that game you scored [score] out of a possible [achievement maximum score], in [turn count] turn[s].[line break]&quot;.<br> Achievement in-that-game-you-scored-ranked - &quot;In that game you scored [score] out of a possible [achievement maximum score], in [turn count] turn[s][achievement short-ranking]&quot;.<br> Achievement in-that-game-you-scored - &quot;[if using ranking][achievement in-that-game-you-scored-ranked][otherwise][achievement in-that-game-you-scored-unranked][end if]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Achievement you-have-scored-unranked - &quot;You have so far scored [score] out of a possible [achievement maximum score], in [turn count] turn[s].[line break]&quot;.<br> Achievement you-have-scored-ranked - &quot;You have so far scored [score] out of a possible [achievement maximum score], in [turn count] turn[s][achievement short-ranking]&quot;.<br> Achievement you-have-scored - &quot;[if using ranking][achievement you-have-scored-ranked][otherwise][achievement you-have-scored-unranked][end if]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Achievement you-have-not-received-unranked - &quot;You have not received any points yet.[line break]&quot;.<br> Achievement you-have-not-received-ranked - &quot;You have not received any points yet[achievement short-ranking]&quot;.<br> Achievement you-have-not-received - &quot;[if using ranking][achievement you-have-not-received-ranked][otherwise][achievement you-have-not-received-unranked][end if]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Achievement for-only - &quot;for&quot;;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Achievement out-of-unranked - &quot;(out of [achievement maximum score])[line break]&quot;.<br> Achievement out-of-ranked - &quot;(out of [achievement maximum score])[line break][achievement long-ranking]&quot;.<br> Achievement out-of - &quot;[if using ranking][achievement out-of-ranked][otherwise][achievement out-of-unranked][end if]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Achievement short-ranking - &quot;, giving you a rank of [announce the ranking].[line break]&quot;.<br> Achievement long-ranking - &quot;[line break]This gives you a rank of [announce the ranking].[line break]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Achievement locating-various-objects - &quot;locating sundry items&quot;<br> Achievement finding-various-places - &quot;finding various places&quot;</font></blockquote>
+<p>
+ Above, you also see the default message for the text. This extension itself uses the following ones:
+<p>
+<blockquote><font color="#000080"> Achievement in-that-game-you-scored<br> Achievement you-have-scored<br> Achievement you-have-not-received<br> Achievement for-only<br> Achievement out-of</font></blockquote>
+<p>
+ when necessary, and these, as can be seen above, call the correct version depending on whether ranks are in use or not.
+<p>
+ Example: ** Where ever thou art - Demonstrating the use of achievements, locations scored and items scored.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Where ever thou art&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Version 4 of Achievements by Mikael Segercrantz.</font></blockquote>
+<p>
+ Let's create the three rooms first.
+<p>
+<blockquote><font color="#000080"> The entrance hall is a room. The basement is a room. The dining hall is a room.</font></blockquote>
+<p>
+ Add a door and the connections:
+<p>
+<blockquote><font color="#000080"> A wooden door is a door. It is west of the entrance hall and east of the dining hall. It is closed and openable.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The basement is below the entrance hall.</font></blockquote>
+<p>
+ Add some treasure:
+<p>
+<blockquote><font color="#000080"> A baseball cap is a thing. Some crates are in the basement. They are fixed in place.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of searching the crates for the first time:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the baseball cap is in the basement;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Tucked behind crates of various things, you find a baseball cap!&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After opening the wooden door, score the achievement with message &quot;finding the way to the dining hall&quot;.</font></blockquote>
+<p>
+ And the tables:
+<p>
+<blockquote><font color="#000080"> Table of Achievements (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> used</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> points</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> message</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 0</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 10</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;finding the way to the dining hall&quot;</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Scored Places (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> used</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> points</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> loci</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 0</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 5</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> basement</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 0</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 5</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> dining hall</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Scored Objects (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> used</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> points</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> object</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 0</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 5</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> baseball cap</font></font></td></tr></table></blockquote>
+<p>
+<blockquote><font color="#000080"> Table of Achievement Rankings (continued)</font><br><table border="0" cellspacing="0" cellpadding="0"><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> minimum</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> rank</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 0</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;beginner&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 10</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;explorer&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 20</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;leader&quot;</font></td></tr><tr><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> 25</font>&nbsp;&nbsp;&nbsp;&nbsp;</font></td><td align="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><font color="#000080"> &quot;master&quot;</font></font></td></tr></table></blockquote>
+<p>
+ Initialize status line:
+<p>
+<blockquote><font color="#000080"> When play begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the right hand status line is &quot;[score] out of [achievement maximum score]&quot;.</font></blockquote>
+<p>
+ Ending the game:
+<p>
+<blockquote><font color="#000080"> Every turn:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the score is the achievement maximum score, end the story finally saying &quot;You have won.&quot;</font></blockquote>
+<p>
+ And finally the testing command:
+<p>
+<blockquote><font color="#000080"> Test me with &quot; open door / score / w / score / e / d / score / search crates / take cap &quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

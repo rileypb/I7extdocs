@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Postures<font color="#404040"> by </font>Emily Short</b><p><small></small><p><p><hr><p>
+<p>
+ Postures defines three postures -- seated, standing, and reclining -- and allows pieces of furniture to specify which postures are possible and preferred when the player is on those furnishings.
+<p>
+ Chapter: Postures and Furniture
+<p>
+ Section: Possible Postures
+<p>
+ Each piece of furniture comes with a range of possible postures, which can be expressed with the posture-permission relation: as in
+<p>
+<blockquote><font color="#000080"> The bunk bed allows seated and reclining.</font></blockquote>
+<p>
+ This definition would say that we're allowed to sit or lie down on the bunk bed, but not to stand up on it. Player attempts to
+<p>
+<blockquote><font color="#000080"> &gt;STAND ON BUNK BED</font></blockquote>
+<p>
+ will be rejected with
+<p>
+<blockquote><font color="#000080"> You can't take that position on the bunk bed.</font></blockquote>
+<p>
+ Section: Preferred Postures
+<p>
+ In addition to permitted postures, furniture can have a &quot;preferred&quot; posture: it's possible to stand on a chair, but we're more likely to sit on it. Preferred postures are used to guess what the player means if he types
+<p>
+<blockquote><font color="#000080"> &gt;GET ON BUNK BED</font></blockquote>
+<p>
+ without naming a posture.
+<p>
+ Section: Entering and Leaving Furniture
+<p>
+ If an actor attempts to leave an enterable object, his posture is automatically returned to &quot;standing&quot;; if he enters something without setting a posture explicitly, as in
+<p>
+<blockquote><font color="#000080"> &gt;GET ON SOFA</font></blockquote>
+<p>
+ the actor's posture will automatically be set to the default posture for that piece of furniture (sitting, in this case).
+<p>
+ Section: Defining New Furniture
+<p>
+ To make use of the features of Postures, we may define pieces of furniture like so:
+<p>
+<blockquote><font color="#000080"> A chair is a kind of supporter. A chair is always enterable. Every chair allows seated and standing. A chair is usually seated.</font></blockquote>
+<p>
+ Section: Rooms and Postures
+<p>
+ Rooms cannot enter into the posture-allowing relation. However, rooms can be set as &quot;posture-friendly&quot; (you can lie or sit down on the ground in those rooms) and &quot;posture-unfriendly&quot; (no lying down or sitting allowed). By default, they are posture-friendly.
+<p>
+ This feature determines whether a player can take postures other than standing while in a room (that is, not on a piece of furniture). Suppose the player types
+<p>
+<blockquote><font color="#000080"> &gt;LIE DOWN</font></blockquote>
+<p>
+ without naming where he wants to lie down. The game will first look for an available piece of furniture that allows reclining (ideally one whose preferred posture is reclining) and try to lie on that, but if it finds none and the room is posture-friendly, the player will lie down on the floor. If the room is posture-unfriendly and there is no suitable piece of furniture, the game will be rejected with
+<p>
+<blockquote><font color="#000080"> There's nothing to lie on.</font></blockquote>
+<p>
+ Section: The Posture Visibility Checks option
+<p>
+ Before printing an error message for an NPC, such as &quot;Clark is already sitting&quot; when Clark is trying to sit, this extension can first check whether the player can actually see Clark. If he is in another room or in a closed opaque container, no message will be printed. As visibility checks in Inform can sometimes be slow, this feature is off by default, but can be turned on with the line
+<p>
+<blockquote><font color="#000080"> Use posture visibility checks.</font></blockquote>
+<p>
+ Note that this only applies to the new messages introduced by this extension. Some error messages in the Inform Standard Rules will print even if the NPC they mention is not visibile to the player.
+<p>
+ See this discussion about other glitches that may occur when NPC actions fail, and some ideas on what to do about it: https://intfiction.org/t/postures-by-emily-short/6748/6
+<p>
+ Section: Change Log
+<p>
+ Version 2/180528 fixes a run-time error that could occur when typing LIE. It also always looks for a reasonable piece of furniture to sit or lie down on in a room rather than defaulting to the floor when typing just SIT or LIE, even if the room is posture-friendly. It also introduces the posture visibility checks option
+<p>
+ Example: * Muddy Lawn - A room where the player can't sit on the ground, plus a folding chair, a safer-to-sit-on driveway, and the ubiquitous guinea-pig Clark.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;Muddy Lawn&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Postures by Emily Short.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Use posture visibility checks.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A chair is a kind of supporter. A chair is always enterable. Every chair allows seated and standing. A chair is usually seated.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Muddy Lawn is a posture-unfriendly room. West of the Muddy Lawn is the Driveway.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Clark is a man in the Muddy Lawn. A persuasion rule: persuasion succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Muddy Lawn contains a folding chair. The description of the folding chair is &quot;Made of metal and plastic, and intended for outdoor use.&quot; The folding chair is a chair. The folding chair is portable.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Test me with &quot;lie on chair / sit on chair / stand on chair / stand up / exit / sit down / look / stand up / lie down / sit on chair / west / east / Clark, sit on chair / Clark, stand / Clark, sit down / Clark, stand / Clark, lie down / Clark, stand / Clark, lie on chair / Clark, stand on chair / Clark, west / west / Clark, sit / sit / Clark, east / east / get chair / west / drop chair / sit down / get up / sit on chair&quot;.</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

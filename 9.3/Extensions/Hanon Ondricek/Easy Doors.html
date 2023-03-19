@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Extension</title><script type="text/javascript">	function showExtra(id, imid) {		if (document.getElementById(id).style.display == 'block') {			document.getElementById(id).style.display = 'none';			document.getElementById(imid).src = 'inform:/extra.png';		} else {			document.getElementById(id).style.display = 'block';			document.getElementById(imid).src = 'inform:/extraclose.png';		}	}    function openExtra(id, imid) {    	document.getElementById(id).style.display = 'block';    	document.getElementById(imid).src = 'inform:/extraclose.png';    }    function closeExtra(id, imid) {    	document.getElementById(id).style.display = 'none';    	document.getElementById(imid).src = 'inform:/extra.png';    }</script></head><STYLE TYPE="text/css"><!--*, *:before, *:after {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.oval, .oval TD{background-image:url('../../../doc_images/ovoid.png');color:white;}--></STYLE><body><script language="JavaScript">function pasteCode(code) {    var myProject = window.Project;    myProject.selectView('source');    myProject.pasteCode(code);}</script><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table><p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Easy Doors<font color="#404040"> by </font>Hanon Ondricek</b><p><small></small><p><p><hr><p>
+<p>
+ Chapter: Introduction
+<p>
+ Doors as implemented in Inform 7 are limited and sometimes frustrating to use since they must connect two rooms using map directions. They can thwart some architectural and magical realism: they cannot be moved during play, and they cannot change their destination. We cannot have an enterable broom closet on the same wall as a map direction. Doors cannot be part of an object, or inside an enterable container.
+<p>
+ Easy Doors is a small extension that provides a new kind called &quot;easydoor&quot;. These behave like normal doors and can be placed anywhere, providing one-way, directionless transport to any location in the game world. Easydoors can be moved around the map, on and off-stage, and can change what location they lead to at the author's whim using normal rules. Since easydoors do not require directional hookups on the map, they are very simple to implement.
+<p>
+ Section: Update Log
+<p>
+ 2016.04-25 - Removed &quot;perform&quot; functionality as it no longer operates consistently in 6M62 and using it with certain actions cause a compiler error with no specific indication what caused the error. Functionality can be duplicated using the &quot;carry out&quot; phase of entering an easydoor as explained below.
+<p>
+ Section: Acknowledgements
+<p>
+ Thanks to Carolyn VanEseltine and Jason Lautzenheimer for suggestions about door behaviors. Also to Daniel Stelzer and Andrew Schultz for assistance and advice and testing.
+<p>
+ Please feel free to email hanon.ondricek@gmail.com with any feedback, questions, or bug reports.
+<p>
+ Chapter: Creating Easydoors
+<p>
+ Easydoors can be created and placed wherever we want. They behave in the expected way a door would, by default fixed in place, openable and closed. We can declare them also lockable and locked or unlocked (unlocked is default) and create keys to unlock them. We can make them open and unopenable to simulate stairs or an open passage. We also specify where an easydoor leads to when a player enters one.
+<p>
+ Section: One-Way Easydoors
+<p>
+<blockquote><font color="#000080"> The front door is an easydoor in Porch. It leads to Foyer.</font></blockquote>
+<p>
+ This is the minimum code for a working easydoor. We can of course give our easydoor an initial appearance, a description (the default just says whether the door is closed or open) and use all of the normal rules for opening and closing and locking. (The exception to be careful with is AFTER ENTERING - see the section later for details.)
+<p>
+<blockquote><font color="#000080"> An iron grating is an easydoor in Dungeon Mouth. It leads to Dungeon Throat. It is lockable and locked.<br> The dungeon key unlocks iron grating. Dungeon key is carried by the fearsome ogre.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A windy passage is an easydoor in Dungeon Throat. &quot;A windy passage leads deeper into the dungeon.&quot; It is unopenable and open. It leads to Dungeon Lungs.</font></blockquote>
+<p>
+ Notice none of these specify compass directions. We can place as many doors in a location as we wish. The player can enter an easydoor and be transported to the location it leads to by using any synonym of the entering action, or by typing the name of an easydoor as if it were a direction.
+<p>
+<blockquote><font color="#000080"> &gt;ENTER FRONT DOOR<br> &gt;GRATING<br> &gt;GO THROUGH WINDY PASSAGE</font></blockquote>
+<p>
+ If the easydoor is closed and not locked, the parser will open it implicitly. If it is locked, the player will be informed and not allowed to open it until they find a key.
+<p>
+ We can simulate that an easydoor leads in a direction by redirecting the player's input to the entering action.
+<p>
+<blockquote><font color="#000080"> A revolving door is an easydoor in Plaza. &quot;The department store's revolving door slices and dices holiday shoppers to the north.&quot; It is unopenable and open. It leads to Women's Shoes. The description of revolving door is &quot;It makes you sort of ill to watch it for too long.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of going north in Plaza: try entering revolving door.</font></blockquote>
+<p>
+ Section: Two-Way Doors
+<p>
+ Since easydoors traverse only one way, we might wish to provide the other half of the door so there is a two-way connection.
+<p>
+<blockquote><font color="#000080"> some automatic doors are an easydoor in Women's Shoes. &quot;You note some automatic doors to the south that lead back out into the street.&quot; It leads to Plaza. The dooraction is &quot;At least you don't have to contend with the revolving door this time as glass panels are whisked aside automatically for you.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of going south in Women's Shoes:<br>&nbsp;&nbsp;&nbsp;&nbsp; try entering automatic doors.</font></blockquote>
+<p>
+ Section: Portalling Two Easydoors as One
+<p>
+ When we are simulating both sides of a door with two separate easydoors, we would like them to stay in sync with regard to locking, unlocking, opening and closing. We do that by connecting them with the portalling relation, which is reciprocal and only needs to be declared on one of the matching portals.
+<p>
+<blockquote><font color="#000080"> The coaster security gate is an easydoor in Midway. It is lockable and locked. It leads to Roller Coaster. The description is &quot;Through the chain link, you can see the wooden supports of the roller coaster.&quot; Understand &quot;chain/link&quot; as security gate.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The gate back to the midway is an easydoor in Roller Coaster. &quot;A gate here appears to lead back to the midway.&quot; The description is &quot;It's the back side of that security gate you saw earlier.&quot; It leads to midway. It portals coaster security gate. Understand &quot;security&quot; as gate back to midway.<br> The passkey unlocks coaster security gate. Passkey is on security guard's corpse.</font></blockquote>
+<p>
+ This will ensure that if we unlock the security gate from one side but slip into the Roller Coaster grounds by other means, when we encounter the allegedly same gate from the other side that it will also be unlocked. It also allows the same key to lock and unlock the other half of the portalled door.
+<p>
+ Section: Dooraction
+<p>
+ Every easydoor contains a text called &quot;dooraction&quot; which can optionally be used to provide some descriptive text when the player moves through the door.
+<p>
+<blockquote><font color="#000080"> a spiral staircase is an open, unopenable easydoor in Minimalistic Apartment. It leads to Loft. the dooraction of spiral staircase is &quot;Your knees complain as you climb the wrought iron twists of this contraption.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> a time machine is an open, unopenable easydoor in Laboratory. &quot;A humming time machine sits in the corner, the passage into it glowing expectantly.&quot; It leads to Swirly Void. The dooraction of time machine is &quot;All right.  Here goes.&quot;</font></blockquote>
+<p>
+ The dooraction should encompass the actual traversal of the door. The opening and closing are separate actions and shouldn't necessarily be included in the dooraction.
+<p>
+<blockquote><font color="#000080"> a crypt door is an openable easydoor in Graveyard. It leads to Inner Tomb. The dooraction is &quot;As you cross the threshold, a cold wind ruffles your hair.&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After an actor opening crypt door, say &quot;The door of the crypt creaks open.&quot;<br> After an actor closing crypt door, say &quot;The crypt door bangs shut.&quot;</font></blockquote>
+<p>
+ Section: After Entering an Easydoor
+<p>
+ In most cases, we should not override the AFTER ENTERING rules affecting an easydoor, as this is where the player is moved to the location that the door leads to (called an &quot;outpoint&quot; in code). Should you need to do anything fancy when an easydoor is traversed, The best place to work it out is in the carry out phase of entering.
+<p>
+<blockquote><font color="#000080"> A revolving door is an easydoor in Plaza. &quot;The department store's revolving door slices and dices holiday shoppers to the north.&quot; It is unopenable and open. It leads to Women's Shoes. The description of revolving door is &quot;It makes you sort of ill to watch it for too long.&quot; The dooraction of revolving door is &quot;You are whirled for several minutes[if the player encloses a mitten], losing a mitten in the process[end if].  Finally you are through and your shopping can begin!&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out entering revolving door:<br>&nbsp;&nbsp;&nbsp;&nbsp; if the player encloses a mitten:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now a random mitten enclosed by the player is off-stage.</font></blockquote>
+<p>
+ If you decide you need to use the after rules, you should ensure that you move the player to the outpoint of the easydoor as well.
+<p>
+ Easy Doors usually lead to a room. Altering the AFTER ENTERING rules would be one way to, for whatever reason, have a door lead to the inside of an enterable container or onto a supporter. Take care with this, as getting your player stuck inside an object or in a backdrop might have strange consequences. An example is provided below.
+<p>
+ Section: Portable Doors
+<p>
+ Easydoors are usually immobile as far as the player is concerned, although the author can move them as part of gameplay using rules. An easydoor can be declared portable, leading to wild effects.
+<p>
+<blockquote><font color="#000080"> A round black hole is an easydoor carried by the player. It is portable. It leads to Phobos.</font></blockquote>
+<p>
+ A portable door must be dropped before it can be entered, of course, because carrying a door through itself would break even imaginary laws of physics and cause your game to collapse into itself and wink out of existence.
+<p>
+<blockquote><font color="#000080"> Carry out turning the Infinite Improbability dial:<br>&nbsp;&nbsp;&nbsp;&nbsp; now round black hole leads to Magrathea.</font></blockquote>
+<p>
+ Chapter: Debug
+<p>
+ An easydoor without a destination (in code, an &quot;outpoint&quot;) would transport the player off-stage, which could cause all kinds of nasty effects. When a game is run in the Inform IDE, easydoors without outpoints will be flagged when play begins.
+<p>
+ We may have good reason to have a destination-less door (as shown in the example below) and can ignore these warnings which will not appear in a published game. This is provided to notify the author in case of inadvertently forgetting to include a destination for an easydoor. Instead of recklessly transporting the player offstage, the extension will inform the player that the door leads nowhere, and change the outpoint of the easydoor to its own location should the player try again.
+<p>
+ Chapter: NPCs, and Pathfinding
+<p>
+ Easy Doors can handle an NPC character manipulating and entering an easydoor if manually told to in rules by the author, or by a player if persuasion succeeds. Unfortunately Inform's automatic pathfinding (&quot;The best route from A to B&quot;) will not take easydoors into account. Any route to a location will detour around an easydoor if there is another way using regular map connections and doors, or will fail as &quot;nothing&quot; if an easydoor is the only route.
+<p>
+ If our game relies on routefinding and autonomous NPCs, some suggestions are:
+<p>
+ A: Create the world with map connections and regular doors where we need NPCs to travel, reserving easydoors for special cases. (In TRANSPARENT, there is a map connection between the study and the library that ghosts can use, but the player is directed from the map connection through an easydoor, which might be locked.)
+<p>
+ B: Divide the map into regions that easydoors connect, and have Inform find &quot;The best route from A to (an easydoor).&quot; Once arrived, have the NPC try entering the easydoor and continue their route to a destination.
+<p>
+ C: Find plot reasons to teleport the NPCs.
+<p>
+ Hopefully if our game involves traveling NPCs and extended logic to move them, we are skilled enough to manage within the limitations of this extension, or modify it to suit.
+<p>
+ A vague caution: This extension is designed to help authors solve some door problems, and create special effects. While it can be used to make an entire game full of non-traditional map traversal, it has not been stress-tested with hundreds of portaling doors in a game. Some memory limitations and weirdness might be encountered if we are using this extension to write a game called &quot;Maze of a Million Doors&quot;.
+<p>
+ Example: ** And I Want to Paint It - Easy Doors in action, hopefully demonstrating the entire range of use, including debug messages.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;And I Want to Paint It&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Easy Doors by Hanon Ondricek.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Hub is a room.<br> Room1 is a room.<br> Room2 is a room.<br> Room3 is a room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Alice is a woman in Hub. &quot;Alice is here, looking rather lost.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Before Alice entering an easydoor:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;'Aha!' Alice exclaims.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A persuasion rule: persuasion succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An easydoor called the first door is an easydoor in Hub. It leads to room1.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A green door is a lockable, locked easydoor in Hub. It leads to room2.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A blue door is a lockable, locked easydoor in Hub. It leads to room3.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player carries a green key. Green key unlocks green door.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A blue key is in Room2. It unlocks blue door.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> An incorrectly-made door is an easydoor in Hub.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> a return door is a kind of easydoor.<br> One return door is in room1. It leads to Hub. It portals first door.<br> One return door is in room2. It leads to Hub. It is lockable and locked. It portals green door.<br> One return door is in room3. It leads to Hub. It is lockable and locked. It portals blue door.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A false door is an easydoor in Hub.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After opening false door:<br> say &quot;Hunh.  This door opens onto a solid brick wall.  You're not going anywhere through this.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Yourself can be injured.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The dooraction of false door is &quot;Ow.  Bricks meet nose.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out entering false door:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the player is injured.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A red herring door is an easydoor in hub. It is lockable and locked.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> a time machine is an open, unopenable easydoor in Room3. &quot;A humming time machine sits in the corner, the passage into it glowing expectantly.&quot; It leads to Swirly Void. The dooraction of time machine is &quot;All right.  Here goes.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Swirly Void is a room. &quot;How temporally disorienting!&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A rapidly approaching light is an open, unopenable easydoor in Swirly Void. The description is &quot;It's approaching fast.&quot; It leads to Drawing Room. The dooraction of rapidly approaching light is &quot;You fall for a long time, afraid of meeting the ground at rapid pace.  Luckily the next time you blink, you find yourself somewhere else...and there seems to be no way back.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Drawing Room is a room. &quot;You've arrived in Victorian London, it seems, from the look of this place.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The parlour door is an easydoor in Drawing Room. &quot;The Parlour is west.&quot; It leads to The Parlor.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of going west in Drawing Room: try entering parlour door.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Parlor is a room. &quot;The Parlour.  How boring.&quot;. The printed name of parlor is &quot;The Parlour&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The drawing room door is an easydoor in Parlor. &quot;The drawing room door leads back to the east.&quot;. It leads to Drawing Room. It portals parlour door.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of going east in parlor: try entering the drawing room door.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A magic mushroom is an edible thing in Drawing Room.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out eating magic mushroom:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The parlour door seems to ripple strangely.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the parlour door leads to Wonderland;<br>&nbsp;&nbsp;&nbsp;&nbsp; now the dooraction of parlour door is &quot;As you cross the threshold of the parlour door, there is a liquid ripple and your surroundings melt away, leading you somewhere else...&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Wonderland is a room. &quot;Oh no.  Not this again.  Your croquet skills are rusty.  You feel like jumping in frustration.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> some very damp clothing is a wearable thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The pool of tears is a fixed in place, enterable, transparent container in wonderland.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out entering pool of tears:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the player wears damp clothing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> hundreds of gallons of tears is a fixed in place thing in pool of tears.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Yourself can be wet.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A whirlpool is an open, unopenable easydoor. It leads to Hub. The dooraction is &quot;Down...down...down...whirling...you hold your breath until finally you end up in... Well, foo.  That was all for naught.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out entering whirlpool:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the player wears damp clothing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of jumping:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You stamp your foot angrily.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if the location is Wonderland:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[line break]The rumbling of your frustration seems to have caused a crack in the earth to open up, and the pool of tears begins to circle, draining away.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now whirlpool is in pool of tears;<br>&nbsp;&nbsp;&nbsp;&nbsp; rule succeeds.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test me with &quot;open green door/alice, open blue door/alice, enter red herring door/enter false door/unlock green door with green key/alice, go through green door/enter green door/alice, take blue key/alice, go return door/return/alice, unlock blue door/alice, open blue door/enter blue door/get in time machine/enter light/take mushroom/w/e/eat mushroom/w/x pool/jump/enter pool/enter whirlpool&quot;</font></blockquote>
+<p>
+ Example: **** His Lovely Assistant - Using Easy Doors to transport the player into an enterable container.
+<p>
+<blockquote><font color="#000080"><img border=0 src=../../../doc_images/paste.png> &quot;His Lovely Assistant&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Include Easy Doors by Hanon Ondricek.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Use scoring.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Wicked Stage is a room. &quot;[one of]Here, elevated on the boards before a sold-out audience, Mumford the Magician has but one astounding trick left to perform.[or]The audience watches raptly, each member perched on the edge of their respective seat.[stopping]&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> a magic trunk is a fixed in place, enterable, openable, closed, lit container in Wicked Stage. The description is &quot;It's big enough for a person to get into, but exceedingly heavy to carry around as you well know.&quot; Understand &quot;disappearing/box&quot; as trunk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> a trap door is an easydoor in magic trunk. It leads to Understage. It is openable. The dooraction is &quot;You contort your body through the narrow square trap in the bottom of the trunk and the hole cut underneath it down through the stage floor.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After opening trap door:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You quietly open the trap door.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of going down when the player is in magic trunk:<br>&nbsp;&nbsp;&nbsp;&nbsp; try entering trap door.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> a concealed panel is an easydoor in Understage. &quot;Above your head you can see the concealed panel through the trap cut into the stage that the trunk is sitting on top of.&quot; It leads to Wicked Stage. It portals trap door. Understand &quot;trap&quot; as concealed panel.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The printed name of Understage is &quot;Beneath the Stage&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> a scrap of newspaper clipping is in understage. The description is &quot;Hmn.  It's a slightly-charred newspaper article detailing the rash of stage magician's assistant murders that has been ravaging the community!  This looks like an important clue to the mystery!&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Carry out taking scrap of newspaper for the first time:<br>&nbsp;&nbsp;&nbsp;&nbsp; increase the score by 1.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After closing concealed panel:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You close the panel with the slightly audible 'thunk' that Mumford is listening for.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> After entering concealed panel:<br>&nbsp;&nbsp;&nbsp;&nbsp; now the player is in magic trunk;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You twist your way flexibly back up through the stage into the trunk.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of going up in understage: try entering concealed panel.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say response:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[line break]'[one of]Ooooooooh[or]Ahhhhhh[or]Ooh! Ahh[cycling]!' goes the audience.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say murmur:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;The audience murmurs, perhaps a bit less astounded than they were before.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The audience is scenery in Wicked Stage. The description is &quot;There are hundreds of people out there, even if you can't make out anyone specifically.  Any one of them could be the Magician's Assistant Murderer!  You hope you catch him soon so you can stop this whole undercover gig for Mumford.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Pre Magic is a scene. Pre Magic begins when the turn count is 2. Pre Magic ends when the player is in magic trunk.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When Pre Magic Begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Mumford holds up his hands, cutting off the applause from the previous trick.  'And now, for our spectacular finale.  I give you THE MAGIC DISAPPEARING BOX!'[response]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if magic trunk is closed:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;He flourishes his cape, and opens the trunk.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now magic trunk is open.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn during Pre Magic:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[one of]Mumford offers a hand to assist you.  'And now, my lovely assistant will enter the mysterious mystery of THE DISAPPEARING BOX!'[response][or]'That's it, my lovely assistant,' Mumford says.  'Just step into THE MAGIC DISAPPEARING BOX!'[response][or]'Ha ha!  My lovely assistant fears THE MAGIC DISAPPEARING BOX!'[response][or]Mumford mutters under his breath, 'Just get in the box like we rehearsed it, okay?'  He flourishes and smiles for the audience to stall for you.[stopping][murmur]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Switcheroo is a scene. Switcheroo begins when Pre Magic Ends. Switcheroo ends when the player is in understage and concealed panel is closed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> To say magicwords:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;'And now for [one of]some[or]some more[stopping] magic words!' Mumford bellows above.  '[one of]ABRACADABRA[OR]ALAKHAZAM[OR]HOCUS POCUS[OR]...erm MACARONI AND CHEESE[or]...and you will be AMAZED when you CANNOT SEE my LOVELY ASSISTANT!  Who [italic type]WILL HAVE VANISHED[roman type] from the MAGIC DISAPPEARING BOX[or]...UT-SHAY THE AGIC-MAY ANEL-PAY[or]I'm thinking I'll be in the market for a new Lovely Assistant soon,' Mumford ad-libs, no doubt waggling his eyebrows at the audience who chuckle appreciatively.  'BIBBITY BOBBITY[or]...um HAVA NAGILA[cycling]!'[response]&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When Switcheroo begins:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Mumford swirls his cape.  'And we say goodbye to my lovely assistant as we explore the mysteries of THE MAGICAL DISAPPEARING BOX!' he says, wiggling his fingers as you duck down in the trunk.[response]He closes the trunk lid and you hear him making a big show with the locks on the outside.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; now magic trunk is closed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn during switcheroo:<br>&nbsp;&nbsp;&nbsp;&nbsp; if magic trunk is open:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now magic trunk is closed;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Mumford [one of]pushes the trunk closed again.[or]slams the trunk, almost taking one of your fingers with it.[or]resolutely pushes the trunk closed and holds it for a moment.[cycling]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[magicwords]&quot;.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When switcheroo ends:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;'And now...WATCH and be ASTOUNDED!' hollers Mumford from above.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The audience can be amazed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Show is a scene. The Show begins when switcheroo ends. The show ends when audience is amazed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of entering concealed panel during The Show:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You really not supposed to be in the box while Mumford is doing his stuff.&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; stop the action.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> some fake scorpions are a thing.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> showcount is a number that varies. showcount is 0.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn during The Show:<br>&nbsp;&nbsp;&nbsp;&nbsp; increase showcount by 1;<br>&nbsp;&nbsp;&nbsp;&nbsp; if fake scorpions are not in magic trunk:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; move fake scorpions to magic trunk;<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[one of]'You all saw my Lovely Assistant locked securely inside THE DISAPPEARING BOX!' he announces.  But things ARE NOT ALWAYS WHAT THEY APPEAR!'[or]'If my Lovely Assistant were in the MAGICAL DISAPPEARING BOX, would I consider STABBING IT REPEATEDLY WITH THESE RAZOR SHARP SWORDS?'  (You hear metal clashing above.)[response][or]'Or would I pour this bucket of LIVE DEADLY SCORPIONS DIRECTLY INTO THE MAGICAL DISAPPEARING BOX?'  (You hear a pattering above.)[response][or]'Would I even consider SETTING THE MAGICAL DISAPPEARING BOX ON FIRE???'  (You hear a crackling whoosh of flash powder.)[response][or]I wouldn't do these things unless my Lovely Assistant HAD ACTUALLY DISAPPEARED!'  The audience applauds enthusiastically as he drops the front of the trunk to reveal that you are, indeed, not inside it.[stopping]&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; if showcount is 5:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; now the audience is amazed.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When The Show ends:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You hear the trunk being hastily reassembled above, and Mumford continues.  'But THE MAGICAL DISAPPEARING BOX has a secret!  With more magic words...the mystery can be solved!  DUCK A LA RAHNGE!' he calls, which is your cue.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The Reveal is a scene. The reveal begins when The Show ends. The reveal ends when the player is in magic trunk and magic trunk is open.</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Every turn during the Reveal:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;[one of]'I said DUCKALARAAAANGE!'[or]'Could my Lovely Assistant have suffered some type of TERRIBLE PERIL?' Mumford yells, and you can hear his foot tapping the trunk above.[or]'Hey!' he whispers harshly above.[or]'More magic words!' he cheefully announces.  'ET-GAY OR-YAY UTT-BAY ACK-BAY IN THE OX-BAY!'[cycling]&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> When the Reveal ends:<br>&nbsp;&nbsp;&nbsp;&nbsp; say &quot;Mumford drinks in the deafening applause for a minute, before deferring some to you.  'MY LOVELY ASSISTANT, LADIES AND GENTLEMAN!!!'  You take a graceful bow, understanding finally what it's like to be adored by hundreds of people.  But it is short-lived as there's a 'thoop' sound and a simultaneous gasp in the audience.  Mumford's eyes are wide as he realizes he's been shot with a poison crossbow!  The Killer is in the audience!  You yell for nobody to move as you retrieve your sidearm from where it was uncomfortably concealed in your skimpy outfit...&quot;;<br>&nbsp;&nbsp;&nbsp;&nbsp; end the story saying &quot;You vow to avenge the Mystical Mumford the Magician!&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The player wears a skimpy outfit. The description of skimpy outfit is &quot;It's a bit tighter and feathery-er than your normal uniform.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> Instead of taking off skimpy outfit, say &quot;Like this isn't humiliating enough.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> The description of the player is &quot;Yes, you are actually wearing feathers.  It's going to be a good long time before your cohorts stop giving you hell for this back at the station.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> A person called The Amazing Mumford is in wicked stage. The description is &quot;He's been around the block a few times, and probably in his younger days was quite dashing in his cape and top hat.&quot;</font></blockquote>
+<p>
+<blockquote><font color="#000080"> test me with &quot;z/enter box/open box/z/open trap/d/shut panel/x newspaper/take newspaper/up/z/enter panel/open box&quot;</font></blockquote>
+<p>
+
+<p>
+<p></body></html>

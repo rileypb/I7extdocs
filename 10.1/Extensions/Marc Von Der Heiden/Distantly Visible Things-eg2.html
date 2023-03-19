@@ -1,0 +1,1125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Extension</title>
+    <style type="text/css">
+        <!--
+        :root {
+            color-scheme: light dark;
+            --element-banner-background-colour: #eeeeee;
+            --heading-panel-background-colour: #eeeeee;
+            --heading-panel-text-colour: #222222;
+            --heading-panel-succeeded-background-colour: #E6FFE6;
+            --heading-panel-failed-background-colour: #f69Ca6;
+
+            --heading-row-background-colour: #e0e0e0;
+            --stripe-one-background-colour: #ffffff;
+            --stripe-two-background-colour: #f3f6fa;
+
+            --index-dull-red-colour: #800000;
+            --periodic-table-sidebar-colour: #888;
+            --periodic-table-sidebar-hover-colour: #222;
+            --leaders-background-colour: white;
+            --library-card-title-colour: #803030;
+            --library-card-other-colour: #303030;
+            --index-more-box-background-colour: #e0e0e0;
+            --index-activity-contents-background-colour: #e8e0c0;
+            --registry-contents-link-colour: #202020;
+
+        }
+
+        @media (prefers-color-scheme: dark) {
+          :root {
+            --element-banner-background-colour: #444444;
+            --heading-panel-background-colour: #444444;
+            --heading-panel-text-colour: #ffffff;
+            --heading-panel-succeeded-background-colour: #738073;
+            --heading-panel-failed-background-colour: #7b4e53;
+
+            --heading-row-background-colour: #707070;
+            --stripe-one-background-colour: #7f7f7f;
+            --stripe-two-background-colour: #797b7d;
+
+            --index-dull-red-colour: #c00000;
+            --periodic-table-sidebar-colour: #555;
+            --periodic-table-sidebar-hover-colour: #222;
+            --leaders-background-colour: black;
+            --library-card-title-colour: #a05050;
+            --library-card-other-colour: #505050;
+            --index-more-box-background-colour: #444444;
+            --index-activity-contents-background-colour: #727060;
+            --registry-contents-link-colour: #ffffff;
+            }
+        }
+
+        /* The default font (family) and size */
+
+        body, p, td {
+            font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            font-size: 12px;
+        }
+
+        /* For fixed-point material within text, such as the typing on the Library Card index page */
+
+        span.typewritten {
+            font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+            font-size: 13px;
+        }
+
+        /* For less important material: the small print */
+
+        span.smaller {
+            font-size: 80%;
+        }
+
+        /* The "heading panel" is the coloured box, high up on the page. The colours
+        vary depending on the page: for example, the style on a report of a translation
+        with no problems is "headingpanelsucceeded", usually green, but if there were
+        problems then "headingpanelfailed" is used, which is usually red. "headingpanel"
+        itself is a more neutral grey by default. "headingpanelDark" is an alternative
+        look to make the extensions index pages have some visual contrast with the others;
+        by default they are a darker grey. */
+
+        .headingpanel {
+            background: var(--heading-panel-background-colour);
+        }
+        .headingpanelsucceeded {
+            background: var(--heading-panel-succeeded-background-colour);
+        }
+        .headingpanelfailed {
+            background: var(--heading-panel-failed-background-colour);
+        }
+        .headingpanelalt {
+            background: #808080;
+        }
+
+        /* Heading panels have two lines of text: an upper one in a larger size, and a
+        lower one in a smaller. Again, the alt versions are meant to contrast.
+
+            Report on Translation: Succeeded                <-- headingpaneltext
+            Produced by Inform 10.1.0 (build 6U97)          <-- headingpanelrubric
+
+            Installed Extensions                            <-- headingpaneltextalt
+            Bundles of extra rules or phrases to...         <-- headingpanelrubricalt
+
+        */
+
+        span.headingpaneltext {
+            color: var(--heading-panel-text-colour);
+            font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        span.headingpaneltextalt {
+            color: #ffffff;
+            font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        span.headingpanelrubric {
+            color: var(--heading-panel-text-colour);
+            font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        span.headingpanelrubricalt {
+            color: #ffffff;
+            font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        /* Horizontal rule styling */
+
+        div.hr {
+            border: 0;
+            width: 100%;
+            color: #707070;
+            background-color: #707070;
+            height: 5px;
+        }
+
+        /* This styles the (usually white) text of the example numbers written inside
+        oval blobs in the extension documentation, which mimic the look of the in-app
+        documentation. */
+
+        .oval, .oval td {
+            background-image:url('../../../doc_images/ovoid.png');
+            color:white;
+        }
+
+        /* Styling used in the extension documentation indexes: */
+
+        /* Used for extension names in the extensions pane of the app */
+
+        span.extensioncensusentry {
+            color: #ffffff;
+        }
+
+        span.extensionindexentry {
+            color: #404040;
+        }
+
+        span.extensionindexerror {
+            color: #ff8080;
+        }
+
+        /* This is used in extension documentation, where an example is presented
+        in a slightly tinted box: */
+
+        table.extensionexample {
+        	background-color: #f0f0f0;
+        }
+
+        span.extensionexampleletter {
+        	color: #202020;
+        	font-size: 14px;
+        	font-weight: bold;
+        }
+
+        /* Seen in problem messages: */
+
+        span.problemred {
+            color: #800000;
+        }
+
+        span.problemgreen {
+            color: #008000;
+        }
+
+        span.phraseword {
+            color: #808080;
+        }
+
+        span.phrasetokentext {
+            color: #e00060;
+        }
+
+        span.phrasetokendesctext {
+            color: #4040ff;
+        }
+
+        span.phrasetokenvaluetext {
+            color: #ff4040;
+        }
+
+        /* Now we move on to styling used in the Index pages only: */
+
+        /* The periodic table display has "sidebars", usually grey and taller than they
+        are wide; they contain no text. */
+
+        div.periodictablesidebarcolour {
+            background: var(--periodic-table-sidebar-colour);
+        }
+        div.periodictablesidebar:hover {
+            background: var(--periodic-table-sidebar-hover-colour);
+        }
+
+        /* The text of the element-abbreviation, such as "Lx" or "Ph", uses: */
+
+        span.elementtext {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* Similarly for the "atomic number" - a single digit - in the top left corner
+        of these boxes: */
+
+        span.elementnumbertext {
+            color: #ffffff;
+            font-size: 7pt;
+        }
+
+        /* For the text of the element title, to the right of the element box: */
+
+        span.elementtitletext {
+            color: #ffffff;
+            font-size: 9px;
+            font-weight: bold;
+        }
+
+        /* The banner at the top of each element: */
+
+        table.elementbanner {
+            background: var(--element-banner-background-colour);
+        }
+
+        /* For the typewriting on the Library Card: */
+
+        span.librarycardtitle {
+            color: var(--library-card-title-colour);
+        }
+
+        span.librarycardother {
+            color: var(--library-card-other-colour);
+        }
+
+        /* Generically used for "more details" boxes in the index: */
+
+        table.indexmorebox {
+        	background-color: var(--index-more-box-background-colour);
+            border-radius: 8px;
+        }
+
+        /* But not for activity contents: */
+
+        table.indexactivitycontents {
+        	background-color: var(--index-activity-contents-background-colour);
+            border-radius: 8px;
+        }
+
+        /* For responses in index entries about rules: */
+
+        span.indexresponseletter {
+            color: #ffffff;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #8080ff;
+        }
+
+        span.indexresponsetext {
+            color: #000066;
+        }
+
+        /* Used ubiquitously throughout the index for unemphasised text: */
+
+        span.indexblack {
+        	color: #000000;
+        }
+
+        span.indexgrey {
+        	color: #808080;
+        }
+
+        span.indexdarkgrey {
+            color: #505050;
+        }
+
+        span.indexdullred {
+            color: var(--index-dull-red-colour);
+        }
+
+        span.indexdullgreen {
+            color: #008000;
+        }
+
+        span.indexdullblue {
+            color: #000080;
+        }
+
+        /* Used in the numbering of levels of the World map in the Index */
+
+        span.indexmaplevelnumbers {
+        	color: #c0c0c0;
+        }
+
+        /* Used for the room squares in the World map in the Index (which is currently
+        a table with one row of one column) */
+
+        table.indexmaproom {
+        	border-color: #000000;
+        }
+
+        /* Used in the numbering of levels of the World map in the Index */
+
+        span.indexmaplevelnumbers {
+        	color: #c0c0c0;
+        }
+
+        /* Used e.g. for title rows in the Chart of basic kinds in the Index */
+
+        tr.headingrow {
+        	background-color: var(--heading-row-background-colour);
+        }
+
+        /* Standard rows have black text on striped background colours, these being
+        the usual ones seen in Mac OS X applications such as iTunes. */
+
+        tr.stripeone {
+        	background-color: var(--stripe-one-background-colour);
+        }
+
+        tr.stripetwo {
+        	background-color: var(--stripe-two-background-colour);
+        }
+
+        tr.tintedrow {
+        	background-color: #808080;
+        }
+
+        /* In the Figures index, this is the background colour used behind images
+        (though in fact it will only be visible if the image fails to load, or uses
+        transparency): */
+
+        div.figureindexbox {
+        	background-color: #6495ed;
+        }
+
+        /* To get the book-contents-page style leaders on the Contents element of
+           the index to work, these must use the background colour of the body of
+           the page, whatever that is: */
+
+        ul.leaders li.leaded span:first-child {
+            background: var(--leaders-background-colour);
+        }
+        ul.leaders li.leaded span + span {
+            background: var(--leaders-background-colour);
+        }
+
+        /* On Registry index pages (such as the Public Library), these are used for
+        download buttons and the like: */
+
+        span.registrybuttontext {
+        	font-size: 11px;
+        	border-color: #000000;
+        }
+
+        span.registryminibuttontext {
+        	font-size: 10px;
+        	border-color: #000000;
+        }
+
+        span.registrybuttonuninstalled {
+        	color: #000000;
+        	background: #ffffdd;
+        }
+
+        span.registrybuttoninstalled {
+        	color: #000000;
+        	background: #ffffff;
+        	pointer-events: none;
+        }
+
+        span.registrybuttonbuiltin {
+        	color: #888888;
+        	background: #ffffff;
+        	pointer-events: none;
+        }
+
+        span.registrybuttonupdate {
+        	color: #000000;
+        	background: #aaddff;
+        }
+
+        span.registrybuttonrevert {
+        	color: #000000;
+        	background: #ddaaff;
+        }
+
+        span.registrybuttonrevealer {
+        	color: #ffffff;
+        	background: #444444;
+        }
+
+        /* Registry index section headings: */
+
+        span.registrysectionname {
+        	font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+        	-webkit-font-smoothing: antialiased;
+        	font-size: 16px;
+        	line-height: 18px;
+        }
+        span.registrysubsectionname {
+        	font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+        	-webkit-font-smoothing: antialiased;
+        	font-size: 14px;
+        	line-height: 16px;
+        }
+
+        /* These are for the "mark" for a section, usually a section-symbol and number */
+
+        span.registrysectionmark {
+        	font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+        	-webkit-font-smoothing: antialiased;
+        	font-size: 16px;
+        	line-height: 18px;
+        	color: #666;
+        }
+        span.registrysubsectionmark {
+        	font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+        	-webkit-font-smoothing: antialiased;
+        	font-size: 14px;
+        	line-height: 16px;
+        	color: #666;
+        }
+
+        /* Text of an item listed in a registry: */
+
+        span.registryitemtext {
+        	font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+        	-webkit-font-smoothing: antialiased;
+        	font-size: 12px;
+        	line-height: 16px;
+        }
+
+        /* And how the links in a registry index page behave: */
+
+        a.registrysilentlink {
+        	text-decoration: none;
+        	color: #000;
+        }
+        a.registrybuttonlink {
+        	text-decoration: none;
+        }
+        a.registrycontentslink:link {
+        	text-decoration: none;
+        	color: var(--registry-contents-link-colour);
+        }
+        a.registrycontentslink:visited {
+        	text-decoration: none;
+        	color: var(--registry-contents-link-colour);
+        }
+        a.registrycontentslink:hover {
+        	text-decoration: none;
+        	color: #D00000;
+        }
+        a.registrycontentslink:active {
+        	text-decoration: none;
+        	color: #D00000;
+        }
+
+        -->
+    </style>
+    <style type="text/css">
+        <!--
+        /* (1) General layout material */
+
+        *, *:before, *:after {
+        	-moz-box-sizing: border-box;
+        	-webkit-box-sizing: border-box;
+        	box-sizing: border-box;
+        }
+        .headingpanellayout {
+        	position: relative;
+        	height: 56px;
+        	padding: 0px;
+        	white-space:nowrap;
+        }
+        .headingpanellayoutdeeper {
+        	position: relative;
+        	height: 117px;
+        	padding: 0px;
+        	white-space:nowrap;
+        }
+        .headingtext {
+        	position: absolute;
+        	top: -4px;
+        	left: -1px;
+        	width: 100%;
+        	padding: 14px 10px 0px 10px;
+        }
+        .headingrubric {
+        	position: absolute;
+        	top: 36px;
+        	width: 100%;
+        	padding: 0px 10px 0px 10px;
+        }
+        h3.tighter {
+        	margin-top: 0px;
+        }
+        p.hang {
+        	padding-left: 25px;
+        	text-indent: -25px;
+        	margin-top: 0px;
+        	margin-bottom: 0px;
+        }
+        p.in1 {
+        	padding-left: 0px;
+        }
+        p.tightin1 {
+        	padding-left: 0px;
+        	margin-top: 2px;
+        	margin-bottom: 2px;
+        }
+        p.halftightin1 {
+        	padding-left: 0px;
+        	margin-bottom: 2px;
+        }
+        p.hangingin1 {
+        	padding-left: 50px;
+        	text-indent: -50px;
+        	margin-top: 0px;
+        	margin-bottom: 1px;
+        }
+        p.in2 {
+        	padding-left: 25px;
+        }
+        p.tightin2 {
+        	padding-left: 25px;
+        	margin-top: 2px;
+        	margin-bottom: 2px;
+        }
+        p.halftightin2 {
+        	padding-left: 25px;
+        	margin-bottom: 2px;
+        }
+        p.hangingin2 {
+        	padding-left: 75px;
+        	text-indent: -50px;
+        	margin-top: 0px;
+        	margin-bottom: 1px;
+        }
+        p.in3 {
+        	padding-left: 50px;
+        }
+        p.tightin3 {
+        	padding-left: 50px;
+        	margin-top: 2px;
+        	margin-bottom: 2px;
+        }
+        p.halftightin3 {
+        	padding-left: 50px;
+        	margin-bottom: 2px;
+        }
+        p.hangingin3 {
+        	padding-left: 100px;
+        	text-indent: -50px;
+        	margin-top: 0px;
+        	margin-bottom: 1px;
+        }
+        p.in4 {
+        	padding-left: 75px;
+        }
+        p.tightin4 {
+        	padding-left: 75px;
+        	margin-top: 2px;
+        	margin-bottom: 2px;
+        }
+        p.halftightin4 {
+        	padding-left: 75px;
+        	margin-bottom: 2px;
+        }
+        p.hangingin4 {
+        	padding-left: 125px;
+        	text-indent: -50px;
+        	margin-top: 0px;
+        	margin-bottom: 1px;
+        }
+        p.in5 {
+        	padding-left: 100px;
+        }
+        p.tightin5 {
+        	padding-left: 100px;
+        	margin-top: 2px;
+        	margin-bottom: 2px;
+        }
+        p.halftightin5 {
+        	padding-left: 100px;
+        	margin-bottom: 2px;
+        }
+        p.hangingin5 {
+        	padding-left: 150px;
+        	text-indent: -50px;
+        	margin-top: 0px;
+        	margin-bottom: 1px;
+        }
+        p.in6 {
+        	padding-left: 125px;
+        }
+        p.tightin6 {
+        	padding-left: 125px;
+        	margin-top: 2px;
+        	margin-bottom: 2px;
+        }
+        p.halftightin6 {
+        	padding-left: 125px;
+        	margin-bottom: 2px;
+        }
+        p.hangingin6 {
+        	padding-left: 175px;
+        	text-indent: -50px;
+        	margin-top: 0px;
+        	margin-bottom: 1px;
+        }
+        p.in7 {
+        	padding-left: 150px;
+        }
+        p.tightin7 {
+        	padding-left: 150px;
+        	margin-top: 2px;
+        	margin-bottom: 2px;
+        }
+        p.halftightin7 {
+        	padding-left: 150px;
+        	margin-bottom: 2px;
+        }
+        p.hangingin7 {
+        	padding-left: 200px;
+        	text-indent: -50px;
+        	margin-top: 0px;
+        	margin-bottom: 1px;
+        }
+        p.in8 {
+        	padding-left: 175px;
+        }
+        p.tightin8 {
+        	padding-left: 175px;
+        	margin-top: 2px;
+        	margin-bottom: 2px;
+        }
+        p.halftightin8 {
+        	padding-left: 175px;
+        	margin-bottom: 2px;
+        }
+        p.hangingin8 {
+        	padding-left: 225px;
+        	text-indent: -50px;
+        	margin-top: 0px;
+        	margin-bottom: 1px;
+        }
+        p.in9 {
+        	padding-left: 200px;
+        }
+        p.tightin9 {
+        	padding-left: 200px;
+        	margin-top: 2px;
+        	margin-bottom: 2px;
+        }
+        p.halftightin9 {
+        	padding-left: 200px;
+        	margin-bottom: 2px;
+        }
+        p.hangingin9 {
+        	padding-left: 250px;
+        	text-indent: -50px;
+        	margin-top: 0px;
+        	margin-bottom: 1px;
+        }
+
+        /* (2) Index page layout material */
+
+        /* The periodic table display has "sidebars", usually grey and taller than they
+        are wide; they contain no text. */
+
+        div.periodictablesidebar {
+        	height: 56px;
+        	width: 16px;
+        }
+        .periodictablesidebar a:link { text-decoration: none; }
+        .periodictablesidebar a:visited { text-decoration: none; }
+        .periodictablesidebar a:active { text-decoration: none; }
+
+        /* The "element boxes" are the cells appearing in the periodic-table display
+        on the welcome page of the index: */
+
+        .elementbox {
+        	position: relative;
+        	height: 56px;
+        	width: 56px;
+        	padding: 0px;
+        }
+
+        .elementbox a:link { text-decoration: none; }
+        .elementbox a:visited { text-decoration: none; }
+        .elementbox a:active { text-decoration: none; }
+        .elementbox a:hover { text-decoration: none; }
+        .elementbox:hover {
+        	opacity: 0.6;
+        }
+
+        /* The "small element boxes" look like those, but are smaller, and used on
+        the headings of the content which those original boxes link to: */
+
+        .smallelementbox {
+        	position: relative;
+        	height: 40px;
+        	width: 40px;
+        	padding: 0px;
+        }
+
+        .smallelementbox a:link { text-decoration: none; }
+        .smallelementbox a:visited { text-decoration: none; }
+        .smallelementbox a:active { text-decoration: none; }
+        .smallelementbox a:hover { text-decoration: none; }
+        .smallelementbox:hover {
+        	opacity: 0.6;
+        }
+
+        /* This is a class for the links formed by the element boxes: */
+
+        a.elementlink {
+        	position: absolute;
+        	top: -4px;
+        	left: -1px;
+        	width: 100%;
+        	padding: 14px 0px 14px 1px;
+        	text-align: center;
+        }
+
+        /* Similarly for the "atomic number" - a single digit - in the top left corner
+        of these boxes: */
+
+        div.elementnumber {
+        	position: absolute;
+        	top: 1px;
+        	left: 3px;
+        	text-align: left;
+        }
+
+        /* For the text of the element title, to the right of the element box: */
+
+        div.elementtitle {
+        	position: absolute;
+        	top: 35px;
+        	width: 100%;
+        	text-align: center;
+        }
+
+        /* Used for the book-contents-page style leaders on the Contents element of
+           the index: */
+
+        ul.leaders {
+        	padding: 0;
+        	margin-top: 1px;
+        	margin-bottom: 0;
+        	overflow-x: hidden;
+        	list-style: none}
+        ul.leaders li.leaded:before {
+        	float: left;
+        	width: 0;
+        	white-space: nowrap;
+        	content:
+        	".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  "
+        	".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  "
+        	".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  "
+        	".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  "
+        	".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  "
+        	".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  "
+        	".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  "
+        	".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  "
+        	".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  "
+        	".  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  "}
+        ul.leaders li.leaded span:first-child {
+        	padding-right: 0.33em;
+        }
+        ul.leaders li.leaded span + span {
+        	float: right;
+        	padding-left: 0.33em;
+        }
+        li.indent1 span:first-child {
+        	padding-left: 25px;
+        }
+        li.indent2 span:first-child {
+        	padding-left: 50px;
+        }
+        li.indent3 span:first-child {
+        	padding-left: 75px;
+        }
+        li.indent4 span:first-child {
+        	padding-left: 100px;
+        }
+        li.indent5 span:first-child {
+        	padding-left: 125px;
+        }
+        li.indent6 span:first-child {
+        	padding-left: 150px;
+        }
+        li.indent7 span:first-child {
+        	padding-left: 175px;
+        }
+        li.indent8 span:first-child {
+        	padding-left: 200px;
+        }
+        li.indent9 span:first-child {
+        	padding-left: 225px;
+        }
+
+        li.unleaded:before {
+        	content: "";
+        }
+
+        /* On Registry index pages (such as the Public Library), these are used for
+        download buttons and the like: */
+
+        span.registrybuttons {
+        	height: 20px;
+        	padding: 2px 8px 2px 8px;
+        	margin: 2px;
+        	border:1px solid;
+        	border-radius: 5px;
+        }
+
+        span.registryminibuttons {
+        	height: 14px;
+        	padding: 2px 5px 2px 5px;
+        	margin: 2px;
+        	border:1px solid;
+        	border-radius: 4px;
+        }
+
+        /* Used to hide or display sections in the Registry pages: */
+
+        div.registrysectionitemsopen {
+        	display: block;
+        }
+
+        div.registrysectionitemsclosed {
+        	display: none;
+        }
+
+        /* Hanging indentation for Registry item paragraphs: */
+
+        p.registryitem {
+        	padding-left: 80px;
+        	text-indent: -40px;
+        }
+
+        p.registryaddition {
+        	padding-left: 40px;
+        	text-indent: -40px;
+        }
+
+        -->
+    </style>
+    <script type="text/javascript">
+        function project() {
+            return window.Project;
+        }
+        function showExtra(id, imid) {
+        	if (document.getElementById(id).style.display == 'block') {
+        		document.getElementById(id).style.display = 'none';
+        		document.getElementById(imid).src = 'inform:/extra.png';
+        	} else {
+        		document.getElementById(id).style.display = 'block';
+        		document.getElementById(imid).src = 'inform:/extraclose.png';
+        	}
+        }
+        function openExtra(id, imid) {
+        	document.getElementById(id).style.display = 'block';
+        	document.getElementById(imid).src = 'inform:/extraclose.png';
+        }
+        function closeExtra(id, imid) {
+        	document.getElementById(id).style.display = 'none';
+        	document.getElementById(imid).src = 'inform:/extra.png';
+        }
+        function pasteCode(code) {
+            var myProject = project();
+
+            myProject.selectView('source');
+            myProject.pasteCode(code);
+        }
+
+    </script>
+</head>
+<body>
+    <!--CONTENT BEGINS-->
+    <table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><img border=0 src="../../../doc_images/Hookindex.png" border=0></td><TD width=38px height=26px align="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0></td><TD width=56px height=26px align="right" valign="center"><img border=0 src="../../../doc_images/Hookup.png" border=0></td></tr></table>
+
+    <p><img border=0 src=../../../doc_images/paste.png>&nbsp;<b>Distantly Visible Things<span class="extensionindexentry"> by </span>Marc Von Der Heiden</b></p>
+    <p><span class="smaller">Version 2.0.220523</span></p>
+    <p>Provides flexible handling of things that can be seen in multiple rooms, but - unlike backdrops - still have one distinct location.</p>
+    <p></p>
+    <hr>
+    <p><span class="indexblack"><b><a style="text-decoration: none" href=#docsec1>Chapter 1: </b></span>Standard behavior of the extension<br>
+    <br>
+    <span class="indexblack"><b><a style="text-decoration: none" href=#docsec2>Chapter 2: </b></span>Customizing the mechanics<br>
+    &nbsp;&nbsp;&nbsp;<span class="indexblack"><a style="text-decoration: none" href=#docsec3>Section 2.1: </span>Changing the refusal message<br>
+    &nbsp;&nbsp;&nbsp;<span class="indexblack"><a style="text-decoration: none" href=#docsec4>Section 2.2: </span>A new stage in action-processing: the distance visibility rules<br>
+    &nbsp;&nbsp;&nbsp;<span class="indexblack"><a style="text-decoration: none" href=#docsec5>Section 2.3: </span>Changing the rules for basic accessibility<br>
+    <br>
+    <b>Examples</b><br>
+    &nbsp;&nbsp;&nbsp;<span class="indexblack"><a style="text-decoration: none" href="Distantly Visible Things-eg1.html#eg1">A &mdash; Manor House</span><br>
+    &nbsp;&nbsp;&nbsp;<span class="indexblack"><a style="text-decoration: none" href="Distantly Visible Things-eg2.html#eg2">B &mdash; Manor House 2</span><br>
+    </p>
+    <hr>
+    <p></p>
+    </p>
+
+    <p> Distantly Visible Things allows us to implement things that can not only be seen (and referenced by the player) in their actual location, but also in other rooms. The extension provides an easy way to have those things respond differently to the players' command when she references them &quot;from far&quot;. This could - for example - be useful if we wanted to design a rather open environment in which the different rooms are not seperated by walls. Unlike backdrops, which are automatically moved around by the game and are mostly used for objects that don't need to be manipulated by the player, distantly visible things retain one distinct location in which they are &quot;physically&quot; in.</p>
+
+    <p><p><span class="indexdullred"><b><span id=docsec1>Chapter 1: Standard behavior of the extension</span></b></span></p>
+    </p>
+
+    <p> In order to make a thing visible from another room, we use the newly created &quot;Distant visibility&quot; relation which is implied by the verb &quot;to be distantly visible by&quot;</p>
+
+    <p><blockquote><span class="indexdullblue"> The huge estate is a room. The street ist south of the estate. The mansion is a thing in the estate. The mansion is distantly visible from the street.</span></blockquote>
+
+    <p> The player can now reference the mansion while she is on the street, so she doesn't get a &quot;You can't see any such thing.&quot; response - which would be silly if, for example, we had mentioned it in the description of the street - or if it was otherwise obvious that it should be visible from there.</p>
+
+    <p> A thing can be distantly visible from more than one room and a room can have more than one thing in it that is distantly visible. Things that are contained, supported or incorporated in a distantly visible thing will NOT automatically be so too; we have to set the distant visibility relationship for them manually (so making the big marble fountain visible from another room doesn't necessarily mean that the coins inside its basin are also visible from afar).</p>
+
+    <p> A thing that's distantly visible is never touchable from another room. If we tried to take it (or perform some other action that required touchability) we will get a standard refusal message that tells the player to go closer to the object and hint her which way to go (if there's a map connection). Even most other actions (such as looking under) will by default be blocked from being done over distance.</p>
+
+    <p> The only special case is the Examining action: The extension defines a new property for things, a text called the &quot;distant description&quot;. Whenever the player examines a distantly visible thing that has a distant description, this will be printed instead of the refusal message. So with this code:</p>
+
+    <p><blockquote><span class="indexdullblue"> The distant description of the mansion is &quot;A beautiful mansion that dates back to the Victorian era.&quot;. The description of the mansion is &quot;From up close, the number of cracks in the masonry make the deterioration of the building more than obvious.&quot;.</span></blockquote>
+
+    <p> the player will be able to get a good glimpse at the house from the street, but the truth will only be discovered on a closer look.</p>
+
+    <p><hr>
+    <p><span class="indexdullred"><b><span id=docsec2>Chapter 2: Customizing the mechanics</span></b></span></p>
+    </p>
+
+    <p> Although the standard behavior might just meet most of the needs, we can customize some of the features.</p>
+
+    <p><p><span class="indexblack"><b><span id=docsec3>Section 2.1: Changing the refusal message</span></b></span></p>
+    </p>
+
+    <p> The refusal message is printed by an object-based activity called &quot;printing a refusal to distantly handling&quot;. The standard behavior is to say...</p>
+
+    <p><blockquote><span class="indexdullblue"> You need to get closer to the mansion, which is to the north.</span></blockquote>
+
+    <p> or - if there was no (direct or indirect) map connection - just...</p>
+
+    <p><blockquote><span class="indexdullblue"> You need to get closer to the mansion.</span></blockquote>
+
+    <p> As with all activities we can provide additional before, for or after rules. We could try, for example:</p>
+
+    <p><blockquote><span class="indexdullblue"> After printing a refusal for distantly handling the house: say &quot;(you'd really like to, but you were raised to respect private property)&quot;.</span></blockquote>
+
+    <p> and the house will be subject to our mannerly upbringing. If we wanted to override the behavior in its entirety, we could replace the &quot;for&quot; rule that comes with the extension (called the standard printing a refusal for distantly handling rule). With the new features of build 6L02 we could also just replace response (A) of this rule. (Now the standard printing a refusal for distantly handling rule response (A) is...)</p>
+
+    <p><p><span class="indexblack"><b><span id=docsec4>Section 2.2: A new stage in action-processing: the distance visibility rules</span></b></span></p>
+    </p>
+
+    <p> Just before the Instead stage, a new rulebook called the distance visibility rules is followed if either the noun or the second noun is distantly visible from the player's location. At this point all actions that would have required a distantly visible thing to be touched will already have been blocked. Initially the new rulebook consists of two rules:</p>
+
+    <p><blockquote><span class="indexdullblue"> Distance visibility for Examining (this is the examining distantly visible things rule)</span></blockquote>
+
+    <p>... prints out the &quot;distant description&quot; of the noun if it provides one, otherwise does nothing.</p>
+
+    <p><blockquote><span class="indexdullblue"> Last distance visibility rule (this is the block actions with distantly visible things rule)</span></blockquote>
+
+    <p>... prints out the standard refusal message via the aforementioned activity (see last section).</p>
+
+    <p> We can add rules to this rulebook freely. If a rule in this rulebook ends with outcome &quot;deny action&quot;, the action will be stopped immediately (assuming that a suitable response for the player has been printed); if it ends with outcome &quot;allow action&quot;, the action will resume with the Instead stage and we might probably not want to say anything and leave that to action-processing. Out of the box this is never the case.</p>
+
+    <p> Examples:</p>
+
+    <p><blockquote><span class="indexdullblue"> Distance visibility rule for Looking under the doormat when the key is not handled:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; say &quot;The doormat has a suspicious bulge but you can't exactly see from here what might be under it.&quot;;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; deny action.</span></blockquote>
+
+    <p> This rule prints out the response and then stops action processing. (Since &quot;deny action&quot; is the default outcome of this rulebook, the last line is optional.). The standard refusal (&quot;You need to get closer to the doormat...&quot;) will not be printed, since the new rule is more specific than the block actions with distantly visible things rule.</p>
+
+    <p><blockquote><span class="indexdullblue"> Distance visibility rule for Examining the mansion: allow action.</span></blockquote>
+
+    <p> would make the mansion print its standard description when examined from another room (thus making the distant description for the mansion useless).</p>
+
+    <p><p><span class="indexblack"><b><span id=docsec5>Section 2.3: Changing the rules for basic accessibility</span></b></span></p>
+    </p>
+
+    <p> By default all distantly visible things are never touchable and it is recommended to leave it this way. (They can, of course, be touched in the room they're actually in. They don't count as distantly visible there). This is handled in the</p>
+
+    <p><blockquote><span class="indexdullblue"> can't touch distantly visible things rule</span></blockquote>
+
+    <p> which is part of the accessibility rulebook. To alter this behavior we would need to unlist or rewrite this rule and probably meddle with the built-in can't reach inside rooms rule. Handle with care!</p>
+
+    <p><hr>
+    <table border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td halign="left" valign="top" cellpadding=0 cellspacing=0 width=38px>
+                <span id=eg1><table border="0" cellspacing="0" cellpadding="0">
+                    <tr class="oval">
+                        <td width=38px height=30px align="left" valign="center">
+                            <div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 0px; padding-bottom: 0pt; padding-top: 0px; text-align: center;">
+                                <span class="extensionexampleletter">A</span></div>
+                            
+                        </td>
+                    </tr>
+                </table>
+                </span>
+            </td>
+            <td cellpadding=0 cellspacing=0 halign="left" valign="top">
+                <img border="0" src='../../../doc_images/asterisk.png'><b><span class="indexdarkgrey">&nbsp;Example&nbsp;</span><span class="indexblack">Manor House</span></b><br>
+                <p>Showing the standard behavior of the Distantly Visible Things extension</p>
+
+            </td>
+        </tr>
+    </table>
+    </p>
+
+    <p></p>
+
+    <p></p>
+
+    <p></p>
+
+    <p></p>
+
+    <p></p>
+
+    <p></p>
+
+    <p></p>
+
+    <p></p>
+
+    <p></p>
+
+    <p><hr>
+    <table border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td halign="left" valign="top" cellpadding=0 cellspacing=0 width=38px>
+                <span id=eg2><table border="0" cellspacing="0" cellpadding="0">
+                    <tr class="oval">
+                        <td width=38px height=30px align="left" valign="center">
+                            <div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 0px; padding-bottom: 0pt; padding-top: 0px; text-align: center;">
+                                <span class="extensionexampleletter">B</span></div>
+                            
+                        </td>
+                    </tr>
+                </table>
+                </span>
+            </td>
+            <td cellpadding=0 cellspacing=0 halign="left" valign="top">
+                <img border="0" src='../../../doc_images/asterisk.png'><img border="0" src='../../../doc_images/asterisk.png'><b><span class="indexdarkgrey">&nbsp;Example&nbsp;</span><span class="indexblack">Manor House 2</span></b><br>
+                <p>Customizing distance visibility rules and refusal messages</p>
+
+            </td>
+        </tr>
+    </table>
+    <table border="0" cellspacing="0" cellpadding="0" class="extensionexample" width=100%>
+        <tr>
+            <td align="left" valign="top">
+                <p></p>
+
+                <p><blockquote><span class="indexdullblue"><img border=0 src=../../../doc_images/paste.png> &quot;Manor House 2&quot;</span></blockquote>
+
+                <p><blockquote><span class="indexdullblue"> Include Distantly Visible Things by Marc Von Der Heiden.</span></blockquote>
+
+                <p><blockquote><span class="indexdullblue"> End of Street is a room. &quot;The road ends at the old manor house which dominates the landscape. The estate is surrounded by a metal fence, but right here a gate opens up to the north onto the property.&quot;<br>
+                 The gate is a scenery thing in End of street. The description is &quot;Nicely ornamented, with the former owner's family crest at the top.&quot;. Understand &quot;fence&quot; and &quot;crest&quot; as the gate. The gate is distantly visible from the huge estate.<br>
+                 The cobblestone is a thing in End of street. Understand &quot;stone&quot; as the cobblestone. The initial appearance is &quot;A single cobblestone lies on the side of the road.&quot;.</span></blockquote>
+
+                <p><blockquote><span class="indexdullblue"> The huge estate is north of End of street. &quot;You are standing on a lawn which would make every gardener happy. The manor house, three storeys tall, stands proudly in front of you. There's a fence around the lawn but a gate to the south leads to the street. You can go around the house to enter a back garden to the north.&quot;<br>
+                 The mansion is a scenery thing in the huge estate. Understand &quot;manor&quot; or &quot;house&quot; or &quot;building&quot; as the mansion. The description of the mansion is &quot;From up close, the number of cracks in the masonry make the deterioration of the building more than obvious.&quot;. The mansion is distantly visible from End of street and the back garden.</span></blockquote>
+
+                <p><blockquote><span class="indexdullblue"> The back garden is north of the huge estate. &quot;You are standing in a small garden north of the house. Most of the view is blocked by a maze of tall hedges, but a small path leads back to the front side of the house.&quot;. The goose feather is a thing in the back garden.</span></blockquote>
+
+                <p><blockquote><span class="indexdullblue"> The distant description of the mansion is &quot;A beautiful building that dates back to the Victorian era.&quot;.<br>
+                 Distance Visibility rule for Examining the mansion in the back garden: allow action.</span></blockquote>
+
+                <p><blockquote><span class="indexdullblue"> After printing a refusal for distantly handling the mansion when the huge estate is not visited, say &quot;(although you'd really like to, you are somehow hesistant, because you were raised to respect private property)[paragraph break]&quot;.<br>
+                 Rule for printing a refusal for distantly handling the gate: say &quot;Actually you are standing in the middle of the huge lawn and the gate is some good 100 yards away!&quot;.</span></blockquote>
+
+                <p><blockquote><span class="indexdullblue"> Distance visibility rule for Throwing something at the mansion: allow action.<br>
+                 Distance visibility rule for Throwing something at the mansion in end of street:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp; say &quot;You're too far away to hit the house from here.&quot;;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp; deny action.<br>
+                 Instead of Throwing the cobblestone at the mansion:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp; now the cobblestone is off-stage;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp; say &quot;You hurl the stone in the direction of the house and hear some glass shatter.&quot;.</span></blockquote>
+
+                <p><blockquote><span class="indexdullblue"> test me with &quot;x house / enter house / take stone / throw stone at house / n / close gate / x house / n / x house / get feather / throw feather at house / throw stone at house&quot;</span></blockquote>
+
+                <p> We use the Printing a refusal to distantly handling activity and the Distance visibility rules to customize the behavior of distantly visible things. See how differently the throwing it at action behaves in this example: only one situation (throwing something at the mansion when in end of street) is blocked by a Distance visibility rule, the rest is delivered back to the usual action processing, thus being handled in an Instead rule or by the built-in block throwing at rule.</p>
+
+                <p></p>
+
+            </td>
+        </tr>
+    </table>
+    </p>
+
+    <p>
+    <!--CONTENT ENDS-->
+</body>
+</html>
